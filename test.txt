@@ -1,0 +1,10 @@
+{
+detail =     {
+result = 0;
+timers =         (
+);
+};
+did = 64;
+"error_code" = 0;
+result = 0;
+}

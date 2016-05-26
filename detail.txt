@@ -1,0 +1,3787 @@
+[{
+		"action_id":	0,
+		"name":	"all lights on",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	1,
+		"name":	"all lights off",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	2,
+		"name":	"all sensors on",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	3,
+		"name":	"all sensors off",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	8,
+		"name":	"mode0",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	9,
+		"name":	"mode1",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	10,
+		"name":	"mode2",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	11,
+		"name":	"mode3",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	12,
+		"name":	"mode4",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	13,
+		"name":	"mode5",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	14,
+		"name":	"mode6",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	15,
+		"name":	"mode7",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	16,
+		"name":	"mode8",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	17,
+		"name":	"mode9",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	18,
+		"name":	"mode10",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	19,
+		"name":	"mode11",
+		"type":	"base",
+		"dev_id":	0,
+		"cmd":	"delay",
+		"interval":	0
+	}, {
+		"action_id":	20,
+		"name":	"light0 A light off",
+		"type":	"base",
+		"dev_id":	1,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	21,
+		"name":	"light0 A light on",
+		"type":	"base",
+		"dev_id":	1,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	22,
+		"name":	"light0 B light off",
+		"type":	"base",
+		"dev_id":	1,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	23,
+		"name":	"light0 B light on",
+		"type":	"base",
+		"dev_id":	1,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	24,
+		"name":	"light0 C light off",
+		"type":	"base",
+		"dev_id":	1,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	25,
+		"name":	"light0 C light on",
+		"type":	"base",
+		"dev_id":	1,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	26,
+		"name":	"light1 A light off",
+		"type":	"base",
+		"dev_id":	2,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	27,
+		"name":	"light1 A light on",
+		"type":	"base",
+		"dev_id":	2,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	28,
+		"name":	"light1 B light off",
+		"type":	"base",
+		"dev_id":	2,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	29,
+		"name":	"light1 B light on",
+		"type":	"base",
+		"dev_id":	2,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	30,
+		"name":	"light1 C light off",
+		"type":	"base",
+		"dev_id":	2,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	31,
+		"name":	"light1 C light on",
+		"type":	"base",
+		"dev_id":	2,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	32,
+		"name":	"light2 A light off",
+		"type":	"base",
+		"dev_id":	3,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	33,
+		"name":	"light2 A light on",
+		"type":	"base",
+		"dev_id":	3,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	34,
+		"name":	"light2 B light off",
+		"type":	"base",
+		"dev_id":	3,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	35,
+		"name":	"light2 B light on",
+		"type":	"base",
+		"dev_id":	3,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	36,
+		"name":	"light2 C light off",
+		"type":	"base",
+		"dev_id":	3,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	37,
+		"name":	"light2 C light on",
+		"type":	"base",
+		"dev_id":	3,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	38,
+		"name":	"light3 A light off",
+		"type":	"base",
+		"dev_id":	4,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	39,
+		"name":	"light3 A light on",
+		"type":	"base",
+		"dev_id":	4,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	40,
+		"name":	"light3 B light off",
+		"type":	"base",
+		"dev_id":	4,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	41,
+		"name":	"light3 B light on",
+		"type":	"base",
+		"dev_id":	4,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	42,
+		"name":	"light3 C light off",
+		"type":	"base",
+		"dev_id":	4,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	43,
+		"name":	"light3 C light on",
+		"type":	"base",
+		"dev_id":	4,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	44,
+		"name":	"light4 A light off",
+		"type":	"base",
+		"dev_id":	5,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	45,
+		"name":	"light4 A light on",
+		"type":	"base",
+		"dev_id":	5,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	46,
+		"name":	"light4 B light off",
+		"type":	"base",
+		"dev_id":	5,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	47,
+		"name":	"light4 B light on",
+		"type":	"base",
+		"dev_id":	5,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	48,
+		"name":	"light4 C light off",
+		"type":	"base",
+		"dev_id":	5,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	49,
+		"name":	"light4 C light on",
+		"type":	"base",
+		"dev_id":	5,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	50,
+		"name":	"light5 A light off",
+		"type":	"base",
+		"dev_id":	6,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	51,
+		"name":	"light5 A light on",
+		"type":	"base",
+		"dev_id":	6,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	52,
+		"name":	"light5 B light off",
+		"type":	"base",
+		"dev_id":	6,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	53,
+		"name":	"light5 B light on",
+		"type":	"base",
+		"dev_id":	6,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	54,
+		"name":	"light5 C light off",
+		"type":	"base",
+		"dev_id":	6,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	55,
+		"name":	"light5 C light on",
+		"type":	"base",
+		"dev_id":	6,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	56,
+		"name":	"light6 A light off",
+		"type":	"base",
+		"dev_id":	7,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	57,
+		"name":	"light6 A light on",
+		"type":	"base",
+		"dev_id":	7,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	58,
+		"name":	"light6 B light off",
+		"type":	"base",
+		"dev_id":	7,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	59,
+		"name":	"light6 B light on",
+		"type":	"base",
+		"dev_id":	7,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	60,
+		"name":	"light6 C light off",
+		"type":	"base",
+		"dev_id":	7,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	61,
+		"name":	"light6 C light on",
+		"type":	"base",
+		"dev_id":	7,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	62,
+		"name":	"light7 A light off",
+		"type":	"base",
+		"dev_id":	8,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	63,
+		"name":	"light7 A light on",
+		"type":	"base",
+		"dev_id":	8,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	64,
+		"name":	"light7 B light off",
+		"type":	"base",
+		"dev_id":	8,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	65,
+		"name":	"light7 B light on",
+		"type":	"base",
+		"dev_id":	8,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	66,
+		"name":	"light7 C light off",
+		"type":	"base",
+		"dev_id":	8,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	67,
+		"name":	"light7 C light on",
+		"type":	"base",
+		"dev_id":	8,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	68,
+		"name":	"light8 A light off",
+		"type":	"base",
+		"dev_id":	9,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	69,
+		"name":	"light8 A light on",
+		"type":	"base",
+		"dev_id":	9,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	70,
+		"name":	"light8 B light off",
+		"type":	"base",
+		"dev_id":	9,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	71,
+		"name":	"light8 B light on",
+		"type":	"base",
+		"dev_id":	9,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	72,
+		"name":	"light8 C light off",
+		"type":	"base",
+		"dev_id":	9,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	73,
+		"name":	"light8 C light on",
+		"type":	"base",
+		"dev_id":	9,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	74,
+		"name":	"light9 A light off",
+		"type":	"base",
+		"dev_id":	10,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	75,
+		"name":	"light9 A light on",
+		"type":	"base",
+		"dev_id":	10,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	76,
+		"name":	"light9 B light off",
+		"type":	"base",
+		"dev_id":	10,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	77,
+		"name":	"light9 B light on",
+		"type":	"base",
+		"dev_id":	10,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	78,
+		"name":	"light9 C light off",
+		"type":	"base",
+		"dev_id":	10,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	79,
+		"name":	"light9 C light on",
+		"type":	"base",
+		"dev_id":	10,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	80,
+		"name":	"light10 A light off",
+		"type":	"base",
+		"dev_id":	11,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	81,
+		"name":	"light10 A light on",
+		"type":	"base",
+		"dev_id":	11,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	82,
+		"name":	"light10 B light off",
+		"type":	"base",
+		"dev_id":	11,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	83,
+		"name":	"light10 B light on",
+		"type":	"base",
+		"dev_id":	11,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	84,
+		"name":	"light10 C light off",
+		"type":	"base",
+		"dev_id":	11,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	85,
+		"name":	"light10 C light on",
+		"type":	"base",
+		"dev_id":	11,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	86,
+		"name":	"light11 A light off",
+		"type":	"base",
+		"dev_id":	12,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	87,
+		"name":	"light11 A light on",
+		"type":	"base",
+		"dev_id":	12,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	88,
+		"name":	"light11 B light off",
+		"type":	"base",
+		"dev_id":	12,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	89,
+		"name":	"light11 B light on",
+		"type":	"base",
+		"dev_id":	12,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	90,
+		"name":	"light11 C light off",
+		"type":	"base",
+		"dev_id":	12,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	91,
+		"name":	"light11 C light on",
+		"type":	"base",
+		"dev_id":	12,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	92,
+		"name":	"light12 A light off",
+		"type":	"base",
+		"dev_id":	13,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	93,
+		"name":	"light12 A light on",
+		"type":	"base",
+		"dev_id":	13,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	94,
+		"name":	"light12 B light off",
+		"type":	"base",
+		"dev_id":	13,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	95,
+		"name":	"light12 B light on",
+		"type":	"base",
+		"dev_id":	13,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	96,
+		"name":	"light12 C light off",
+		"type":	"base",
+		"dev_id":	13,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	97,
+		"name":	"light12 C light on",
+		"type":	"base",
+		"dev_id":	13,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	98,
+		"name":	"light13 A light off",
+		"type":	"base",
+		"dev_id":	14,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	99,
+		"name":	"light13 A light on",
+		"type":	"base",
+		"dev_id":	14,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	100,
+		"name":	"light13 B light off",
+		"type":	"base",
+		"dev_id":	14,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	101,
+		"name":	"light13 B light on",
+		"type":	"base",
+		"dev_id":	14,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	102,
+		"name":	"light13 C light off",
+		"type":	"base",
+		"dev_id":	14,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	103,
+		"name":	"light13 C light on",
+		"type":	"base",
+		"dev_id":	14,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	104,
+		"name":	"light14 A light off",
+		"type":	"base",
+		"dev_id":	15,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	105,
+		"name":	"light14 A light on",
+		"type":	"base",
+		"dev_id":	15,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	106,
+		"name":	"light14 B light off",
+		"type":	"base",
+		"dev_id":	15,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	107,
+		"name":	"light14 B light on",
+		"type":	"base",
+		"dev_id":	15,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	108,
+		"name":	"light14 C light off",
+		"type":	"base",
+		"dev_id":	15,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	109,
+		"name":	"light14 C light on",
+		"type":	"base",
+		"dev_id":	15,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	110,
+		"name":	"light15 A light off",
+		"type":	"base",
+		"dev_id":	16,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	111,
+		"name":	"light15 A light on",
+		"type":	"base",
+		"dev_id":	16,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	112,
+		"name":	"light15 B light off",
+		"type":	"base",
+		"dev_id":	16,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	113,
+		"name":	"light15 B light on",
+		"type":	"base",
+		"dev_id":	16,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	114,
+		"name":	"light15 C light off",
+		"type":	"base",
+		"dev_id":	16,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	115,
+		"name":	"light15 C light on",
+		"type":	"base",
+		"dev_id":	16,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	116,
+		"name":	"light16 A light off",
+		"type":	"base",
+		"dev_id":	17,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	117,
+		"name":	"light16 A light on",
+		"type":	"base",
+		"dev_id":	17,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	118,
+		"name":	"light16 B light off",
+		"type":	"base",
+		"dev_id":	17,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	119,
+		"name":	"light16 B light on",
+		"type":	"base",
+		"dev_id":	17,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	120,
+		"name":	"light16 C light off",
+		"type":	"base",
+		"dev_id":	17,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	121,
+		"name":	"light16 C light on",
+		"type":	"base",
+		"dev_id":	17,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	122,
+		"name":	"light17 A light off",
+		"type":	"base",
+		"dev_id":	18,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	123,
+		"name":	"light17 A light on",
+		"type":	"base",
+		"dev_id":	18,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	124,
+		"name":	"light17 B light off",
+		"type":	"base",
+		"dev_id":	18,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	125,
+		"name":	"light17 B light on",
+		"type":	"base",
+		"dev_id":	18,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	126,
+		"name":	"light17 C light off",
+		"type":	"base",
+		"dev_id":	18,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	127,
+		"name":	"light17 C light on",
+		"type":	"base",
+		"dev_id":	18,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	128,
+		"name":	"light18 A light off",
+		"type":	"base",
+		"dev_id":	19,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	129,
+		"name":	"light18 A light on",
+		"type":	"base",
+		"dev_id":	19,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	130,
+		"name":	"light18 B light off",
+		"type":	"base",
+		"dev_id":	19,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	131,
+		"name":	"light18 B light on",
+		"type":	"base",
+		"dev_id":	19,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	132,
+		"name":	"light18 C light off",
+		"type":	"base",
+		"dev_id":	19,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	133,
+		"name":	"light18 C light on",
+		"type":	"base",
+		"dev_id":	19,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	134,
+		"name":	"light19 A light off",
+		"type":	"base",
+		"dev_id":	20,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	135,
+		"name":	"light19 A light on",
+		"type":	"base",
+		"dev_id":	20,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	136,
+		"name":	"light19 B light off",
+		"type":	"base",
+		"dev_id":	20,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	137,
+		"name":	"light19 B light on",
+		"type":	"base",
+		"dev_id":	20,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	138,
+		"name":	"light19 C light off",
+		"type":	"base",
+		"dev_id":	20,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	139,
+		"name":	"light19 C light on",
+		"type":	"base",
+		"dev_id":	20,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	140,
+		"name":	"light20 A light off",
+		"type":	"base",
+		"dev_id":	21,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	141,
+		"name":	"light20 A light on",
+		"type":	"base",
+		"dev_id":	21,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	142,
+		"name":	"light20 B light off",
+		"type":	"base",
+		"dev_id":	21,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	143,
+		"name":	"light20 B light on",
+		"type":	"base",
+		"dev_id":	21,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	144,
+		"name":	"light20 C light off",
+		"type":	"base",
+		"dev_id":	21,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	145,
+		"name":	"light20 C light on",
+		"type":	"base",
+		"dev_id":	21,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	146,
+		"name":	"light21 A light off",
+		"type":	"base",
+		"dev_id":	22,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	147,
+		"name":	"light21 A light on",
+		"type":	"base",
+		"dev_id":	22,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	148,
+		"name":	"light21 B light off",
+		"type":	"base",
+		"dev_id":	22,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	149,
+		"name":	"light21 B light on",
+		"type":	"base",
+		"dev_id":	22,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	150,
+		"name":	"light21 C light off",
+		"type":	"base",
+		"dev_id":	22,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	151,
+		"name":	"light21 C light on",
+		"type":	"base",
+		"dev_id":	22,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	152,
+		"name":	"light22 A light off",
+		"type":	"base",
+		"dev_id":	23,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	153,
+		"name":	"light22 A light on",
+		"type":	"base",
+		"dev_id":	23,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	154,
+		"name":	"light22 B light off",
+		"type":	"base",
+		"dev_id":	23,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	155,
+		"name":	"light22 B light on",
+		"type":	"base",
+		"dev_id":	23,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	156,
+		"name":	"light22 C light off",
+		"type":	"base",
+		"dev_id":	23,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	157,
+		"name":	"light22 C light on",
+		"type":	"base",
+		"dev_id":	23,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	158,
+		"name":	"light23 A light off",
+		"type":	"base",
+		"dev_id":	24,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	159,
+		"name":	"light23 A light on",
+		"type":	"base",
+		"dev_id":	24,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	160,
+		"name":	"light23 B light off",
+		"type":	"base",
+		"dev_id":	24,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	161,
+		"name":	"light23 B light on",
+		"type":	"base",
+		"dev_id":	24,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	162,
+		"name":	"light23 C light off",
+		"type":	"base",
+		"dev_id":	24,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	163,
+		"name":	"light23 C light on",
+		"type":	"base",
+		"dev_id":	24,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	164,
+		"name":	"light24 A light off",
+		"type":	"base",
+		"dev_id":	25,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	1
+	}, {
+		"action_id":	165,
+		"name":	"light24 A light on",
+		"type":	"base",
+		"dev_id":	25,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	1
+	}, {
+		"action_id":	166,
+		"name":	"light24 B light off",
+		"type":	"base",
+		"dev_id":	25,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	2
+	}, {
+		"action_id":	167,
+		"name":	"light24 B light on",
+		"type":	"base",
+		"dev_id":	25,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	2
+	}, {
+		"action_id":	168,
+		"name":	"light24 C light off",
+		"type":	"base",
+		"dev_id":	25,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	3
+	}, {
+		"action_id":	169,
+		"name":	"light24 C light on",
+		"type":	"base",
+		"dev_id":	25,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	3
+	}, {
+		"action_id":	170,
+		"name":	"appl0 自定义 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	1
+	}, {
+		"action_id":	171,
+		"name":	"appl0 自定义 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	1
+	}, {
+		"action_id":	172,
+		"name":	"appl0 自定义 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	2
+	}, {
+		"action_id":	173,
+		"name":	"appl0 自定义 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	2
+	}, {
+		"action_id":	174,
+		"name":	"appl0 自定义 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	3
+	}, {
+		"action_id":	175,
+		"name":	"appl0 自定义 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	3
+	}, {
+		"action_id":	176,
+		"name":	"appl0 自定义 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	4
+	}, {
+		"action_id":	177,
+		"name":	"appl0 自定义 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	4
+	}, {
+		"action_id":	178,
+		"name":	"appl0 btn1 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	5
+	}, {
+		"action_id":	179,
+		"name":	"appl0 btn1 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	5
+	}, {
+		"action_id":	180,
+		"name":	"appl0 btn2 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	6
+	}, {
+		"action_id":	181,
+		"name":	"appl0 btn2 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	6
+	}, {
+		"action_id":	182,
+		"name":	"appl0 btn3 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	7
+	}, {
+		"action_id":	183,
+		"name":	"appl0 btn3 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	7
+	}, {
+		"action_id":	184,
+		"name":	"appl0 btn4 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	8
+	}, {
+		"action_id":	185,
+		"name":	"appl0 btn4 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	8
+	}, {
+		"action_id":	186,
+		"name":	"appl0 btn5 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	9
+	}, {
+		"action_id":	187,
+		"name":	"appl0 btn5 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	9
+	}, {
+		"action_id":	188,
+		"name":	"appl0 btn6 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	10
+	}, {
+		"action_id":	189,
+		"name":	"appl0 btn6 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	10
+	}, {
+		"action_id":	190,
+		"name":	"appl0 btn7 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	11
+	}, {
+		"action_id":	191,
+		"name":	"appl0 btn7 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	11
+	}, {
+		"action_id":	192,
+		"name":	"appl0 btn8 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	12
+	}, {
+		"action_id":	193,
+		"name":	"appl0 btn8 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	12
+	}, {
+		"action_id":	194,
+		"name":	"appl0 btn9 learn",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir learn",
+		"slot":	13
+	}, {
+		"action_id":	195,
+		"name":	"appl0 btn9 send",
+		"type":	"base",
+		"dev_id":	35,
+		"cmd":	"ir send",
+		"slot":	13
+	}, {
+		"action_id":	196,
+		"name":	"appl1 自定义 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	1
+	}, {
+		"action_id":	197,
+		"name":	"appl1 自定义 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	1
+	}, {
+		"action_id":	198,
+		"name":	"appl1 自定义 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	2
+	}, {
+		"action_id":	199,
+		"name":	"appl1 自定义 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	2
+	}, {
+		"action_id":	200,
+		"name":	"appl1 自定义 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	3
+	}, {
+		"action_id":	201,
+		"name":	"appl1 自定义 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	3
+	}, {
+		"action_id":	202,
+		"name":	"appl1 自定义 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	4
+	}, {
+		"action_id":	203,
+		"name":	"appl1 自定义 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	4
+	}, {
+		"action_id":	204,
+		"name":	"appl1 btn1 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	5
+	}, {
+		"action_id":	205,
+		"name":	"appl1 btn1 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	5
+	}, {
+		"action_id":	206,
+		"name":	"appl1 btn2 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	6
+	}, {
+		"action_id":	207,
+		"name":	"appl1 btn2 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	6
+	}, {
+		"action_id":	208,
+		"name":	"appl1 btn3 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	7
+	}, {
+		"action_id":	209,
+		"name":	"appl1 btn3 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	7
+	}, {
+		"action_id":	210,
+		"name":	"appl1 btn4 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	8
+	}, {
+		"action_id":	211,
+		"name":	"appl1 btn4 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	8
+	}, {
+		"action_id":	212,
+		"name":	"appl1 btn5 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	9
+	}, {
+		"action_id":	213,
+		"name":	"appl1 btn5 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	9
+	}, {
+		"action_id":	214,
+		"name":	"appl1 btn6 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	10
+	}, {
+		"action_id":	215,
+		"name":	"appl1 btn6 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	10
+	}, {
+		"action_id":	216,
+		"name":	"appl1 btn7 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	11
+	}, {
+		"action_id":	217,
+		"name":	"appl1 btn7 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	11
+	}, {
+		"action_id":	218,
+		"name":	"appl1 btn8 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	12
+	}, {
+		"action_id":	219,
+		"name":	"appl1 btn8 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	12
+	}, {
+		"action_id":	220,
+		"name":	"appl1 btn9 learn",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir learn",
+		"slot":	13
+	}, {
+		"action_id":	221,
+		"name":	"appl1 btn9 send",
+		"type":	"base",
+		"dev_id":	36,
+		"cmd":	"ir send",
+		"slot":	13
+	}, {
+		"action_id":	222,
+		"name":	"appl2 自定义 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	1
+	}, {
+		"action_id":	223,
+		"name":	"appl2 自定义 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	1
+	}, {
+		"action_id":	224,
+		"name":	"appl2 自定义 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	2
+	}, {
+		"action_id":	225,
+		"name":	"appl2 自定义 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	2
+	}, {
+		"action_id":	226,
+		"name":	"appl2 自定义 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	3
+	}, {
+		"action_id":	227,
+		"name":	"appl2 自定义 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	3
+	}, {
+		"action_id":	228,
+		"name":	"appl2 自定义 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	4
+	}, {
+		"action_id":	229,
+		"name":	"appl2 自定义 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	4
+	}, {
+		"action_id":	230,
+		"name":	"appl2 btn1 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	5
+	}, {
+		"action_id":	231,
+		"name":	"appl2 btn1 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	5
+	}, {
+		"action_id":	232,
+		"name":	"appl2 btn2 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	6
+	}, {
+		"action_id":	233,
+		"name":	"appl2 btn2 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	6
+	}, {
+		"action_id":	234,
+		"name":	"appl2 btn3 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	7
+	}, {
+		"action_id":	235,
+		"name":	"appl2 btn3 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	7
+	}, {
+		"action_id":	236,
+		"name":	"appl2 btn4 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	8
+	}, {
+		"action_id":	237,
+		"name":	"appl2 btn4 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	8
+	}, {
+		"action_id":	238,
+		"name":	"appl2 btn5 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	9
+	}, {
+		"action_id":	239,
+		"name":	"appl2 btn5 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	9
+	}, {
+		"action_id":	240,
+		"name":	"appl2 btn6 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	10
+	}, {
+		"action_id":	241,
+		"name":	"appl2 btn6 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	10
+	}, {
+		"action_id":	242,
+		"name":	"appl2 btn7 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	11
+	}, {
+		"action_id":	243,
+		"name":	"appl2 btn7 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	11
+	}, {
+		"action_id":	244,
+		"name":	"appl2 btn8 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	12
+	}, {
+		"action_id":	245,
+		"name":	"appl2 btn8 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	12
+	}, {
+		"action_id":	246,
+		"name":	"appl2 btn9 learn",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir learn",
+		"slot":	13
+	}, {
+		"action_id":	247,
+		"name":	"appl2 btn9 send",
+		"type":	"base",
+		"dev_id":	37,
+		"cmd":	"ir send",
+		"slot":	13
+	}, {
+		"action_id":	248,
+		"name":	"appl3 自定义 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	1
+	}, {
+		"action_id":	249,
+		"name":	"appl3 自定义 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	1
+	}, {
+		"action_id":	250,
+		"name":	"appl3 自定义 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	2
+	}, {
+		"action_id":	251,
+		"name":	"appl3 自定义 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	2
+	}, {
+		"action_id":	252,
+		"name":	"appl3 自定义 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	3
+	}, {
+		"action_id":	253,
+		"name":	"appl3 自定义 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	3
+	}, {
+		"action_id":	254,
+		"name":	"appl3 自定义 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	4
+	}, {
+		"action_id":	255,
+		"name":	"appl3 自定义 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	4
+	}, {
+		"action_id":	256,
+		"name":	"appl3 btn1 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	5
+	}, {
+		"action_id":	257,
+		"name":	"appl3 btn1 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	5
+	}, {
+		"action_id":	258,
+		"name":	"appl3 btn2 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	6
+	}, {
+		"action_id":	259,
+		"name":	"appl3 btn2 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	6
+	}, {
+		"action_id":	260,
+		"name":	"appl3 btn3 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	7
+	}, {
+		"action_id":	261,
+		"name":	"appl3 btn3 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	7
+	}, {
+		"action_id":	262,
+		"name":	"appl3 btn4 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	8
+	}, {
+		"action_id":	263,
+		"name":	"appl3 btn4 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	8
+	}, {
+		"action_id":	264,
+		"name":	"appl3 btn5 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	9
+	}, {
+		"action_id":	265,
+		"name":	"appl3 btn5 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	9
+	}, {
+		"action_id":	266,
+		"name":	"appl3 btn6 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	10
+	}, {
+		"action_id":	267,
+		"name":	"appl3 btn6 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	10
+	}, {
+		"action_id":	268,
+		"name":	"appl3 btn7 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	11
+	}, {
+		"action_id":	269,
+		"name":	"appl3 btn7 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	11
+	}, {
+		"action_id":	270,
+		"name":	"appl3 btn8 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	12
+	}, {
+		"action_id":	271,
+		"name":	"appl3 btn8 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	12
+	}, {
+		"action_id":	272,
+		"name":	"appl3 btn9 learn",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir learn",
+		"slot":	13
+	}, {
+		"action_id":	273,
+		"name":	"appl3 btn9 send",
+		"type":	"base",
+		"dev_id":	38,
+		"cmd":	"ir send",
+		"slot":	13
+	}, {
+		"action_id":	274,
+		"name":	"appl4 自定义 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	1
+	}, {
+		"action_id":	275,
+		"name":	"appl4 自定义 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	1
+	}, {
+		"action_id":	276,
+		"name":	"appl4 自定义 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	2
+	}, {
+		"action_id":	277,
+		"name":	"appl4 自定义 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	2
+	}, {
+		"action_id":	278,
+		"name":	"appl4 自定义 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	3
+	}, {
+		"action_id":	279,
+		"name":	"appl4 自定义 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	3
+	}, {
+		"action_id":	280,
+		"name":	"appl4 自定义 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	4
+	}, {
+		"action_id":	281,
+		"name":	"appl4 自定义 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	4
+	}, {
+		"action_id":	282,
+		"name":	"appl4 btn1 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	5
+	}, {
+		"action_id":	283,
+		"name":	"appl4 btn1 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	5
+	}, {
+		"action_id":	284,
+		"name":	"appl4 btn2 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	6
+	}, {
+		"action_id":	285,
+		"name":	"appl4 btn2 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	6
+	}, {
+		"action_id":	286,
+		"name":	"appl4 btn3 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	7
+	}, {
+		"action_id":	287,
+		"name":	"appl4 btn3 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	7
+	}, {
+		"action_id":	288,
+		"name":	"appl4 btn4 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	8
+	}, {
+		"action_id":	289,
+		"name":	"appl4 btn4 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	8
+	}, {
+		"action_id":	290,
+		"name":	"appl4 btn5 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	9
+	}, {
+		"action_id":	291,
+		"name":	"appl4 btn5 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	9
+	}, {
+		"action_id":	292,
+		"name":	"appl4 btn6 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	10
+	}, {
+		"action_id":	293,
+		"name":	"appl4 btn6 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	10
+	}, {
+		"action_id":	294,
+		"name":	"appl4 btn7 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	11
+	}, {
+		"action_id":	295,
+		"name":	"appl4 btn7 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	11
+	}, {
+		"action_id":	296,
+		"name":	"appl4 btn8 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	12
+	}, {
+		"action_id":	297,
+		"name":	"appl4 btn8 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	12
+	}, {
+		"action_id":	298,
+		"name":	"appl4 btn9 learn",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir learn",
+		"slot":	13
+	}, {
+		"action_id":	299,
+		"name":	"appl4 btn9 send",
+		"type":	"base",
+		"dev_id":	39,
+		"cmd":	"ir send",
+		"slot":	13
+	}, {
+		"action_id":	300,
+		"name":	"appl5 自定义 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	1
+	}, {
+		"action_id":	301,
+		"name":	"appl5 自定义 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	1
+	}, {
+		"action_id":	302,
+		"name":	"appl5 自定义 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	2
+	}, {
+		"action_id":	303,
+		"name":	"appl5 自定义 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	2
+	}, {
+		"action_id":	304,
+		"name":	"appl5 自定义 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	3
+	}, {
+		"action_id":	305,
+		"name":	"appl5 自定义 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	3
+	}, {
+		"action_id":	306,
+		"name":	"appl5 自定义 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	4
+	}, {
+		"action_id":	307,
+		"name":	"appl5 自定义 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	4
+	}, {
+		"action_id":	308,
+		"name":	"appl5 btn1 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	5
+	}, {
+		"action_id":	309,
+		"name":	"appl5 btn1 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	5
+	}, {
+		"action_id":	310,
+		"name":	"appl5 btn2 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	6
+	}, {
+		"action_id":	311,
+		"name":	"appl5 btn2 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	6
+	}, {
+		"action_id":	312,
+		"name":	"appl5 btn3 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	7
+	}, {
+		"action_id":	313,
+		"name":	"appl5 btn3 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	7
+	}, {
+		"action_id":	314,
+		"name":	"appl5 btn4 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	8
+	}, {
+		"action_id":	315,
+		"name":	"appl5 btn4 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	8
+	}, {
+		"action_id":	316,
+		"name":	"appl5 btn5 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	9
+	}, {
+		"action_id":	317,
+		"name":	"appl5 btn5 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	9
+	}, {
+		"action_id":	318,
+		"name":	"appl5 btn6 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	10
+	}, {
+		"action_id":	319,
+		"name":	"appl5 btn6 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	10
+	}, {
+		"action_id":	320,
+		"name":	"appl5 btn7 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	11
+	}, {
+		"action_id":	321,
+		"name":	"appl5 btn7 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	11
+	}, {
+		"action_id":	322,
+		"name":	"appl5 btn8 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	12
+	}, {
+		"action_id":	323,
+		"name":	"appl5 btn8 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	12
+	}, {
+		"action_id":	324,
+		"name":	"appl5 btn9 learn",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir learn",
+		"slot":	13
+	}, {
+		"action_id":	325,
+		"name":	"appl5 btn9 send",
+		"type":	"base",
+		"dev_id":	40,
+		"cmd":	"ir send",
+		"slot":	13
+	}, {
+		"action_id":	326,
+		"name":	"appl6 自定义 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	1
+	}, {
+		"action_id":	327,
+		"name":	"appl6 自定义 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	1
+	}, {
+		"action_id":	328,
+		"name":	"appl6 自定义 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	2
+	}, {
+		"action_id":	329,
+		"name":	"appl6 自定义 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	2
+	}, {
+		"action_id":	330,
+		"name":	"appl6 自定义 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	3
+	}, {
+		"action_id":	331,
+		"name":	"appl6 自定义 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	3
+	}, {
+		"action_id":	332,
+		"name":	"appl6 自定义 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	4
+	}, {
+		"action_id":	333,
+		"name":	"appl6 自定义 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	4
+	}, {
+		"action_id":	334,
+		"name":	"appl6 btn1 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	5
+	}, {
+		"action_id":	335,
+		"name":	"appl6 btn1 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	5
+	}, {
+		"action_id":	336,
+		"name":	"appl6 btn2 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	6
+	}, {
+		"action_id":	337,
+		"name":	"appl6 btn2 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	6
+	}, {
+		"action_id":	338,
+		"name":	"appl6 btn3 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	7
+	}, {
+		"action_id":	339,
+		"name":	"appl6 btn3 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	7
+	}, {
+		"action_id":	340,
+		"name":	"appl6 btn4 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	8
+	}, {
+		"action_id":	341,
+		"name":	"appl6 btn4 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	8
+	}, {
+		"action_id":	342,
+		"name":	"appl6 btn5 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	9
+	}, {
+		"action_id":	343,
+		"name":	"appl6 btn5 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	9
+	}, {
+		"action_id":	344,
+		"name":	"appl6 btn6 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	10
+	}, {
+		"action_id":	345,
+		"name":	"appl6 btn6 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	10
+	}, {
+		"action_id":	346,
+		"name":	"appl6 btn7 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	11
+	}, {
+		"action_id":	347,
+		"name":	"appl6 btn7 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	11
+	}, {
+		"action_id":	348,
+		"name":	"appl6 btn8 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	12
+	}, {
+		"action_id":	349,
+		"name":	"appl6 btn8 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	12
+	}, {
+		"action_id":	350,
+		"name":	"appl6 btn9 learn",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir learn",
+		"slot":	13
+	}, {
+		"action_id":	351,
+		"name":	"appl6 btn9 send",
+		"type":	"base",
+		"dev_id":	41,
+		"cmd":	"ir send",
+		"slot":	13
+	}, {
+		"action_id":	352,
+		"name":	"appl7 自定义 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	1
+	}, {
+		"action_id":	353,
+		"name":	"appl7 自定义 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	1
+	}, {
+		"action_id":	354,
+		"name":	"appl7 自定义 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	2
+	}, {
+		"action_id":	355,
+		"name":	"appl7 自定义 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	2
+	}, {
+		"action_id":	356,
+		"name":	"appl7 自定义 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	3
+	}, {
+		"action_id":	357,
+		"name":	"appl7 自定义 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	3
+	}, {
+		"action_id":	358,
+		"name":	"appl7 自定义 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	4
+	}, {
+		"action_id":	359,
+		"name":	"appl7 自定义 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	4
+	}, {
+		"action_id":	360,
+		"name":	"appl7 btn1 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	5
+	}, {
+		"action_id":	361,
+		"name":	"appl7 btn1 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	5
+	}, {
+		"action_id":	362,
+		"name":	"appl7 btn2 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	6
+	}, {
+		"action_id":	363,
+		"name":	"appl7 btn2 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	6
+	}, {
+		"action_id":	364,
+		"name":	"appl7 btn3 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	7
+	}, {
+		"action_id":	365,
+		"name":	"appl7 btn3 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	7
+	}, {
+		"action_id":	366,
+		"name":	"appl7 btn4 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	8
+	}, {
+		"action_id":	367,
+		"name":	"appl7 btn4 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	8
+	}, {
+		"action_id":	368,
+		"name":	"appl7 btn5 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	9
+	}, {
+		"action_id":	369,
+		"name":	"appl7 btn5 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	9
+	}, {
+		"action_id":	370,
+		"name":	"appl7 btn6 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	10
+	}, {
+		"action_id":	371,
+		"name":	"appl7 btn6 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	10
+	}, {
+		"action_id":	372,
+		"name":	"appl7 btn7 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	11
+	}, {
+		"action_id":	373,
+		"name":	"appl7 btn7 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	11
+	}, {
+		"action_id":	374,
+		"name":	"appl7 btn8 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	12
+	}, {
+		"action_id":	375,
+		"name":	"appl7 btn8 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	12
+	}, {
+		"action_id":	376,
+		"name":	"appl7 btn9 learn",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir learn",
+		"slot":	13
+	}, {
+		"action_id":	377,
+		"name":	"appl7 btn9 send",
+		"type":	"base",
+		"dev_id":	42,
+		"cmd":	"ir send",
+		"slot":	13
+	}, {
+		"action_id":	378,
+		"name":	"appl8 自定义 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	1
+	}, {
+		"action_id":	379,
+		"name":	"appl8 自定义 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	1
+	}, {
+		"action_id":	380,
+		"name":	"appl8 自定义 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	2
+	}, {
+		"action_id":	381,
+		"name":	"appl8 自定义 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	2
+	}, {
+		"action_id":	382,
+		"name":	"appl8 自定义 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	3
+	}, {
+		"action_id":	383,
+		"name":	"appl8 自定义 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	3
+	}, {
+		"action_id":	384,
+		"name":	"appl8 自定义 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	4
+	}, {
+		"action_id":	385,
+		"name":	"appl8 自定义 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	4
+	}, {
+		"action_id":	386,
+		"name":	"appl8 btn1 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	5
+	}, {
+		"action_id":	387,
+		"name":	"appl8 btn1 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	5
+	}, {
+		"action_id":	388,
+		"name":	"appl8 btn2 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	6
+	}, {
+		"action_id":	389,
+		"name":	"appl8 btn2 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	6
+	}, {
+		"action_id":	390,
+		"name":	"appl8 btn3 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	7
+	}, {
+		"action_id":	391,
+		"name":	"appl8 btn3 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	7
+	}, {
+		"action_id":	392,
+		"name":	"appl8 btn4 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	8
+	}, {
+		"action_id":	393,
+		"name":	"appl8 btn4 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	8
+	}, {
+		"action_id":	394,
+		"name":	"appl8 btn5 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	9
+	}, {
+		"action_id":	395,
+		"name":	"appl8 btn5 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	9
+	}, {
+		"action_id":	396,
+		"name":	"appl8 btn6 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	10
+	}, {
+		"action_id":	397,
+		"name":	"appl8 btn6 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	10
+	}, {
+		"action_id":	398,
+		"name":	"appl8 btn7 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	11
+	}, {
+		"action_id":	399,
+		"name":	"appl8 btn7 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	11
+	}, {
+		"action_id":	400,
+		"name":	"appl8 btn8 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	12
+	}, {
+		"action_id":	401,
+		"name":	"appl8 btn8 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	12
+	}, {
+		"action_id":	402,
+		"name":	"appl8 btn9 learn",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir learn",
+		"slot":	13
+	}, {
+		"action_id":	403,
+		"name":	"appl8 btn9 send",
+		"type":	"base",
+		"dev_id":	43,
+		"cmd":	"ir send",
+		"slot":	13
+	}, {
+		"action_id":	404,
+		"name":	"appl9 自定义 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	1
+	}, {
+		"action_id":	405,
+		"name":	"appl9 自定义 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	1
+	}, {
+		"action_id":	406,
+		"name":	"appl9 自定义 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	2
+	}, {
+		"action_id":	407,
+		"name":	"appl9 自定义 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	2
+	}, {
+		"action_id":	408,
+		"name":	"appl9 自定义 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	3
+	}, {
+		"action_id":	409,
+		"name":	"appl9 自定义 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	3
+	}, {
+		"action_id":	410,
+		"name":	"appl9 自定义 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	4
+	}, {
+		"action_id":	411,
+		"name":	"appl9 自定义 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	4
+	}, {
+		"action_id":	412,
+		"name":	"appl9 btn1 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	5
+	}, {
+		"action_id":	413,
+		"name":	"appl9 btn1 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	5
+	}, {
+		"action_id":	414,
+		"name":	"appl9 btn2 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	6
+	}, {
+		"action_id":	415,
+		"name":	"appl9 btn2 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	6
+	}, {
+		"action_id":	416,
+		"name":	"appl9 btn3 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	7
+	}, {
+		"action_id":	417,
+		"name":	"appl9 btn3 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	7
+	}, {
+		"action_id":	418,
+		"name":	"appl9 btn4 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	8
+	}, {
+		"action_id":	419,
+		"name":	"appl9 btn4 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	8
+	}, {
+		"action_id":	420,
+		"name":	"appl9 btn5 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	9
+	}, {
+		"action_id":	421,
+		"name":	"appl9 btn5 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	9
+	}, {
+		"action_id":	422,
+		"name":	"appl9 btn6 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	10
+	}, {
+		"action_id":	423,
+		"name":	"appl9 btn6 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	10
+	}, {
+		"action_id":	424,
+		"name":	"appl9 btn7 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	11
+	}, {
+		"action_id":	425,
+		"name":	"appl9 btn7 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	11
+	}, {
+		"action_id":	426,
+		"name":	"appl9 btn8 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	12
+	}, {
+		"action_id":	427,
+		"name":	"appl9 btn8 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	12
+	}, {
+		"action_id":	428,
+		"name":	"appl9 btn9 learn",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir learn",
+		"slot":	13
+	}, {
+		"action_id":	429,
+		"name":	"appl9 btn9 send",
+		"type":	"base",
+		"dev_id":	44,
+		"cmd":	"ir send",
+		"slot":	13
+	}, {
+		"action_id":	430,
+		"name":	"curtains0 curtain open",
+		"type":	"base",
+		"dev_id":	65,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	0,
+		"step_mode":	0
+	}, {
+		"action_id":	431,
+		"name":	"curtains0 curtain close",
+		"type":	"base",
+		"dev_id":	65,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	255,
+		"step_mode":	0
+	}, {
+		"action_id":	432,
+		"name":	"curtains0 curtain stop",
+		"type":	"base",
+		"dev_id":	65,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	254,
+		"step_mode":	0
+	}, {
+		"action_id":	433,
+		"name":	"curtains1 curtain open",
+		"type":	"base",
+		"dev_id":	66,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	0,
+		"step_mode":	0
+	}, {
+		"action_id":	434,
+		"name":	"curtains1 curtain close",
+		"type":	"base",
+		"dev_id":	66,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	255,
+		"step_mode":	0
+	}, {
+		"action_id":	435,
+		"name":	"curtains1 curtain stop",
+		"type":	"base",
+		"dev_id":	66,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	254,
+		"step_mode":	0
+	}, {
+		"action_id":	436,
+		"name":	"curtains2 curtain open",
+		"type":	"base",
+		"dev_id":	67,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	0,
+		"step_mode":	0
+	}, {
+		"action_id":	437,
+		"name":	"curtains2 curtain close",
+		"type":	"base",
+		"dev_id":	67,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	255,
+		"step_mode":	0
+	}, {
+		"action_id":	438,
+		"name":	"curtains2 curtain stop",
+		"type":	"base",
+		"dev_id":	67,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	254,
+		"step_mode":	0
+	}, {
+		"action_id":	439,
+		"name":	"curtains3 curtain open",
+		"type":	"base",
+		"dev_id":	68,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	0,
+		"step_mode":	0
+	}, {
+		"action_id":	440,
+		"name":	"curtains3 curtain close",
+		"type":	"base",
+		"dev_id":	68,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	255,
+		"step_mode":	0
+	}, {
+		"action_id":	441,
+		"name":	"curtains3 curtain stop",
+		"type":	"base",
+		"dev_id":	68,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	254,
+		"step_mode":	0
+	}, {
+		"action_id":	442,
+		"name":	"curtains4 curtain open",
+		"type":	"base",
+		"dev_id":	69,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	0,
+		"step_mode":	0
+	}, {
+		"action_id":	443,
+		"name":	"curtains4 curtain close",
+		"type":	"base",
+		"dev_id":	69,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	255,
+		"step_mode":	0
+	}, {
+		"action_id":	444,
+		"name":	"curtains4 curtain stop",
+		"type":	"base",
+		"dev_id":	69,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	254,
+		"step_mode":	0
+	}, {
+		"action_id":	445,
+		"name":	"curtains5 curtain open",
+		"type":	"base",
+		"dev_id":	70,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	0,
+		"step_mode":	0
+	}, {
+		"action_id":	446,
+		"name":	"curtains5 curtain close",
+		"type":	"base",
+		"dev_id":	70,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	255,
+		"step_mode":	0
+	}, {
+		"action_id":	447,
+		"name":	"curtains5 curtain stop",
+		"type":	"base",
+		"dev_id":	70,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	254,
+		"step_mode":	0
+	}, {
+		"action_id":	448,
+		"name":	"curtains6 curtain open",
+		"type":	"base",
+		"dev_id":	71,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	0,
+		"step_mode":	0
+	}, {
+		"action_id":	449,
+		"name":	"curtains6 curtain close",
+		"type":	"base",
+		"dev_id":	71,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	255,
+		"step_mode":	0
+	}, {
+		"action_id":	450,
+		"name":	"curtains6 curtain stop",
+		"type":	"base",
+		"dev_id":	71,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	254,
+		"step_mode":	0
+	}, {
+		"action_id":	451,
+		"name":	"curtains7 curtain open",
+		"type":	"base",
+		"dev_id":	72,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	0,
+		"step_mode":	0
+	}, {
+		"action_id":	452,
+		"name":	"curtains7 curtain close",
+		"type":	"base",
+		"dev_id":	72,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	255,
+		"step_mode":	0
+	}, {
+		"action_id":	453,
+		"name":	"curtains7 curtain stop",
+		"type":	"base",
+		"dev_id":	72,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	254,
+		"step_mode":	0
+	}, {
+		"action_id":	454,
+		"name":	"curtains8 curtain open",
+		"type":	"base",
+		"dev_id":	73,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	0,
+		"step_mode":	0
+	}, {
+		"action_id":	455,
+		"name":	"curtains8 curtain close",
+		"type":	"base",
+		"dev_id":	73,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	255,
+		"step_mode":	0
+	}, {
+		"action_id":	456,
+		"name":	"curtains8 curtain stop",
+		"type":	"base",
+		"dev_id":	73,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	254,
+		"step_mode":	0
+	}, {
+		"action_id":	457,
+		"name":	"curtains9 curtain open",
+		"type":	"base",
+		"dev_id":	74,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	0,
+		"step_mode":	0
+	}, {
+		"action_id":	458,
+		"name":	"curtains9 curtain close",
+		"type":	"base",
+		"dev_id":	74,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	255,
+		"step_mode":	0
+	}, {
+		"action_id":	459,
+		"name":	"curtains9 curtain stop",
+		"type":	"base",
+		"dev_id":	74,
+		"cmd":	"dev_write",
+		"operation":	"curtain",
+		"position":	254,
+		"step_mode":	0
+	}, {
+		"action_id":	460,
+		"name":	"room1 sensor0 sensor on",
+		"type":	"base",
+		"dev_id":	85,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	461,
+		"name":	"room1 sensor0 sensor off",
+		"type":	"base",
+		"dev_id":	85,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	462,
+		"name":	"room1 sensor0 sensor read",
+		"type":	"base",
+		"dev_id":	85,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	463,
+		"name":	"room1 sensor1 sensor on",
+		"type":	"base",
+		"dev_id":	86,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	464,
+		"name":	"room1 sensor1 sensor off",
+		"type":	"base",
+		"dev_id":	86,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	465,
+		"name":	"room1 sensor1 sensor read",
+		"type":	"base",
+		"dev_id":	86,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	466,
+		"name":	"room2 sensor2 sensor on",
+		"type":	"base",
+		"dev_id":	87,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	467,
+		"name":	"room2 sensor2 sensor off",
+		"type":	"base",
+		"dev_id":	87,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	468,
+		"name":	"room2 sensor2 sensor read",
+		"type":	"base",
+		"dev_id":	87,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	469,
+		"name":	"room2 sensor3 sensor on",
+		"type":	"base",
+		"dev_id":	88,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	470,
+		"name":	"room2 sensor3 sensor off",
+		"type":	"base",
+		"dev_id":	88,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	471,
+		"name":	"room2 sensor3 sensor read",
+		"type":	"base",
+		"dev_id":	88,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	472,
+		"name":	"room3 sensor4 sensor on",
+		"type":	"base",
+		"dev_id":	89,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	473,
+		"name":	"room3 sensor4 sensor off",
+		"type":	"base",
+		"dev_id":	89,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	474,
+		"name":	"room3 sensor4 sensor read",
+		"type":	"base",
+		"dev_id":	89,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	475,
+		"name":	"room3 sensor5 sensor on",
+		"type":	"base",
+		"dev_id":	90,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	476,
+		"name":	"room3 sensor5 sensor off",
+		"type":	"base",
+		"dev_id":	90,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	477,
+		"name":	"room3 sensor5 sensor read",
+		"type":	"base",
+		"dev_id":	90,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	478,
+		"name":	"room4 sensor6 sensor on",
+		"type":	"base",
+		"dev_id":	91,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	479,
+		"name":	"room4 sensor6 sensor off",
+		"type":	"base",
+		"dev_id":	91,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	480,
+		"name":	"room4 sensor6 sensor read",
+		"type":	"base",
+		"dev_id":	91,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	481,
+		"name":	"room4 sensor7 sensor on",
+		"type":	"base",
+		"dev_id":	92,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	482,
+		"name":	"room4 sensor7 sensor off",
+		"type":	"base",
+		"dev_id":	92,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	483,
+		"name":	"room4 sensor7 sensor read",
+		"type":	"base",
+		"dev_id":	92,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	484,
+		"name":	"room5 sensor8 sensor on",
+		"type":	"base",
+		"dev_id":	93,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	485,
+		"name":	"room5 sensor8 sensor off",
+		"type":	"base",
+		"dev_id":	93,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	486,
+		"name":	"room5 sensor8 sensor read",
+		"type":	"base",
+		"dev_id":	93,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	487,
+		"name":	"room5 sensor9 sensor on",
+		"type":	"base",
+		"dev_id":	94,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	488,
+		"name":	"room5 sensor9 sensor off",
+		"type":	"base",
+		"dev_id":	94,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	489,
+		"name":	"room5 sensor9 sensor read",
+		"type":	"base",
+		"dev_id":	94,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	490,
+		"name":	"room6 sensor10 sensor on",
+		"type":	"base",
+		"dev_id":	95,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	491,
+		"name":	"room6 sensor10 sensor off",
+		"type":	"base",
+		"dev_id":	95,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	492,
+		"name":	"room6 sensor10 sensor read",
+		"type":	"base",
+		"dev_id":	95,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	493,
+		"name":	"room6 sensor11 sensor on",
+		"type":	"base",
+		"dev_id":	96,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	494,
+		"name":	"room6 sensor11 sensor off",
+		"type":	"base",
+		"dev_id":	96,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	495,
+		"name":	"room6 sensor11 sensor read",
+		"type":	"base",
+		"dev_id":	96,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	496,
+		"name":	"room7 sensor12 sensor on",
+		"type":	"base",
+		"dev_id":	97,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	497,
+		"name":	"room7 sensor12 sensor off",
+		"type":	"base",
+		"dev_id":	97,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	498,
+		"name":	"room7 sensor12 sensor read",
+		"type":	"base",
+		"dev_id":	97,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	499,
+		"name":	"room8 sensor13 sensor on",
+		"type":	"base",
+		"dev_id":	98,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	500,
+		"name":	"room8 sensor13 sensor off",
+		"type":	"base",
+		"dev_id":	98,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	501,
+		"name":	"room8 sensor13 sensor read",
+		"type":	"base",
+		"dev_id":	98,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	502,
+		"name":	"room9 sensor14 sensor on",
+		"type":	"base",
+		"dev_id":	99,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	503,
+		"name":	"room9 sensor14 sensor off",
+		"type":	"base",
+		"dev_id":	99,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	504,
+		"name":	"room9 sensor14 sensor read",
+		"type":	"base",
+		"dev_id":	99,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}, {
+		"action_id":	505,
+		"name":	"room9 sensor15 sensor on",
+		"type":	"base",
+		"dev_id":	100,
+		"cmd":	"dev_write",
+		"operation":	"on",
+		"index":	17
+	}, {
+		"action_id":	506,
+		"name":	"room9 sensor15 sensor off",
+		"type":	"base",
+		"dev_id":	100,
+		"cmd":	"dev_write",
+		"operation":	"off",
+		"index":	17
+	}, {
+		"action_id":	507,
+		"name":	"room9 sensor15 sensor read",
+		"type":	"base",
+		"dev_id":	100,
+		"cmd":	"dev_read",
+		"dev_type":	"sensor",
+		"index":	17
+	}]
