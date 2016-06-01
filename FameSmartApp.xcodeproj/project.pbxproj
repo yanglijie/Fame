@@ -181,6 +181,7 @@
 		07CBA3C81A2C41CF00411102 /* viewSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CBA3C71A2C41CF00411102 /* viewSettingController.swift */; };
 		07CBA7591990934600484BBC /* ViewRootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CBA7581990934600484BBC /* ViewRootController.swift */; };
 		07E0D2881999EFB300CE752F /* ViewSSController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E0D2871999EFB300CE752F /* ViewSSController.swift */; };
+		950508231CFE0CF900FC6BE6 /* ViewSSLinkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950508221CFE0CF900FC6BE6 /* ViewSSLinkController.swift */; };
 		955FA4321CF52271004ECAB8 /* buttonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 955FA4311CF52271004ECAB8 /* buttonView.xib */; };
 		FD24394B19C1437400200750 /* homeFame.png in Resources */ = {isa = PBXBuildFile; fileRef = FD24394A19C1437400200750 /* homeFame.png */; };
 		FD24394D19C1480300200750 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD24394C19C1480300200750 /* extension.swift */; };
@@ -415,6 +416,7 @@
 		07CBA3C71A2C41CF00411102 /* viewSettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewSettingController.swift; sourceTree = "<group>"; };
 		07CBA7581990934600484BBC /* ViewRootController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewRootController.swift; sourceTree = "<group>"; };
 		07E0D2871999EFB300CE752F /* ViewSSController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewSSController.swift; sourceTree = "<group>"; };
+		950508221CFE0CF900FC6BE6 /* ViewSSLinkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewSSLinkController.swift; sourceTree = "<group>"; };
 		955FA4311CF52271004ECAB8 /* buttonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = buttonView.xib; sourceTree = "<group>"; };
 		FD0A248C1A2EDC5A00ED1C43 /* FameSmartAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FameSmartAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD24394A19C1437400200750 /* homeFame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = homeFame.png; sourceTree = "<group>"; };
@@ -666,6 +668,7 @@
 				07CBA3C71A2C41CF00411102 /* viewSettingController.swift */,
 				0776018D19C299B2002A8F50 /* viewAboutUsController.swift */,
 				07E0D2871999EFB300CE752F /* ViewSSController.swift */,
+				950508221CFE0CF900FC6BE6 /* ViewSSLinkController.swift */,
 				076932641BC378FE00A3EAC5 /* ViewMsgController.swift */,
 				07984C4F198BE83C00AA4BD5 /* MD5.swift */,
 				FD2C414F1AFB12FD0087B08F /* viewSA2and4.swift */,
@@ -1072,6 +1075,7 @@
 				076932671BC3870C00A3EAC5 /* viewVideoController.swift in Sources */,
 				FD89A6B31A25A480008969EA /* viewPickerController.swift in Sources */,
 				077882E7198B254B003E2390 /* ViewController.swift in Sources */,
+				950508231CFE0CF900FC6BE6 /* ViewSSLinkController.swift in Sources */,
 				FD24394D19C1480300200750 /* extension.swift in Sources */,
 				077BCFEC1A24B10200F0C358 /* ViewTimerController.swift in Sources */,
 				FD427EFB19B433F9007094CF /* viewModesSetting.swift in Sources */,

@@ -79,6 +79,7 @@ class httpRequert : NSObject{
             }
     }
     
+
     func downloadFromPostUrlSync(url:String,dic:NSDictionary, cmplx:Bool=false ) -> NSDictionary!{
         var nilDic:Dictionary = ["result":9]
         

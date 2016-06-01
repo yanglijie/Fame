@@ -46,6 +46,7 @@ class fame:NSObject{
     
     //修改设备名称
     var dev_ss_name :String!
+    var dev_ss_Rname :String!
     
     var dev_id :Int! = 0
     
@@ -783,7 +784,7 @@ class fame:NSObject{
                 case 26 :
                     self.sensors26.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 32 :
-                    self.sensors32.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                    self.sensors32.append(["name":"\(name)","roomName":"\(roomName)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                 default:
                     
                     break
@@ -1235,5 +1236,31 @@ class fame:NSObject{
             return false
         }
     }
+    
+    func showMessage(str:String){
+        
+        let window :UIWindow! = UIApplication.sharedApplication().keyWindow;
+        let showView :UIView! = UIView(frame: CGRect(x: (window.frame.size.width*0.7)/2, y: (window.frame.size.height-30)/2 , width: window.frame.size.width*0.7, height: 30 ));
+        showView.backgroundColor = UIColor.whiteColor();
+        showView.alpha = 1.0;
+        showView.layer.cornerRadius = 5.0;
+        showView.layer.masksToBounds = true ;
+        window .addSubview(showView);
+        
+        let lable : UILabel! = UILabel(frame: CGRect(x: (showView.frame.size.width*0.7)/2, y: 5 , width: showView.frame.size.width*0.7, height: 20 ));
+        lable.text = str;
+        lable.backgroundColor = UIColor.clearColor() ;
+        showView .addSubview(lable) ;
+        
+
+
+        UIView.animateWithDuration(2, animations: { () -> Void in
+            showView.alpha = 0;
+            }) { (flase) -> Void in
+                showView.removeFromSuperview();
+        }
+        
+    }
+    
 }
 

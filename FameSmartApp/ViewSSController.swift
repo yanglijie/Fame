@@ -1084,7 +1084,6 @@ class ViewControllerSS5: UIViewController,UITableViewDataSource,UITableViewDeleg
 class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate {
     
     var airSensors:Array<Dictionary<String,String>> = []
-    var otherView:UIView!
     var popView:UIView!
     
 
@@ -1116,17 +1115,14 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
   
         self.airSensors = FAME.sensors32;
        
-        
         let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
         self.navigationItem.rightBarButtonItem = addButton
-
-        
-        
-        
+ 
         
     }
     //弹出视图
     func popPushView(){
+        
         self.popView = UIView(frame: CGRect(x: 0, y: 0 , width: self.view.frame.width, height: self.view.frame.height));
         self.popView.backgroundColor=UIColor.clearColor();
         self.view .addSubview(self.popView);
@@ -1146,7 +1142,7 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
         
         //self.popView.alpha=0.0;
         
-        let titleLable = UILabel(frame: CGRect(x: popView1.frame.size.width*0.1, y: 0, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6*0.95))
+        let titleLable = UILabel(frame: CGRect(x: popView1.frame.size.width*0.1, y: 0, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6))
         titleLable.text = FAME.dev_ss_name;
         titleLable.font = UIFont.boldSystemFontOfSize(20);
         titleLable.textColor = UIColor.blueColor();
@@ -1157,15 +1153,57 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
         popView1 .addSubview(view1);
         
         let nameUIButton = UIButton(frame: CGRect(x: popView1.frame.size.width*0.1, y: popView1.frame.size.height/6, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6*0.95))
-        let nameLable = UILabel (frame: CGRect(x: 0, y: 0, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6*0.95))
+        let nameLable = UILabel (frame: CGRect(x: 0, y: 0, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6))
         nameLable.text = Defined_SS_air_Title1;
         nameUIButton .addSubview(nameLable);
         nameUIButton.addTarget(self, action: Selector("btns1Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
         popView1 .addSubview(nameUIButton);
         
-        let view2 = UIView(frame: CGRect(x: popView1.frame.size.width*0.1, y: popView1.frame.size.height/6*2*0.95, width: popView1.frame.size.width*0.8, height: 1))
-        view2.backgroundColor = UIColor.blackColor();
+        let view2 = UIView(frame: CGRect(x: popView1.frame.size.width*0.1, y: popView1.frame.size.height/6*2, width: popView1.frame.size.width*0.8, height: 1))
+        view2.backgroundColor = UIColor.grayColor();
         popView1 .addSubview(view2);
+        
+        let diss_dev = UIButton(frame: CGRect(x: popView1.frame.size.width*0.1, y: popView1.frame.size.height/6*2, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6))
+        let dissLable = UILabel (frame: CGRect(x: 0, y: 0, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6))
+        dissLable.text = Defined_SS_air_Title2;
+        diss_dev .addSubview(dissLable);
+        diss_dev.addTarget(self, action: Selector("btns2Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        popView1 .addSubview(diss_dev);
+        
+        let view3 = UIView(frame: CGRect(x: popView1.frame.size.width*0.1, y: popView1.frame.size.height/6*3, width: popView1.frame.size.width*0.8, height: 1))
+        view3.backgroundColor = UIColor.grayColor();
+        popView1 .addSubview(view3);
+
+        let Button3 = UIButton(frame: CGRect(x: popView1.frame.size.width*0.1, y: popView1.frame.size.height/6*3, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6))
+        let Lable3 = UILabel (frame: CGRect(x: 0, y: 0, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6*0.95))
+        Lable3.text = Defined_SS_air_Title3;
+        Button3 .addSubview(Lable3);
+        Button3.addTarget(self, action: Selector("btns3Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        popView1 .addSubview(Button3);
+        
+        let view4 = UIView(frame: CGRect(x: popView1.frame.size.width*0.1, y: popView1.frame.size.height/6*4, width: popView1.frame.size.width*0.8, height: 1))
+        view4.backgroundColor = UIColor.grayColor();
+        popView1 .addSubview(view4);
+
+        let Button4 = UIButton(frame: CGRect(x: popView1.frame.size.width*0.1, y: popView1.frame.size.height/6*4, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6))
+        let Lable4 = UILabel (frame: CGRect(x: 0, y: 0, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6))
+        Lable4.text = Defined_SS_air_Title4;
+        Button4 .addSubview(Lable4);
+        Button4.addTarget(self, action: Selector("btns4Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        popView1 .addSubview(Button4);
+        
+        let view5 = UIView(frame: CGRect(x: popView1.frame.size.width*0.1, y: popView1.frame.size.height/6*5, width: popView1.frame.size.width*0.8, height: 1))
+        view5.backgroundColor = UIColor.grayColor();
+        popView1 .addSubview(view5);
+
+        let Button5 = UIButton(frame: CGRect(x: popView1.frame.size.width*0.1, y: popView1.frame.size.height/6*5, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6))
+        let Lable5 = UILabel (frame: CGRect(x: 0, y: 0, width: popView1.frame.size.width*0.8, height: popView1.frame.size.height/6*0.95))
+        Lable5.text = Defined_SS_air_Title5;
+        Button5 .addSubview(Lable5);
+        Button5.addTarget(self, action: Selector("btns5Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        popView1 .addSubview(Button5);
+
+
         
         
         
@@ -1174,6 +1212,58 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
     func btns1Fun(sender:UIButton){
         self.popView.hidden = true;
         let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_name") as UIViewController
+        
+        self.navigationController?.pushViewController(next, animated: true)
+        let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = item;
+    }
+    //删除设备
+    func btns2Fun(sender:UIButton){
+        let alertController = UIAlertController(title: "友情提示", message: "请输入密码删除该设备", preferredStyle: UIAlertControllerStyle.Alert);
+        alertController.addTextFieldWithConfigurationHandler {
+            (textField: UITextField!) -> Void in
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
+        let okAction = UIAlertAction(title: "好的", style: .Default,
+            handler: {
+                action in
+                //也可以用下标的形式获取textField let login = alertController.textFields![0]
+                let login = alertController.textFields!.first! as UITextField
+                print("用户名：\(login.text)")
+                let cmdStr = "{\"cmd\": 30, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":[{\"ieee_addr\":\"\(login.text! as String)\"}]}"
+                if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+                    
+                    print(recevied)
+                }
+
+                
+                
+        })
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+        self.popView.hidden = true;
+        
+    }
+    func btns3Fun(sender:UIButton){
+        self.popView.hidden = true;
+        let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_link") as UIViewController
+        
+        self.navigationController?.pushViewController(next, animated: true)
+        let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = item;
+    }
+    func btns4Fun(sender:UIButton){
+        self.popView.hidden = true;
+        let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_link") as UIViewController
+        
+        self.navigationController?.pushViewController(next, animated: true)
+        let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = item;
+    }
+    func btns5Fun(sender:UIButton){
+        self.popView.hidden = true;
+        let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_air6") as UIViewController
         
         self.navigationController?.pushViewController(next, animated: true)
         let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
@@ -1205,7 +1295,7 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
     }
     func refreshLights(sender:AnyObject!){
         print("refreshLights")
-        //self.TableView!.reloadData()
+        //self.tableView!.reloadData()
         let myThread = NSThread(target: self, selector: "Timerset", object: nil)
         myThread.start()
         
@@ -1241,6 +1331,7 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
     }
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
+
         
     }
 
@@ -1253,12 +1344,9 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         tableView
         let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell2
-        cell.backgroundColor = UIColor.clearColor()
-        
-        
-        
+
+
         let showId = self.airSensors[indexPath.row]
-        
         
         
         //长按手势
@@ -1267,17 +1355,23 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
         longpressGesutre.minimumPressDuration = 1.0;
         cell .addGestureRecognizer(longpressGesutre)
         FAME.dev_ss_name = showId["name"]
+        FAME.dev_ss_Rname = showId["roomName"]
+        
         self .popPushView();
         
         
         let dev_Str:String! = showId["dev_id"] as String!
         let dev_id:Int! = Int(dev_Str)
+        FAME.dev_id = dev_id ;
         
         let index_Str:String! = showId["index"] as String!
         let index:Int! = Int(index_Str)
         
         let type_Str:String! = showId["dev_type"] as String!
         let type:Int! = Int(type_Str)
+        
+        let name_Str:String! = showId["name"] as String!
+        let roomName_Str:String! = showId["roomName"] as String!
         
         
         cell.tag = dev_id * 10 + index
@@ -1286,7 +1380,7 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
         cell.id = type
         //name
         let name = cell.viewWithTag(1) as! UILabel
-        name.text = showId["name"]
+        name.text = roomName_Str + name_Str ;
 
         
         //on off
@@ -1461,15 +1555,129 @@ class ViewControllerSS7Detail: UIViewController {
 
 
 }
-class ViewControllerSS_name: UIViewController {
+class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate {
+    var popView:UIView!
+    var nameArray:Array<String> = []
+    var count:Int! = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        self.nameArray = FAME.rooms;
+        for(var i = 0; i < self.nameArray.count ; i++){
+            if FAME.dev_ss_Rname == self.nameArray[i]{
+                count = i ;
+            }
+        }
+        
+        print(String(self.nameArray));
         let dev_name = self.view.viewWithTag(18) as! UITextField!;
         dev_name.text = FAME.dev_ss_name ;
         
+        let room_button = self.view.viewWithTag(19) as! UIButton!;
+        room_button .addTarget(self, action: Selector("roomClick:"), forControlEvents: UIControlEvents.TouchUpInside);
+        
+        
+        let sure_button = self.view.viewWithTag(21) as! UIButton!;
+        sure_button .addTarget(self, action: Selector("sureClick:"), forControlEvents: UIControlEvents.TouchUpInside);
+        
+        let room_name = self.view.viewWithTag(20) as! UILabel!;
+        room_name.text = self.nameArray[count];
+        
+    }
+    
+    func roomClick(sender:UIButton){
+        
+        print("点击了选择框");
+        self.popPushView();
+        
+        
+        
+    }
+    func sureClick(sender:UIButton){
+        print("点击了确定按钮");
+        let dev_name = self.view.viewWithTag(18) as! UITextField!;
+ 
+        let room_name = self.view.viewWithTag(20) as! UILabel!;
+        room_name.text = self.nameArray[count];
+        let name:String = dev_name.text as String!
+        
+        let cmdStr = "{\"cmd\": 47,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"name\": \"\(name)\",\"room\":\(count)}"
+        if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+            
+            //print(recevied)
+            if recevied["result"] as! NSObject == 0
+            {
+                //fame.showMessage("111111");
+                self.navigationController?.popViewControllerAnimated(true);
+            }
+        }
+        
+        
+        
+    }
+    func popPushView(){
+        self.popView = UIView(frame: CGRect(x: 0, y: 0 , width: self.view.frame.width, height: self.view.frame.height));
+        self.popView.backgroundColor=UIColor.clearColor();
+        self.view .addSubview(self.popView);
+        //self.popView.hidden = true;
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: "handleTapGesture:")
+        //设置手势点击数,双击：点2下
+        tapGesture.delegate=self
+        tapGesture.numberOfTapsRequired = 1
+        self.popView.addGestureRecognizer(tapGesture)
+        
+        
+        let popTableView = UITableView(frame: CGRect(x: (self.view.frame.width*0.3)/2, y: (self.view.frame.height*0.5)/2 , width: self.view.frame.width*0.7, height: self.view.frame.height*0.5));
+        popTableView.backgroundColor=UIColor.whiteColor();
+        popTableView.dataSource = self;
+        popTableView.delegate = self ;
+        popTableView.showsVerticalScrollIndicator = false
+        self.popView .addSubview(popTableView);
+  
+        
+    }
+    func handleTapGesture(sender:AnyObject!){
+        print("handleTapGesture")
+        self.popView.hidden = true;
+        
+    }
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+        
+        return self.nameArray.count;
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+        let identifier="identtifier";
+        var cell=tableView.dequeueReusableCellWithIdentifier(identifier);
+        if(cell == nil){
+            cell=UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: identifier);
+        }
+        cell?.textLabel?.text = self.nameArray[indexPath.row];
+        cell?.accessoryType = UITableViewCellAccessoryType.Checkmark ;
+        return cell!;
+        
+        
+    }
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
+        
+        return 50
+        
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+        
+        let room_name = self.view.viewWithTag(20) as! UILabel!;
+        room_name.text = self.nameArray[indexPath.row];
+        count = indexPath.row ;
+        self.popView.hidden = true;
+    }
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if NSStringFromClass(touch.view!.classForCoder) == "UITableViewCellContentView"{
+            return false
+        }
+        return true
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -1481,4 +1689,60 @@ class ViewControllerSS_name: UIViewController {
     }
     
 }
+
+//修改门限值
+class ViewControllerSS7air6: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = FAME.dev_ss_Rname + FAME.dev_ss_name ;
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
+        self.navigationItem.rightBarButtonItem = addButton
+        let sureClick = self.view.viewWithTag(49) as! UIButton!;
+        sureClick.addTarget(self, action: Selector("requestData:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+    }
+    func requestData(sender:AnyObject!){
+        let PM = self.view.viewWithTag(45) as! UITextField!;
+        let PM_number :Double! = Double(PM.text as String!);
+        //print(PM_number) ;
+        let hcho_threshold = self.view.viewWithTag(46) as! UITextField!;
+        let hcho_number :Double! = Double(hcho_threshold.text as String!);
+        let temperature_threshold = self.view.viewWithTag(47) as! UITextField!;
+        let temp_number :Double! = Double(temperature_threshold.text as String!);
+        let humidity_threshold = self.view.viewWithTag(48) as! UITextField!;
+        let humi_number :Double! = Double(humidity_threshold.text as String!);
+
+        
+        let cmdStr = "{\"cmd\": 43, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"dev_id\":\(FAME.dev_id),\"temperature_threshold\": \(temp_number),\"humidity_threshold\":\(humi_number),\"hcho_threshold\": \(hcho_number),\"pm2_5_threshold\":\(PM_number)}}"
+        if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+            
+            if recevied["result"] as! NSObject == 0
+            {
+                self.navigationController?.popViewControllerAnimated(true);
+            }
+        }
+
+    }
+    func refreshLights(sender:AnyObject!){
+        print("refreshLights")
+        //self.TableView!.reloadData()
+        //        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        //        myThread.start()
+        
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
+    }
+    
+    
+}
+
 
