@@ -1234,6 +1234,19 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
                 if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
                     
                     print(recevied)
+                    if recevied["result"] as! NSObject == 0{
+                    let cmdStr1 = "{\"cmd\": 35, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did)}"
+                    if let recevied1 = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr1,timeout:90){
+                        if recevied["result"] as! NSObject == 0
+                        {
+                            FAME.showMessage("退网成功");
+                        }
+                        else
+                        {
+                            FAME.showMessage("退网失败");
+                        }
+                    }
+                    }
                 }
 
                 
@@ -1248,7 +1261,7 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
     func btns3Fun(sender:UIButton){
         self.popView.hidden = true;
         let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_link") as UIViewController
-        
+        FAME.link_id = 1;
         self.navigationController?.pushViewController(next, animated: true)
         let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = item;
@@ -1256,7 +1269,7 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
     func btns4Fun(sender:UIButton){
         self.popView.hidden = true;
         let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_link") as UIViewController
-        
+        FAME.link_id = 0;
         self.navigationController?.pushViewController(next, animated: true)
         let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = item;
@@ -1463,38 +1476,75 @@ class ViewControllerSS7Detail: UIViewController {
             let detail=self.airDetail;
             
             let viewpm2_5 = self.view.viewWithTag(300) as! UILabel!;
-            let index_Str:NSNumber! = detail["pm2_5"] as! NSNumber!;
+            let index_Str:Double! = detail["pm2_5"] as! Double!;
             if index_Str == 0{
                 viewpm2_5.text = "0.0";
             }
             else{
                 viewpm2_5.text=self.StringSplit(String(index_Str));
             }
+            let viewpm_lable = self.view.viewWithTag(301) as! UILabel!;
+            if index_Str <= 70{
+                viewpm_lable.text = "空气质量佳";
+            }
+            if index_Str >= 130{
+                viewpm_lable.text = "空气质量差";
+            }
+            else{
+                viewpm_lable.text = "空气质量良";
+            }
+            
+            
             let hcho = self.view.viewWithTag(302) as! UILabel!;
-            let index_Str1:NSNumber! = detail["hcho"] as! NSNumber!;
+            let index_Str1:Double! = detail["hcho"] as! Double!;
             if index_Str1 == 0{
-                hcho.text = "0.0mg/M3";
+                hcho.text = "0.0  mg/M³";
             }
             else{
-                hcho.text="\(self.StringSplit(String(index_Str1)))mg/M3"
+                hcho.text="\(self.StringSplit(String(index_Str1)))  mg/M³"
             }
-            let temperature = self.view.viewWithTag(304) as! UILabel!;
-            let index_Str2:NSNumber! = detail["temperature"] as! NSNumber!;
-            if index_Str2 == 0{
-                temperature.text = "0.0C";
-            }
-            else{
-                temperature.text="\(self.StringSplit(String(index_Str2)))C"
-            }
-            let humidity = self.view.viewWithTag(306) as! UILabel!;
-            let index_Str3:NSNumber! = detail["humidity"] as! NSNumber!;
-            if index_Str3 == 0{
-                humidity.text = "0.0%RH";
+            
+            let hcho_lable = self.view.viewWithTag(303) as! UILabel!;
+            if index_Str1 >= 0.08{
+                hcho_lable.text = "偏高";
             }
             else{
-                humidity.text="\(self.StringSplit(String(index_Str3)))%RH"
+                hcho_lable.text = "正常";
             }
 
+            
+            let temperature = self.view.viewWithTag(304) as! UILabel!;
+            let index_Str2:Double! = detail["temperature"] as! Double!;
+            if index_Str2 == 0{
+                temperature.text = "0.0  ºC";
+            }
+            else{
+                temperature.text="\(self.StringSplit(String(index_Str2)))  ºC"
+            }
+            
+            let temperature_lable = self.view.viewWithTag(305) as! UILabel!;
+            if index_Str2 >= 0.08{
+                temperature_lable.text = "偏高";
+            }
+            else{
+                temperature_lable.text = "正常";
+            }
+            
+            let humidity = self.view.viewWithTag(306) as! UILabel!;
+            let index_Str3:Double! = detail["humidity"] as! Double!;
+            if index_Str3 == 0{
+                humidity.text = "0.0  %RH";
+            }
+            else{
+                humidity.text="\(self.StringSplit(String(index_Str3)))  %RH"
+            }
+            let humidity_lable = self.view.viewWithTag(307) as! UILabel!;
+            if index_Str3 >= 0.08{
+                humidity_lable.text = "偏高";
+            }
+            else{
+                humidity_lable.text = "正常";
+            }
             
             let update_time = self.view.viewWithTag(308) as! UILabel!;
             update_time.text="更新时间：\(detail["update_time"] as! String)";

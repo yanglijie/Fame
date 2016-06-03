@@ -44,6 +44,9 @@ var FAME = fame()
 
 class fame:NSObject{
     
+    //联动
+    var link_id :Int! = 0
+    
     //修改设备名称
     var dev_ss_name :String!
     var dev_ss_Rname :String!

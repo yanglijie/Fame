@@ -80,53 +80,7 @@ class httpRequert : NSObject{
     }
     
 
-    func downloadFromPostUrlSync(url:String,dic:NSDictionary, cmplx:Bool=false ) -> NSDictionary!{
-        var nilDic:Dictionary = ["result":9]
-        
-        let nsUrl=NSURL(string: url)
-        let request = NSMutableURLRequest(URL: nsUrl!)
-        request.timeoutInterval = 8
-        request.HTTPMethod = "POST"
-        let param=NSMutableArray()
-        for key:AnyObject in dic.allKeys{
-            let s=NSString(format:"\(key as! NSString)=\(dic[key as! NSString])")
-            param.addObject(s)
-        }
-        let bodyString=param.componentsJoinedByString("&") as NSString
-        request.HTTPBody=bodyString.dataUsingEncoding(NSUTF8StringEncoding)
-        
-        let received:NSData! = try? NSURLConnection.sendSynchronousRequest(request, returningResponse: nil)
-        
-        if (received != nil) {
-            let str = NSString(data: received, encoding: NSUTF8StringEncoding)
-            print("DATA RECEIVED\n \(str)")
-            do{
-            let resObj:NSDictionary! = try NSJSONSerialization.JSONObjectWithData(received, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                if !(resObj != nil){
-                    return nil
-                }
-                
-                if !(resObj["result"] != nil) {
-                    return nil
-                }
-                
-                if cmplx {
-                    return resObj
-                }else{
-                    if resObj["result"] as! NSObject == 0 {
-                        return resObj
-                    }else{
-                        return nil
-                    }
-                }
-            }catch{
-                return nil
-            }
-            
-        }else{
-            return nil
-        }
-    }
+  
     
     func ChatFromPostUrlSync(url:String,dic:NSDictionary) -> String!{
         let nsUrl=NSURL(string: url)

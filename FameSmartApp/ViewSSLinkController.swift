@@ -49,7 +49,8 @@ class ViewSSLinkController: UIViewController,UIActionSheetDelegate,UIPickerViewD
         self.navigationItem.rightBarButtonItem = addButton
         let addClick = self.view.viewWithTag(53) as! UIButton!;
         addClick.addTarget(self, action: Selector("addDevLink:"), forControlEvents: UIControlEvents.TouchUpInside)
-        
+        let sureClick = self.view.viewWithTag(54) as! UIButton!;
+        sureClick.addTarget(self, action: Selector("sureDevLink:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.createPop()
         
@@ -78,10 +79,63 @@ class ViewSSLinkController: UIViewController,UIActionSheetDelegate,UIPickerViewD
         
         
     }
+    func Timerset(){
+        //let event_id = FAME.tempSensorId
+        let dev_id = FAME.dev_id
+        let action_id = self.ids
+        var alarm_value = 1
+        
+        var e_id = (dev_id - 85) * 3 + 1
+        
+        alarm_value = 0
+        e_id = (dev_id - 85) * 3 + 3
+        
+        if FAME.link_id == 0 {
+            let cmdStr = "{\"cmd\": 33, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id),\"filter_data\":[\(dev_id),11,17,\(alarm_value)],\"action_id\":\(0),\"active\":0}}"
+            if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+                print("link device successed")
+                let alert = UIAlertView()
+                alert.title = Defined_link_title1
+                alert.message =  Defined_link_update
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            }else{
+                print("link event failed")
+                let alert = UIAlertView()
+                alert.title = Defined_link_title
+                alert.message =  Defined_link_failed
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            }
+        }else{
+            let cmdStr = "{\"cmd\": 33, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id),\"filter_data\":[\(dev_id),11,17,\(alarm_value)],\"action_id\":\(action_id),\"active\":1}}"
+            if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+                print("link device successed")
+                let alert = UIAlertView()
+                alert.title = Defined_link_title
+                alert.message =  Defined_link_update
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+                
+            }else{
+                
+                print("link event failed")
+            }
+        }
+    }
+
+    func sureDevLink(sender:AnyObject!){
+        
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
+     
+    }
     func addDevLink(sender:AnyObject!){
 
         print("点击添加");
         self.showVIew2() ;
+        
+        
         
     }
     func refreshLights(sender:AnyObject!){
@@ -180,6 +234,7 @@ class ViewSSLinkController: UIViewController,UIActionSheetDelegate,UIPickerViewD
 
     func selectedActBtn(sender : AnyObject){
         
+
             
         print("\(self.seletedStr1)\(self.seletedStr2)\(self.seletedStr3)")
         let str:String! = "\(self.seletedStr1)\(self.seletedStr2)\(self.seletedStr3)";

@@ -76,6 +76,7 @@ let Defined_mode_title = "情景模式配置"
 let Defined_link_update = "联动配置成功"
 let Defined_link_failed = "联动配置失败"
 let Defined_link_title = "联动配置"
+let Defined_link_title1 = "取消联动配置"
 
 let Defined_delay_update = "延时配置成功"
 let Defined_delay_failed = "延时配置失败"
