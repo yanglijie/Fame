@@ -31,7 +31,7 @@ let Defined_ALERT_del2 = "确定要删除此设备？"
 
 let Defined_SA_btns = ["灯光","智能电机","空调","影音","移动智能","智能浴霸","智能门锁","风机控制"]
 let Defined_SS_btns = ["温湿监测","门窗磁","运动感应","燃气报警","烟雾报警","漏水检测","情景模式面板","空气质量"]
-let Defined_SS_icons = ["0","gas_03.png","move_03.png","gas_03.png","smork_03.png"]
+let Defined_SS_icons = ["0","gas_03.png","move_03.png","gas_03.png","smork_03.png","0","0","smork_03.png"]
 
 let Defined_VC6_AlertTitle="提示"
 let Defined_VC6_AlertMessage="设备自动添加过程将会持续40秒左右"
@@ -76,7 +76,7 @@ let Defined_mode_title = "情景模式配置"
 let Defined_link_update = "联动配置成功"
 let Defined_link_failed = "联动配置失败"
 let Defined_link_title = "联动配置"
-let Defined_link_title1 = "取消联动配置"
+let Defined_link_title1 = "恢复联动配置"
 
 let Defined_delay_update = "延时配置成功"
 let Defined_delay_failed = "延时配置失败"
@@ -123,6 +123,7 @@ let Defined_SS_Title1 = "设 置 联 动"
 let Defined_SS_Title2 = "设置延时联动"
 let Defined_SS_Title3 = "设置延时时间"
 let Defined_SS_Title4 = "取        消"
+
 
 let Defined_SS_air_Title1 = "修改名字"
 let Defined_SS_air_Title2 = "删除设备"

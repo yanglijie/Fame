@@ -403,7 +403,8 @@ class ViewControllerSUTimerCell: UIViewController,UIPickerViewDataSource,UIPicke
         print("currentDic")
         print(FAME.tempTimerArrayContent)
         //time
-        
+        if !(FAME.tempTimerArrayContent.isEmpty){
+  
         for i in 0...6 {
             let dayString = FAME.tempTimerArrayContent["d\(i)"]!
             print(Int(dayString)!)
@@ -422,7 +423,7 @@ class ViewControllerSUTimerCell: UIViewController,UIPickerViewDataSource,UIPicke
             
         }
         
-        
+        }
 
         //self.Date.minimumDate = now
         

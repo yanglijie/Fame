@@ -44,9 +44,8 @@ var FAME = fame()
 
 class fame:NSObject{
     
-    //联动
+    //联动标记
     var link_id :Int! = 0
-    
     //修改设备名称
     var dev_ss_name :String!
     var dev_ss_Rname :String!
@@ -112,7 +111,7 @@ class fame:NSObject{
     var tempTimerArrayID:Int = -1
     var theTimeInterval:NSTimeInterval = 0
     
-    var tempTimerArrayContent:Dictionary<String,String>= [:]
+    var tempTimerArrayContent:Dictionary<String,String> = [:]
     
     var sensors23:Array<Dictionary<String,String>> = []
     var sensors24:Array<Dictionary<String,String>> = []
@@ -779,15 +778,16 @@ class fame:NSObject{
                 
                 switch dev_type {
                 case 23 :
-                    self.sensors23.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                    self.sensors23.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 24 :
-                    self.sensors24.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                    self.sensors24.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 25 :
-                    self.sensors25.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                    self.sensors25.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 26 :
-                    self.sensors26.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                    self.sensors26.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 32 :
-                    self.sensors32.append(["name":"\(name)","roomName":"\(roomName)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                    self.sensors32.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+//                    self.sensors32.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 default:
                     
                     break
@@ -1243,21 +1243,23 @@ class fame:NSObject{
     func showMessage(str:String){
         
         let window :UIWindow! = UIApplication.sharedApplication().keyWindow;
-        let showView :UIView! = UIView(frame: CGRect(x: (window.frame.size.width*0.7)/2, y: (window.frame.size.height-30)/2 , width: window.frame.size.width*0.7, height: 30 ));
-        showView.backgroundColor = UIColor.whiteColor();
+        
+        let showView :UIView! = UIView(frame: CGRect(x: (window.frame.size.width*0.35)/2, y: (window.frame.size.height-30)/2 , width: window.frame.size.width*0.6, height: 30 ));
+        showView.backgroundColor = UIColor.blackColor();
         showView.alpha = 1.0;
         showView.layer.cornerRadius = 5.0;
         showView.layer.masksToBounds = true ;
         window .addSubview(showView);
         
-        let lable : UILabel! = UILabel(frame: CGRect(x: (showView.frame.size.width*0.7)/2, y: 5 , width: showView.frame.size.width*0.7, height: 20 ));
+        let lable : UILabel! = UILabel(frame: CGRect(x: (showView.frame.size.width-100)/2, y: 5 , width: 150, height: 20 ));
         lable.text = str;
+        lable.textColor = UIColor.whiteColor() ;
         lable.backgroundColor = UIColor.clearColor() ;
         showView .addSubview(lable) ;
         
 
 
-        UIView.animateWithDuration(2, animations: { () -> Void in
+        UIView.animateWithDuration(3, animations: { () -> Void in
             showView.alpha = 0;
             }) { (flase) -> Void in
                 showView.removeFromSuperview();

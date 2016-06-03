@@ -386,6 +386,7 @@ class ViewControllerMainSS: UIViewController {
             
             btn.addTarget(self, action: "tap:", forControlEvents: UIControlEvents.TouchUpInside)
             btn.tag = idx
+
             
             view0.addSubview(btn)
             view0.addSubview(btnLable)
@@ -420,10 +421,11 @@ class ViewControllerMainSS: UIViewController {
         }
         
         //空气质量
-        else if sender.tag == 7 {
-            next = GBoard.instantiateViewControllerWithIdentifier("viewSS7") as UIViewController
-            
-        }else{
+//        else if sender.tag == 7 {
+//            next = GBoard.instantiateViewControllerWithIdentifier("viewSS7") as UIViewController
+//            
+//        }
+        else{
             next = GBoard.instantiateViewControllerWithIdentifier("viewSS") as UIViewController
         }
 

@@ -26,6 +26,12 @@ class UIButton2:UIButton {
     var dev_id:Int = 0
     var id:Int = 0
 }
+class UIButtonIndex2:UIButton {
+    var act_id:Int = 0
+    var dev_id:Int = 0
+    var id:Int = 0
+    var index:Int = 0
+}
 
 class UISwitch2 :UISwitch {
     var act_id:Int = 0

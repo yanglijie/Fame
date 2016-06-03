@@ -15,7 +15,7 @@
 
 import UIKit
 
-class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource,UIPickerViewDelegate {
+class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource,UIPickerViewDelegate,ViewControllerSS7air6Delegate,ViewControllerSS_nameDelegate {
     var BGView:UIView!
     var pickView:UIView!
     
@@ -23,6 +23,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     var pickView2:UIView!
     
     var showId:Int = 0
+    var index:Int = 0
     
     var viewSlider:UISlider!
     var picker:UIPickerView!
@@ -41,19 +42,19 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     
     
     
-    @IBAction func longPressFun(sender: UILongPressGestureRecognizer) {
-        /*
-        if sender.state == UIGestureRecognizerState.Began {
-        let point:CGPoint = sender.locationInView(self.tabelVeiw)
-        let indexPath:NSIndexPath! = self.tabelVeiw.indexPathForRowAtPoint(point)
-        if(indexPath != nil){
-        let cell:UITableViewCell2! = self.tabelVeiw.cellForRowAtIndexPath(indexPath) as UITableViewCell2
-        println(cell.dev_id)
-        
-        }
-        }
-        */
-    }
+//    @IBAction func longPressFun(sender: UILongPressGestureRecognizer) {
+//        /*
+//        if sender.state == UIGestureRecognizerState.Began {
+//        let point:CGPoint = sender.locationInView(self.tabelVeiw)
+//        let indexPath:NSIndexPath! = self.tabelVeiw.indexPathForRowAtPoint(point)
+//        if(indexPath != nil){
+//        let cell:UITableViewCell2! = self.tabelVeiw.cellForRowAtIndexPath(indexPath) as UITableViewCell2
+//        println(cell.dev_id)
+//        
+//        }
+//        }
+//        */
+//    }
     
     var ids = 0
     var id1 = -2
@@ -67,10 +68,23 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     var seletedStr1:String! = ""
     var seletedStr2:String! = ""
     var seletedStr3:String! = ""
-    var seletedBtn :UIButton2!
+    var seletedBtn :UIButtonIndex2!
     
     var sensors:Array<Dictionary<String,String>> = []
     
+    //代理
+    func showMessage(){
+        FAME.showMessage("门限设置成功");
+    }
+    func reloadName() {
+        FAME.showMessage("名字修改成功");
+        let subCell:AnyObject = self.tabelVeiw.visibleCells[index]
+            //print(subCell)
+        let cell = subCell as! UITableViewCell2
+        let name = cell.viewWithTag(2) as! UILabel
+        name.text = FAME.dev_ss_Rname + FAME.dev_ss_name ;
+
+    }
     @IBAction func tap(sender : UISwitch2) {
         print(sender.on)
         var act_id = sender.act_id
@@ -87,6 +101,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     }
     
     @IBOutlet var tabelVeiw : UITableView!
+    
     func refreshData(){
         switch FAME.tempSensorId {
         case 1:
@@ -97,6 +112,8 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             self.sensors = FAME.sensors25
         case 4:
             self.sensors = FAME.sensors26
+        case 7:
+            self.sensors = FAME.sensors32
         default:
             break
         }
@@ -145,12 +162,12 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             e_id = (dev_id - 85) * 3 + 3
         }
         
-        if action_id < 2 {
+        if FAME.link_id == 0 {
             let cmdStr = "{\"cmd\": 33, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id),\"filter_data\":[\(dev_id),11,17,\(alarm_value)],\"action_id\":\(0),\"active\":0}}"
             if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
                 print("link device successed")
                 let alert = UIAlertView()
-                alert.title = Defined_link_title
+                alert.title = Defined_link_title1
                 alert.message =  Defined_link_update
                 alert.addButtonWithTitle(Defined_ALERT_OK)
                 alert.show()
@@ -218,35 +235,86 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         let btnHeight:CGFloat = 30
         let btnY:CGFloat = 25
         
-        let btnS1 = UIButton(frame: CGRect(x: btnX, y: btnY, width: btnWidth, height: btnHeight))
-        btnS1.setTitle(Defined_SS_Title1, forState: UIControlState.Normal)
-        btnS1.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        //btnS1.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
-        btnS1.tag = 1
-        btnS1.addTarget(self, action: Selector("btns1Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
-        
-        let btnS2 = UIButton(frame: CGRect(x: btnX, y: btnY + 50, width: btnWidth, height: btnHeight))
-        btnS2.setTitle(Defined_SS_Title2, forState: UIControlState.Normal)
-        btnS2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        btnS2.tag = 2
-        //btnS2.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
-        btnS2.addTarget(self, action: Selector("btns2Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
-        
-        let btnS3 = UIButton(frame: CGRect(x: btnX, y: btnY + 100, width: btnWidth, height: btnHeight))
-        btnS3.setTitle(Defined_SS_Title3, forState: UIControlState.Normal)
-        btnS3.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
-        btnS3.tag = 3
-        btnS3.addTarget(self, action: Selector("btns3Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
-        
-        
-        let btnS4 = UIButton(frame: CGRect(x: btnX, y: btnY + 150, width: btnWidth, height: btnHeight))
-        btnS4.setTitle(Defined_SS_Title4, forState: UIControlState.Normal)
-        btnS4.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
-        btnS4.tag = 3
-        btnS4.addTarget(self, action: Selector("btns4Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
-        
+        if FAME.tempSensorId == 7{
+            let btnS1 = UIButton(frame: CGRect(x: btnX, y: btnY, width: btnWidth, height: btnHeight))
+            btnS1.setTitle(Defined_SS_air_Title1, forState: UIControlState.Normal)
+            btnS1.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            //btnS1.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS1.tag = 1
+            btnS1.addTarget(self, action: Selector("btns71Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            
+            let btnS2 = UIButton(frame: CGRect(x: btnX, y: btnY + 40, width: btnWidth, height: btnHeight))
+            btnS2.setTitle(Defined_SS_air_Title2, forState: UIControlState.Normal)
+            btnS2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            btnS2.tag = 2
+            //btnS2.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS2.addTarget(self, action: Selector("btns72Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            
+            let btnS3 = UIButton(frame: CGRect(x: btnX, y: btnY + 80, width: btnWidth, height: btnHeight))
+            btnS3.setTitle(Defined_SS_air_Title3, forState: UIControlState.Normal)
+            btnS3.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS3.tag = 3
+            btnS3.addTarget(self, action: Selector("btns1Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            
+            
+            let btnS4 = UIButton(frame: CGRect(x: btnX, y: btnY + 120, width: btnWidth, height: btnHeight))
+            btnS4.setTitle(Defined_SS_air_Title4, forState: UIControlState.Normal)
+            btnS4.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS4.tag = 4
+            btnS4.addTarget(self, action: Selector("btns74Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            let btnS5 = UIButton(frame: CGRect(x: btnX, y: btnY + 160, width: btnWidth, height: btnHeight))
+            btnS5.setTitle(Defined_SS_air_Title5, forState: UIControlState.Normal)
+            btnS5.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS5.tag = 5
+            btnS5.addTarget(self, action: Selector("btns75Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            
+            self.pickView1.addSubview(btnS1)
+            self.pickView1.addSubview(btnS2)
+            self.pickView1.addSubview(btnS3)
+            self.pickView1.addSubview(btnS4)
+            self.pickView1.addSubview(btnS5)
+
+        }
+        else{
+            let btnS1 = UIButton(frame: CGRect(x: btnX, y: btnY, width: btnWidth, height: btnHeight))
+            btnS1.setTitle(Defined_SS_Title1, forState: UIControlState.Normal)
+            btnS1.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            //btnS1.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS1.tag = 1
+            btnS1.addTarget(self, action: Selector("btns1Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            
+            let btnS2 = UIButton(frame: CGRect(x: btnX, y: btnY + 50, width: btnWidth, height: btnHeight))
+            btnS2.setTitle(Defined_SS_Title2, forState: UIControlState.Normal)
+            btnS2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            btnS2.tag = 2
+            //btnS2.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS2.addTarget(self, action: Selector("btns2Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            
+            let btnS3 = UIButton(frame: CGRect(x: btnX, y: btnY + 100, width: btnWidth, height: btnHeight))
+            btnS3.setTitle(Defined_SS_Title3, forState: UIControlState.Normal)
+            btnS3.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS3.tag = 3
+            btnS3.addTarget(self, action: Selector("btns3Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            
+            
+            let btnS4 = UIButton(frame: CGRect(x: btnX, y: btnY + 150, width: btnWidth, height: btnHeight))
+            btnS4.setTitle(Defined_SS_Title4, forState: UIControlState.Normal)
+            btnS4.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS4.tag = 4
+            btnS4.addTarget(self, action: Selector("btns4Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            
+            
+            self.pickView1.addSubview(btnS1)
+            self.pickView1.addSubview(btnS2)
+            self.pickView1.addSubview(btnS3)
+            self.pickView1.addSubview(btnS4)
+
+        }
         //picker
         
         
@@ -305,10 +373,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         self.pickView.addSubview(self.pickView2)
         
         
-        self.pickView1.addSubview(btnS1)
-        self.pickView1.addSubview(btnS2)
-        self.pickView1.addSubview(btnS3)
-        self.pickView1.addSubview(btnS4)
+        
         
         self.pickView2.addSubview(self.picker)
         self.pickView2.addSubview(btn)
@@ -353,22 +418,80 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             
             }, completion: nil)
     }
-    
+    //设置联动
     func btns1Fun(sender:UIButton){
         self.showId = 0
+        FAME.link_id = 1
         self.showVIew2()
     }
+    //恢复联动
+    func btns74Fun(sender:UIButton){
+        self.showId = 0
+        FAME.link_id = 0
+        self.showVIew2()
+    }
+    //设置延时联动
     func btns2Fun(sender:UIButton){
         self.showId = 1
         self.showVIew2()
     }
+    //设置延时时间
     func btns3Fun(sender:UIButton){
         self.showId = 2
         self.showVIew2()
     }
+    //取消
     func btns4Fun(sender:UIButton){
         self.hidePop()
     }
+    //修改名字
+    func btns71Fun(sender:UIButton){
+        self.hidePop()
+        let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_name") as! ViewControllerSS_name
+        next.delegate = self ;
+        self.navigationController?.pushViewController(next, animated: true)
+        let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = item;
+    }
+    //删除设备
+    func btns72Fun(sender:UIButton){
+        self.hidePop()
+        let alertController = UIAlertController(title: "友情提示", message: "请输入密码删除该设备", preferredStyle: UIAlertControllerStyle.Alert);
+        alertController.addTextFieldWithConfigurationHandler {
+            (textField: UITextField!) -> Void in
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
+        let okAction = UIAlertAction(title: "好的", style: .Default,
+            handler: {
+                action in
+                //也可以用下标的形式获取textField let login = alertController.textFields![0]
+                let login = alertController.textFields!.first! as UITextField
+                print("用户名：\(login.text)")
+                let cmdStr = "{\"cmd\": 30, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":[{\"ieee_addr\":\"\(login.text! as String)\"}]}"
+                if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+                    
+                    print(recevied)
+                }
+                
+                
+                
+        })
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+
+    }
+    //修改门限值
+    func btns75Fun(sender:UIButton){
+        self.hidePop()
+        let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_air6") as! ViewControllerSS7air6
+        next.delegate = self ;
+        self.navigationController?.pushViewController(next, animated: true)
+        let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = item;
+    }
+    
+    
     
     func actAddBtn(sender:UIButton){
         
@@ -470,8 +593,9 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         self.hidePop()
     }
-    @IBAction func showSheet(sender : UIButton2) {
+    @IBAction func showSheet(sender : UIButtonIndex2) {
         self.seletedBtn = sender
+        index = sender.index ;
         self.showPop()
     }
     
@@ -637,10 +761,11 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         if (received != nil){
             //got the state
             for values:AnyObject in received.valueForKey("states") as! NSArray {
-                print(values)
+                //print(values)
                 let AddedObj = values as! NSDictionary
                 let ADDieee_addr :Int!  = AddedObj.valueForKey("id") as! Int
                 let ADDflag :Int!  = AddedObj.valueForKey("state") as! Int
+                //let nameFlag :String?  = AddedObj.valueForKey("name") as! String
                 var id = ADDieee_addr * 10
                 
                 
@@ -656,7 +781,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             //set the state
             
             for subCell:AnyObject in self.tabelVeiw.visibleCells {
-                print(subCell)
+                //print(subCell)
                 let cell = subCell as! UITableViewCell2
                 let view = cell.viewWithTag(3) as! UISwitch2!
                 
@@ -680,6 +805,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         
     }
+   
     override func viewWillDisappear(animated: Bool){
         super.viewWillDisappear(animated)
         self.tabelVeiw.setEditing(false, animated: false)
@@ -694,18 +820,28 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         tableView
         let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell2
-        cell.backgroundColor = UIColor.clearColor()
+        //cell.backgroundColor = UIColor.clearColor()
+        cell.selectionStyle = UITableViewCellSelectionStyle.None ;
         print(self.sensors)
         let dev_Str:String! = self.sensors[indexPath.row]["dev_id"] as String!
         let dev_id:Int! = Int(dev_Str)
+        FAME.dev_id = dev_id ;
         
         cell.dev_id = dev_id
         
         cell.id = dev_id * 10 + FAME.tempSensorId
         //name
         let name = cell.viewWithTag(2) as! UILabel
-        name.text = self.sensors[indexPath.row]["name"]
-        
+        if FAME.tempSensorId == 7{
+            let name_Str:String! = self.sensors[indexPath.row]["name1"] as String!
+            let roomName_Str:String! = self.sensors[indexPath.row]["roomName"] as String!
+            FAME.dev_ss_name = name_Str
+            FAME.dev_ss_Rname = roomName_Str
+            name.text = roomName_Str + name_Str ;
+        }
+        else{
+            name.text = self.sensors[indexPath.row]["name"]
+        }
         //icon
         
         let view = cell.viewWithTag(1) as! UIImageView
@@ -736,8 +872,8 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         //button
         
-        let linkBtn = cell.viewWithTag(4) as! UIButton2!
-        
+        let linkBtn = cell.viewWithTag(4) as! UIButtonIndex2!
+        linkBtn.index = indexPath.row ;
         linkBtn.act_id = act_id
         linkBtn.dev_id = dev_id
         print("linkBtn.Dev_id:\(linkBtn.dev_id)")
@@ -749,7 +885,32 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         return 100
         
     }
-    
+
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+        
+        print(indexPath)
+        switch FAME.tempSensorId {
+        case 7:
+            let showId = self.sensors[indexPath.row]
+            let next = GBoard.instantiateViewControllerWithIdentifier("viewSS7Details") as UIViewController
+            //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
+            next.title=showId["name"]
+            let dev_Str:String! = showId["dev_id"] as String!
+            FAME.dev_id = Int(dev_Str)
+            self.navigationController?.pushViewController(next, animated: true)
+            let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
+            self.navigationItem.backBarButtonItem = item;
+        default:
+            break
+        }
+
+//        let next = GBoard.instantiateViewControllerWithIdentifier("viewCell") as UIViewController
+//        //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
+//        
+//        self.navigationController?.pushViewController(next, animated: true)
+    }
+
     
     //*****DELETE
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle{
@@ -1234,19 +1395,6 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
                 if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
                     
                     print(recevied)
-                    if recevied["result"] as! NSObject == 0{
-                    let cmdStr1 = "{\"cmd\": 35, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did)}"
-                    if let recevied1 = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr1,timeout:90){
-                        if recevied["result"] as! NSObject == 0
-                        {
-                            FAME.showMessage("退网成功");
-                        }
-                        else
-                        {
-                            FAME.showMessage("退网失败");
-                        }
-                    }
-                    }
                 }
 
                 
@@ -1261,7 +1409,7 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
     func btns3Fun(sender:UIButton){
         self.popView.hidden = true;
         let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_link") as UIViewController
-        FAME.link_id = 1;
+        
         self.navigationController?.pushViewController(next, animated: true)
         let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = item;
@@ -1269,7 +1417,7 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
     func btns4Fun(sender:UIButton){
         self.popView.hidden = true;
         let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_link") as UIViewController
-        FAME.link_id = 0;
+        
         self.navigationController?.pushViewController(next, animated: true)
         let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = item;
@@ -1605,10 +1753,14 @@ class ViewControllerSS7Detail: UIViewController {
 
 
 }
+protocol ViewControllerSS_nameDelegate{
+    func reloadName();
+}
 class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate {
     var popView:UIView!
     var nameArray:Array<String> = []
     var count:Int! = 0
+    var delegate :ViewControllerSS_nameDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1653,6 +1805,9 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         room_name.text = self.nameArray[count];
         let name:String = dev_name.text as String!
         
+        FAME.dev_ss_name = name ;
+        FAME.dev_ss_Rname = room_name.text ;
+        
         let cmdStr = "{\"cmd\": 47,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"name\": \"\(name)\",\"room\":\(count)}"
         if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
             
@@ -1660,6 +1815,7 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
             if recevied["result"] as! NSObject == 0
             {
                 //fame.showMessage("111111");
+                self.delegate?.reloadName();
                 self.navigationController?.popViewControllerAnimated(true);
             }
         }
@@ -1740,12 +1896,17 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
     
 }
 
+protocol ViewControllerSS7air6Delegate{
+    func showMessage();
+}
+
 //修改门限值
 class ViewControllerSS7air6: UIViewController {
+    var delegate :ViewControllerSS7air6Delegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = FAME.dev_ss_Rname + FAME.dev_ss_name ;
+        self.title = FAME.dev_ss_name ;
         // Do any additional setup after loading the view, typically from a nib.
         
         let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
@@ -1771,6 +1932,7 @@ class ViewControllerSS7air6: UIViewController {
             
             if recevied["result"] as! NSObject == 0
             {
+                self.delegate?.showMessage() ;
                 self.navigationController?.popViewControllerAnimated(true);
             }
         }
