@@ -50,6 +50,7 @@ class fame:NSObject{
     var dev_ss_name :String!
     var dev_ss_Rname :String!
     
+    
     var dev_id :Int! = 0
     
     var msgs :Array<String>= []
@@ -778,13 +779,13 @@ class fame:NSObject{
                 
                 switch dev_type {
                 case 23 :
-                    self.sensors23.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                    self.sensors23.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 24 :
-                    self.sensors24.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                    self.sensors24.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 25 :
-                    self.sensors25.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                    self.sensors25.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 26 :
-                    self.sensors26.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                    self.sensors26.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 32 :
                     self.sensors32.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
 //                    self.sensors32.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
@@ -1244,7 +1245,7 @@ class fame:NSObject{
         
         let window :UIWindow! = UIApplication.sharedApplication().keyWindow;
         
-        let showView :UIView! = UIView(frame: CGRect(x: (window.frame.size.width*0.35)/2, y: (window.frame.size.height-30)/2 , width: window.frame.size.width*0.6, height: 30 ));
+        let showView :UIView! = UIView(frame: CGRect(x: (window.frame.size.width*0.35)/2, y: (window.frame.size.height-30)-30 , width: window.frame.size.width*0.6, height: 30 ));
         showView.backgroundColor = UIColor.blackColor();
         showView.alpha = 1.0;
         showView.layer.cornerRadius = 5.0;

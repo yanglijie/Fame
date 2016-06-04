@@ -121,6 +121,9 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        self.automaticallyAdjustsScrollViewInsets = false ;
+        
         self.refreshData()
         self.createPop()
         
@@ -163,31 +166,42 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         }
         
         if FAME.link_id == 0 {
-            let cmdStr = "{\"cmd\": 33, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id),\"filter_data\":[\(dev_id),11,17,\(alarm_value)],\"action_id\":\(0),\"active\":0}}"
+            let cmdStr = "{\"cmd\": 33, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id),\"filter_data\":[\(dev_id),11,17,\(alarm_value)],\"action_id\":\(action_id),\"active\":0}}"
             if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
                 print("link device successed")
-                let alert = UIAlertView()
-                alert.title = Defined_link_title1
-                alert.message =  Defined_link_update
-                alert.addButtonWithTitle(Defined_ALERT_OK)
-                alert.show()
-            }else{
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    let alert = UIAlertView()
+                    alert.title = Defined_link_title1
+                    alert.message =  Defined_link_update
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+
+                })
+                }
+            else{
                 print("link event failed")
-                let alert = UIAlertView()
-                alert.title = Defined_link_title
-                alert.message =  Defined_link_failed
-                alert.addButtonWithTitle(Defined_ALERT_OK)
-                alert.show()
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    let alert = UIAlertView()
+                    alert.title = Defined_link_title1
+                    alert.message =  Defined_link_update
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    
+                })
             }
         }else{
             let cmdStr = "{\"cmd\": 33, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id),\"filter_data\":[\(dev_id),11,17,\(alarm_value)],\"action_id\":\(action_id),\"active\":1}}"
             if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
                 print("link device successed")
-                let alert = UIAlertView()
-                alert.title = Defined_link_title
-                alert.message =  Defined_link_update
-                alert.addButtonWithTitle(Defined_ALERT_OK)
-                alert.show()
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    let alert = UIAlertView()
+                    alert.title = Defined_link_title
+                    alert.message =  Defined_link_update
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    
+                })
                 
             }else{
                 
@@ -302,11 +316,11 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             
             
             let btnS4 = UIButton(frame: CGRect(x: btnX, y: btnY + 150, width: btnWidth, height: btnHeight))
-            btnS4.setTitle(Defined_SS_Title4, forState: UIControlState.Normal)
+            btnS4.setTitle(Defined_SS_air_Title1, forState: UIControlState.Normal)
             btnS4.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
             //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
             btnS4.tag = 4
-            btnS4.addTarget(self, action: Selector("btns4Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            btnS4.addTarget(self, action: Selector("btns71Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
             
             
             self.pickView1.addSubview(btnS1)
@@ -449,6 +463,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         self.hidePop()
         let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_name") as! ViewControllerSS_name
         next.delegate = self ;
+        
         self.navigationController?.pushViewController(next, animated: true)
         let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = item;
@@ -832,16 +847,13 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         cell.id = dev_id * 10 + FAME.tempSensorId
         //name
         let name = cell.viewWithTag(2) as! UILabel
-        if FAME.tempSensorId == 7{
-            let name_Str:String! = self.sensors[indexPath.row]["name1"] as String!
-            let roomName_Str:String! = self.sensors[indexPath.row]["roomName"] as String!
-            FAME.dev_ss_name = name_Str
-            FAME.dev_ss_Rname = roomName_Str
-            name.text = roomName_Str + name_Str ;
-        }
-        else{
-            name.text = self.sensors[indexPath.row]["name"]
-        }
+ 
+        let name_Str:String! = self.sensors[indexPath.row]["name1"] as String!
+        let roomName_Str:String! = self.sensors[indexPath.row]["roomName"] as String!
+        FAME.dev_ss_name = name_Str
+        FAME.dev_ss_Rname = roomName_Str
+        name.text = roomName_Str + name_Str ;
+      
         //icon
         
         let view = cell.viewWithTag(1) as! UIImageView
@@ -1765,15 +1777,16 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        self.title = FAME.dev_ss_name
         self.nameArray = FAME.rooms;
+        
         for(var i = 0; i < self.nameArray.count ; i++){
             if FAME.dev_ss_Rname == self.nameArray[i]{
                 count = i ;
             }
         }
         
-        print(String(self.nameArray));
+        print(FAME.dev_ss_Rname);
         let dev_name = self.view.viewWithTag(18) as! UITextField!;
         dev_name.text = FAME.dev_ss_name ;
         
@@ -1785,7 +1798,7 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         sure_button .addTarget(self, action: Selector("sureClick:"), forControlEvents: UIControlEvents.TouchUpInside);
         
         let room_name = self.view.viewWithTag(20) as! UILabel!;
-        room_name.text = self.nameArray[count];
+        room_name.text = FAME.dev_ss_Rname;
         
     }
     
