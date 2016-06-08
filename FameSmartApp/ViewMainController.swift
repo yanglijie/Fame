@@ -37,7 +37,7 @@ class ViewControllerMainSA: UIViewController {
         let view0 :UIView = self.view.viewWithTag(10)!
         view0.frame.size.width = self.view.frame.size.width - 60
         
-        let viewWidth = self.view.frame.size.width - 60
+        //let viewWidth = self.view.frame.size.width - 60
         
         let divW:CGFloat = 0.27
         
@@ -243,7 +243,7 @@ class ViewControllerMainP: UIViewController {
             
             //gesture
             if idx < self.btns_count {
-                let longPressRec = UILongPressGestureRecognizer()
+                let longPressRec = UITapGestureRecognizer()
                 longPressRec.addTarget(self, action: "longPress:")
                 btn.addGestureRecognizer(longPressRec)
                 btn.userInteractionEnabled = true
@@ -420,11 +420,11 @@ class ViewControllerMainSS: UIViewController {
             next = GBoard.instantiateViewControllerWithIdentifier("viewSS1") as UIViewController
         }
         
-        //空气质量
-//        else if sender.tag == 7 {
-//            next = GBoard.instantiateViewControllerWithIdentifier("viewSS7") as UIViewController
-//            
-//        }
+        //情景模式面板
+        else if sender.tag == 6 {
+            next = GBoard.instantiateViewControllerWithIdentifier("viewSS6") as UIViewController
+            
+        }
         else{
             next = GBoard.instantiateViewControllerWithIdentifier("viewSS") as UIViewController
         }

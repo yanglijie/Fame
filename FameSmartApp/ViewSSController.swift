@@ -87,7 +87,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     }
     @IBAction func tap(sender : UISwitch2) {
         print(sender.on)
-        var act_id = sender.act_id
+        //var act_id = sender.act_id
         let id = sender.dev_id * 10 + FAME.tempSensorId
         if sender.on {
             FAME.sensorsCellState["\(id)"] = 1
@@ -125,7 +125,18 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         self.automaticallyAdjustsScrollViewInsets = false ;
         
         self.refreshData()
+        if self.sensors.count == 0 {
+            
+            let showLabel = UILabel(frame:CGRect(x: self.view.frame.width * 0.1, y: 100, width: self.view.frame.width * 0.8, height: 50))
+            showLabel.text = ""
+            
+        
+        }
+        
         self.createPop()
+        
+
+        
         
         self.Links1 = []
         if FAME.Links.count > 0 {
@@ -151,7 +162,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     }
     
     func Timerset(){
-        let event_id = FAME.tempSensorId
+        //let event_id = FAME.tempSensorId
         let dev_id = Int(self.seletedBtn.dev_id)
         let action_id = self.ids
         var alarm_value = 1
@@ -167,7 +178,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         if FAME.link_id == 0 {
             let cmdStr = "{\"cmd\": 33, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id),\"filter_data\":[\(dev_id),11,17,\(alarm_value)],\"action_id\":\(action_id),\"active\":0}}"
-            if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+            if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
                 print("link device successed")
                 
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -192,7 +203,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             }
         }else{
             let cmdStr = "{\"cmd\": 33, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id),\"filter_data\":[\(dev_id),11,17,\(alarm_value)],\"action_id\":\(action_id),\"active\":1}}"
-            if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+            if  (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
                 print("link device successed")
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     let alert = UIAlertView()
@@ -557,7 +568,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     }
     
     func privateCmd(){
-        if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: self.tmpStr,timeout:8){
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: self.tmpStr,timeout:8) != nil){
             print("delay-set successed")
             let alert = UIAlertView()
             alert.title = Defined_delay_title
@@ -611,7 +622,10 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     @IBAction func showSheet(sender : UIButtonIndex2) {
         self.seletedBtn = sender
         index = sender.index ;
+        let roomName_Str:String! = self.sensors[index]["roomName"] as String!
+        FAME.dev_ss_Rname = roomName_Str ;
         self.showPop()
+        
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
@@ -758,8 +772,9 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     }
     func Timerset2(){
         
-        var paramArray = NSMutableArray()
+        let paramArray = NSMutableArray()
         var lastId = "0"
+        
         for value in self.sensors {
             let AddedObj = value as NSDictionary
             let dev_id:NSString! = AddedObj["dev_id"] as! NSString
@@ -771,7 +786,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         let param = paramArray.componentsJoinedByString(",")
         
-        var received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 90)
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 90)
         
         if (received != nil){
             //got the state
@@ -852,7 +867,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         let roomName_Str:String! = self.sensors[indexPath.row]["roomName"] as String!
         FAME.dev_ss_name = name_Str
         FAME.dev_ss_Rname = roomName_Str
-        name.text = roomName_Str + name_Str ;
+        name.text = FAME.dev_ss_Rname + FAME.dev_ss_name ;
       
         //icon
         
@@ -1059,7 +1074,7 @@ class ViewControllerSS2: UIViewController,UITableViewDataSource,UITableViewDeleg
         
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String!{
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
         
         //var objRooms :NSArray = FAME.device_table.valueForKey("rooms") as NSArray
         
@@ -1084,7 +1099,7 @@ class ViewControllerSS2: UIViewController,UITableViewDataSource,UITableViewDeleg
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         tableView
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
         cell.backgroundColor = UIColor.clearColor()
         
         return cell
@@ -1127,7 +1142,7 @@ class ViewControllerSS3: UIViewController,UITableViewDataSource,UITableViewDeleg
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         tableView
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
         cell.backgroundColor = UIColor.clearColor()
         
         return cell
@@ -1171,7 +1186,7 @@ class ViewControllerSS4: UIViewController,UITableViewDataSource,UITableViewDeleg
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         tableView
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
         cell.backgroundColor = UIColor.clearColor()
         
         return cell
@@ -1215,7 +1230,7 @@ class ViewControllerSS5: UIViewController,UITableViewDataSource,UITableViewDeleg
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         tableView
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
         cell.backgroundColor = UIColor.clearColor()
         
         return cell
@@ -1302,7 +1317,7 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
         
         self.popView.hidden = true;
         
-        var tapGesture = UITapGestureRecognizer(target: self, action: "handleTapGesture:")
+        let tapGesture = UITapGestureRecognizer(target: self, action: "handleTapGesture:")
         //设置手势点击数,双击：点2下
         tapGesture.numberOfTapsRequired = 1
         tapGesture.delegate = self ;
@@ -1958,6 +1973,149 @@ class ViewControllerSS7air6: UIViewController {
         //        myThread.start()
         
     }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
+    }
+    
+    
+}
+class ViewControllerSS6: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
+ 
+    var BGView:UIView!
+    var pickView:UIView!
+    var picker:UIPickerView!
+    var seletedStr:String! = ""
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+       
+        // Do any additional setup after loading the view, typically from a nib.
+        
+//        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
+//        self.navigationItem.rightBarButtonItem = addButton
+        
+        let view = self.view.viewWithTag(51) as UIView!
+        view.layer.borderColor=UIColor.whiteColor().CGColor;
+        view.layer.borderWidth = 1;
+        view.layer.cornerRadius=10;
+        let searchButton = self.view.viewWithTag(503) as! UIButton!
+        searchButton.addTarget(self, action: Selector("actAddBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        
+    }
+    func actAddBtn(sender:UIButton!){
+        
+        print("点击了添加按钮")
+        self .createPop() ;
+        
+    }
+    func selectedActBtn(sender : AnyObject){
+        
+        
+//        print("\(self.seletedStr1)\(self.seletedStr2)\(self.seletedStr3)")
+//        let str:String! = "\(self.seletedStr1)\(self.seletedStr2)\(self.seletedStr3)";
+//        let addClick = self.view.viewWithTag(53) as! UIButton!;
+//        addClick.setTitle(str, forState: UIControlState.Normal)
+        
+        self.BGView.hidden = true ;
+        
+        
+        
+    }
+
+    func cancleActBtn( sender : AnyObject){
+        
+        print("cancleActBtn")
+        
+        self.BGView.hidden = true ;
+    }
+    func tapPress( sender : AnyObject){
+        
+        print("cancleActBtn")
+        //roomSheet.dismissWithClickedButtonIndex(1, animated: true)
+        
+        self.BGView.hidden = true ;
+    }
+    func createPop(){
+        
+        self.BGView = UIView(frame: CGRect(x: 0, y: 0 , width: self.view.frame.width, height: self.view.frame.height))
+        self.BGView.backgroundColor = UIColor.clearColor()
+        
+        
+        //cancel
+        
+        let tapPressRec = UITapGestureRecognizer()
+        tapPressRec.addTarget(self, action: "tapPress:")
+        
+        self.BGView.addGestureRecognizer(tapPressRec)
+        
+        self.BGView.userInteractionEnabled = true
+        
+        
+        
+        self.pickView = UIView(frame: CGRect(x: 0, y: self.BGView.frame.height-300 , width: self.BGView.frame.width, height: 300 ))
+        self.pickView.backgroundColor = UIColor.whiteColor()
+        
+        
+        
+        //picker
+        
+        
+        
+        let btn = UIButton(frame: CGRect(x: self.view.frame.width - 60, y: 20, width: 40, height: 20))
+        btn.setTitle("\(Defined_ALERT_OK)", forState: UIControlState.Normal)
+        btn.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        btn.tag = 1
+        btn.addTarget(self, action: Selector("selectedActBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        let btn2 = UIButton(frame: CGRect(x: 20, y: 20, width: 40, height: 20))
+        btn2.setTitle(Defined_ALERT_CANCEL, forState: UIControlState.Normal)
+        btn2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        btn2.tag = 2
+        btn2.addTarget(self, action: Selector("cancleActBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        self.picker = UIPickerView(frame: CGRect(x: 20, y: 40, width: pickView.frame.width - 40 , height: 230))
+        
+        self.picker.dataSource = self
+        self.picker.delegate = self
+        self.picker.backgroundColor = UIColor.clearColor() ;
+        
+        
+        //self.pickView.addSubview(self.pickView2)
+        self.pickView.addSubview(self.picker)
+        self.pickView.addSubview(btn)
+        self.pickView.addSubview(btn2)
+        
+        //self.BGView.hidden = true ;
+        self.view.addSubview(self.BGView)
+        self.BGView.addSubview(self.pickView)
+    }
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
+        
+        self.seletedStr = FAME.models[row]["name"] as String!
+        print("pickerView selected:\(self.seletedStr)")
+        
+    }
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int)->Int {
+        return FAME.models.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return FAME.models[row]["name"] as String!
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

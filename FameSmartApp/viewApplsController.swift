@@ -258,7 +258,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     }
     
     func privateCmd(){
-        if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: self.tmpStr,timeout:8){
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: self.tmpStr,timeout:8) != nil){
             print("link-set successed")
             let alert = UIAlertView()
             alert.title = Defined_link_title
@@ -348,7 +348,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     }
     */
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String!{
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
         return FAME.linkYB[row]["name"]
 
     }
@@ -577,7 +577,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         tableView.reloadData()
     }
     
-    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath!) -> String! {
+    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
         
         return Defined_Delete
         
@@ -737,14 +737,14 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
         
         
     }
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat{
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
         
         return 100
         
     }
 
     
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCellEditingStyle{
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle{
         
         return UITableViewCellEditingStyle.Delete
     }
@@ -768,7 +768,7 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
         tableView.reloadData()
     }
 
-    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath!) -> String! {
+    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
         
         return Defined_Delete
 
@@ -858,9 +858,9 @@ class ViewControllerApplas: UIViewController {
         print(FAME.saActid4)
         
         let applObj = FAME.appls[FAME.saActid4] as NSDictionary
-        let appName:String! = applObj["name"] as! String
+        //let appName:String! = applObj["name"] as! String
         let appActid:String! = applObj["act_id"] as! String
-        let appIeee:String! = applObj["ieee"] as! String
+        //let appIeee:String! = applObj["ieee"] as! String
         let appType:String! = applObj["dev_type"] as! String
         
         print(appType)
@@ -911,7 +911,7 @@ class ViewControllerCurtains: UIViewController {
         print(FAME.saActid2)
         
         let curObj = FAME.curtains[FAME.saActid2] as NSDictionary
-        let curName:String! = curObj["name"] as! String
+        //let curName:String! = curObj["name"] as! String
         let curDevid:String! = curObj["dev_id"] as! String
         self.dev_id = Int(curDevid)!
     }
@@ -951,10 +951,10 @@ class ViewControllerCurtains: UIViewController {
         
         
         //btns
-        let btnX:CGFloat = 30
-        let btnWidth:CGFloat = self.view.frame.width - btnX * 2
-        let btnHeight:CGFloat = 30
-        let btnY:CGFloat = 25
+        //let btnX:CGFloat = 30
+        //let btnWidth:CGFloat = self.view.frame.width - btnX * 2
+        //let btnHeight:CGFloat = 30
+        //let btnY:CGFloat = 25
         
         let btn = UIButton(frame: CGRect(x: self.view.frame.width - 60, y: 20, width: 40, height: 20))
         btn.setTitle("\(Defined_ALERT_OK)", forState: UIControlState.Normal)
@@ -1067,7 +1067,7 @@ class ViewControllerCurtains: UIViewController {
     }
     
     func privateCmd(){
-        if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: self.tmpStr,timeout:8){
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: self.tmpStr,timeout:8) != nil){
             print("delay-set successed")
             let alert = UIAlertView()
             alert.title = Defined_cur_title

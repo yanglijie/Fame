@@ -400,7 +400,8 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
     
         let hvStr = "FameSmart:\(self.inputHv.text)"
         let hvMd5Str:String = hvStr.md5().uppercaseString as String
-        let md5Str:String! = self.inputCK.text
+        //let md5Str:String! = self.inputCK.text
+        let md5Str:String! = FAME.fameIeee
         print(hvStr)
         print(hvMd5Str)
         print(md5Str)
@@ -1027,13 +1028,15 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
         let ieee = FAME.subString(str, A: 5, B: 23)
         let verify = FAME.subString(str, A: 36, B: 32)
 
-        
-        self.inputHv.text = ieee
-        self.inputCK.text = verify
-            
+        print("111111\(ieee)")
+//        self.inputHv.text = ieee as String
+//        self.inputCK.text = verify
+        FAME.fameIeee = ieee
+        FAME.verify = verify
             //get the Type
             let dl = httpRequert()
-            if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text)\"}"){
+            print("222222\(self.inputHv.text)")
+            if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(ieee)\"}"){
                 
                 self.model_id = received.valueForKey("model_id") as! UInt
                 self.inputType.text = received.valueForKey("model_name") as? String

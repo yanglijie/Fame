@@ -131,7 +131,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         let param = paramArray.componentsJoinedByString(",")
         
         let cmdStr = "{\"cmd\": 31, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"action_id\":\(FAME.tempMode),\"sub_actions\":[\(param)]}}"
-        if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
             print("link device successed")
             let alert = UIAlertView()
             alert.title = Defined_mode_title
@@ -344,7 +344,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String!{
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
         
         if component == 0 {
             

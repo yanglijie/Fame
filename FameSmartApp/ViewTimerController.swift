@@ -434,7 +434,7 @@ class ViewControllerSUTimerCell: UIViewController,UIPickerViewDataSource,UIPicke
             
             let timerTime:String = FAME.tempTimerArrayContent["time"]!
             let timeDate :NSDate! = FAME.dateFromString(timerTime, type: 0)
-            let timeTimeString:String = FAME.stringFromDate(timeDate, type: 2)
+            //let timeTimeString:String = FAME.stringFromDate(timeDate, type: 2)
             
             let name = FAME.tempTimerArrayContent["name"]!
             self.addTap.setTitle(name, forState: UIControlState.Normal)
@@ -567,7 +567,7 @@ class ViewControllerSUTimerCell: UIViewController,UIPickerViewDataSource,UIPicke
         
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String!{
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
                     let name:String = self.ids[row]["name"]!
             return name
 
@@ -618,7 +618,7 @@ class ViewControllerSUTimerCell: UIViewController,UIPickerViewDataSource,UIPicke
     @IBOutlet weak var btnAdd: UIButton!
     func addTimer(){
         let nC = FAME.tempTimerArrayContent
-        let index = Int(nC["index"]!)!
+        //let index = Int(nC["index"]!)!
         let enable = Int(nC["enable"]!)!
         let repeat_type = Int(nC["repeat_type"]!)!
 

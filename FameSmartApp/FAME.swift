@@ -50,6 +50,9 @@ class fame:NSObject{
     var dev_ss_name :String!
     var dev_ss_Rname :String!
     
+    var fameIeee:String!
+    var verify:String!
+    
     
     var dev_id :Int! = 0
     
@@ -763,13 +766,14 @@ class fame:NSObject{
                 let ieee :String  = DTsensor.valueForKey("ieee") as! String
                 
                 let dev_id : Int  =  DTsensor.valueForKey("dev_id") as! Int
+                    
                 let room:Int = DTsensor.valueForKey("room") as! Int
                 let dev_type:NSNumber = DTsensor.valueForKey("dev_type") as! NSNumber
                 
                 let roomName = self.rooms[room]
+                //let act_id:Array = DTsensor.valueForKey("act_id") as! Array
                 
                 act_id = (dev_id -  85) * 3 + 452
-                
                 if(value.valueForKey("action_ids") != nil ) {
                     acrArr = value.valueForKey("action_ids") as! NSArray
                     if(acrArr.count > 0){
@@ -795,7 +799,7 @@ class fame:NSObject{
                     
                 }
                 
-                
+                //print("2222222\(self.sensors25)")
                 FAME.deviceCount++
                 
                 FAME.idForNames[act_id + 1]=["name":"\(name)开","room":"\(roomName)","string":"\(roomName) \(name) 开","act_id":"\(act_id  + 1 )"]
