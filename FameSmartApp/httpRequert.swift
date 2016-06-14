@@ -42,6 +42,7 @@ class httpRequert : NSObject{
         print("CMD TO POST\n \(cmd)")
         let nsUrl=NSURL(string: url)
         let request = NSMutableURLRequest(URL: nsUrl!)
+        //request.encodeWithCoder(<#T##aCoder: NSCoder##NSCoder#>)
         request.timeoutInterval = timeout
         request.HTTPMethod = "POST"
         let bodyString = cmd as NSString
@@ -444,8 +445,21 @@ class httpRequert : NSObject{
     func checkAddedDevice() -> NSDictionary!{
         let cmdStr = "{\"cmd\": 29, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd )\", \"did\": \(FAME.user_did)}"
         if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr){
-            print("ckeck added device successed")
-            return recevied
+            if recevied["error_code"] as! NSObject == 0
+            {
+                print("ckeck added device successed")
+                return recevied
+            }
+            else{
+                let alert :UIAlertView = UIAlertView()
+                
+                alert.title = "入网失败"
+                alert.message = "中控正在忙，请稍后再试"
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+                return nil
+            }
+            
         }else{
             //println("ckeck added device failed")
             return nil

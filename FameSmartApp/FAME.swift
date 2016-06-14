@@ -121,6 +121,7 @@ class fame:NSObject{
     var sensors24:Array<Dictionary<String,String>> = []
     var sensors25:Array<Dictionary<String,String>> = []
     var sensors26:Array<Dictionary<String,String>> = []
+    var sensors30:Array<Dictionary<String,String>> = []
     var sensors32:Array<Dictionary<String,String>> = []
     
     
@@ -637,7 +638,7 @@ class fame:NSObject{
                         
                         
                         
-                            self.lights.append(["name":"\(roomName) \(name) \(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                            self.lights.append(["name":"\(roomName)\(name)\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         
                         
                         
@@ -742,6 +743,7 @@ class fame:NSObject{
         self.sensors24 = []
         self.sensors25 = []
         self.sensors26 = []
+        self.sensors30 = []
         self.sensors32 = []
         act_id = 460
         
@@ -771,7 +773,7 @@ class fame:NSObject{
                 let dev_type:NSNumber = DTsensor.valueForKey("dev_type") as! NSNumber
                 
                 let roomName = self.rooms[room]
-                //let act_id:Array = DTsensor.valueForKey("act_id") as! Array
+                
                 
                 act_id = (dev_id -  85) * 3 + 452
                 if(value.valueForKey("action_ids") != nil ) {
@@ -790,6 +792,8 @@ class fame:NSObject{
                     self.sensors25.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 26 :
                     self.sensors26.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                case 30 :
+                    self.sensors30.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 32 :
                     self.sensors32.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
 //                    self.sensors32.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
@@ -1049,19 +1053,19 @@ class fame:NSObject{
         return false
     }
     func checkAddedDevice(){
-        var received :NSDictionary! = httpRequert().checkAddedDevice()
+        let received :NSDictionary? = httpRequert().checkAddedDevice()
         print(received)
         if  (received != nil){
             //check the list
             print("checkAddedDevice")
             print(received)
             
-            for values:AnyObject in received.valueForKey("detail") as! NSArray {
+            for values:AnyObject in received!.valueForKey("detail") as! NSArray {
                 print(values)
                 let AddedObj = values as! NSDictionary
                 let ADDieee_addr :String!  = AddedObj.valueForKey("ieee_addr") as! String
                 let ADDflag :NSNumber  = AddedObj.valueForKey("flag") as! NSNumber
-                let Adddev_id:NSNumber = AddedObj.valueForKey("dev_id") as! NSNumber
+                //let Adddev_id:NSNumber = AddedObj.valueForKey("dev_id") as! NSNumber
                 
                 print("check:\(ADDieee_addr) addflag:\(ADDflag)")
                 //var isA = false
@@ -1256,7 +1260,7 @@ class fame:NSObject{
         showView.layer.masksToBounds = true ;
         window .addSubview(showView);
         
-        let lable : UILabel! = UILabel(frame: CGRect(x: (showView.frame.size.width-100)/2, y: 5 , width: 150, height: 20 ));
+        let lable : UILabel! = UILabel(frame: CGRect(x: (showView.frame.size.width-150)/2, y: 5 , width: 150, height: 20 ));
         lable.text = str;
         lable.textColor = UIColor.whiteColor() ;
         lable.backgroundColor = UIColor.clearColor() ;

@@ -127,8 +127,15 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         self.refreshData()
         if self.sensors.count == 0 {
             
-            let showLabel = UILabel(frame:CGRect(x: self.view.frame.width * 0.1, y: 100, width: self.view.frame.width * 0.8, height: 50))
-            showLabel.text = ""
+            let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,view.frame.size.height/10,self.view.frame.size.width*3/4,view.frame.size.height*4/5))
+            textLabel.text = Defined_Tips_none
+            
+            //textLabel.backgroundColor = UIColor.blackColor()
+            textLabel.textColor = UIColor.whiteColor()
+            textLabel.textAlignment = NSTextAlignment.Center
+            textLabel.numberOfLines = 0;
+            textLabel.font = UIFont.systemFontOfSize(25)
+            self.view.addSubview(textLabel)
             
         
         }
@@ -1636,102 +1643,125 @@ class ViewControllerSS7Detail: UIViewController {
         view.layer.borderColor=UIColor.whiteColor().CGColor;
         view.layer.borderWidth = 1;
         view.layer.cornerRadius=10;
-        self.showView();
+        
         
         
         
     }
-    func showView(){
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
+        
+        
+    }
+    func Timerset(){
         let cmdStr = "{\"cmd\": 42, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"dev_id\":\(FAME.dev_id)}}"
         if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
             print("link device successed")
             
-            
-            self.airDetail=recevied["detail"] as! NSDictionary;
-            let detail=self.airDetail;
-            
-            let viewpm2_5 = self.view.viewWithTag(300) as! UILabel!;
-            let index_Str:Double! = detail["pm2_5"] as! Double!;
-            if index_Str == 0{
-                viewpm2_5.text = "0.0";
-            }
-            else{
-                viewpm2_5.text=self.StringSplit(String(index_Str));
-            }
-            let viewpm_lable = self.view.viewWithTag(301) as! UILabel!;
-            if index_Str <= 70{
-                viewpm_lable.text = "空气质量佳";
-            }
-            if index_Str >= 130{
-                viewpm_lable.text = "空气质量差";
-            }
-            else{
-                viewpm_lable.text = "空气质量良";
-            }
-            
-            
-            let hcho = self.view.viewWithTag(302) as! UILabel!;
-            let index_Str1:Double! = detail["hcho"] as! Double!;
-            if index_Str1 == 0{
-                hcho.text = "0.0  mg/M³";
-            }
-            else{
-                hcho.text="\(self.StringSplit(String(index_Str1)))  mg/M³"
-            }
-            
-            let hcho_lable = self.view.viewWithTag(303) as! UILabel!;
-            if index_Str1 >= 0.08{
-                hcho_lable.text = "偏高";
-            }
-            else{
-                hcho_lable.text = "正常";
-            }
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.airDetail=recevied["detail"] as! NSDictionary;
+                let detail=self.airDetail;
+                
+                let viewpm2_5 = self.view.viewWithTag(300) as! UILabel!;
+                let index_Str:Double! = detail["pm2_5"] as! Double!;
+                if index_Str == 0{
+                    viewpm2_5.text = "0.0";
+                }
+                else{
+                    viewpm2_5.text=self.StringSplit(String(index_Str));
+                }
+                let viewpm_lable = self.view.viewWithTag(301) as! UILabel!;
+                if index_Str <= 70{
+                    viewpm_lable.text = "空气质量佳";
+                }
+                if index_Str >= 130{
+                    viewpm_lable.text = "空气质量差";
+                }
+                else{
+                    viewpm_lable.text = "空气质量良";
+                }
+                
+                
+                let hcho = self.view.viewWithTag(302) as! UILabel!;
+                let index_Str1:Double! = detail["hcho"] as! Double!;
+                if index_Str1 == 0{
+                    hcho.text = "0.0  mg/M³";
+                }
+                else{
+                    hcho.text="\(self.StringSplit(String(index_Str1)))  mg/M³"
+                }
+                
+                let hcho_lable = self.view.viewWithTag(303) as! UILabel!;
+                if index_Str1 >= 0.08{
+                    hcho_lable.text = "偏高";
+                }
+                else{
+                    hcho_lable.text = "正常";
+                }
+                
+                
+                let temperature = self.view.viewWithTag(304) as! UILabel!;
+                let index_Str2:Double! = detail["temperature"] as! Double!;
+                if index_Str2 == 0{
+                    temperature.text = "0.0  ºC";
+                }
+                else{
+                    temperature.text="\(self.StringSplit(String(index_Str2)))  ºC"
+                }
+                
+                let temperature_lable = self.view.viewWithTag(305) as! UILabel!;
+                if index_Str2 >= 50{
+                    temperature_lable.text = "偏高";
+                }
+                else if index_Str2 <= -30{
+                    temperature_lable.text = "偏低";
+                }
+                else{
+                    temperature_lable.text = "正常";
+                }
+                
+                let humidity = self.view.viewWithTag(306) as! UILabel!;
+                let index_Str3:Double! = detail["humidity"] as! Double!;
+                if index_Str3 == 0{
+                    humidity.text = "0.0  %RH";
+                }
+                else{
+                    humidity.text="\(self.StringSplit(String(index_Str3)))  %RH"
+                }
+                let humidity_lable = self.view.viewWithTag(307) as! UILabel!;
+                if index_Str3 >= 99{
+                    humidity_lable.text = "偏高";
+                }
+                else if index_Str3 <= 20{
+                    humidity_lable.text = "偏低";
+                }
+                else{
+                    humidity_lable.text = "正常";
+                }
+                
+                let update_time = self.view.viewWithTag(308) as! UILabel!;
+                update_time.text="更新时间：\(detail["update_time"] as! String)";
+                
+                
+                FAME.showMessage("空气质量刷新成功")
 
-            
-            let temperature = self.view.viewWithTag(304) as! UILabel!;
-            let index_Str2:Double! = detail["temperature"] as! Double!;
-            if index_Str2 == 0{
-                temperature.text = "0.0  ºC";
-            }
-            else{
-                temperature.text="\(self.StringSplit(String(index_Str2)))  ºC"
-            }
-            
-            let temperature_lable = self.view.viewWithTag(305) as! UILabel!;
-            if index_Str2 >= 0.08{
-                temperature_lable.text = "偏高";
-            }
-            else{
-                temperature_lable.text = "正常";
-            }
-            
-            let humidity = self.view.viewWithTag(306) as! UILabel!;
-            let index_Str3:Double! = detail["humidity"] as! Double!;
-            if index_Str3 == 0{
-                humidity.text = "0.0  %RH";
-            }
-            else{
-                humidity.text="\(self.StringSplit(String(index_Str3)))  %RH"
-            }
-            let humidity_lable = self.view.viewWithTag(307) as! UILabel!;
-            if index_Str3 >= 0.08{
-                humidity_lable.text = "偏高";
-            }
-            else{
-                humidity_lable.text = "正常";
-            }
-            
-            let update_time = self.view.viewWithTag(308) as! UILabel!;
-            update_time.text="更新时间：\(detail["update_time"] as! String)";
+            })
             
             
             
         }else{
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                FAME.showMessage("空气质量刷新失败")
+            })
             
             print("link event failed")
         }
 
     }
+    
     func StringSplit(str: String) -> String{
         var string :String;
         var bool :Int = 0 ;
@@ -1773,10 +1803,7 @@ class ViewControllerSS7Detail: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func viewWillAppear(animated: Bool){
-        super.viewWillAppear(animated)
-        
-    }
+   
 
 
 }
@@ -1990,7 +2017,15 @@ class ViewControllerSS6: UIViewController,UIPickerViewDataSource,UIPickerViewDel
     var pickView:UIView!
     var picker:UIPickerView!
     var seletedStr:String! = ""
+    var selectCount:Int!
     
+    
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
+        
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -1999,31 +2034,81 @@ class ViewControllerSS6: UIViewController,UIPickerViewDataSource,UIPickerViewDel
 //        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
 //        self.navigationItem.rightBarButtonItem = addButton
         
+        if FAME.sensors30.count == 0 {
+            let view1 = self.view.viewWithTag(51) as UIView!
+            view1.hidden = true
+            let view2 = self.view.viewWithTag(52) as UIView!
+            view2.hidden = true
+            let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,self.view.frame.size.height/10,self.view.frame.size.width*3/4,self.view.frame.size.height*4/5))
+            textLabel.text = Defined_Tips_none
+            
+            //textLabel.backgroundColor = UIColor.blackColor()
+            textLabel.textColor = UIColor.whiteColor()
+            textLabel.textAlignment = NSTextAlignment.Center
+            textLabel.numberOfLines = 0;
+            textLabel.font = UIFont.systemFontOfSize(25)
+            self.view.addSubview(textLabel)
+            return ;
+            
+        }
+
+        let lable1 = self.view.viewWithTag(77) as! UILabel!
+        lable1.text = FAME.sensors30[0]["name"]! as String
+        
         let view = self.view.viewWithTag(51) as UIView!
         view.layer.borderColor=UIColor.whiteColor().CGColor;
         view.layer.borderWidth = 1;
         view.layer.cornerRadius=10;
-        let searchButton = self.view.viewWithTag(503) as! UIButton!
-        searchButton.addTarget(self, action: Selector("actAddBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        let setButton = self.view.viewWithTag(70) as! UIButton!
+        setButton.addTarget(self, action: Selector("actSetBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        for i in 501...506 {
+            let searchButton = self.view.viewWithTag(i) as! UIButton!
+            searchButton.addTarget(self, action: Selector("actAddBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        }
+        
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
+        
+        
+
+        
+        
+    }
+    func Timerset(){
+        let act_id = FAME.sensors30[0]["act_id"]! as String
+        let act_idInt:Int! = Int(act_id)
+        print(act_idInt)
+        
+        let cmdStr = "{\"cmd\": 32, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"action_id\":\(act_idInt + 2)}}"
+        if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+            
+            
+        }
+    }
+    func actSetBtn(sender:UIButton!){
+        
+        print("点击了设定按钮")
+        
         
         
         
     }
     func actAddBtn(sender:UIButton!){
         
-        print("点击了添加按钮")
+        print("点击了选择按钮")
         self .createPop() ;
+        self.selectCount = sender.tag - 430 ;
         
     }
     func selectedActBtn(sender : AnyObject){
         
-        
-//        print("\(self.seletedStr1)\(self.seletedStr2)\(self.seletedStr3)")
-//        let str:String! = "\(self.seletedStr1)\(self.seletedStr2)\(self.seletedStr3)";
-//        let addClick = self.view.viewWithTag(53) as! UIButton!;
-//        addClick.setTitle(str, forState: UIControlState.Normal)
-        
+        print(self.selectCount)
         self.BGView.hidden = true ;
+        let lable1 = self.view.viewWithTag(self.selectCount) as! UILabel!;
+        lable1.text = self.seletedStr;
+        
         
         
         
@@ -2120,10 +2205,7 @@ class ViewControllerSS6: UIViewController,UIPickerViewDataSource,UIPickerViewDel
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func viewWillAppear(animated: Bool){
-        super.viewWillAppear(animated)
-        
-    }
+    
     
     
 }

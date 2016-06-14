@@ -374,19 +374,27 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         print(FAME.lightsCellState)
         let view = sender.superview?.viewWithTag(2) as! UIImageView
         view.image = UIImage(named: "socket_10.png")
-        FAME.lightsCellState["\(sender.id)"] = 1
+        let imgObj = sender.superview?.viewWithTag(99) as! UIImageView
+        imgObj.image = UIImage(named: "light_icon2.png")
+
+        //FAME.lightsCellState["\(sender.id)"] = 1
         httpRequert().sendRequest(sender.act_id)
-        print("222222220\(sender.act_id)");
-        print(FAME.lightsCellState)
+        NSUserDefaults.standardUserDefaults().setObject(1, forKey: "\(sender.id)")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        //print(FAME.lightsCellState)
+
     }
     @IBAction func lightTap2(sender : UIButton2) {
         
         let view = sender.superview?.viewWithTag(2) as! UIImageView
         view.image = UIImage(named: "socket_06.png")
-        FAME.lightsCellState["\(sender.id)"] = 0
+        let imgObj = sender.superview?.viewWithTag(99) as! UIImageView
+        imgObj.image = UIImage(named: "light_icon.png")
+        //FAME.lightsCellState["\(sender.id)"] = 0
         httpRequert().sendRequest(sender.act_id)
-        
-        print(FAME.lightsCellState)
+        NSUserDefaults.standardUserDefaults().setObject(0, forKey: "\(sender.id)")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        //print(FAME.lightsCellState)
         
     }
     override func viewDidLoad() {
@@ -397,6 +405,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         }else{
             self.lightIdArr = FAME.showLight2Arr
         }
+        
         
         self.createPop()
         // Do any additional setup after loading the view, typically from a nib.
@@ -499,13 +508,18 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             let act_Str:String! = FAME.lights[showId]["act_id"] as String!
             
             let act_id:Int = Int(act_Str)!
+            //print("2222222\(act_id)")
             tagOn.act_id = act_id + 1
             tagOff.act_id = act_id
             tagOn.id = cell.tag
             tagOff.id = cell.tag
             
             let view = cell.viewWithTag(2) as! UIImageView
-            let state :Int! = FAME.lightsCellState["\(cell.tag)"]
+            //let state :Int! = FAME.lightsCellState["\(cell.id)"]
+            let state :Int! = NSUserDefaults.standardUserDefaults().valueForKey("\(tagOn.id)") as? Int
+            
+            //print("222222\(tagOn.id)")
+            
             if (state != nil) {
                 print("state:\(state)")
                 if state == 1 {
@@ -777,7 +791,7 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
 
 class ViewControllerApplas: UIViewController {
 
-    
+    var actId :Int!
     @IBOutlet var btnImg : UIImageView!
     
     @IBOutlet weak var btnTmp1: UIButton!
@@ -811,12 +825,12 @@ class ViewControllerApplas: UIViewController {
     @IBAction func downApplay(sender : UIButton) {
         self.btnImg.image = UIImage(named: "radio_03.png")
         print("OKOKOK")
-        
+  
         var act_id = sender.tag * 2 + FAME.tempApplsId - 2
         if self.isLearn {
             act_id = act_id + 1
         }
-        
+   
         
         httpRequert().sendRequest(act_id)
     }
@@ -860,6 +874,7 @@ class ViewControllerApplas: UIViewController {
         let applObj = FAME.appls[FAME.saActid4] as NSDictionary
         //let appName:String! = applObj["name"] as! String
         let appActid:String! = applObj["act_id"] as! String
+        //self.actId = applObj["act_id"] as! Int
         //let appIeee:String! = applObj["ieee"] as! String
         let appType:String! = applObj["dev_type"] as! String
         
@@ -1148,7 +1163,7 @@ class ViewControllerAirC: UIViewController {
     @IBAction func downApplay(sender : UIButton) {
         print("OKOKOK")
 
-        var act_id = sender.tag * 2 + FAME.tempApplsId - 2
+        var act_id = sender.tag * 28 + FAME.tempApplsId - 2
         if self.isLearn {
             act_id = act_id + 1
         }

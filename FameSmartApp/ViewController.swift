@@ -398,10 +398,9 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
     
     @IBAction func getTheType(sender : AnyObject) {
     
-        let hvStr = "FameSmart:\(self.inputHv.text)"
+        let hvStr = "FameSmart:\(self.inputHv.text!)"
         let hvMd5Str:String = hvStr.md5().uppercaseString as String
-        //let md5Str:String! = self.inputCK.text
-        let md5Str:String! = FAME.fameIeee
+        let md5Str:String! = self.inputCK.text
         print(hvStr)
         print(hvMd5Str)
         print(md5Str)
@@ -411,7 +410,7 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
             if (self.inputType.text == ""){
                 //get the Type
                 let dl = httpRequert()
-                if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text)\"}"){
+                if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
                     
                     self.model_id = received.valueForKey("model_id") as! UInt
                     self.inputType.text = received.valueForKey("model_name") as? String
@@ -429,7 +428,7 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
     }
     
     @IBAction func ckMd5(sender : AnyObject) {
-        let hvStr = "FameSmart:\(self.inputHv.text)"
+        let hvStr = "FameSmart:\(self.inputHv.text!)"
         let hvMd5Str:String = hvStr.md5().uppercaseString as String
         let md5Str:String! = self.inputCK.text
         print(hvStr)
@@ -443,8 +442,8 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
             
             //check the type
             if (self.model_id == 2 )||(self.model_id == 3 ) {
-                FAME.user_ieee_addr = self.inputHv.text
-                FAME.user_ieee_ck = self.inputCK.text
+                FAME.user_ieee_addr = self.inputHv.text!
+                FAME.user_ieee_ck = self.inputCK.text!
                 let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin3") as UIViewController
                 self.navigationController?.pushViewController(next, animated: true)
                 
@@ -475,11 +474,11 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
         let ieee = FAME.subString(str, A: 5, B: 23)
         let verify = FAME.subString(str, A: 36, B: 32)
         
-        self.inputHv.text = ieee
-        self.inputCK.text = verify
+        self.inputHv.text! = ieee
+        self.inputCK.text! = verify
         
             //get the Type
-            if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text)\"}"){
+            if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
                 
                 self.inputType.text = recevied.valueForKey("model_name") as? String
                 self.model_id = recevied.valueForKey("model_id") as! UInt
@@ -1029,14 +1028,14 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
         let verify = FAME.subString(str, A: 36, B: 32)
 
         print("111111\(ieee)")
-//        self.inputHv.text = ieee as String
-//        self.inputCK.text = verify
-        FAME.fameIeee = ieee
-        FAME.verify = verify
+        self.inputHv.text = ieee as String
+        self.inputCK.text = verify
+//        FAME.fameIeee = ieee
+//        FAME.verify = verify
             //get the Type
             let dl = httpRequert()
-            print("222222\(self.inputHv.text)")
-            if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(ieee)\"}"){
+            print("222222\(self.inputHv.text!)")
+            if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
                 
                 self.model_id = received.valueForKey("model_id") as! UInt
                 self.inputType.text = received.valueForKey("model_name") as? String
@@ -1049,9 +1048,9 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
     }
     
     @IBAction func getTheType(sender : AnyObject) {
-        let hvStr = "FameSmart:\(self.inputHv.text)"
+        let hvStr = "FameSmart:\(self.inputHv.text!)"
         let hvMd5Str:String = hvStr.md5().uppercaseString as String
-        let md5Str:String = self.inputCK.text! as String
+        let md5Str:String = self.inputCK.text!
         print(hvStr)
         print(hvMd5Str)
         print(md5Str)
@@ -1061,7 +1060,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
             if (self.inputType.text == ""){
                 //get the Type
                 let dl = httpRequert()
-                if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text)\"}"){
+                if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
                     
                     self.model_id = received.valueForKey("model_id") as! UInt
                     self.inputType.text = received.valueForKey("model_name") as? String
@@ -1076,7 +1075,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
         
     }
     @IBAction func plusToDT(sender : AnyObject) {
-        let hvStr = "FameSmart:\(self.inputHv.text)"
+        let hvStr = "FameSmart:\(self.inputHv.text!)"
         let hvMd5Str:String = hvStr.md5().uppercaseString as String
         let md5Str:String = self.inputCK.text! as String
         var flag:NSNumber!
@@ -1089,12 +1088,15 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
             
             
             
-            let dic:NSMutableDictionary = ["name":"\(self.inputType.text)","hvaddr":"\(self.inputHv.text)","ckId":"\(self.inputCK.text)","modelId":self.model_id,"room":"\(self.btnRoom.currentTitle!)","roomId":self.selectRoom]
+            let dic:NSMutableDictionary = ["name":"\(self.inputType.text!)","hvaddr":"\(self.inputHv.text!)","ckId":"\(self.inputCK.text!)","modelId":self.model_id,"room":"\(self.btnRoom.currentTitle!)","roomId":self.selectRoom]
             
+            
+            print(FAME.addDeviceArray)
             var ckBool = true
             for value : AnyObject in FAME.addDeviceArray {
                 let hvaddr:String = value.valueForKey("hvaddr") as! String
-                if hvaddr == self.inputHv.text{
+                //print(<#T##items: Any...##Any#>)
+                if hvaddr == self.inputHv.text!{
                     ckBool = false
                 }
                 
@@ -1190,6 +1192,9 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
                 
                 
                 print("hvaddr OK")
+                let next :UIViewController = GBoard.instantiateViewControllerWithIdentifier("viewLogin6") as UIViewController
+                self.navigationController?.pushViewController(next, animated: true)
+                
             }else{
                 print("hvaddr existed")
                 viewAnimate().showTip(self.tip, content: Defined_add_existed)
@@ -1201,7 +1206,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
             
             
             
-                print(FAME.addDeviceArray)
+            
             
         }else{
             print("MD5 error")

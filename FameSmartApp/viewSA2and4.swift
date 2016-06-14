@@ -32,8 +32,10 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
             
         }
     }
-    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
         print("click at \(buttonIndex)")
+        let ieee : String! = self.ieees[self.tmp_tag - 1]
+        print("del ieee:\(ieee)")
         self.is_alert = false
         if buttonIndex == 0 {
             print("del")
@@ -210,7 +212,7 @@ class ViewControllerMainSA3: UIViewController,UIAlertViewDelegate  {
             
         }
     }
-    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
         print("click at \(buttonIndex)")
         self.is_alert = false
         if buttonIndex == 0 {
@@ -263,7 +265,7 @@ class ViewControllerMainSA3: UIViewController,UIAlertViewDelegate  {
         let view0 :UIView = self.view.viewWithTag(10)!
         view0.frame.size.width = self.view.frame.size.width - 60
         
-        let viewWidth = self.view.frame.size.width - 60
+        //let viewWidth = self.view.frame.size.width - 60
         
         let divW:CGFloat = 0.27
         
@@ -404,7 +406,7 @@ class ViewControllerMainSA4: UIViewController,UIAlertViewDelegate {
 
         
     }
-    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
         print("click at \(buttonIndex)")
         self.is_alert = false
         if buttonIndex == 0 {

@@ -93,7 +93,6 @@ class ViewControllerMainSA: UIViewController {
         
        // animationSA = false
         
-        
         let returnButtonItem = UIBarButtonItem()
         returnButtonItem.title = Defined_navigation_back_title
         self.navigationItem.backBarButtonItem = returnButtonItem
@@ -343,7 +342,7 @@ class ViewControllerMainSS: UIViewController {
         self.navigationItem.backBarButtonItem = returnButtonItem
         
         let btns = Defined_SS_btns
-        let btnImgs = ["ss1.png","ss2.png","ss3.png","ss4.png","ss5.png","ss6.png","ss1.png","ss2.png"]
+        let btnImgs = ["ss1.png","ss2.png","ss3.png","ss4.png","ss5.png","ss6.png","ss7.png","ss2.png"]
         
         //fix position
         

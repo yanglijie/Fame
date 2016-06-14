@@ -76,9 +76,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData){
         print("PUSH register success: \(deviceToken)")
-        let str = NSString(data: deviceToken, encoding: 0)
+        let str = NSString(data: deviceToken, encoding: NSUTF8StringEncoding)
+        //var str : String = NSString(data: deviceToken, encoding: NSUTF8StringEncoding)
         
-        print(str)
+        print("111111\(str)")
         if str != nil {
             httpRequert().sendToken(str! as String)
         }
@@ -93,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("PUSH register failed: \(error)")
     }
     
-    
+    //当应用运行在后台时
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]){
         print("PUSH register userInfo: \(userInfo)")
     }
