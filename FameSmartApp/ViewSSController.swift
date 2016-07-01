@@ -148,6 +148,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         self.automaticallyAdjustsScrollViewInsets = false ;
         
+        
         self.refreshData()
         if self.sensors.count == 0 {
             
@@ -165,8 +166,8 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         }
         
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
-        self.navigationItem.rightBarButtonItem = addButton
+//        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
+//        self.navigationItem.rightBarButtonItem = addButton
         
         
         self.createPop()
@@ -407,7 +408,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         btn2.addTarget(self, action: Selector("cancleActBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         let lable = UILabel(frame: CGRect(x: 60, y: 20, width: pickView.frame.width - 120, height: 20))
-        lable.text = "333333"
+        lable.text = ""
         lable.hidden = true
         lable.textAlignment = .Center
         lable.tag = 400
@@ -706,6 +707,11 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
 
         self.ieee = self.sensors[index]["ieee"] as String!
 
+        let name_Str:String! = self.sensors[index]["name1"] as String!
+        let roomName_Str:String! = self.sensors[index]["roomName"] as String!
+        FAME.dev_ss_name = name_Str
+        FAME.dev_ss_Rname = roomName_Str
+
         //print("2222222\(FAME.dev_ss_Rname)")
         
         self.showPop()
@@ -906,10 +912,17 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
         
-        FAME.tempTableView = self.tabelVeiw
         
-        let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
-        myThread.start()
+        FAME.tempTableView = self.tabelVeiw
+        if self.sensors.count != 0 {
+            tabelVeiw.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "Timerset2")
+            tabelVeiw.mj_header.beginRefreshing()
+        }
+        
+        
+        
+//        let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
+//        myThread.start()
         
         
     }
@@ -943,6 +956,13 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 90)
         
         if (received != nil){
+            
+            //dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                
+                self.tabelVeiw.mj_header.endRefreshing()
+                FAME.showMessage("刷新成功")
+                
+            //})
             //got the state
             for values:AnyObject in received.valueForKey("states") as! NSArray {
                 print(values)
@@ -989,6 +1009,11 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                 }
             }
         }else{
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                
+//                FAME.loading1(false)
+//                FAME.showMessage("刷新失败，网络超时")
+            })
             print("get the state failed")
         }
         
@@ -1028,9 +1053,9 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
  
         let name_Str:String! = self.sensors[indexPath.row]["name1"] as String!
         let roomName_Str:String! = self.sensors[indexPath.row]["roomName"] as String!
-        FAME.dev_ss_name = name_Str
-        FAME.dev_ss_Rname = roomName_Str
-        name.text = FAME.dev_ss_Rname + FAME.dev_ss_name ;
+//        FAME.dev_ss_name = name_Str
+//        FAME.dev_ss_Rname = roomName_Str
+        name.text = roomName_Str + name_Str ;
       
         //icon
         
@@ -1986,6 +2011,7 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         self.title = FAME.dev_ss_name
         self.nameArray = FAME.rooms;
 
+        
         for(var i = 0; i < self.nameArray.count ; i++){
             if FAME.dev_ss_Rname == self.nameArray[i]{
                 count = i ;

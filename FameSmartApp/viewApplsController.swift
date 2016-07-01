@@ -65,10 +65,10 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
              
                 
                 
-//                let name_Str:String! = FAME.lights[cell.index]["name1"] as String!
-//                let roomName_Str:String! = FAME.lights[cell.index]["roomName"] as String!
-//                FAME.dev_ss_name = name_Str
-//                FAME.dev_ss_Rname = roomName_Str
+                let name_Str:String! = FAME.lights[cell.index]["name1"] as String!
+                let roomName_Str:String! = FAME.lights[cell.index]["roomName"] as String!
+                FAME.dev_ss_name = name_Str
+                FAME.dev_ss_Rname = roomName_Str
                 //name.text = FAME.dev_ss_Rname + FAME.dev_ss_name ;
                 
                 self.ieee = FAME.lights[cell.index]["ieee"] as String!
@@ -247,11 +247,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        if FAME.showLights {
-//            self.lightIdArr = FAME.showLight1Arr
-//        }else{
-//            self.lightIdArr = FAME.showLight2Arr
-//        }
+
         switch FAME.tempSensorId {
         case 1:
             self.lightIdArr = FAME.showLight1Arr
@@ -283,8 +279,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         
         self.createPop()
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
-        self.navigationItem.rightBarButtonItem = addButton
+//        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
+//        self.navigationItem.rightBarButtonItem = addButton
         
         
         
@@ -297,8 +293,13 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         super.viewWillAppear(animated)
         
         FAME.tempTableView = self.TableView
-        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
-        myThread.start()
+//        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+//        myThread.start()
+        if self.lightIdArr.count != 0 {
+            TableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "Timerset")
+            TableView.mj_header.beginRefreshing()
+        }
+        
     }
     
     func refreshLights(sender:AnyObject!){
@@ -324,6 +325,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 
                 let state :Int! = FAME.lightsCellState["\(cell.id)"]
                 if (state != nil) {
+                    self.TableView.mj_header.endRefreshing()
+                    FAME.showMessage("刷新成功")
                     //print("state:\(state)")
                     if state == 1 {
                         view.image = UIImage(named: "socket_10.png")
@@ -523,10 +526,10 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
                 
                 
                 
-//                let name_Str:String! = FAME.lights[cell.index]["name1"] as String!
-//                let roomName_Str:String! = FAME.lights[cell.index]["roomName"] as String!
-//                FAME.dev_ss_name = name_Str
-//                FAME.dev_ss_Rname = roomName_Str
+                let name_Str:String! = FAME.lights[cell.index]["name1"] as String!
+                let roomName_Str:String! = FAME.lights[cell.index]["roomName"] as String!
+                FAME.dev_ss_name = name_Str
+                FAME.dev_ss_Rname = roomName_Str
                 //name.text = FAME.dev_ss_Rname + FAME.dev_ss_name ;
                 
                 self.ieee = FAME.lights[cell.index]["ieee"] as String!
@@ -732,8 +735,8 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
             
             
         }
-        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
-        self.navigationItem.rightBarButtonItem = addButton
+//        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
+//        self.navigationItem.rightBarButtonItem = addButton
         
     }
     func refreshLights(sender:AnyObject!){
@@ -751,8 +754,14 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
         FAME.tempTableView = self.TableView
-        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
-        myThread.start()
+//        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+//        myThread.start()
+        if self.sensors.count != 0 {
+            TableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "Timerset")
+            TableView.mj_header.beginRefreshing()
+        }
+        
+        
     }
     
     func Timerset(){
@@ -778,6 +787,10 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
       let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 90)
         
       if (received != nil){
+        
+        self.TableView.mj_header.endRefreshing()
+        FAME.showMessage("刷新成功")
+        
             //got the state
             for values:AnyObject in received.valueForKey("states") as! NSArray {
                 print(values)

@@ -44,7 +44,7 @@ var FAME = fame()
 
 class fame:NSObject{
     
- 
+
     
     //标记是否是退出
     var outTag :Int! = 0
@@ -1294,6 +1294,49 @@ class fame:NSObject{
         }
         
     }
+    
+    
+    func loading1(isLoading : Bool){
+        
+        let window :UIWindow! = UIApplication.sharedApplication().keyWindow;
+        let height = window.frame.size.height
+        let width = window.frame.size.width
+        
+        let view :UIView! = UIView(frame: CGRect(x: 0, y: 0 , width: width, height: height ));
+        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+        //view.hidden = isLoading
+        window .addSubview(view);
+        
+        let showView :UIActivityIndicatorView! = UIActivityIndicatorView(frame: CGRect(x: width*0.15, y: height*0.425 , width: width*0.7, height: height*0.15 ));
+        showView.activityIndicatorViewStyle = .WhiteLarge
+        showView.backgroundColor = UIColor.blackColor()
+        showView.alpha = 0.5
+        showView.layer.cornerRadius = 6.0
+        showView.layer.masksToBounds = true
+        view .addSubview(showView)
+        
+        let lable : UILabel! = UILabel(frame: CGRect(x: (showView.frame.size.width-200)/2, y: height*0.15 - 25 , width: 200, height: 20 ));
+        lable.text = "Loading.......";
+        lable.font = UIFont.systemFontOfSize(15)
+        lable.textColor = UIColor.whiteColor() ;
+        lable.backgroundColor = UIColor.clearColor() ;
+        lable.textAlignment = NSTextAlignment.Center ;
+        showView .addSubview(lable) ;
+
+           
+//        if isLoading{
+//            view.hidden = false
+            //showView .startAnimating()
+//        }
+//        else{
+//            showView .stopAnimating()
+//            view.removeFromSuperview()
+//            //view.hidden = true
+//            print("结束了")
+//        }
+        
+    }
+
     
 }
 

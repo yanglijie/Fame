@@ -161,6 +161,7 @@ class ViewControllerMainSA: UIViewController {
         }
         
         let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA\(viewId)") as UIViewController!
+        next.title = "\(Defined_SA_btns[sender.tag - 1])"
         self.navigationController?.pushViewController(next, animated: true)
         
     }
