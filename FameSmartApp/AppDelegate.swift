@@ -18,6 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool{
         // Override point for customization after application launch.
         
+        
+        //UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent;
+        
+        
         //is the ios8
         
         let version = (UIDevice.currentDevice().systemVersion as NSString).floatValue
@@ -45,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             }
             
-            UIApplication.sharedApplication().registerForRemoteNotifications()
+            //UIApplication.sharedApplication().registerForRemoteNotifications()
             
             
             
@@ -73,21 +77,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-    
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData){
-        print("PUSH register success: \(deviceToken)")
-        let str = NSString(data: deviceToken, encoding: NSUTF8StringEncoding)
-        //var str : String = NSString(data: deviceToken, encoding: NSUTF8StringEncoding)
+    func application(application: UIApplication , didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings ) {
         
-        print("111111\(str)")
-        if str != nil {
-            httpRequert().sendToken(str! as String)
-        }
-    }
-    
-    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings){
+        //application.registerForRemoteNotifications ()
         print("userNotificationSettings setted")
     }
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData){
+        print("PUSH register success: \(deviceToken)")
+        let str = String(deviceToken)
+        
+        let str1 = (str as NSString).substringWithRange(NSMakeRange(1, 71))
+        var str2 = ""
+        let array = str1.componentsSeparatedByString(" ")
+        for (var i = 0;i < array.count; i++){
+            str2 = str2 + array[i]
+        }
+        
+        print("111111\(str2)")
+        //if str2 != nil {
+            httpRequert().sendToken(str2 as String)
+        //}
+        
+    }
+    
+
     
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError){
@@ -97,7 +110,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //当应用运行在后台时
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]){
         print("PUSH register userInfo: \(userInfo)")
+        
+        let notif    = userInfo as NSDictionary
+        
+        let apsDic   = notif.objectForKey("aps") as! NSDictionary
+        let alertDic = apsDic.objectForKey ( "alert" ) as! String
+        let alertView = UIAlertView (title: " 远程推送通知 " , message: alertDic, delegate: nil , cancelButtonTitle: " 返回 " )
+       alertView.show()
+        
+        
     }
+    
+    
     
     //Receive
     

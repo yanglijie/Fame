@@ -80,7 +80,7 @@ class httpRequert : NSObject{
             }
     }
     
-
+    
     func downloadFromPostUrlSync(url:String,dic:NSDictionary, cmplx:Bool=false ) -> NSDictionary!{
         var nilDic:Dictionary = ["result":9]
         
@@ -174,10 +174,17 @@ class httpRequert : NSObject{
     
     func sendTokenSub(){
         let cmd = FAME.devicetoken
+        let userName = FAME.getProfile(0)
+        let userPass = FAME.getProfile(1)
+        FAME.user_name = userName
+        FAME.user_pwd = userPass
+        
+        //    \(FAME.user_did)
         print("send request:\(cmd)")
         let cmdStr = "{\"cmd\": 40, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"push_enable\": 1, \"devicetoken\": \"\(cmd)\"}"
         if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr){
             print("SEND devicetoken SUCCESSED")
+            
         }else{
             print("SEND devicetoken FAILED!")
             
@@ -462,6 +469,12 @@ class httpRequert : NSObject{
             
         }else{
             //println("ckeck added device failed")
+            let alert :UIAlertView = UIAlertView()
+            
+            alert.title = "入网失败"
+            alert.message = "中控正在忙，请稍后再试"
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.show()
             return nil
         }
     }

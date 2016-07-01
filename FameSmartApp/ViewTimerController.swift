@@ -266,7 +266,12 @@ class ViewControllerSUTimer: UIViewController,UITableViewDataSource,UITableViewD
             print("timerArray4")
             print(FAME.timerArray4)
             
-            self.refreshLocal()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.refreshLocal()
+                
+            })
+            
+            
         }
         
     

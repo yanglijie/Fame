@@ -42,8 +42,10 @@ class ViewTempController: UIViewController {
         
         if ( str != nil){
             print("weather: \(str)")
-            FAME.outterTemp = str
-            self.outterTemper.text = FAME.outterTemp
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                FAME.outterTemp = str
+                self.outterTemper.text = FAME.outterTemp
+            })
         }
     }
     
@@ -64,8 +66,11 @@ class ViewTempController: UIViewController {
             if (received?.valueForKey("temp_detail") != nil) {
             for values:AnyObject in received.valueForKey("temp_detail") as! NSArray{
                 if let temp_value:AnyObject! = values.valueForKey("temp_value"){
-                    FAME.innerTemp = "\(temp_value)"
-                    self.innerTemper.text = FAME.innerTemp
+                    
+                    dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                        FAME.innerTemp = "\(temp_value)"
+                        self.innerTemper.text = FAME.innerTemp
+                    })
                 }
             }
             }

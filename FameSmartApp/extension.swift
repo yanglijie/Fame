@@ -43,4 +43,5 @@ class UITableViewCell2 :UITableViewCell {
     var act_id:Int = 0
     var dev_id:Int = 0
     var id:Int = 0
+    var index:Int = 0
 }

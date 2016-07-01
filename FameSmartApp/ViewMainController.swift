@@ -29,7 +29,7 @@ class ViewControllerMainSA: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         let btns = Defined_SA_btns
-        let btnImgs = ["sa1.png","sa2.png","sa3.png","sa4.png","sa5.png","sa6.png","sa5.png","sa6.png"]
+        let btnImgs = ["sa1.png","sa2.png","sa3.png","sa4.png","sa5.png","sa6.png","model8.png","sa8.png"]
         
         
         //fix position
@@ -152,7 +152,11 @@ class ViewControllerMainSA: UIViewController {
         if viewId == 6 {
            viewId = 1
             FAME.showLights = false
-        }else{
+        }else if viewId == 7 || viewId == 8 {
+            viewId = 5
+            FAME.showLights = false
+        }
+        else{
             FAME.showLights = true
         }
         
@@ -190,7 +194,7 @@ class ViewControllerMainP: UIViewController {
         
         
         var btns:Array<String>!
-        if let modesObj:AnyObject! = FAME.device_table.valueForKey("modes") {
+        if let modesObj:AnyObject? = FAME.device_table.valueForKey("modes") {
              btns = modesObj as! Array<String>
             count = NSTimeInterval(btns.count)
         }
@@ -242,7 +246,7 @@ class ViewControllerMainP: UIViewController {
             
             //gesture
             if idx < self.btns_count {
-                let longPressRec = UITapGestureRecognizer()
+                let longPressRec = UILongPressGestureRecognizer()
                 longPressRec.addTarget(self, action: "longPress:")
                 btn.addGestureRecognizer(longPressRec)
                 btn.userInteractionEnabled = true

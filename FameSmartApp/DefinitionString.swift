@@ -30,8 +30,14 @@ let Defined_ALERT_del2 = "确定要删除此设备？"
 
 
 let Defined_SA_btns = ["灯光","智能电机","空调","影音","移动智能","智能浴霸","智能门锁","风机控制"]
-let Defined_SS_btns = ["温湿监测","门窗磁","运动感应","燃气报警","烟雾报警","漏水检测","情景模式面板","空气质量"]
-let Defined_SS_icons = ["0","gas_03.png","move_03.png","gas_03.png","smork_03.png","0","0","smork_03.png"]
+let Defined_SS_btns = ["温湿监测","门窗磁","运动感应","烟雾报警","燃气报警","漏水检测","情景模式面板","空气质量"]
+
+let Defined_SS_icons =
+    ["0","gas_03.png","move_03.png","smork_03.png","gas_03.png","0","0","smork_03.png"]
+let Defined_SS_icons1 = ["0","gas_03.png","move_031.png","gas_031.png","smork_031.png","0","0","smork_03.png"]
+
+let Defined_SA_icons = ["0","light_icon.png","0","0","0","socket_03.png","light_icon3.png","lock_icon.png","socket_03.png"]
+let Defined_SA_icons1 = ["0","light_icon2.png","0","0","0","socket61.png","SA61.png","lock_icon2.png","0"]
 
 let Defined_VC6_AlertTitle="提示"
 let Defined_VC6_AlertMessage="设备自动添加过程将会持续40秒左右"
@@ -94,7 +100,12 @@ let Defined_setting_error2 = "修改失败"
 let Defined_setting_error3 = "新密码不能为空"
 let Defined_setting_error4 = "新密码格式错误"
 let Defined_setting_error5 = "新密码不一致"
+let Defined_setting_error6 = "会话已超时"
 let Defined_setting_success = "修改成功"
+
+let Defined_telphone_success1 = "该用户还没有绑定手机号，请先绑定手机号"
+let Defined_telphone_success = "手机号绑定成功"
+let Defined_telphone_error = "手机号绑定成功"
 
 let Defined_device_title = "设备忙"
 let Defined_device_failed = "当前正在进行设备的添加或删除，请稍后再试"
@@ -122,14 +133,14 @@ let Defined_Timer_Time = "修改时间"
 let Defined_SS_Title1 = "设 置 联 动"
 let Defined_SS_Title2 = "设置延时联动"
 let Defined_SS_Title3 = "设置延时时间"
-let Defined_SS_Title4 = "取        消"
+let Defined_SS_Title4 = "取       消"
 
 
-let Defined_SS_air_Title1 = "修改名字"
-let Defined_SS_air_Title2 = "删除设备"
+let Defined_SS_air_Title1 = "修 改 名 字"
+let Defined_SS_air_Title2 = "删 除 设 备"
 let Defined_SS_air_Title3 = "配置联动设备"
 let Defined_SS_air_Title4 = "恢复后的联动"
-let Defined_SS_air_Title5 = "修改门限值"
+let Defined_SS_air_Title5 = "修 改 门 限"
 
 
 let Defined_LS_Title3 = "联 动 配 置"
@@ -151,6 +162,7 @@ let Defined_cur_title = "时间设置"
 let Defined_cur_update = "时间设置成功"
 let Defined_cur_failed = "时间设置失败"
 
+let Defined_appl_10 = ["开","关","停止"]
 let Defined_appl_16 = ["btn116","btn2","btn3","btn4","btn5","btn6","btn7","btn8","btn9","自定义1","自定义2","自定义3","自定义4"]
 let Defined_appl_17 = ["节目减","音量加","OK","节目加","音量减","HOME","静音","开/关","返回","自定义1","自定义2","自定义3","自定义4"]
 let Defined_appl_18 = ["上一曲","音量加","播放/暂停","下一曲","音量减","随机播放","静音","开/关","循环播放","自定义1","自定义2","自定义3","自定义4"]

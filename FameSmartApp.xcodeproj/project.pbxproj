@@ -182,7 +182,15 @@
 		07CBA7591990934600484BBC /* ViewRootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CBA7581990934600484BBC /* ViewRootController.swift */; };
 		07E0D2881999EFB300CE752F /* ViewSSController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E0D2871999EFB300CE752F /* ViewSSController.swift */; };
 		950508231CFE0CF900FC6BE6 /* ViewSSLinkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950508221CFE0CF900FC6BE6 /* ViewSSLinkController.swift */; };
-		955FA4321CF52271004ECAB8 /* buttonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 955FA4311CF52271004ECAB8 /* buttonView.xib */; };
+		957A3F591D12217E008BEAC4 /* move_031.png in Resources */ = {isa = PBXBuildFile; fileRef = 957A3F581D12217E008BEAC4 /* move_031.png */; };
+		957A3F5F1D1225B2008BEAC4 /* gas_031.png in Resources */ = {isa = PBXBuildFile; fileRef = 957A3F5A1D1225B2008BEAC4 /* gas_031.png */; };
+		957A3F601D1225B2008BEAC4 /* sa8.png in Resources */ = {isa = PBXBuildFile; fileRef = 957A3F5B1D1225B2008BEAC4 /* sa8.png */; };
+		957A3F611D1225B2008BEAC4 /* SA61.png in Resources */ = {isa = PBXBuildFile; fileRef = 957A3F5C1D1225B2008BEAC4 /* SA61.png */; };
+		957A3F621D1225B2008BEAC4 /* smork_031.png in Resources */ = {isa = PBXBuildFile; fileRef = 957A3F5D1D1225B2008BEAC4 /* smork_031.png */; };
+		957A3F631D1225B2008BEAC4 /* socket61.png in Resources */ = {isa = PBXBuildFile; fileRef = 957A3F5E1D1225B2008BEAC4 /* socket61.png */; };
+		957FD8E71D13228500A4DA62 /* lock_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 957FD8E51D13228500A4DA62 /* lock_icon.png */; };
+		957FD8E81D13228500A4DA62 /* lock_icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 957FD8E61D13228500A4DA62 /* lock_icon2.png */; };
+		95873C311D24806B004B67C1 /* QRCodeScanLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 95873C301D24806B004B67C1 /* QRCodeScanLine@2x.png */; };
 		95D58E181D0E19DE00AEF6BC /* ss7.png in Resources */ = {isa = PBXBuildFile; fileRef = 95D58E171D0E19DE00AEF6BC /* ss7.png */; };
 		95D58E201D0E1C7500AEF6BC /* scene1.png in Resources */ = {isa = PBXBuildFile; fileRef = 95D58E191D0E1C7500AEF6BC /* scene1.png */; };
 		95D58E211D0E1C7500AEF6BC /* scene2.png in Resources */ = {isa = PBXBuildFile; fileRef = 95D58E1A1D0E1C7500AEF6BC /* scene2.png */; };
@@ -428,7 +436,15 @@
 		07CBA7581990934600484BBC /* ViewRootController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewRootController.swift; sourceTree = "<group>"; };
 		07E0D2871999EFB300CE752F /* ViewSSController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewSSController.swift; sourceTree = "<group>"; };
 		950508221CFE0CF900FC6BE6 /* ViewSSLinkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewSSLinkController.swift; sourceTree = "<group>"; };
-		955FA4311CF52271004ECAB8 /* buttonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = buttonView.xib; sourceTree = "<group>"; };
+		957A3F581D12217E008BEAC4 /* move_031.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = move_031.png; path = btn/ss/move_031.png; sourceTree = "<group>"; };
+		957A3F5A1D1225B2008BEAC4 /* gas_031.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gas_031.png; path = btn/socket/gas_031.png; sourceTree = "<group>"; };
+		957A3F5B1D1225B2008BEAC4 /* sa8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sa8.png; path = btn/socket/sa8.png; sourceTree = "<group>"; };
+		957A3F5C1D1225B2008BEAC4 /* SA61.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SA61.png; path = btn/socket/SA61.png; sourceTree = "<group>"; };
+		957A3F5D1D1225B2008BEAC4 /* smork_031.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = smork_031.png; path = btn/socket/smork_031.png; sourceTree = "<group>"; };
+		957A3F5E1D1225B2008BEAC4 /* socket61.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = socket61.png; path = btn/socket/socket61.png; sourceTree = "<group>"; };
+		957FD8E51D13228500A4DA62 /* lock_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock_icon.png; path = btn/socket/lock_icon.png; sourceTree = "<group>"; };
+		957FD8E61D13228500A4DA62 /* lock_icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock_icon2.png; path = btn/socket/lock_icon2.png; sourceTree = "<group>"; };
+		95873C301D24806B004B67C1 /* QRCodeScanLine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRCodeScanLine@2x.png"; sourceTree = "<group>"; };
 		95D58E171D0E19DE00AEF6BC /* ss7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ss7.png; sourceTree = "<group>"; };
 		95D58E191D0E1C7500AEF6BC /* scene1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scene1.png; sourceTree = "<group>"; };
 		95D58E1A1D0E1C7500AEF6BC /* scene2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scene2.png; sourceTree = "<group>"; };
@@ -716,7 +732,6 @@
 				07929A2D198B8BD1001F9BB3 /* appImg */,
 				01DD0F7D1C8FF9F200B86162 /* Images.xcassets */,
 				077882E2198B254B003E2390 /* Supporting Files */,
-				955FA4311CF52271004ECAB8 /* buttonView.xib */,
 			);
 			path = FameSmartApp;
 			sourceTree = "<group>";
@@ -749,6 +764,15 @@
 		07929A2D198B8BD1001F9BB3 /* appImg */ = {
 			isa = PBXGroup;
 			children = (
+				95873C301D24806B004B67C1 /* QRCodeScanLine@2x.png */,
+				957A3F5A1D1225B2008BEAC4 /* gas_031.png */,
+				957A3F5B1D1225B2008BEAC4 /* sa8.png */,
+				957A3F5C1D1225B2008BEAC4 /* SA61.png */,
+				957A3F5D1D1225B2008BEAC4 /* smork_031.png */,
+				957A3F5E1D1225B2008BEAC4 /* socket61.png */,
+				957A3F581D12217E008BEAC4 /* move_031.png */,
+				957FD8E51D13228500A4DA62 /* lock_icon.png */,
+				957FD8E61D13228500A4DA62 /* lock_icon2.png */,
 				07CBA3A81A2C237E00411102 /* clock */,
 				07A7FD4819C2AD27006E3219 /* helpMain.jpg */,
 				0732D4B4198DF65F00BDBFAE /* btn */,
@@ -931,6 +955,7 @@
 				073B074C1999EE0A0013E78A /* smork_03.png in Resources */,
 				07CBA3BA1A2C237E00411102 /* clock_04_11.png in Resources */,
 				07320A14199B25AA00E276F2 /* radio_touch.png in Resources */,
+				957A3F591D12217E008BEAC4 /* move_031.png in Resources */,
 				07320A01199B25AA00E276F2 /* air-condition_03.png in Resources */,
 				FD7A72D61B09A0310025EEEC /* screen_icon.png in Resources */,
 				0732D4E4198E2CBB00BDBFAE /* aboutFameBtn.png in Resources */,
@@ -967,10 +992,12 @@
 				FD41A6361B09C91E00B85B92 /* yuba_icon.png in Resources */,
 				073B071E1999D36D0013E78A /* socket_17.png in Resources */,
 				07320A08199B25AA00E276F2 /* air-condition_touch_10.png in Resources */,
+				95873C311D24806B004B67C1 /* QRCodeScanLine@2x.png in Resources */,
 				07CBA3C01A2C237E00411102 /* clock_14.png in Resources */,
 				0732D4C5198DF65F00BDBFAE /* sa4.png in Resources */,
 				07320A22199B25AA00E276F2 /* tv-box_touch02_03.png in Resources */,
 				073B07381999E3210013E78A /* curtain_17.png in Resources */,
+				957FD8E71D13228500A4DA62 /* lock_icon.png in Resources */,
 				FD41A6371B09C91E00B85B92 /* yuba_icon2.png in Resources */,
 				0732D4C6198DF65F00BDBFAE /* sa4_p.png in Resources */,
 				95D58E2A1D0E23BB00AEF6BC /* model7.png in Resources */,
@@ -979,6 +1006,7 @@
 				07A7FD4919C2AD27006E3219 /* helpMain.jpg in Resources */,
 				07320A20199B25AA00E276F2 /* tv-box_17.png in Resources */,
 				07CBA3BE1A2C237E00411102 /* clock_10.png in Resources */,
+				957A3F621D1225B2008BEAC4 /* smork_031.png in Resources */,
 				073B073D1999E3210013E78A /* curtain_39.png in Resources */,
 				07320A0C199B25AA00E276F2 /* pop_09.png in Resources */,
 				0732D4D2198E194300BDBFAE /* model4.png in Resources */,
@@ -992,6 +1020,7 @@
 				073B07391999E3210013E78A /* curtain_23.png in Resources */,
 				073B073B1999E3210013E78A /* curtain_29.png in Resources */,
 				07929A54198B8BD1001F9BB3 /* mainBtnSU.png in Resources */,
+				957A3F631D1225B2008BEAC4 /* socket61.png in Resources */,
 				FD7A72D51B09A0310025EEEC /* screen_down.png in Resources */,
 				07CBA3B81A2C237E00411102 /* clock_04_03.png in Resources */,
 				FD37E9A01A663A8400276158 /* sa6_p.png in Resources */,
@@ -1005,7 +1034,6 @@
 				07320A09199B25AA00E276F2 /* pop.png in Resources */,
 				0732D517198E58BE00BDBFAE /* tempture.png in Resources */,
 				07929A56198B8BD1001F9BB3 /* mainBtnVM.png in Resources */,
-				955FA4321CF52271004ECAB8 /* buttonView.xib in Resources */,
 				07320A21199B25AA00E276F2 /* tv-box_20.png in Resources */,
 				95D58E241D0E1C7500AEF6BC /* scene5.png in Resources */,
 				07320A1D199B25AA00E276F2 /* tv-box_07.png in Resources */,
@@ -1034,6 +1062,7 @@
 				07320A0D199B25AA00E276F2 /* pop_touch_03.png in Resources */,
 				07803DD0198CF0E200AB2960 /* orgDT.txt in Resources */,
 				07929A50198B8BD1001F9BB3 /* mainBtnHU.png in Resources */,
+				957FD8E81D13228500A4DA62 /* lock_icon2.png in Resources */,
 				0732D4CF198E194300BDBFAE /* model1.png in Resources */,
 				075CE93B1B02E7FD000F86CC /* appl_power_normal.png in Resources */,
 				0732D4D0198E194300BDBFAE /* model2.png in Resources */,
@@ -1083,6 +1112,8 @@
 				07320A15199B25AA00E276F2 /* radio_touch02_03.png in Resources */,
 				07320A10199B25AA00E276F2 /* radio (2).png in Resources */,
 				07320A26199B25AA00E276F2 /* tv-box_touch_03.png in Resources */,
+				957A3F611D1225B2008BEAC4 /* SA61.png in Resources */,
+				957A3F5F1D1225B2008BEAC4 /* gas_031.png in Resources */,
 				01660AC91C8FB89D00643CAC /* icon-1.png in Resources */,
 				073B073F1999E3210013E78A /* curtain_44.png in Resources */,
 				077882EA198B254B003E2390 /* Main.storyboard in Resources */,
@@ -1098,6 +1129,7 @@
 				07320A06199B25AA00E276F2 /* air-condition_touch_05.png in Resources */,
 				07929A43198B8BD1001F9BB3 /* airBtn.png in Resources */,
 				07320A25199B25AA00E276F2 /* tv-box_touch05_03.png in Resources */,
+				957A3F601D1225B2008BEAC4 /* sa8.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1224,7 +1256,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				METAL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "9e49c4d3-ce60-4f58-8266-ca469c53e6b9";
+				PROVISIONING_PROFILE = "cd38bf53-4b97-4f14-a0eb-3180eb35360d";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1262,7 +1294,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				METAL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "9e49c4d3-ce60-4f58-8266-ca469c53e6b9";
+				PROVISIONING_PROFILE = "cd38bf53-4b97-4f14-a0eb-3180eb35360d";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
@@ -1275,8 +1307,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Li Zou (76JB7WY569)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Li Zou (76JB7WY569)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1286,7 +1318,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.famesmart.FameSmartApp;
 				PRODUCT_NAME = "米居";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cd38bf53-4b97-4f14-a0eb-3180eb35360d";
 				SKIP_INSTALL = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "FameSmartApp/FameSmartApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1300,8 +1332,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Li Zou (76JB7WY569)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Li Zou (76JB7WY569)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1311,7 +1343,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.famesmart.FameSmartApp;
 				PRODUCT_NAME = "米居";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cd38bf53-4b97-4f14-a0eb-3180eb35360d";
 				SKIP_INSTALL = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "FameSmartApp/FameSmartApp-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;

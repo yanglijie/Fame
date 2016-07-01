@@ -54,14 +54,21 @@ class ViewControllerWelcome: UIViewController {
     
     func timerFunction()
     {
-        let next = GBoard.instantiateViewControllerWithIdentifier("navLogin") as UIViewController
-        //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
         
-        self.presentViewController(next, animated: true, completion: nil)
+        
+            //network error
+            //viewAnimate().showTip(self.tip, content: Defined_network_failed)
+            let next = GBoard.instantiateViewControllerWithIdentifier("navLogin") as UIViewController
+            //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
+            
+            self.presentViewController(next, animated: true, completion: nil)
+            
         
     }
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
+        
+        
         let timmer:NSTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:"timerFunction", userInfo:nil, repeats:false)
     }
 }
@@ -88,10 +95,92 @@ class ViewControllerLogin0: UIViewController {
         //self.navigationController.navigationBar.topItem.title = "123"
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "empty.png"), forBarMetrics: UIBarMetrics.Default)
         
+        let timmer:NSTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target:self, selector:"timerFunction", userInfo:nil, repeats:false)
  
         //self.navigationController.setNavigationBarHidden(true, animated: true)
     }
-    
+    func timerFunction(){
+        let userName = FAME.getProfile(0)
+        let userPass = FAME.getProfile(1)
+        FAME.user_name = userName
+        FAME.user_pwd = userPass
+        
+        var received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 10, \"user_name\": \"\(userName)\",\"user_pwd\": \"\(userPass)\", \"client_type\": \"ios\"}",cmplx:true)
+        //received = nil
+        if FAME.outTag == 1{
+            received = nil
+        }
+        if (received != nil) {
+            switch received.valueForKey("result") as! NSNumber {
+                
+            case 0 :
+                print("login successed")
+                FAME.user_uid = received.valueForKey("user_uid") as! UInt
+                
+                if received.valueForKey("device_count") as! Int == 0 {
+                    print("no devices linked")
+                    
+                }else{
+                    let devices : NSArray = received.valueForKey("devices") as! NSArray
+                    let devicesObj : NSDictionary = devices[0] as! NSDictionary
+                    FAME.user_did = devicesObj.valueForKey("did") as! UInt
+                    FAME.user_ieee_addr = devicesObj.valueForKey("ieee_addr") as! String
+                    FAME.user_dname = devicesObj.valueForKey("dname") as! String
+                    
+                    
+                    UIApplication.sharedApplication().registerForRemoteNotifications()
+                    
+                    //get the devicetable
+                    let DTValue = FAME.getDeviceTable()
+                    if (DTValue != nil) {
+                        if DTValue == 0 {
+                            print("DeviceTable is OK")
+                            let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
+                            //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
+                            self.presentViewController(next, animated: false, completion: {
+                                self.navigationController?.popToRootViewControllerAnimated(false)
+                            })
+                            
+                            //self.showNavMain()
+                        }else{
+                            print("DeviceTable is null")
+                            FAME.getDeviceTable()
+                            FAME.lastDTversion = FAME.DTversion
+                            let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
+                            self.navigationController?.pushViewController(next, animated: true)
+                            FAME.isAddDeviceFromSetting = false
+                            
+                        }
+                    }else{
+                        print("get DT failed")
+                        
+                        
+                        //                        viewAnimate().shrkInput(userName)
+                        //                        viewAnimate().shrkInput(userPass)
+                        //viewAnimate().showTip(self.tip, content: Defined_login_dt_failed)
+                        
+                    }
+                    
+                }
+                
+            default:
+                
+                print("get DT failed")
+                //                viewAnimate().shrkInput(userName)
+                //                viewAnimate().shrkInput(userPass)
+                
+            }
+            
+            
+            
+        }else{
+           
+            print("get DT failed")
+            
+        }
+        
+
+    }
 }
 
 class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
@@ -209,6 +298,8 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                     FAME.user_did = devicesObj.valueForKey("did") as! UInt
                     FAME.user_ieee_addr = devicesObj.valueForKey("ieee_addr") as! String
                     FAME.user_dname = devicesObj.valueForKey("dname") as! String
+                    
+                    UIApplication.sharedApplication().registerForRemoteNotifications()
                     
                     //get the devicetable
                     let DTValue = FAME.getDeviceTable()
@@ -491,6 +582,13 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
 }
 
 class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDelegate {
+    
+    var scanRectView:UIView!
+    //扫描线
+    let scanLine = UIImageView()
+    
+    var timer: NSTimer!
+    
     var device:AVCaptureDevice!
     var input:AVCaptureDeviceInput!
     var output:AVCaptureMetadataOutput!
@@ -500,9 +598,21 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        //self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+        
+        //创建定时器，用于实现扫描线动画
+        
+        
+        
+        createBackGroundView()
         setupCamera()
     }
     
+    override func viewWillAppear(animated: Bool){
+        
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "moveScannerLayer:", userInfo: nil, repeats: true)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -522,18 +632,65 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
         //self.output.setMetadataObjectsDelegate(self, queue: dispatch_get_current_queue()!)
         //Session
         self.session = AVCaptureSession()
+        
+        if UIScreen.mainScreen().bounds.size.height<500 {
+            self.session.sessionPreset = AVCaptureSessionPreset640x480
+        }else{
+            self.session.sessionPreset = AVCaptureSessionPresetHigh
+        }
+        
         self.session.addInput(self.input)
         self.session.addOutput(self.output)
         
         let arr:NSArray = NSArray(object: AVMetadataObjectTypeQRCode)
         self.output.metadataObjectTypes = arr as [AnyObject]
+        
+        //计算中间可探测区域
+        let windowSize:CGSize = UIScreen.mainScreen().bounds.size;
+        let scanSize:CGSize = CGSizeMake(windowSize.width*3/4,
+        windowSize.width*3/4);
+        var scanRect:CGRect = CGRectMake((windowSize.width-scanSize.width)/2,
+        (windowSize.height-scanSize.height)/2, scanSize.width, scanSize.height);
+        //计算rectOfInterest 注意x,y交换位置
+        scanRect = CGRectMake(scanRect.origin.y/windowSize.height,
+        scanRect.origin.x/windowSize.width,
+        scanRect.size.height/windowSize.height,
+        scanRect.size.width/windowSize.width);
+        
+        //设置可探测区域
+        self.output.rectOfInterest = scanRect
         //preview
         self.preview = AVCaptureVideoPreviewLayer(session: self.session)
         self.preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
         self.preview.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+        
+        
         self.view.layer.insertSublayer(self.preview, atIndex: 0)
         
-        //self.session.startRunning()
+        
+        
+        //添加中间的探测区域绿框
+        self.scanRectView = UIView();
+        
+        
+        self.view.addSubview(self.scanRectView)
+        self.scanRectView.frame = CGRectMake(0, 0, scanSize.width, scanSize.height);
+        self.scanRectView.center = CGPointMake(
+            CGRectGetMidX(UIScreen.mainScreen().bounds),
+            CGRectGetMidY(UIScreen.mainScreen().bounds));
+        self.scanRectView.layer.borderColor = UIColor.whiteColor().CGColor
+        self.scanRectView.layer.borderWidth = 1;
+        
+        //设置扫描线
+        scanLine.frame = CGRect(x: 0, y: 0, width: scanRectView.frame.size.width, height: 10)
+        scanLine.image = UIImage(named: "QRCodeScanLine")
+        //scanLine.backgroundColor = UIColor.redColor()
+        self.scanRectView .addSubview(scanLine)
+        
+        //开始捕获
+        self.session.startRunning()
+        
+        
     }
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!){
@@ -545,19 +702,58 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
         
         print(metadataObj.stringValue)
         //tmpInput.text = metadataObj.stringValue
+        if metadataObj.stringValue != nil{
+            self.session.stopRunning()
+            self.timer.fire()
+        }
         
-        self.session.stopRunning()
         self.pView.deQRcode(metadataObj.stringValue)
         self.dismissViewControllerAnimated(true, completion: nil)
         
         
         // println(metadataObjects)
     }
-    override func viewWillAppear(animated: Bool){
-        super.viewWillAppear(animated)
+    func createBackGroundView() {
+        let windowSize:CGSize = UIScreen.mainScreen().bounds.size;
+        let height = ( windowSize.height - (windowSize.width * 0.75) )/2
+        let topView = UIView(frame: CGRect(x: 0, y: 0, width: windowSize.width, height:height))
+        let bottomView = UIView(frame: CGRect(x: 0, y: windowSize.width * 0.75 + height, width: windowSize.width, height: height))
         
+        let leftView = UIView(frame: CGRect(x: 0, y: height, width: windowSize.width * 0.125, height: windowSize.width * 0.75))
+        let rightView = UIView(frame: CGRect(x: windowSize.width * 0.875, y: height, width: windowSize.width * 0.125, height: windowSize.width * 0.75))
+        
+        topView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+        bottomView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+        leftView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+        rightView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+        
+        let label = UILabel(frame: CGRect(x: 0, y: bottomView.frame.size.height - 30, width:windowSize.width, height: 21))
+        label.textAlignment = .Center
+        label.font = UIFont.systemFontOfSize(14)
+        label.textColor = UIColor.whiteColor()
+        label.text = "将二维码/条形码放入扫描框内，即自动扫描"
+        
+        //self.view .addSubview(label)
+        
+        bottomView.addSubview(label)
+        
+        self.view.addSubview(topView)
+        self.view.addSubview(bottomView)
+        self.view.addSubview(leftView)
+        self.view.addSubview(rightView)
         
     }
+    //让扫描线滚动
+    func moveScannerLayer(_timer : NSTimer) {
+        let windowSize:CGSize = UIScreen.mainScreen().bounds.size;
+        let top = windowSize.height - (windowSize.width * 0.75) 
+        scanLine.frame = CGRect(x: 0, y: 0, width: windowSize.width*0.75, height: 10)
+        UIView.animateWithDuration(2) { () -> Void in
+            self.scanLine.frame = CGRect(x: self.scanLine.frame.origin.x, y: self.scanLine.frame.origin.y + top - 4, width: self.scanLine.frame.size.width, height: self.scanLine.frame.size.height)
+        }
+        
+    }
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.session.startRunning()
@@ -730,10 +926,15 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
 }
 
 
-class ViewControllerLogin4: UIViewController , UITextFieldDelegate{
+class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDelegate{
 
+    
+    var timer :NSTimer!
+    //var remainingSeconds = 0
     @IBOutlet weak var btnNext: UIButton!
     @IBOutlet weak var btnSkip: UIButton!
+    
+    @IBOutlet weak var getVer: UIButton!
     
     @IBAction func didTapped(sender : AnyObject) {
         self.view.endEditing(false)
@@ -753,6 +954,61 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate{
         let returnButtonItem = UIBarButtonItem()
         returnButtonItem.title = Defined_navigation_back_title
         self.navigationItem.backBarButtonItem = returnButtonItem
+    }
+    
+    var remainingSeconds: Int = 0 {
+        willSet {
+            self.getVer.setTitle("\(newValue)秒", forState: .Normal)
+            
+            if newValue <= 0 {
+                self.getVer.setTitle("获取验证码", forState: .Normal)
+                isCounting = false
+            }
+        }
+    }
+    var isCounting = false{
+        willSet {
+            if newValue {
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "updateTime:", userInfo: nil, repeats: true)
+                
+                remainingSeconds = 120
+                
+            } else {
+                self.timer?.invalidate()
+                self.timer = nil
+                
+            }
+            
+            self.getVer.enabled = !newValue
+        }
+    }
+    func updateTime(timer: NSTimer) {
+        // 计时开始时，逐秒减少remainingSeconds的值
+        remainingSeconds -= 1
+    }
+    @IBAction func getVerify(sender: UIButton) {
+        
+        isCounting = true
+        let myThread = NSThread(target: self, selector: "Timerset1", object: nil)
+        myThread.start()
+ 
+    
+    }
+    func Timerset1(){
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 4, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\",\"user_phone\": \"\(self.inputTel.text!)\"}",cmplx:true)
+        print(received)
+        if( received != nil){
+            if received.valueForKey("result") as! UInt == 0{
+                
+               
+                
+            }
+            else{
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    FAME.showMessage("输入的手机号不正确")
+                })
+            }
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -782,9 +1038,43 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate{
 
     @IBAction func didShowLogin5(sender : AnyObject) {
 
-        let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
-        self.navigationController?.pushViewController(next, animated: true)
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+//        let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
+//        self.navigationController?.pushViewController(next, animated: true)
+//        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
+        myThread.start()
+        
+    }
+    func Timerset2(){
+        let cmdStr = "{\"cmd\": 5, \"user_phone\": \"\(self.inputTel.text! )\",\"user_smscode\": \"\(self.inputVcode.text!)\"}"
+        if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+            
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertView()
+                alert.title = Defined_setting_title
+                alert.delegate = self
+                alert.message =  Defined_telphone_success
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            })
+            
+        }
+        else{
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertView()
+                alert.title = Defined_setting_title
+                alert.message =  Defined_telphone_error
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            })
+
+        }
+    }
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        
+        
+        self.navigationController?.popToRootViewControllerAnimated(true)
         
     }
     @IBAction func showLogin5(sender : AnyObject) {
@@ -794,6 +1084,250 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate{
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 }
+
+class ViewControllerLogin7: UIViewController , UITextFieldDelegate,UIAlertViewDelegate{
+    
+    
+    @IBOutlet weak var verityText: UITextField!
+    
+    @IBOutlet weak var verityButton: UIButton!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+//        inputTel.delegate = self
+        self.verityText.returnKeyType = UIReturnKeyType.Done
+        self.verityText.delegate = self
+       
+        let returnButtonItem = UIBarButtonItem()
+        returnButtonItem.title = Defined_navigation_back_title
+        self.navigationItem.backBarButtonItem = returnButtonItem
+    }
+    
+  
+    @IBAction func verityActive(sender: UIButton) {
+        
+   
+        
+            let myThread = NSThread(target: self, selector: "Timerset1", object: nil)
+            myThread.start()
+   
+        
+        
+    }
+    func Timerset1(){
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 7, \"user_name\": \"\(FAME.user_name )\"}",cmplx:true)
+        print(received)
+        if( received != nil){
+            if received.valueForKey("result") as! UInt == 0{
+                
+                print("phone\(received.valueForKey("phone"))")
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    self.isCounting = true
+                })
+                
+            }
+            else{
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                   
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.delegate = self
+                    alert.message =  Defined_telphone_success1
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+
+                })
+            }
+        }
+    }
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+   
+    @IBAction func sureClick(sender: AnyObject) {
+        
+        
+        
+        let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
+        myThread.start()
+        
+    }
+    func Timerset2(){
+        let cmdStr = "{\"cmd\": 8, \"user_name\": \"\(FAME.user_name )\",\"user_smscode\": \"\(self.verityText.text!)\"}"
+        if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+            
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                let next = GBoard.instantiateViewControllerWithIdentifier("Login8") as UIViewController
+                self.navigationController?.pushViewController(next, animated: true)
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+            })
+            
+        }
+        else{
+            
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                FAME.showMessage("输入的验证码不正确")
+            })
+            
+        }
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        verityText.resignFirstResponder()
+    }
+    var timer :NSTimer!
+    var remainingSeconds: Int = 0 {
+        willSet {
+            verityButton.setTitle("\(newValue)秒", forState: .Normal)
+            
+            if newValue <= 0 {
+                verityButton.setTitle("获取验证码", forState: .Normal)
+                isCounting = false
+            }
+        }
+    }
+    var isCounting = false{
+        willSet {
+            if newValue {
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "updateTime:", userInfo: nil, repeats: true)
+                
+                remainingSeconds = 120
+                
+            } else {
+                self.timer?.invalidate()
+                self.timer = nil
+                
+            }
+            
+            verityButton.enabled = !newValue
+        }
+    }
+    func updateTime(timer: NSTimer) {
+        // 计时开始时，逐秒减少remainingSeconds的值
+        remainingSeconds -= 1
+    }
+
+    
+}
+
+class ViewControllerLogin8: UIViewController , UITextFieldDelegate,UIAlertViewDelegate{
+    
+    
+    @IBOutlet weak var newPass: UITextField!
+
+    @IBOutlet weak var surePass: UITextField!
+    
+   
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        //        inputTel.delegate = self
+        self.newPass.returnKeyType = UIReturnKeyType.Done
+        self.newPass.delegate = self
+        self.newPass.secureTextEntry = true
+        
+        self.surePass.returnKeyType = UIReturnKeyType.Done
+        self.surePass.delegate = self
+        self.surePass.secureTextEntry = true
+        
+        let returnButtonItem = UIBarButtonItem()
+        returnButtonItem.title = Defined_navigation_back_title
+        self.navigationItem.backBarButtonItem = returnButtonItem
+    }
+
+    
+    @IBAction func sureClick(sender: AnyObject) {
+        
+        let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
+        myThread.start()
+        
+    }
+    func Timerset2(){
+        
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 9, \"user_newpwd\": \"\(self.newPass.text! )\",\"user_newpwd1\": \"\(self.surePass.text!)\"}",cmplx:true)
+        print(received)
+        if( received != nil){
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                switch received.valueForKey("result") as! UInt {
+                case 0:
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.delegate = self
+                    alert.message =  Defined_setting_success
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    FAME.saveProfile(FAME.user_name, pwd: "")
+                    
+                case 2:
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.message =  Defined_setting_error6
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    self.navigationController?.popViewControllerAnimated(true)
+                    
+                case 3:
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.message =  Defined_setting_error4
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    
+                    self.newPass.text = ""
+                    self.surePass.text = ""
+                    
+                case 4:
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.message =  Defined_setting_error5
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    
+                    self.newPass.text = ""
+                    self.surePass.text = ""
+                    
+                    
+                default:
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.message =  Defined_setting_error2
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    self.newPass.text = ""
+                    self.surePass.text = ""
+                    
+                }
+
+            })
+            
+        }
+
+        
+}
+
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        FAME.outTag = 1
+        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popToRootViewControllerAnimated(false)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        surePass.resignFirstResponder()
+        newPass.resignFirstResponder()
+    }
+    
+    
+    
+}
+
 
 class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate {
     var BGView:UIView!
@@ -1227,7 +1761,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
 
 
 
-class ViewControllerLogin6: UIViewController,UITableViewDataSource,UIAlertViewDelegate  {
+class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1239,7 +1773,7 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource,UIAlertViewDe
         if FAME.doAddDevice() {
             if FAME.addDeviceArray.count > 0 {
                 let alert :UIAlertView = UIAlertView()
-                
+                alert.delegate = self
                 alert.title = Defined_VC6_AlertTitle
                 alert.message = Defined_VC6_AlertMessage
                 alert.addButtonWithTitle(Defined_ALERT_OK)
@@ -1250,6 +1784,7 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource,UIAlertViewDe
             if FAME.isAddDeviceFromSetting {
                 self.navigationController?.popToRootViewControllerAnimated(true)
             }else{
+                
                 let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
                 //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
                 self.presentViewController(next, animated: false, completion:nil)
@@ -1265,8 +1800,11 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource,UIAlertViewDe
     }
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
         print("click at \(buttonIndex)")
+        
         if buttonIndex == 0 {
             
+            
+            //print("FAME.loading.text = 正在联网操作中...")
         }
     }
     

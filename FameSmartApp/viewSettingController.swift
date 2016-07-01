@@ -54,6 +54,7 @@ class ViewSettingController: UIViewController {
     func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
         print("click at \(buttonIndex)")
         if buttonIndex == 0 {
+            FAME.outTag = 1
             self.dismissViewControllerAnimated(true, completion: nil)
             self.navigationController?.popToRootViewControllerAnimated(false)
         }
@@ -139,7 +140,7 @@ class ViewSettingPwdController: UIViewController ,UITextFieldDelegate,UIAlertVie
                 //POST
                 
                 
-                let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 6, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(self.userPwd1.text)\",\"user_newpwd\": \"\(self.userPwd2.text)\",\"user_newpwd1\": \"\(self.userPwd3.text)\"}",cmplx:true)
+                let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 6, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(self.userPwd1.text!)\",\"user_newpwd\": \"\(self.userPwd2.text!)\",\"user_newpwd1\": \"\(self.userPwd3.text!)\"}",cmplx:true)
                 print(received)
                 if( received != nil){
                     
@@ -147,15 +148,12 @@ class ViewSettingPwdController: UIViewController ,UITextFieldDelegate,UIAlertVie
                     case 0:
                         let alert = UIAlertView()
                         alert.title = Defined_setting_title
+                        alert.delegate = self
                         alert.message =  Defined_setting_success
                         alert.addButtonWithTitle(Defined_ALERT_OK)
                         alert.show()
-                        FAME.user_pwd = self.userPwd2.text
-                        
-                        self.userPwd1.text = ""
-                        self.userPwd2.text = ""
-                        self.userPwd3.text = ""
-                        
+                        FAME.saveProfile(FAME.user_name, pwd: "")
+  
                     case 3:
                         let alert = UIAlertView()
                         alert.title = Defined_setting_title
@@ -199,7 +197,11 @@ class ViewSettingPwdController: UIViewController ,UITextFieldDelegate,UIAlertVie
         }
     }
 
-    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        FAME.outTag = 1
+        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popToRootViewControllerAnimated(false)
+    }
 
 }
 

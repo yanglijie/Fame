@@ -25,6 +25,9 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     var showId:Int = 0
     var index:Int = 0
     
+    var linkId:Int = 0
+    var linkString:String!
+    
     var viewSlider:UISlider!
     var picker:UIPickerView!
     var selecedCell:UITableViewCell2!
@@ -37,7 +40,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     var Links1:Array<Dictionary<String,AnyObject>> = []
     var Links2 : Array<Dictionary<String,AnyObject>> = []
     
-    
+    var ieee:String! = ""
 
     
     
@@ -89,16 +92,30 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         print(sender.on)
         //var act_id = sender.act_id
         let id = sender.dev_id * 10 + FAME.tempSensorId
+        let subCell:AnyObject = self.tabelVeiw.visibleCells[index]
+        //print(subCell)
+        let cell = subCell as! UITableViewCell2
+        let view = cell.viewWithTag(1) as! UIImageView
+        
         if sender.on {
             FAME.sensorsCellState["\(id)"] = 1
+            view.image = UIImage(named: Defined_SS_icons1[FAME.tempSensorId])
             httpRequert().sendRequest(sender.act_id)
+            
+            
+
             
         }else{
             FAME.sensorsCellState["\(id)"] = 0
+            view.image = UIImage(named: Defined_SS_icons[FAME.tempSensorId])
             httpRequert().sendRequest(sender.act_id + 1)
+            
         }
         print(FAME.sensorsCellState)
     }
+    
+    
+
     
     @IBOutlet var tabelVeiw : UITableView!
     
@@ -109,14 +126,21 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         case 2:
             self.sensors = FAME.sensors24
         case 3:
-            self.sensors = FAME.sensors25
-        case 4:
             self.sensors = FAME.sensors26
+        case 4:
+            self.sensors = FAME.sensors25
         case 7:
             self.sensors = FAME.sensors32
         default:
             break
         }
+    }
+    func refreshLights(sender:AnyObject!){
+        print("refreshLights")
+        //self.TableView!.reloadData()
+        let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
+        myThread.start()
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,9 +164,13 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         }
         
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
+        self.navigationItem.rightBarButtonItem = addButton
+        
+        
         self.createPop()
         
-
         
         
         self.Links1 = []
@@ -166,6 +194,9 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             self.seletedStr2 = self.Links2[0]["name"] as! String!
             self.seletedStr3 = Defined_mode_on
         }
+        
+        
+        
     }
     
     func Timerset(){
@@ -182,6 +213,10 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             alarm_value = 0
             e_id = (dev_id - 85) * 3 + 3
         }
+        
+        
+        
+        
         
         if FAME.link_id == 0 {
             let cmdStr = "{\"cmd\": 33, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id),\"filter_data\":[\(dev_id),11,17,\(alarm_value)],\"action_id\":\(action_id),\"active\":0}}"
@@ -318,14 +353,14 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             btnS1.tag = 1
             btnS1.addTarget(self, action: Selector("btns1Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
             
-            let btnS2 = UIButton(frame: CGRect(x: btnX, y: btnY + 50, width: btnWidth, height: btnHeight))
+            let btnS2 = UIButton(frame: CGRect(x: btnX, y: btnY + 40, width: btnWidth, height: btnHeight))
             btnS2.setTitle(Defined_SS_Title2, forState: UIControlState.Normal)
             btnS2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
             btnS2.tag = 2
             //btnS2.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
             btnS2.addTarget(self, action: Selector("btns2Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
             
-            let btnS3 = UIButton(frame: CGRect(x: btnX, y: btnY + 100, width: btnWidth, height: btnHeight))
+            let btnS3 = UIButton(frame: CGRect(x: btnX, y: btnY + 80, width: btnWidth, height: btnHeight))
             btnS3.setTitle(Defined_SS_Title3, forState: UIControlState.Normal)
             btnS3.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
             //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
@@ -333,18 +368,25 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             btnS3.addTarget(self, action: Selector("btns3Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
             
             
-            let btnS4 = UIButton(frame: CGRect(x: btnX, y: btnY + 150, width: btnWidth, height: btnHeight))
+            let btnS4 = UIButton(frame: CGRect(x: btnX, y: btnY + 120, width: btnWidth, height: btnHeight))
             btnS4.setTitle(Defined_SS_air_Title1, forState: UIControlState.Normal)
             btnS4.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
             //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
             btnS4.tag = 4
             btnS4.addTarget(self, action: Selector("btns71Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            let btnS5 = UIButton(frame: CGRect(x: btnX, y: btnY + 160, width: btnWidth, height: btnHeight))
+            btnS5.setTitle(Defined_SS_air_Title2, forState: UIControlState.Normal)
+            btnS5.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            btnS5.tag = 5
+            //btnS2.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS5.addTarget(self, action: Selector("btns72Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
             
             
             self.pickView1.addSubview(btnS1)
             self.pickView1.addSubview(btnS2)
             self.pickView1.addSubview(btnS3)
             self.pickView1.addSubview(btnS4)
+            self.pickView1.addSubview(btnS5)
 
         }
         //picker
@@ -364,6 +406,12 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         btn2.tag = 2
         btn2.addTarget(self, action: Selector("cancleActBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
         
+        let lable = UILabel(frame: CGRect(x: 60, y: 20, width: pickView.frame.width - 120, height: 20))
+        lable.text = "333333"
+        lable.hidden = true
+        lable.textAlignment = .Center
+        lable.tag = 400
+        self.pickView2.addSubview(lable)
         
         self.picker = UIPickerView(frame: CGRect(x: 20, y: 40, width: pickView.frame.width - 40 , height: 230))
         
@@ -434,6 +482,11 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             self.timeLabel2.hidden = false
             self.viewSlider.hidden = false
         }else{
+            
+            let lable1 = self.view.viewWithTag(400) as! UILabel!
+            lable1.text = self.linkString
+            lable1.hidden = false
+            
             self.picker.hidden = false
             self.viewSlider.hidden = true
             self.btnAdd.hidden = true
@@ -500,14 +553,33 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                 //也可以用下标的形式获取textField let login = alertController.textFields![0]
                 let login = alertController.textFields!.first! as UITextField
                 print("用户名：\(login.text)")
-                let cmdStr = "{\"cmd\": 30, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":[{\"ieee_addr\":\"\(login.text! as String)\"}]}"
-                if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+                
+                
+                
+                if login.text! == "\(FAME.user_name)34637169"
+                {
+                    let cmdStr = "{\"cmd\": 30, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":[{\"ieee_addr\":\"\(self.ieee)\"}]}"
+                    if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+                        
+                        print(recevied)
+                        let cmdStr1 = "{\"cmd\": 35, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did)}"
+                        if let recevied1 = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr1,timeout:90){
+                            print(recevied1)
+                            
+                            let dic:NSMutableDictionary = ["hvaddr":"\(self.ieee)"]
+                            
+                            FAME.delDeviceArray.removeAllObjects()
+                            FAME.delDeviceArray.addObject(dic)
+                            
+                            FAME.doDeleteDev()
+                            self.navigationController?.popToRootViewControllerAnimated(true)
+                        }
+                    }
                     
-                    print(recevied)
                 }
-                
-                
-                
+                else{
+                    FAME.showMessage("输入的密码不正确")
+                }
         })
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
@@ -604,10 +676,12 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             let myThread = NSThread(target: self, selector: "privateCmd", object: nil)
             myThread.start()
             
+            
             self.hidePop()
         }else{
             print("selectedActBtn")
             print("\(self.seletedStr1)  \(self.seletedStr2) \(self.seletedStr3)")
+            linkString = self.seletedStr1 + self.seletedStr2 + " " + self.seletedStr3
             self.hidePop()
             
             self.ids = self.id1 + self.id2
@@ -629,9 +703,16 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     @IBAction func showSheet(sender : UIButtonIndex2) {
         self.seletedBtn = sender
         index = sender.index ;
-        let roomName_Str:String! = self.sensors[index]["roomName"] as String!
-        FAME.dev_ss_Rname = roomName_Str ;
+
+        self.ieee = self.sensors[index]["ieee"] as String!
+
+        //print("2222222\(FAME.dev_ss_Rname)")
+        
         self.showPop()
+        
+        let myThread1 = NSThread(target: self, selector: "linkShow", object: nil)
+        myThread1.start()
+        
         
     }
     
@@ -674,7 +755,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             self.seletedStr2 = self.Links2[0]["name"] as! String!
             
             self.seletedStr3 = Defined_mode_on
-            self.id2 = 1
+            self.id2 = 0
             
         }else  if component == 1 {
             
@@ -686,14 +767,14 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         }else{
             if row == 0 {
                 self.seletedStr3 = Defined_mode_on
-                self.id2 = 1
-            }else{
                 self.id2 = 0
+            }else{
+                self.id2 = 1
                 self.seletedStr3 = Defined_mode_off
             }
         }
-        
-        print(self.id1 + self.id2)
+
+        print("\(self.id1 + self.id2)")
         
     }
     
@@ -729,18 +810,23 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
         
+        
         if component == 0 {
             
             //return FAME.linkMoled[row]["name"]
+
             return self.Links1[row]["name"] as! String!
         }else if component == 1{
             //let obj = self.Links1[row]
             return self.Links2[row]["name"] as! String!
         }else{
+            
             if pickerView.selectedRowInComponent(0) == 0 {
                 return ""
             }else{
-                if row == 0 {
+                
+                if row == 0{
+                    
                     return Defined_mode_on
                 }else{
                     return Defined_mode_off
@@ -761,7 +847,57 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         return viewLable
         
     }
-    
+    func linkShow(){
+        
+        let dev_id = Int(self.seletedBtn.dev_id)
+        //let action_id = self.ids
+        
+        var e_id = (dev_id - 85) * 3 + 1
+        if self.showId == 0{
+            
+            e_id = (dev_id - 85) * 3 + 1
+        }else{
+            
+            e_id = (dev_id - 85) * 3 + 3
+        }
+        
+        let cmdStr = "{\"cmd\": 34, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id)}}"
+       
+        if let received = (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90)){
+            if received.valueForKey("result") as! UInt == 0{
+                
+                var linkid:Int!
+                linkid = received.valueForKey("detail")?.valueForKey("action_id") as! Int
+                //print("\(self.Links1)")
+                    let name : String!
+                    if linkid % 2 == 0{
+                        name = "开"
+                    }
+                    else{
+                        name = "关"
+                        linkid = linkid - 1
+                    }
+                    var arr : NSArray!
+                    for (var j = 0; j < self.Links1.count ; j++){
+                        arr = self.Links1[j]["sub"] as! NSArray!
+                        //print(arr)
+                        for(var i = 0; i < arr.count ; i++) {
+                            if linkid == Int(arr[i].valueForKey("act_id") as! NSNumber){
+                                
+                                self.linkString = (self.Links1[j]["name"] as! String!) + (arr[i].valueForKey("name") as! String) + " " + name
+                                print(self.linkString)
+                                break
+                            }
+                        }
+                    }
+
+            }
+            else{
+                
+            }
+        }
+
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -777,6 +913,17 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         
     }
+//    func alarmK(){
+//        // \(FAME.user_did)
+//        let cmdStr = "{\"cmd\": 39, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": 108}"
+//        if  (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
+//            print("link device successed")
+//            
+//           
+//            
+//        }
+//        
+//    }
     func Timerset2(){
         
         let paramArray = NSMutableArray()
@@ -798,7 +945,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         if (received != nil){
             //got the state
             for values:AnyObject in received.valueForKey("states") as! NSArray {
-                //print(values)
+                print(values)
                 let AddedObj = values as! NSDictionary
                 let ADDieee_addr :Int!  = AddedObj.valueForKey("id") as! Int
                 let ADDflag :Int!  = AddedObj.valueForKey("state") as! Int
@@ -821,15 +968,24 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                 //print(subCell)
                 let cell = subCell as! UITableViewCell2
                 let view = cell.viewWithTag(3) as! UISwitch2!
-                
+                let view1 = cell.viewWithTag(1) as! UIImageView
                 let state :Int! = FAME.sensorsCellState["\(cell.id)"]
+                print("cell.id  \(cell.id)")
                 if (state != nil) {
                     print("state:\(state)")
                     if state == 1 {
                         view.on = true
+                        view1.image = UIImage(named: Defined_SS_icons1[FAME.tempSensorId])
+//                        let myThread = NSThread(target: self, selector: "alarmK", object: nil)
+//                        myThread.start()
                     }else {
                         view.on = false
+                        view1.image = UIImage(named: Defined_SS_icons[FAME.tempSensorId])
                     }
+                }
+                else{
+                    view.on = false
+                    view1.image = UIImage(named: Defined_SS_icons[FAME.tempSensorId])
                 }
             }
         }else{
@@ -879,7 +1035,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         //icon
         
         let view = cell.viewWithTag(1) as! UIImageView
-        view.image = UIImage(named: Defined_SS_icons[FAME.tempSensorId])
+        
         
         //Switch
         let tag = cell.viewWithTag(3) as! UISwitch2!
@@ -892,9 +1048,14 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             print("id:\(cell.id) state:\(state)")
             if state == 1 {
                 tag.on = true
+                view.image = UIImage(named: Defined_SS_icons1[FAME.tempSensorId])
             }else {
                 tag.on = false
+                view.image = UIImage(named: Defined_SS_icons[FAME.tempSensorId])
             }
+        }
+        else{
+            view.image = UIImage(named: Defined_SS_icons[FAME.tempSensorId])
         }
         
         
@@ -1671,8 +1832,9 @@ class ViewControllerSS7Detail: UIViewController {
                     viewpm2_5.text = "0.0";
                 }
                 else{
-                    viewpm2_5.text=self.StringSplit(String(index_Str));
+                    viewpm2_5.text="\(self.StringSplit(String(index_Str)))";
                 }
+                
                 let viewpm_lable = self.view.viewWithTag(301) as! UILabel!;
                 if index_Str <= 70{
                     viewpm_lable.text = "空气质量佳";
@@ -1772,7 +1934,9 @@ class ViewControllerSS7Detail: UIViewController {
         }
         if bool == 1{
             let splitedArray=str.componentsSeparatedByString(".");
-            
+            if splitedArray.count == 1{
+                return str
+            }
             let ns3:Int!;
                 if (splitedArray[1] as NSString).length == 0 {
                     ns3=0;
@@ -1821,14 +1985,13 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         // Do any additional setup after loading the view, typically from a nib.
         self.title = FAME.dev_ss_name
         self.nameArray = FAME.rooms;
-        
+
         for(var i = 0; i < self.nameArray.count ; i++){
             if FAME.dev_ss_Rname == self.nameArray[i]{
                 count = i ;
             }
         }
         
-        print(FAME.dev_ss_Rname);
         let dev_name = self.view.viewWithTag(18) as! UITextField!;
         dev_name.text = FAME.dev_ss_name ;
         
@@ -1856,12 +2019,13 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         print("点击了确定按钮");
         let dev_name = self.view.viewWithTag(18) as! UITextField!;
  
-        let room_name = self.view.viewWithTag(20) as! UILabel!;
-        room_name.text = self.nameArray[count];
+//        let room_name = self.view.viewWithTag(20) as! UILabel!;
+//        room_name.text = self.nameArray[count];
         let name:String = dev_name.text as String!
         
         FAME.dev_ss_name = name ;
-        FAME.dev_ss_Rname = room_name.text ;
+        
+        
         
         let cmdStr = "{\"cmd\": 47,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"name\": \"\(name)\",\"room\":\(count)}"
         if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
@@ -1870,6 +2034,7 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
             if recevied["result"] as! NSObject == 0
             {
                 //fame.showMessage("111111");
+                
                 self.delegate?.reloadName();
                 self.navigationController?.popViewControllerAnimated(true);
             }
@@ -1931,6 +2096,9 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         
         let room_name = self.view.viewWithTag(20) as! UILabel!;
         room_name.text = self.nameArray[indexPath.row];
+        
+        FAME.dev_ss_Rname = self.nameArray[indexPath.row];
+        
         count = indexPath.row ;
         self.popView.hidden = true;
     }

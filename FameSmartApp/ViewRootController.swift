@@ -77,6 +77,7 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
         FAME.getDateFormServer()
         
         
+        FAME.loading = self.view.viewWithTag(1111) as! UILabel!;
         
         let returnButtonItem = UIBarButtonItem()
         returnButtonItem.title = Defined_navigation_back_title
@@ -269,12 +270,17 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
         print("click at \(buttonIndex)")
+        //FAME.saveProfile("", pwd: "")
         if buttonIndex == 0 {
+            //self.dismissViewControllerAnimated(true, completion: nil)
+            FAME.outTag = 1
             self.dismissViewControllerAnimated(true, completion: nil)
+            //self.navigationController?.popToRootViewControllerAnimated(false)
         }
     }
     
     func alertViewCancel(alertView: UIAlertView){
+        
         
     }
     

@@ -44,11 +44,17 @@ var FAME = fame()
 
 class fame:NSObject{
     
+ 
+    
+    //标记是否是退出
+    var outTag :Int! = 0
     //联动标记
     var link_id :Int! = 0
     //修改设备名称
     var dev_ss_name :String!
     var dev_ss_Rname :String!
+    
+    var loading :UILabel!
     
     var fameIeee:String!
     var verify:String!
@@ -102,6 +108,9 @@ class fame:NSObject{
     var models:Array<Dictionary<String,String>> = []
     var lights:Array<Dictionary<String,String>> = []
     var sockets:Array<Dictionary<String,String>> = []
+    var socket13:Array<Dictionary<String,String>> = []
+    var socket31:Array<Dictionary<String,String>> = []
+    var socket33:Array<Dictionary<String,String>> = []
     var sensors:Array<Dictionary<String,String>> = []
     
     //timer
@@ -582,6 +591,9 @@ class fame:NSObject{
         act_id = 20
         self.lights = []
         self.sockets = []
+        self.socket13 = []
+        self.socket31 = []
+        self.socket33 = []
         self.showLight1Arr = []
         self.showLight2Arr = []
         Links3 = []
@@ -638,7 +650,7 @@ class fame:NSObject{
                         
                         
                         
-                            self.lights.append(["name":"\(roomName)\(name)\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                            self.lights.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)\(subValue)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         
                         
                         
@@ -705,8 +717,22 @@ class fame:NSObject{
                         }
                     
                     
-                    }else{
+                    }
+                    else{
                     //sockets
+                        switch dev_type {
+                        case 13 :
+                            self.socket13.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                        case 31 :
+                            self.socket31.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                        case 33 :
+                            self.socket33.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                        default:
+                            
+                            break
+                            
+                        }
+
                         self.sockets.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                         self.linkMoled.append(["name":"\(roomName) \(name)","id":"\(act_id)"])
                     
@@ -731,7 +757,8 @@ class fame:NSObject{
                 }
             }
 
-        }else{
+        }
+        else{
             self.device_table.setValue([], forKey: "lights")
         }
         
@@ -809,7 +836,7 @@ class fame:NSObject{
                 FAME.idForNames[act_id + 1]=["name":"\(name)开","room":"\(roomName)","string":"\(roomName) \(name) 开","act_id":"\(act_id  + 1 )"]
                 FAME.idForNames[act_id ]=["name":"\(name)关","room":"\(roomName)","string":"\(roomName) \(name) 关","act_id":"\(act_id)"]
                 
-                self.idForNamesMode[act_id] = "\(roomName) \(name) 开"
+                self.idForNamesMode[act_id + 1] = "\(roomName) \(name) 开"
                 self.idForNamesMode[act_id] = "\(roomName) \(name) 关"
                 
                 //add to linkArray
@@ -1153,7 +1180,7 @@ class fame:NSObject{
     
     func refreshLightState() -> Bool{
         print("refresh llllllll")
-        var paramArray = NSMutableArray()
+        let paramArray = NSMutableArray()
         var lastId = "0"
         for value in FAME.lights {
             let AddedObj = value as NSDictionary
@@ -1162,23 +1189,13 @@ class fame:NSObject{
                 paramArray.addObject(dev_id)
                 lastId = dev_id as String
             }
+            
         }
-        
+   
         let param = paramArray.componentsJoinedByString(",")
         
         var received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 90)
-        /*
-        var jsonPath = NSBundle.mainBundle().bundlePath
-        var jsonData = NSData(contentsOfFile: "\(jsonPath)/test.txt")
-        println(jsonData)
-        var json :NSMutableDictionary! = NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSMutableDictionary!
-        println(json)
-        
-        if json {
-        received = json as NSDictionary
-        }
-        */
-        if (received != nil){
+               if (received != nil){
             //got the state
             for values:AnyObject in received.valueForKey("states") as! NSArray {
                 print(values)
@@ -1186,7 +1203,7 @@ class fame:NSObject{
                 let ADDieee_addr :Int!  = AddedObj.valueForKey("id") as! Int
                 var ADDflag :Int!  = AddedObj.valueForKey("state") as! Int
                 var id = ADDieee_addr * 10
-                
+               
                 if ADDflag >= 32 {
                     id = ADDieee_addr * 10 + 5
                     FAME.lightsCellState["\(id)"] = 1
@@ -1260,10 +1277,12 @@ class fame:NSObject{
         showView.layer.masksToBounds = true ;
         window .addSubview(showView);
         
-        let lable : UILabel! = UILabel(frame: CGRect(x: (showView.frame.size.width-150)/2, y: 5 , width: 150, height: 20 ));
+        let lable : UILabel! = UILabel(frame: CGRect(x: (showView.frame.size.width-200)/2, y: 5 , width: 200, height: 20 ));
         lable.text = str;
+        lable.font = UIFont.systemFontOfSize(15)
         lable.textColor = UIColor.whiteColor() ;
         lable.backgroundColor = UIColor.clearColor() ;
+        lable.textAlignment = NSTextAlignment.Center ;
         showView .addSubview(lable) ;
         
 

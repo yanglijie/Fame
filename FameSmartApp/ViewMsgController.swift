@@ -69,7 +69,7 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
         
     }
     
-    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath!) -> String! {
+    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
         
         return Defined_Delete
         

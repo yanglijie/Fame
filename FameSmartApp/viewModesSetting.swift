@@ -106,12 +106,16 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
             for values:AnyObject in detail.valueForKey("sub_actions") as! NSArray {
                 let idObj = values as! Int
                 
-                print(idObj)
+                print(FAME.idForNamesMode[idObj])
                 let btnTmp = self.subView.viewWithTag(index) as! UIButton
                 if (FAME.idForNamesMode[idObj] != nil){
                     
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
+                    btnTmp.setTitle("\(FAME.idForNamesMode[idObj]!)", forState: UIControlState.Normal)
+                })
                 
-                btnTmp.setTitle("\(FAME.idForNamesMode[idObj]!)", forState: UIControlState.Normal)
+                
                 self.ids[index] = idObj
                 }
                 index++
@@ -133,18 +137,24 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         let cmdStr = "{\"cmd\": 31, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"action_id\":\(FAME.tempMode),\"sub_actions\":[\(param)]}}"
         if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
             print("link device successed")
-            let alert = UIAlertView()
-            alert.title = Defined_mode_title
-            alert.message =  Defined_mode_update
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.show()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertView()
+                alert.title = Defined_mode_title
+                alert.message =  Defined_mode_update
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            })
+            
             
         }else{
-            let alert = UIAlertView()
-            alert.title = Defined_mode_title
-            alert.message =  Defined_mode_failed
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.show()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertView()
+                alert.title = Defined_mode_title
+                alert.message =  Defined_mode_failed
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+
+            })
         }
     }
     
@@ -159,9 +169,11 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
             self.seletedBtn.setTitle(Defined_mode_link, forState: UIControlState.Normal)
             self.ids[self.seletedBtn.tag] = 0
         }else{
-            print("\(self.seletedStr1) \(self.seletedStr2) \(self.seletedStr3)")
+            
+            print("1111111\(self.seletedStr1) \(self.seletedStr2) \(self.seletedStr3)")
             
             self.seletedBtn.setTitle("\(self.seletedStr1) \(self.seletedStr2) \(self.seletedStr3)", forState: UIControlState.Normal)
+            //FAME.idForNamesMode.updateValue(<#T##value: Value##Value#>, forKey: "\(self.seletedStr1) \(self.seletedStr2) \(self.seletedStr3)")
             self.ids[self.seletedBtn.tag] = self.id1 + self.id2
             print(self.ids)
         }
