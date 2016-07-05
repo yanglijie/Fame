@@ -41,13 +41,19 @@ class ViewControllerMainSA: UIViewController {
         
         let divW:CGFloat = 0.27
         
-        let top:CGFloat =  80
-        let btnWidth  = view0.frame.size.width * divW
-        print(btnWidth)
+        //let top:CGFloat =  (self.view.frame.size.height - 69)/4/2
+        //let btnWidth  = view0.frame.size.width * divW
+        let btnWidth  = (view0.frame.size.width - 60 )/3
+        //print("aaaaaaaa=\(self.view.frame.height)bbbbbbbb=\(view0.frame.size.width)")
         let btnHeight = btnWidth * 1.1
         
         let disX:CGFloat = ((1 - divW * 3) / 2 + divW) * view0.frame.width
-        let disY:CGFloat = view0.frame.height * 0.25
+        let disY:CGFloat = btnHeight + 30 + self.view.frame.height * 0.02
+        
+        
+        let diffj:CGFloat = CGFloat(btns.count / 3) + 1
+        
+        let top:CGFloat =  (self.view.frame.height - disY * diffj - 69) * 0.5
         
         let diffi:CGFloat = CGFloat(btns.count % 3)
         
@@ -58,11 +64,13 @@ class ViewControllerMainSA: UIViewController {
         var btnX:CGFloat = 0
         var btnY:CGFloat = btns.count <= 3 ? top + 90 : top
         btnX = btns.count <= 3 ? diffX + btnX : btnX
+        
+        
         for idx in 0..<btns.count {
-
+            //print("aaaaaaaa=\(btnX)")
             let btn = UIButton(frame: CGRect(x: CGFloat(btnX), y: CGFloat(btnY), width: CGFloat(btnWidth), height: CGFloat(btnHeight)))
             btn.setBackgroundImage(UIImage(named: btnImgs[idx]), forState: UIControlState.Normal)
-            
+            //btn.backgroundColor = UIColor.redColor()
             let btnLable = UILabel(frame: CGRect(x: CGFloat(btnX - 20), y: CGFloat(btnY + btnHeight + 10), width: CGFloat(btnWidth + 40), height: 20))
             btnLable.text = btns[idx]
             btnLable.textColor = UIColor.whiteColor()
@@ -208,12 +216,17 @@ class ViewControllerMainP: UIViewController {
         let view0:UIView = self.view.viewWithTag(10)!
         view0.frame.size.width = self.view.frame.size.width - 60
         let divW:CGFloat = 0.27
-        let top:CGFloat =  60
+        //let top:CGFloat =  60
         let btnWidth  = view0.frame.width * divW
         let btnHeight = btnWidth * 1.1
         
         let disX:CGFloat = ((1 - divW * 3) / 2 + divW) * view0.frame.width
-        var disY:CGFloat = view0.frame.height * 0.25
+        //var disY:CGFloat = view0.frame.height * 0.25
+        
+        let disY:CGFloat = btnHeight + 30 + self.view.frame.height * 0.02
+        let diffj:CGFloat = CGFloat(btns.count / 3) + 1
+        let top:CGFloat =  (self.view.frame.height - disY * diffj - 69) * 0.5
+        
         
         let diffi:CGFloat = CGFloat(btns.count % 3)
         
@@ -222,24 +235,24 @@ class ViewControllerMainP: UIViewController {
         
         
         var btnX:CGFloat = 0
-        var btnY:CGFloat = 0
-        
-        if self.btns_count <= 0 {
-            btnY = top + 90
-        }else if self.btns_count <= 3 {
-            btnY = top
-        }else{
-            btnY = top - 30
-            disY = disY * 0.85
-            
-        }
+        //var btnY:CGFloat = 0
+        var btnY:CGFloat = btns.count <= 3 ? top + 90 : top
+//        if self.btns_count <= 0 {
+//            btnY = top + 90
+//        }else if self.btns_count <= 3 {
+//            btnY = top
+//        }else{
+//            btnY = top - 30
+//            disY = disY * 0.85
+//            
+//        }
         
         btnX = btns.count <= 3 ? diffX + btnX : btnX
         
 
         for idx in 0..<btns.count + 3 {
             
-            let btn = UIButton(frame: CGRect(x: btnX, y: btnY + 10 , width: btnWidth, height: btnHeight))
+            let btn = UIButton(frame: CGRect(x: btnX, y: btnY  , width: btnWidth, height: btnHeight))
             btn.setBackgroundImage(UIImage(named: btnImgs[idx]), forState: UIControlState.Normal)
             
             let btnLable = UILabel(frame: CGRect(x: btnX, y: btnY + btnHeight + 10, width: btnWidth, height: 20))
@@ -354,12 +367,17 @@ class ViewControllerMainSS: UIViewController {
         let view0 = self.view.viewWithTag(10)!
         view0.frame.size.width = self.view.frame.size.width - 60
         let divW:CGFloat = 0.27
-        let top:CGFloat =  80
+        //let top:CGFloat =  80
         let btnWidth = view0.frame.width * divW
         let btnHeight = btnWidth * 1.1
         
         let disX:CGFloat = ((1 - divW * 3) / 2 + divW) * view0.frame.width
-        let disY:CGFloat = view0.frame.height * 0.25
+        //let disY:CGFloat = view0.frame.height * 0.25
+        
+        let disY:CGFloat = btnHeight + 30 + self.view.frame.height * 0.02
+        let diffj:CGFloat = CGFloat(btns.count / 3) + 1
+        let top:CGFloat =  (self.view.frame.height - disY * diffj - 69) * 0.5
+        
         
         let diffi:CGFloat = CGFloat(btns.count % 3)
         

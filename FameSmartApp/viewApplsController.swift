@@ -61,9 +61,6 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             let indexPath:NSIndexPath! = self.TableView.indexPathForRowAtPoint(point)
             if(indexPath != nil){
                 let cell:UITableViewCell2! = self.TableView.cellForRowAtIndexPath(indexPath) as! UITableViewCell2
-                //let name = cell.viewWithTag(1) as! UILabel
-             
-                
                 
                 let name_Str:String! = FAME.lights[cell.index]["name1"] as String!
                 let roomName_Str:String! = FAME.lights[cell.index]["roomName"] as String!
@@ -275,6 +272,10 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             
             
         }
+        else {
+            TableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "Timerset")
+            TableView.mj_header.beginRefreshing()
+        }
         // Do any additional setup after loading the view, typically from a nib.
         
         self.createPop()
@@ -295,10 +296,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         FAME.tempTableView = self.TableView
 //        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
 //        myThread.start()
-        if self.lightIdArr.count != 0 {
-            TableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "Timerset")
-            TableView.mj_header.beginRefreshing()
-        }
+        
         
     }
     
@@ -523,18 +521,18 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
             if(indexPath != nil){
                 let cell:UITableViewCell2! = self.TableView.cellForRowAtIndexPath(indexPath) as! UITableViewCell2
                 //let name = cell.viewWithTag(1) as! UILabel
+
                 
-                
-                
-                let name_Str:String! = FAME.lights[cell.index]["name1"] as String!
-                let roomName_Str:String! = FAME.lights[cell.index]["roomName"] as String!
+                let name_Str:String! = self.sensors[cell.index]["name1"] as String!
+                let roomName_Str:String! = self.sensors[cell.index]["roomName"] as String!
                 FAME.dev_ss_name = name_Str
                 FAME.dev_ss_Rname = roomName_Str
                 //name.text = FAME.dev_ss_Rname + FAME.dev_ss_name ;
                 
-                self.ieee = FAME.lights[cell.index]["ieee"] as String!
+                self.ieee = self.sensors[cell.index]["ieee"] as String!
                 
                 self.BGView.hidden = false
+                
                 
             }
         }
@@ -617,12 +615,12 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
     //修改名字
     func btns1Fun(sender:UIButton){
         self.BGView.hidden = true
-        let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_name") as! ViewControllerSS_name
+        let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_name") as UIViewController!
         //next.delegate = self ;
-        
         self.navigationController?.pushViewController(next, animated: true)
         let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = item;
+    
     }
     //删除设备
     func btns2Fun(sender:UIButton){
@@ -659,7 +657,7 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
                             FAME.doDeleteDev()
                             self.navigationController?.popToRootViewControllerAnimated(true)
                         }
-
+                        
                     }
                     
                 }
@@ -674,6 +672,7 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
         self.presentViewController(alertController, animated: true, completion: nil)
         
     }
+    
     
     
     func refreshData(){
@@ -719,8 +718,8 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         //self.TableView.setEditing(true, animated: true)
+        self.refreshData()
         
-        self.createPop()
         if self.sensors.count == 0 {
             
             let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,view.frame.size.height/10,self.view.frame.size.width*3/4,view.frame.size.height*4/5))
@@ -734,6 +733,12 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
             self.view.addSubview(textLabel)
             
             
+        }
+        else {
+            TableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "Timerset")
+            TableView.mj_header.beginRefreshing()
+            
+            self.createPop()
         }
 //        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
 //        self.navigationItem.rightBarButtonItem = addButton
@@ -756,10 +761,7 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
         FAME.tempTableView = self.TableView
 //        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
 //        myThread.start()
-        if self.sensors.count != 0 {
-            TableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "Timerset")
-            TableView.mj_header.beginRefreshing()
-        }
+        
         
         
     }
@@ -800,10 +802,10 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
                 var id = ADDieee_addr * 10
                 if ADDflag >= 1 {
                     id = ADDieee_addr * 10 + FAME.tempSensorId
-                    FAME.sensorsCellState["\(id)"] = 1
+                    FAME.socketsCellState["\(id)"] = 1
                 }else{
                     id = ADDieee_addr * 10 + FAME.tempSensorId
-                    FAME.sensorsCellState["\(id)"] = 0
+                    FAME.socketsCellState["\(id)"] = 0
                 }
             }
             //set the state
@@ -815,9 +817,9 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
             let view1 = cell.viewWithTag(14) as! UIImageView
             
             let state :Int! = FAME.socketsCellState["\(cell.id)"]
-            
+            //print("33333333\(state)")
             if (state != nil) {
-                print("state:\(state)")
+                //print("state:\(state)")
                 if state == 1 {
                     view.image = UIImage(named: "socket_10.png")
                     view1.image = UIImage(named: Defined_SA_icons1[FAME.tempSensorId])
@@ -843,7 +845,7 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
         cell.backgroundColor = UIColor.clearColor()
 //        print("sss cell")
 //        print(cell)
-        
+        cell.index = indexPath.row ;
         
         //长按手势
         let longpressGesutre = UILongPressGestureRecognizer(target:self
@@ -876,6 +878,7 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
         let view1 = cell.viewWithTag(14) as! UIImageView
         
         let state :Int! = FAME.socketsCellState["\(cell.id)"]
+        
         if (state != nil) {
             print("state:\(state)")
             if state == 1 {

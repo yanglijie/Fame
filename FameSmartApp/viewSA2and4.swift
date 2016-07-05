@@ -65,16 +65,36 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
         btns=[]
         act_ids=[]
         dev_types = []  //  2015-05-18
-        for value in FAME.curtains {
-            let curtainObj = value as NSDictionary
-            let curName:String! = curtainObj["name"] as! String
-            let curActid:String! = curtainObj["act_id"] as! String
-            let curIeee:String! = curtainObj["ieee"] as! String
-            let curType:String! = curtainObj["dev_type"] as! String
-            self.btns.append(curName)
-            self.act_ids.append(Int(curActid)!)
-            self.dev_types.append(Int(curType)!)
-            self.ieees.append(curIeee)
+        
+        if FAME.curtains.count == 0 {
+            
+            let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,view.frame.size.height/10,self.view.frame.size.width*3/4,view.frame.size.height*4/5))
+            textLabel.text = Defined_Tips_none
+            
+            //textLabel.backgroundColor = UIColor.blackColor()
+            textLabel.textColor = UIColor.whiteColor()
+            textLabel.textAlignment = NSTextAlignment.Center
+            textLabel.numberOfLines = 0;
+            textLabel.font = UIFont.systemFontOfSize(25)
+            self.view.addSubview(textLabel)
+            
+            //break
+            
+        }
+        
+        
+        else{
+            for value in FAME.curtains {
+                let curtainObj = value as NSDictionary
+                let curName:String! = curtainObj["name"] as! String
+                let curActid:String! = curtainObj["act_id"] as! String
+                let curIeee:String! = curtainObj["ieee"] as! String
+                let curType:String! = curtainObj["dev_type"] as! String
+                self.btns.append(curName)
+                self.act_ids.append(Int(curActid)!)
+                self.dev_types.append(Int(curType)!)
+                self.ieees.append(curIeee)
+            }
         }
 
         //btns = Defined_SA_btns
@@ -433,16 +453,32 @@ class ViewControllerMainSA4: UIViewController,UIAlertViewDelegate {
         self.btns=[]
         self.act_ids=[]
         self.ieees = []
-        
-        for value in FAME.appls {
-            let applObj = value as NSDictionary
-            let appName:String! = applObj["name"] as! String
-            let appActid:String! = applObj["act_id"] as! String
-            let appIeee:String! = applObj["ieee"] as! String
+        if FAME.appls.count == 0 {
             
-            self.btns.append(appName)
-            self.act_ids.append(Int(appActid)!)
-            self.ieees.append(appIeee)
+            let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,view.frame.size.height/10,self.view.frame.size.width*3/4,view.frame.size.height*4/5))
+            textLabel.text = Defined_Tips_none
+            
+            //textLabel.backgroundColor = UIColor.blackColor()
+            textLabel.textColor = UIColor.whiteColor()
+            textLabel.textAlignment = NSTextAlignment.Center
+            textLabel.numberOfLines = 0;
+            textLabel.font = UIFont.systemFontOfSize(25)
+            self.view.addSubview(textLabel)
+            
+            //break
+            
+        }
+        else{
+            for value in FAME.appls {
+                let applObj = value as NSDictionary
+                let appName:String! = applObj["name"] as! String
+                let appActid:String! = applObj["act_id"] as! String
+                let appIeee:String! = applObj["ieee"] as! String
+                
+                self.btns.append(appName)
+                self.act_ids.append(Int(appActid)!)
+                self.ieees.append(appIeee)
+            }
         }
         
         //btns = Defined_SA_btns

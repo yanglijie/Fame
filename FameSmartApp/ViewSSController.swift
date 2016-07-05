@@ -164,7 +164,10 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             
         
         }
-        
+        else {
+            tabelVeiw.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "Timerset2")
+            tabelVeiw.mj_header.beginRefreshing()
+        }
         
 //        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
 //        self.navigationItem.rightBarButtonItem = addButton
@@ -914,10 +917,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         
         FAME.tempTableView = self.tabelVeiw
-        if self.sensors.count != 0 {
-            tabelVeiw.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "Timerset2")
-            tabelVeiw.mj_header.beginRefreshing()
-        }
+        
         
         
         
