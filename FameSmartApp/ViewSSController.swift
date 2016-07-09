@@ -178,11 +178,20 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         
         self.Links1 = []
+        print(self.title)
         if FAME.Links.count > 0 {
             
             for obj:Dictionary<String,AnyObject> in FAME.Links   {
                 if (obj["show"] as! Int) >= 0 {
-                    self.Links1.append(obj)
+                    guard (self.title != nil) else{
+                        return
+                    }
+                    if (obj["name"] as! String).componentsSeparatedByString("\(self.title!)").count > 1{
+                        
+                    }
+                    else{
+                        self.Links1.append(obj)
+                    }
                 }
             }
             
@@ -558,7 +567,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                 let login = alertController.textFields!.first! as UITextField
                 print("用户名：\(login.text)")
                 
-                
+                self.view.endEditing(false)
                 
                 if login.text! == "\(FAME.user_name)34637169"
                 {
@@ -572,11 +581,15 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                             
                             let dic:NSMutableDictionary = ["hvaddr":"\(self.ieee)"]
                             
+                            
+                            
                             FAME.delDeviceArray.removeAllObjects()
                             FAME.delDeviceArray.addObject(dic)
                             
                             FAME.doDeleteDev()
                             self.navigationController?.popToRootViewControllerAnimated(true)
+                            //NSNotificationCenter.defaultCenter().postNotificationName("play", object: nil)
+                            
                         }
                     }
                     
@@ -584,12 +597,17 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                 else{
                     FAME.showMessage("输入的密码不正确")
                 }
+                
+            
         })
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
         self.presentViewController(alertController, animated: true, completion: nil)
 
     }
+    
+    
+    
     //修改门限值
     func btns75Fun(sender:UIButton){
         self.hidePop()
@@ -953,74 +971,80 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         let param = paramArray.componentsJoinedByString(",")
         
-        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 90)
-        
-        if (received != nil){
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
             
-            //dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+            let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 60)
+            
+            if (received != nil){
+                
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
                 
                 self.tabelVeiw.mj_header.endRefreshing()
                 FAME.showMessage("刷新成功")
-                
-            //})
-            //got the state
-            for values:AnyObject in received.valueForKey("states") as! NSArray {
-                print(values)
-                let AddedObj = values as! NSDictionary
-                let ADDieee_addr :Int!  = AddedObj.valueForKey("id") as! Int
-                let ADDflag :Int!  = AddedObj.valueForKey("state") as! Int
-                //let nameFlag :String?  = AddedObj.valueForKey("name") as! String
-                var id = ADDieee_addr * 10
-                
-                
-                if ADDflag >= 1 {
-                    id = ADDieee_addr * 10  + FAME.tempSensorId
-                    FAME.sensorsCellState["\(id)"] = 1
-                }else{
-                    id = ADDieee_addr * 10 + FAME.tempSensorId
-                    FAME.sensorsCellState["\(id)"] = 0
-                }
-                
-            }
-            //set the state
-            
-            for subCell:AnyObject in self.tabelVeiw.visibleCells {
-                //print(subCell)
-                let cell = subCell as! UITableViewCell2
-                let view = cell.viewWithTag(3) as! UISwitch2!
-                let view1 = cell.viewWithTag(1) as! UIImageView
-                let state :Int! = FAME.sensorsCellState["\(cell.id)"]
-                print("cell.id  \(cell.id)")
-                if (state != nil) {
-                    print("state:\(state)")
-                    if state == 1 {
-                        view.on = true
-                        view1.image = UIImage(named: Defined_SS_icons1[FAME.tempSensorId])
-//                        let myThread = NSThread(target: self, selector: "alarmK", object: nil)
-//                        myThread.start()
-                    }else {
-                        view.on = false
-                        view1.image = UIImage(named: Defined_SS_icons[FAME.tempSensorId])
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                    
+                    //got the state
+                    for values:AnyObject in received.valueForKey("states") as! NSArray {
+                        print(values)
+                        let AddedObj = values as! NSDictionary
+                        let ADDieee_addr :Int!  = AddedObj.valueForKey("id") as! Int
+                        let ADDflag :Int!  = AddedObj.valueForKey("state") as! Int
+                        //let nameFlag :String?  = AddedObj.valueForKey("name") as! String
+                        var id = ADDieee_addr * 10
+                        
+                        
+                        if ADDflag >= 1 {
+                            id = ADDieee_addr * 10  + FAME.tempSensorId
+                            FAME.sensorsCellState["\(id)"] = 1
+                        }else{
+                            id = ADDieee_addr * 10 + FAME.tempSensorId
+                            FAME.sensorsCellState["\(id)"] = 0
+                        }
+                        
                     }
-                }
-                else{
-                    view.on = false
-                    view1.image = UIImage(named: Defined_SS_icons[FAME.tempSensorId])
-                }
-            }
-        }else{
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    //set the state
+                    
+                    for subCell:AnyObject in self.tabelVeiw.visibleCells {
+                        //print(subCell)
+                        let cell = subCell as! UITableViewCell2
+                        let view = cell.viewWithTag(3) as! UISwitch2!
+                        let view1 = cell.viewWithTag(1) as! UIImageView
+                        let state :Int! = FAME.sensorsCellState["\(cell.id)"]
+                        print("cell.id  \(cell.id)")
+                        if (state != nil) {
+                            print("state:\(state)")
+                            if state == 1 {
+                                view.on = true
+                                view1.image = UIImage(named: Defined_SS_icons1[FAME.tempSensorId])
+                                //                        let myThread = NSThread(target: self, selector: "alarmK", object: nil)
+                                //                        myThread.start()
+                            }else {
+                                view.on = false
+                                view1.image = UIImage(named: Defined_SS_icons[FAME.tempSensorId])
+                            }
+                        }
+                        else{
+                            view.on = false
+                            view1.image = UIImage(named: Defined_SS_icons[FAME.tempSensorId])
+                        }
+                    }
+    
+                    
+                })
                 
-//                FAME.loading1(false)
-//                FAME.showMessage("刷新失败，网络超时")
-            })
-            print("get the state failed")
+            }
+            else{
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                self.tabelVeiw.mj_header.endRefreshing()
+                FAME.showMessage("刷新失败，网络超时 请检查中控")
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                })
+                print("get the state failed")
+            }
+
+            
         }
-        
-        
-        
-        
-        
         
     }
    
@@ -1999,7 +2023,7 @@ class ViewControllerSS7Detail: UIViewController {
 protocol ViewControllerSS_nameDelegate{
     func reloadName();
 }
-class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate {
+class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,UITextFieldDelegate {
     var popView:UIView!
     var nameArray:Array<String> = []
     var count:Int! = 0
@@ -2010,7 +2034,6 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         // Do any additional setup after loading the view, typically from a nib.
         self.title = FAME.dev_ss_name
         self.nameArray = FAME.rooms;
-
         
         for(var i = 0; i < self.nameArray.count ; i++){
             if FAME.dev_ss_Rname == self.nameArray[i]{
@@ -2031,8 +2054,25 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         let room_name = self.view.viewWithTag(20) as! UILabel!;
         room_name.text = FAME.dev_ss_Rname;
         
+        
+        let tap = UITapGestureRecognizer(target: self, action: "tapClick:")
+        tap.numberOfTapsRequired = 1
+        tap.delegate = self
+        self.view .addGestureRecognizer(tap)
+        
+        
+        
     }
-    
+    func tapClick(sender:AnyObject!){
+        self.view.endEditing(false)
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool{
+        print(textField.tag)
+        
+        self.view.endEditing(false)
+        
+        return true
+    }
     func roomClick(sender:UIButton){
         
         print("点击了选择框");
@@ -2150,7 +2190,7 @@ protocol ViewControllerSS7air6Delegate{
 }
 
 //修改门限值
-class ViewControllerSS7air6: UIViewController {
+class ViewControllerSS7air6: UIViewController,UITextFieldDelegate {
     var delegate :ViewControllerSS7air6Delegate?
 
     override func viewDidLoad() {
@@ -2163,7 +2203,25 @@ class ViewControllerSS7air6: UIViewController {
         let sureClick = self.view.viewWithTag(49) as! UIButton!;
         sureClick.addTarget(self, action: Selector("requestData:"), forControlEvents: UIControlEvents.TouchUpInside)
         
+        let tap = UITapGestureRecognizer(target: self, action: "tapClick:")
+        tap.numberOfTapsRequired = 1
+        //tap.delegate = self
+        self.view .addGestureRecognizer(tap)
+        
+        
+        
     }
+    func tapClick(sender:AnyObject!){
+        self.view.endEditing(false)
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool{
+        print(textField.tag)
+        
+        self.view.endEditing(false)
+        
+        return true
+    }
+    
     func requestData(sender:AnyObject!){
         let PM = self.view.viewWithTag(45) as! UITextField!;
         let PM_number :Double! = Double(PM.text as String!);

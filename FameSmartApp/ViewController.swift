@@ -1726,8 +1726,13 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
                 
                 
                 print("hvaddr OK")
-                let next :UIViewController = GBoard.instantiateViewControllerWithIdentifier("viewLogin6") as UIViewController
-                self.navigationController?.pushViewController(next, animated: true)
+                
+                self.delay(1) { () -> () in
+                    
+                    let next :UIViewController = GBoard.instantiateViewControllerWithIdentifier("viewLogin6") as UIViewController
+                    self.navigationController?.pushViewController(next, animated: true)
+                }
+                
                 
             }else{
                 print("hvaddr existed")
@@ -1750,7 +1755,9 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
             viewAnimate().shrkInput(self.inputHv)
         }
     }
-    
+    func delay(time:Double,closure:() -> ()){
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
+    }
 
     @IBAction func showLogin6(sender : AnyObject) {
         let next :UIViewController = GBoard.instantiateViewControllerWithIdentifier("viewLogin6") as UIViewController
@@ -1779,10 +1786,12 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
                 alert.addButtonWithTitle(Defined_ALERT_OK)
                 alert.show()
                 
+                
             }
             
             if FAME.isAddDeviceFromSetting {
                 self.navigationController?.popToRootViewControllerAnimated(true)
+                
             }else{
                 
                 let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController

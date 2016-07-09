@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent;
         
         
+        
         //is the ios8
         
         let version = (UIDevice.currentDevice().systemVersion as NSString).floatValue
@@ -49,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             }
             
-            //UIApplication.sharedApplication().registerForRemoteNotifications()
+            UIApplication.sharedApplication().registerForRemoteNotifications()
             
             
             
@@ -111,18 +112,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]){
         print("PUSH register userInfo: \(userInfo)")
         
+        
+        
         let notif    = userInfo as NSDictionary
         
         let apsDic   = notif.objectForKey("aps") as! NSDictionary
         let alertDic = apsDic.objectForKey ( "alert" ) as! String
         let alertView = UIAlertView (title: " 远程推送通知 " , message: alertDic, delegate: nil , cancelButtonTitle: " 返回 " )
-       alertView.show()
+        alertView.show()
         
+        if alertDic.componentsSeparatedByString("解除").count > 1{
+            
+        }
+        
+        else{
+            //
+            if (FAME.defaults.valueForKey("alarm") != nil){
+                FAME.msgs.removeAll()
+                FAME.msgs = (FAME.defaults.valueForKey("alarm") as! Array).reverse()
+            }
+
+            FAME.msgs .append(alertDic)
+            FAME.defaults.setObject(FAME.msgs.reverse(), forKey: "alarm")
+
+
+        }
         
     }
     
-    
-    
+       
     //Receive
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification){
@@ -137,8 +155,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void){
         
-        
         print("PUSH  handleActionWithIdentifier local: \(notification)")
+        
+        
         
     }
     

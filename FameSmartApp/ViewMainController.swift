@@ -208,7 +208,7 @@ class ViewControllerMainP: UIViewController {
             count = NSTimeInterval(btns.count)
         }
         
-        let btnImgs = ["model1.png","model2.png","model3.png","model4.png","model5.png","model6.png","model4.png","model5.png","model6.png","model7.png","model8.png","model9.png"]
+        let btnImgs = ["model1.png","model2.png","model3.png","model4.png","model5.png","model6.png","model7.png","model8.png","model9.png"]
         
         //fix position
         self.btns_count = btns.count
@@ -360,7 +360,7 @@ class ViewControllerMainSS: UIViewController {
         self.navigationItem.backBarButtonItem = returnButtonItem
         
         let btns = Defined_SS_btns
-        let btnImgs = ["ss1.png","ss2.png","ss3.png","ss4.png","ss5.png","ss6.png","ss7.png","ss2.png"]
+        let btnImgs = ["ss1.png","ss2.png","ss3.png","ss4.png","ss5.png","ss6.png","ss7.png","ss8.png"]
         
         //fix position
         

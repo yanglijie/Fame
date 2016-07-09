@@ -500,11 +500,15 @@ class fame:NSObject{
                 
                 let alert = UIAlertView()
                 alert.title = Defined_unAdd_Title1
+                //alert.delegate = self
                 alert.message =  Defined_device_begin
                 alert.addButtonWithTitle(Defined_ALERT_OK)
                 alert.show()
                 self.timmer = NSTimer.scheduledTimerWithTimeInterval(5.0, target:self, selector:"checkDelFunction", userInfo:nil, repeats:false)
                 FAME.isAddingDevice = true
+                
+                
+                
                 return true
             }else{
                 return false
@@ -1112,6 +1116,8 @@ class fame:NSObject{
                                 alert.message =  "\(Aname) \(Defined_Add_Title_success)"
                                 alert.addButtonWithTitle(Defined_ALERT_OK)
                                 alert.show()
+                            
+                                
                                 
                             }else{
                                 //failed
@@ -1271,14 +1277,14 @@ class fame:NSObject{
         
         let window :UIWindow! = UIApplication.sharedApplication().keyWindow;
         
-        let showView :UIView! = UIView(frame: CGRect(x: (window.frame.size.width*0.35)/2, y: (window.frame.size.height-30)-30 , width: window.frame.size.width*0.6, height: 30 ));
+        let showView :UIView! = UIView(frame: CGRect(x: window.frame.size.width*0.1, y: (window.frame.size.height-30)-30 , width: window.frame.size.width*0.8, height: 30 ));
         showView.backgroundColor = UIColor.blackColor();
         showView.alpha = 1.0;
         showView.layer.cornerRadius = 5.0;
         showView.layer.masksToBounds = true ;
         window .addSubview(showView);
         
-        let lable : UILabel! = UILabel(frame: CGRect(x: (showView.frame.size.width-200)/2, y: 5 , width: 200, height: 20 ));
+        let lable : UILabel! = UILabel(frame: CGRect(x: 0, y: 5 , width: showView.frame.size.width, height: 20 ));
         lable.text = str;
         lable.font = UIFont.systemFontOfSize(15)
         lable.textColor = UIColor.whiteColor() ;

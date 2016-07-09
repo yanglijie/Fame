@@ -17,7 +17,7 @@
 
 import UIKit
 
-class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
+class ViewControllerMain: RefreshView ,UIAlertViewDelegate {
     
     var showAnimate :Bool = true
 
@@ -74,10 +74,12 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //play()
+        
         FAME.getDateFormServer()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "play1:", name: "play", object: nil)
         
-        FAME.loading = self.view.viewWithTag(1111) as! UILabel!;
         
         let returnButtonItem = UIBarButtonItem()
         returnButtonItem.title = Defined_navigation_back_title
@@ -96,6 +98,9 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
         self.homeName.hidden = true
         self.userImg.hidden = true
         self.homeImg.hidden = true
+        
+        
+        
         
         /*
         var initString :NSString =  "appid=\(APPID_VALUE),timeout=\(TIMEOUT_VALUE)"
@@ -127,8 +132,12 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
         */
         self.mainInit()
     }
-    
-    
+    func stop1() {
+        stop()
+    }
+    func play1() {
+        play()
+    }
     func mainInit(){
         print("MAIN_INIT")
         let myThreadInit = NSThread(target: self, selector: "Timerset", object: nil)
@@ -166,7 +175,12 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
         
         self.viewSpeech.frame.origin.y =  self.view.frame.height - 20
         
+        
+        
+        
+        
     }
+    
     override func viewWillDisappear(animated: Bool){
         super.viewWillDisappear(animated)
         

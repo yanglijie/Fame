@@ -54,7 +54,7 @@ class httpRequert : NSObject{
                 let str = NSString(data: received, encoding: NSUTF8StringEncoding)
                 print("DATA RECEIVED\n \(str)")
                 
-            let resObj:NSDictionary! = try NSJSONSerialization.JSONObjectWithData(received, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                let resObj:NSDictionary! = try NSJSONSerialization.JSONObjectWithData(received, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
 
                 if !(resObj != nil){
                     return nil
@@ -66,7 +66,8 @@ class httpRequert : NSObject{
                 
                 if cmplx {
                     return resObj
-                }else{
+                }
+                else{
                     if resObj["result"] as! NSObject == 0 {
                         return resObj
                     }else{

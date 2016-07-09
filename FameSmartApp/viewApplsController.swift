@@ -312,7 +312,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         //get the state
         
         //create the post string
-       
+       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         if FAME.refreshLightState() {
             //set the state
             for subCell:AnyObject in self.TableView!.visibleCells {
@@ -325,6 +325,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 if (state != nil) {
                     self.TableView.mj_header.endRefreshing()
                     FAME.showMessage("刷新成功")
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                     //print("state:\(state)")
                     if state == 1 {
                         view.image = UIImage(named: "socket_10.png")
@@ -338,6 +339,11 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                     imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
                 }
             }
+        }
+        else{
+            self.TableView.mj_header.endRefreshing()
+            FAME.showMessage("刷新失败，网络超时 请检查中控")
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
         
     }
@@ -785,14 +791,14 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
         
         
       let param = paramArray.componentsJoinedByString(",")
-        
-      let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 90)
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+      let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 60)
         
       if (received != nil){
         
         self.TableView.mj_header.endRefreshing()
         FAME.showMessage("刷新成功")
-        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             //got the state
             for values:AnyObject in received.valueForKey("states") as! NSArray {
                 print(values)
@@ -832,6 +838,9 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
         }
       }else{
             print("get the state failed")
+            self.TableView.mj_header.endRefreshing()
+            FAME.showMessage("刷新失败，网络超时 请检查中控")
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
     }
     
