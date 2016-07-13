@@ -13,6 +13,19 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
     
     var msgs :Array<String> = []
     
+    @IBAction func NoticOn(sender: UISwitch) {
+
+        print(sender.on)
+        FAME.defaults.setObject(sender.on, forKey: "PushState")
+        if !sender.on{
+            FAME.showMessage("推送已经关闭")
+            UIApplication.sharedApplication().unregisterForRemoteNotifications()
+        }
+        else{
+            FAME.showMessage("推送打开")
+            //UIApplication.sharedApplication().registerForRemoteNotifications()
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,9 +39,17 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
             
         }
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "raload:", name: "msgChange", object: nil)
         
-        print("44444444\(FAME.msgs)")
+        //print("44444444\(FAME.msgs)")
         
+        
+    }
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    func raload(){
+        print("222222222")
         
     }
     override func didReceiveMemoryWarning() {
@@ -37,6 +58,15 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
     }
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
+        print(FAME.defaults.valueForKey("PushState"))
+        let stateOn = self.view.viewWithTag(2) as! UISwitch
+        if (FAME.defaults.valueForKey("PushState") != nil){
+            stateOn.on = FAME.defaults.valueForKey("PushState") as! Bool
+            if !stateOn.on{
+                UIApplication.sharedApplication().unregisterForRemoteNotifications()
+            }
+        }
+        
         
     }
     

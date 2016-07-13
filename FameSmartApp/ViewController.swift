@@ -128,7 +128,19 @@ class ViewControllerLogin0: UIViewController {
                     FAME.user_dname = devicesObj.valueForKey("dname") as! String
                     
                     
-                    UIApplication.sharedApplication().registerForRemoteNotifications()
+                    //UIApplication.sharedApplication().registerForRemoteNotifications()
+                    if (FAME.defaults.valueForKey("PushState") != nil){
+                        let pushState = FAME.defaults.valueForKey("PushState") as! Bool
+                        if !pushState{
+                            UIApplication.sharedApplication().unregisterForRemoteNotifications()
+                            print("PUSH disabled")
+                        }
+                        else{
+                            UIApplication.sharedApplication().registerForRemoteNotifications()
+                            print("PUSH enabled")
+                        }
+                    }
+
                     
                     //get the devicetable
                     let DTValue = FAME.getDeviceTable()
@@ -299,7 +311,19 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                     FAME.user_ieee_addr = devicesObj.valueForKey("ieee_addr") as! String
                     FAME.user_dname = devicesObj.valueForKey("dname") as! String
                     
-                    UIApplication.sharedApplication().registerForRemoteNotifications()
+                    //UIApplication.sharedApplication().registerForRemoteNotifications()
+                    
+                    if (FAME.defaults.valueForKey("PushState") != nil){
+                        let pushState = FAME.defaults.valueForKey("PushState") as! Bool
+                        if !pushState{
+                            UIApplication.sharedApplication().unregisterForRemoteNotifications()
+                            print("PUSH disabled")
+                        }
+                        else{
+                            UIApplication.sharedApplication().registerForRemoteNotifications()
+                            print("PUSH enabled")
+                        }
+                    }
                     
                     //get the devicetable
                     let DTValue = FAME.getDeviceTable()
@@ -733,9 +757,9 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
         label.textColor = UIColor.whiteColor()
         label.text = "将二维码/条形码放入扫描框内，即自动扫描"
         
-        //self.view .addSubview(label)
+        self.view .addSubview(label)
         
-        bottomView.addSubview(label)
+        //bottomView.addSubview(label)
         
         self.view.addSubview(topView)
         self.view.addSubview(bottomView)

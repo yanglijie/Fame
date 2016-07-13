@@ -823,7 +823,7 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
             let view1 = cell.viewWithTag(14) as! UIImageView
             
             let state :Int! = FAME.socketsCellState["\(cell.id)"]
-            //print("33333333\(state)")
+            
             if (state != nil) {
                 //print("state:\(state)")
                 if state == 1 {

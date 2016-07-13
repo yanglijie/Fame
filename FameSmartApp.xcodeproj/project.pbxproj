@@ -40,6 +40,8 @@
 		07CBA7591990934600484BBC /* ViewRootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CBA7581990934600484BBC /* ViewRootController.swift */; };
 		07E0D2881999EFB300CE752F /* ViewSSController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E0D2871999EFB300CE752F /* ViewSSController.swift */; };
 		950508231CFE0CF900FC6BE6 /* ViewSSLinkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950508221CFE0CF900FC6BE6 /* ViewSSLinkController.swift */; };
+		9532BC0E1D344EAE0014763B /* ss8_81.png in Resources */ = {isa = PBXBuildFile; fileRef = 9532BC0D1D344EAE0014763B /* ss8_81.png */; };
+		9532BC101D344F6E0014763B /* ss6_61.png in Resources */ = {isa = PBXBuildFile; fileRef = 9532BC0F1D344F6E0014763B /* ss6_61.png */; };
 		9569021C1D306A2E0098422C /* airBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 956901401D306A2E0098422C /* airBtn.png */; };
 		9569021D1D306A2E0098422C /* air-condition_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 956901421D306A2E0098422C /* air-condition_03.png */; };
 		9569021E1D306A2E0098422C /* air-condition_05.png in Resources */ = {isa = PBXBuildFile; fileRef = 956901431D306A2E0098422C /* air-condition_05.png */; };
@@ -348,6 +350,8 @@
 		07CBA7581990934600484BBC /* ViewRootController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewRootController.swift; sourceTree = "<group>"; };
 		07E0D2871999EFB300CE752F /* ViewSSController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewSSController.swift; sourceTree = "<group>"; };
 		950508221CFE0CF900FC6BE6 /* ViewSSLinkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewSSLinkController.swift; sourceTree = "<group>"; };
+		9532BC0D1D344EAE0014763B /* ss8_81.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ss8_81.png; sourceTree = "<group>"; };
+		9532BC0F1D344F6E0014763B /* ss6_61.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ss6_61.png; sourceTree = "<group>"; };
 		956901401D306A2E0098422C /* airBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airBtn.png; sourceTree = "<group>"; };
 		956901421D306A2E0098422C /* air-condition_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "air-condition_03.png"; sourceTree = "<group>"; };
 		956901431D306A2E0098422C /* air-condition_05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "air-condition_05.png"; sourceTree = "<group>"; };
@@ -837,6 +841,8 @@
 		956901731D306A2E0098422C /* btn */ = {
 			isa = PBXGroup;
 			children = (
+				9532BC0F1D344F6E0014763B /* ss6_61.png */,
+				9532BC0D1D344EAE0014763B /* ss8_81.png */,
 				956901741D306A2E0098422C /* aboutFameBtn.png */,
 				956901751D306A2E0098422C /* appls_icon */,
 				956901831D306A2E0098422C /* curtain */,
@@ -1285,6 +1291,7 @@
 				956902641D306A2E0098422C /* curtain_23.png in Resources */,
 				956902D61D306A2E0098422C /* lBtnRight.png in Resources */,
 				956902EA1D306A2E0098422C /* 房间扫一扫_06.png in Resources */,
+				9532BC101D344F6E0014763B /* ss6_61.png in Resources */,
 				956902391D306A2E0098422C /* radio_touch_03.png in Resources */,
 				956902781D306A2E0098422C /* sa2.png in Resources */,
 				9569024E1D306A2E0098422C /* aboutFameBtn.png in Resources */,
@@ -1324,6 +1331,7 @@
 				956902751D306A2E0098422C /* modelEdit.png in Resources */,
 				956902521D306A2E0098422C /* curtain_icon1.png in Resources */,
 				956902CD1D306A2E0098422C /* icon.jpg in Resources */,
+				9532BC0E1D344EAE0014763B /* ss8_81.png in Resources */,
 				9569026E1D306A2E0098422C /* model3.png in Resources */,
 				956902791D306A2E0098422C /* sa2_p.png in Resources */,
 				956902681D306A2E0098422C /* curtain_39.png in Resources */,

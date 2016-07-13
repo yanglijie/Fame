@@ -64,7 +64,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         if FAME.Links.count > 0 {
             
             for obj:Dictionary<String,AnyObject> in FAME.Links   {
-                if (obj["show"] as! Int) >= 1 {
+                if (obj["show"] as! Int) != 0 {
                     self.Links1.append(obj)
                 }
             }
@@ -83,6 +83,8 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
             self.seletedStr1 = self.Links1[0]["name"] as! String!
             self.seletedStr2 = self.Links2[0]["name"] as! String!
             self.seletedStr3 = self.Links3[0]["name"] as! String!
+            
+            
         }
         
     }

@@ -39,6 +39,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     
     var Links1:Array<Dictionary<String,AnyObject>> = []
     var Links2 : Array<Dictionary<String,AnyObject>> = []
+    var Links3 : Array<Dictionary<String,AnyObject>> = []
     
     var ieee:String! = ""
 
@@ -178,20 +179,13 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         
         self.Links1 = []
-        print(self.title)
+
         if FAME.Links.count > 0 {
             
             for obj:Dictionary<String,AnyObject> in FAME.Links   {
-                if (obj["show"] as! Int) >= 0 {
-                    guard (self.title != nil) else{
-                        return
-                    }
-                    if (obj["name"] as! String).componentsSeparatedByString("\(self.title!)").count > 1{
-                        
-                    }
-                    else{
-                        self.Links1.append(obj)
-                    }
+                if (obj["show"] as! Int) != 2 {
+                    self.Links1.append(obj)
+
                 }
             }
             
@@ -203,9 +197,13 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             }else{
                 self.Links2 = [["name":"","act_id":0]]
             }
+            
+            self.Links3 = [["name":Defined_mode_on,"act_id":1],["name":Defined_mode_off,"act_id":0]]
+            
             self.seletedStr1 = self.Links1[0]["name"] as! String!
             self.seletedStr2 = self.Links2[0]["name"] as! String!
-            self.seletedStr3 = Defined_mode_on
+            self.seletedStr3 = self.Links3[0]["name"] as! String!
+
         }
         
         
@@ -420,7 +418,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         btn2.addTarget(self, action: Selector("cancleActBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         let lable = UILabel(frame: CGRect(x: 60, y: 20, width: pickView.frame.width - 120, height: 20))
-        lable.text = ""
+        lable.text = self.linkString
         lable.hidden = true
         lable.textAlignment = .Center
         lable.tag = 400
@@ -743,6 +741,68 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
     }
     
+//    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
+//        
+//        print("pickerView selected:\(row)")
+//        if component == 0 {
+//            self.seletedStr1 = self.Links1[row]["name"] as! String!
+//            
+//            
+//            
+//            let links = self.Links1[row]["sub"] as! Array<Dictionary<String,AnyObject>>!
+//            if links != nil {
+//                self.Links2 = links
+//                
+//            }else{
+//                self.Links2 = [["name":"","act_id":-2]]
+//            }
+//            
+//            if self.Links2.count > 1 {
+//                
+//            }else if self.Links2.count == 1{
+//                if let act_id :Int! = self.Links2[0]["act_id"] as! Int!{
+//                    self.id1 = act_id
+//                }
+//                self.seletedStr2 = self.Links2[0]["name"] as! String!
+//            }else{
+//                self.id1 = 0
+//                self.seletedStr2 = ""
+//            }
+//            
+//            pickerView.reloadComponent(1)
+//            pickerView.reloadComponent(2)
+//            pickerView.selectRow(0, inComponent: 1, animated: false)
+//            pickerView.selectRow(0, inComponent: 2, animated: false)
+//            
+//            if let act_id :Int! = self.Links2[0]["act_id"] as! Int!{
+//                self.id1 = act_id
+//            }
+//            self.seletedStr2 = self.Links2[0]["name"] as! String!
+//            
+//            self.seletedStr3 = Defined_mode_on
+//            self.id2 = 0
+//            
+//        }else  if component == 1 {
+//            
+//            if let act_id :Int! = self.Links2[row]["act_id"] as! Int!{
+//                self.id1 = act_id
+//            }
+//            self.seletedStr2 = self.Links2[row]["name"] as! String!
+//            
+//        }else{
+//            if row == 0 {
+//                self.seletedStr3 = Defined_mode_on
+//                self.id2 = 0
+//            }else{
+//                self.id2 = 1
+//                self.seletedStr3 = Defined_mode_off
+//            }
+//        }
+//
+//        print("\(self.id1 + self.id2)")
+//        
+//    }
+    
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
         
         print("pickerView selected:\(row)")
@@ -755,13 +815,57 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             if links != nil {
                 self.Links2 = links
                 
+                
+                //if appls
+                let dev_type = self.Links1[row]["dev_type"] as! Int!
+                if(dev_type != nil){
+                    print("!!!!!!!!!!!APPPP!!!!!!!!!")
+                    
+                    self.Links3 = []
+                    var btns_str = []
+                    switch (dev_type){
+                    case 16:
+                        btns_str = Defined_appl_16
+                    case 17:
+                        btns_str = Defined_appl_17
+                    case 18:
+                        btns_str = Defined_appl_18
+                    case 19:
+                        btns_str = Defined_appl_19
+                    case 20:
+                        btns_str = Defined_appl_20
+                    case 21:
+                        btns_str = Defined_appl_21
+                    default:
+                        btns_str = Defined_appl_16
+                    }
+                    var inid = 0
+                    for(btn_str) in btns_str{
+                        self.Links3.append(["name":btn_str,"act_id":inid * 2])
+                        inid++
+                    }
+                    print("3333333\(self.Links3)")
+                    
+                }else{
+                    let cur = self.Links1[row]["curtains"] as! Int!
+                    if(cur != nil){
+                        self.Links3 = [["name":Defined_mode_on,"act_id":0],["name":Defined_mode_off,"act_id":1]]
+                    }else{
+                        self.Links3 = [["name":Defined_mode_on,"act_id":1],["name":Defined_mode_off,"act_id":0]]
+                    }
+                }
+                
             }else{
+                
                 self.Links2 = [["name":"","act_id":-2]]
             }
             
             if self.Links2.count > 1 {
                 
             }else if self.Links2.count == 1{
+                
+                
+                
                 if let act_id :Int! = self.Links2[0]["act_id"] as! Int!{
                     self.id1 = act_id
                 }
@@ -781,10 +885,13 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             }
             self.seletedStr2 = self.Links2[0]["name"] as! String!
             
-            self.seletedStr3 = Defined_mode_on
-            self.id2 = 0
+            self.seletedStr3 = self.Links3[0]["name"] as! String!
             
-        }else  if component == 1 {
+            if let act_id2 :Int! = self.Links3[0]["act_id"] as! Int!{
+                self.id2 = act_id2
+            }
+            
+        }else if component == 1 {
             
             if let act_id :Int! = self.Links2[row]["act_id"] as! Int!{
                 self.id1 = act_id
@@ -792,18 +899,17 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             self.seletedStr2 = self.Links2[row]["name"] as! String!
             
         }else{
-            if row == 0 {
-                self.seletedStr3 = Defined_mode_on
-                self.id2 = 0
-            }else{
-                self.id2 = 1
-                self.seletedStr3 = Defined_mode_off
+            self.seletedStr3 = self.Links3[row]["name"] as! String!
+            
+            if let act_id2 :Int! = self.Links3[row]["act_id"] as! Int!{
+                self.id2 = act_id2
             }
         }
-
-        print("\(self.id1 + self.id2)")
         
+        print(self.id1 + self.id2)
     }
+
+    
     
     // returns the number of 'columns' to display.
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int{
@@ -820,7 +926,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             
             return self.Links2.count
         }else{
-            return 2
+            return self.Links3.count
         }
         
     }
@@ -835,32 +941,51 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         }
     }
     
+//    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
+//        
+//        
+//        if component == 0 {
+//            
+//            //return FAME.linkMoled[row]["name"]
+//
+//            return self.Links1[row]["name"] as! String!
+//        }else if component == 1{
+//            //let obj = self.Links1[row]
+//            return self.Links2[row]["name"] as! String!
+//        }else{
+//            
+//            if pickerView.selectedRowInComponent(0) == 0 {
+//                return ""
+//            }else{
+//                
+//                if row == 0{
+//                    
+//                    return Defined_mode_on
+//                }else{
+//                    return Defined_mode_off
+//                }
+//            }
+//        }
+//    }
+    
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
-        
         
         if component == 0 {
             
             //return FAME.linkMoled[row]["name"]
-
             return self.Links1[row]["name"] as! String!
         }else if component == 1{
             //let obj = self.Links1[row]
             return self.Links2[row]["name"] as! String!
         }else{
-            
             if pickerView.selectedRowInComponent(0) == 0 {
                 return ""
             }else{
-                
-                if row == 0{
-                    
-                    return Defined_mode_on
-                }else{
-                    return Defined_mode_off
-                }
+                return self.Links3[row]["name"] as! String!
             }
         }
     }
+    
     func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView{
         var viewLable :UILabel!
         if !(viewLable != nil){
@@ -888,42 +1013,31 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             e_id = (dev_id - 85) * 3 + 3
         }
         
-        let cmdStr = "{\"cmd\": 34, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id)}}"
-       
-        if let received = (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90)){
-            if received.valueForKey("result") as! UInt == 0{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            let cmdStr = "{\"cmd\": 34, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id)}}"
+            
+            if let received = (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90)){
+                if received.valueForKey("result") as! UInt == 0{
+                    
+                    var linkid:Int!
+                    linkid = received.valueForKey("detail")?.valueForKey("action_id") as! Int
+                    
+                    self.linkString = FAME.idForNamesMode[linkid]
+                    print(self.linkString)
+//                    dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+//                     let lable = self.view.viewWithTag(400) as! UILabel
+//                     lable.text = FAME.idForNamesMode[linkid]
+//                    })
+                    
+                }
                 
-                var linkid:Int!
-                linkid = received.valueForKey("detail")?.valueForKey("action_id") as! Int
-                //print("\(self.Links1)")
-                    let name : String!
-                    if linkid % 2 == 0{
-                        name = "开"
-                    }
-                    else{
-                        name = "关"
-                        linkid = linkid - 1
-                    }
-                    var arr : NSArray!
-                    for (var j = 0; j < self.Links1.count ; j++){
-                        arr = self.Links1[j]["sub"] as! NSArray!
-                        //print(arr)
-                        for(var i = 0; i < arr.count ; i++) {
-                            if linkid == Int(arr[i].valueForKey("act_id") as! NSNumber){
-                                
-                                self.linkString = (self.Links1[j]["name"] as! String!) + (arr[i].valueForKey("name") as! String) + " " + name
-                                print(self.linkString)
-                                break
-                            }
-                        }
-                    }
+            }
 
-            }
-            else{
-                
-            }
+            
+            
+            
         }
-
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -1064,7 +1178,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell2
         //cell.backgroundColor = UIColor.clearColor()
         cell.selectionStyle = UITableViewCellSelectionStyle.None ;
-        print(self.sensors)
+        //print(self.sensors)
         let dev_Str:String! = self.sensors[indexPath.row]["dev_id"] as String!
         let dev_id:Int! = Int(dev_Str)
         FAME.dev_id = dev_id ;
@@ -1845,6 +1959,7 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
 
 class ViewControllerSS7Detail: UIViewController {
     var airDetail: NSDictionary!;
+    var refreshControl = UIRefreshControl()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -1855,6 +1970,7 @@ class ViewControllerSS7Detail: UIViewController {
         view.layer.cornerRadius=10;
         
         
+
         
         
     }
@@ -1981,36 +2097,39 @@ class ViewControllerSS7Detail: UIViewController {
                 bool = bool + 1;
             }
         }
-        if bool == 1{
+        //if bool == 1{
             let splitedArray=str.componentsSeparatedByString(".");
             if splitedArray.count == 1{
                 return str
             }
-            let ns3:Int!;
+            else{
+            
+                let ns3:Int!;
                 if (splitedArray[1] as NSString).length == 0 {
                     ns3=0;
-                    }
+                }
                 else if (splitedArray[1] as NSString).length == 1 {
                     return str;
-                    }
+                }
                 else{
-                   ns3 = Int((splitedArray[1] as NSString).substringWithRange(NSMakeRange(1, 1)));
-                    }
-            var ns4:Int! = 0;
-            if ns3 >= 5 {
-                ns4=Int((splitedArray[1] as NSString).substringWithRange(NSMakeRange(0, 1)));
-                ns4 = ns4 + 1;
+                    ns3 = Int((splitedArray[1] as NSString).substringWithRange(NSMakeRange(1, 1)));
+                }
+                var ns4:Int! = 0;
+                if ns3 >= 5 {
+                    ns4=Int((splitedArray[1] as NSString).substringWithRange(NSMakeRange(0, 1)));
+                    ns4 = ns4 + 1;
+                }
+                else{
+                    ns4=Int((splitedArray[1] as NSString).substringWithRange(NSMakeRange(0, 1)));
+                }
+                string=splitedArray[0] as String + "." + String(ns4);
+                return string;
             }
-                    else{
-                        ns4=Int((splitedArray[1] as NSString).substringWithRange(NSMakeRange(0, 1)));
-                    }
-            string=splitedArray[0] as String + "." + String(ns4);
-            return string;
 
-        }
-        else{
-            return str;
-        }
+//        }
+//        else{
+//            return str;
+//        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -2259,8 +2378,33 @@ class ViewControllerSS7air6: UIViewController,UITextFieldDelegate {
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
         
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
+        
     }
-    
+    func Timerset(){
+        let cmdStr = "{\"cmd\": 44, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"dev_id\":\(FAME.dev_id)}}"
+        if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+            
+            if recevied["result"] as! NSObject == 0 && recevied["error_code"] as! NSObject == 0
+            {
+                let detail = recevied["detail"] as! NSObject
+
+                let PM = self.view.viewWithTag(45) as! UITextField!
+                let hcho_threshold = self.view.viewWithTag(46) as! UITextField!
+                let temperature_threshold = self.view.viewWithTag(47) as! UITextField!
+                let humidity_threshold = self.view.viewWithTag(48) as! UITextField!
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    PM.text = String(detail.valueForKey("pm2_5_threshold")!)
+                    hcho_threshold.text = String(detail.valueForKey("hcho_threshold")!)
+                    temperature_threshold.text = String(detail.valueForKey("temperature_threshold")!)
+                    humidity_threshold.text = String(detail.valueForKey("humidity_threshold")!)
+                })
+            }
+        }
+
+    }
     
 }
 class ViewControllerSS6: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {

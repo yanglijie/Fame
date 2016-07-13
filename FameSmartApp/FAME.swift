@@ -560,7 +560,8 @@ class fame:NSObject{
         
         //e
         
-        self.Links.append(["name":Defined_NULL,"show":3,"room":0,"sub":[["name":"","act_id":-2,"type":1]]])
+        //1
+        //self.Links.append(["name":Defined_NULL,"show":3,"room":0,"sub":[["name":"","act_id":-2,"type":1]]])
         
         //modes
         
@@ -737,7 +738,7 @@ class fame:NSObject{
                             
                         }
 
-                        //print("33333333\(self.socket13)")
+                        
                         self.sockets.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                         self.linkMoled.append(["name":"\(roomName) \(name)","id":"\(act_id)"])
                     
@@ -851,7 +852,7 @@ class fame:NSObject{
                 
 
                 Links3 = [["name":"","act_id":act_id,"type":1]]
-                self.Links.append(["name":"\(roomName) \(name)","show":1,"room":room,"sub":Links3])
+                self.Links.append(["name":"\(roomName) \(name)","show":2,"room":room,"sub":Links3])
                     
                     
                 }
@@ -922,8 +923,9 @@ class fame:NSObject{
                 self.idForNamesMode[act_id + 1] = "\(roomName) \(name) 关"
                 self.idForNamesMode[act_id] = "\(roomName) \(name) 开"
                 
-                Links3 = [["name":"","act_id":act_id,"type":1]]
-                self.Links.append(["name":"\(roomName) \(name)","show":1,"curtains":1,"room":room,"sub":Links3])
+                    //2
+//                Links3 = [["name":"","act_id":act_id,"type":1]]
+//                self.Links.append(["name":"\(roomName) \(name)","show":3,"curtains":1,"room":room,"sub":Links3])
                     
                     
                 }
@@ -936,7 +938,7 @@ class fame:NSObject{
         //appls
         self.appls = []
         self.airs = []
-        act_id = 0
+        //act_id = 0
         Links3 = []
         
         
@@ -966,7 +968,7 @@ class fame:NSObject{
                 
                 let roomName = self.rooms[room]
                 
-                act_id = (dev_id -  35) * 26 + 189
+                //act_id = (dev_id -  35) * 26 + 189
                 if(value.valueForKey("action_ids") != nil ) {
                     acrArr = value.valueForKey("action_ids") as! NSArray
                     if(acrArr.count > 0){
@@ -1008,6 +1010,7 @@ class fame:NSObject{
                     btns_str = Defined_appl_16
                 }
                 var inid = 0
+                
                 for(btn_str) in btns_str{
                     self.idForNamesMode[act_id + inid * 2] = "\(roomName) \(name) \(btn_str)"
                     inid++
@@ -1029,6 +1032,7 @@ class fame:NSObject{
                 //self.idForNamesMode[act_id] = "\(roomName) \(name) 关"
                 
                 Links3 = [["name":"","act_id":act_id,"type":1]]
+                
                 self.Links.append(["name":"\(roomName) \(name)","show":1,"dev_type":dev_type,"room":room,"sub":Links3])
             }
                 

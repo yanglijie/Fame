@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //is the ios8
         
         let version = (UIDevice.currentDevice().systemVersion as NSString).floatValue
+        
         if version >= 8 {
             FAME.IS_IOS8 = true
         }else{
@@ -40,21 +41,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if (pushSettiong != nil) {
                 let pushType = pushSettiong!.types
                 
-                if(pushType == UIUserNotificationType.None){
+                if pushType == UIUserNotificationType.None{
                     FAME.bPushEnable = false
+                    
                     print("PUSH disabled")
                 }else{
+                        
                     FAME.bPushEnable = true
                     print("PUSH enabled")
                 }
                 
             }
             
-            UIApplication.sharedApplication().registerForRemoteNotifications()
+            //UIApplication.sharedApplication().registerForRemoteNotifications()
             
             
             
-        }else{
+        }
+        else{
             application.registerForRemoteNotificationTypes([.Badge,.Alert,.Sound])
             
             let pushType = UIApplication.sharedApplication().enabledRemoteNotificationTypes()
@@ -118,8 +122,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let apsDic   = notif.objectForKey("aps") as! NSDictionary
         let alertDic = apsDic.objectForKey ( "alert" ) as! String
-        let alertView = UIAlertView (title: " 远程推送通知 " , message: alertDic, delegate: nil , cancelButtonTitle: " 返回 " )
-        alertView.show()
+        
         
         if alertDic.componentsSeparatedByString("解除").count > 1{
             
@@ -134,9 +137,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             FAME.msgs .append(alertDic)
             FAME.defaults.setObject(FAME.msgs.reverse(), forKey: "alarm")
+            print("\(FAME.msgs)")
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("msgChange", object: self)
+            
 
-
+            let alertView = UIAlertView (title: " 远程推送通知 " , message: alertDic, delegate: nil , cancelButtonTitle: " 返回 " )
+            alertView.show()
         }
+        
+        
         
     }
     
