@@ -14,7 +14,7 @@
 
 
 import UIKit
-
+import AVFoundation
 class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource,UIPickerViewDelegate,ViewControllerSS7air6Delegate,ViewControllerSS_nameDelegate {
     var BGView:UIView!
     var pickView:UIView!
@@ -249,15 +249,17 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                     let alert = UIAlertView()
                     alert.title = Defined_link_title1
                     alert.message =  Defined_link_update
-                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.addButtonWithTitle(Defined_ALERT_CANCEL)
                     alert.show()
                     
                 })
             }
-        }else{
+        }
+        else{
+            //print("6666666alarm_value=\(alarm_value)")
             let cmdStr = "{\"cmd\": 33, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id),\"filter_data\":[\(dev_id),11,17,\(alarm_value)],\"action_id\":\(action_id),\"active\":1}}"
             if  (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
-                print("link device successed")
+                print("link device1 successed")
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     let alert = UIAlertView()
                     alert.title = Defined_link_title
@@ -418,8 +420,11 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         btn2.addTarget(self, action: Selector("cancleActBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         let lable = UILabel(frame: CGRect(x: 60, y: 20, width: pickView.frame.width - 120, height: 20))
-        lable.text = self.linkString
-        lable.hidden = true
+//        if (self.linkString != nil){
+//            lable.text = self.linkString
+//        }
+        lable.text = ""
+        //lable.hidden = true
         lable.textAlignment = .Center
         lable.tag = 400
         self.pickView2.addSubview(lable)
@@ -484,6 +489,8 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     }
     
     func showVIew2(){
+//        let lable1 = self.view.viewWithTag(400) as! UILabel!
+//        lable1.text = self.linkString
         
         if self.showId == 2 {
             self.picker.hidden = true
@@ -492,11 +499,10 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             self.timeLabel.hidden = false
             self.timeLabel2.hidden = false
             self.viewSlider.hidden = false
-        }else{
             
-            let lable1 = self.view.viewWithTag(400) as! UILabel!
-            lable1.text = self.linkString
-            lable1.hidden = false
+            
+        }
+        else{
             
             self.picker.hidden = false
             self.viewSlider.hidden = true
@@ -513,12 +519,19 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             self.pickView2.frame = CGRect(x: 0, y: self.pickView2.frame.origin.y , width: self.view.frame.width, height: self.pickView2.frame.height)
             
             }, completion: nil)
+        
+        
+        let myThread1 = NSThread(target: self, selector: "linkShow", object: nil)
+        myThread1.start()
+        
+        
     }
     //设置联动
     func btns1Fun(sender:UIButton){
         self.showId = 0
         FAME.link_id = 1
         self.showVIew2()
+        
     }
     //恢复联动
     func btns74Fun(sender:UIButton){
@@ -529,6 +542,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     //设置延时联动
     func btns2Fun(sender:UIButton){
         self.showId = 1
+        FAME.link_id = 1
         self.showVIew2()
     }
     //设置延时时间
@@ -543,6 +557,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     //修改名字
     func btns71Fun(sender:UIButton){
         self.hidePop()
+        
         let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_name") as! ViewControllerSS_name
         next.delegate = self ;
         
@@ -565,7 +580,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                 let login = alertController.textFields!.first! as UITextField
                 print("用户名：\(login.text)")
                 
-                self.view.endEditing(false)
+                
                 
                 if login.text! == "\(FAME.user_name)34637169"
                 {
@@ -585,6 +600,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                             FAME.delDeviceArray.addObject(dic)
                             
                             FAME.doDeleteDev()
+                            //self.view.endEditing(false)
                             self.navigationController?.popToRootViewControllerAnimated(true)
                             //NSNotificationCenter.defaultCenter().postNotificationName("play", object: nil)
                             
@@ -663,24 +679,28 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                 self.BGView.hidden = true
                 
         })
-        
+        self.linkString = ""
     }
     
     func privateCmd(){
         if (httpRequert().downloadFromPostUrlSync(Surl,cmd: self.tmpStr,timeout:8) != nil){
             print("delay-set successed")
-            let alert = UIAlertView()
-            alert.title = Defined_delay_title
-            alert.message =  Defined_delay_update
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.show()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertView()
+                alert.title = Defined_delay_title
+                alert.message =  Defined_delay_update
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            })
             
         }else{
-            let alert = UIAlertView()
-            alert.title = Defined_delay_title
-            alert.message =  Defined_delay_failed
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.show()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertView()
+                alert.title = Defined_delay_title
+                alert.message =  Defined_delay_failed
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            })
         }
     }
     
@@ -698,18 +718,29 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             
             
             self.hidePop()
-        }else{
+        }
+      else{
             print("selectedActBtn")
-            print("\(self.seletedStr1)  \(self.seletedStr2) \(self.seletedStr3)")
-            linkString = self.seletedStr1 + self.seletedStr2 + " " + self.seletedStr3
-            self.hidePop()
+            if self.id1 < 0 {
+                linkString = ""
+                self.ids = -1
+            }
+            else{
+                print("\(self.seletedStr1)  \(self.seletedStr2) \(self.seletedStr3)")
+                linkString = self.seletedStr1 + self.seletedStr2 + " " + self.seletedStr3
+                
+                
+                self.ids = self.id1 + self.id2
+                
+            }
             
-            self.ids = self.id1 + self.id2
+            self.hidePop()
             let myThread = NSThread(target: self, selector: "Timerset", object: nil)
             myThread.start()
         }
         
         
+
         
     }
     
@@ -725,18 +756,28 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         index = sender.index ;
 
         self.ieee = self.sensors[index]["ieee"] as String!
+        FAME.dev_id = sender.dev_id
+        
+        
+        let subCell:AnyObject = self.tabelVeiw.visibleCells[index]
+        //print(subCell)
+        let cell = subCell as! UITableViewCell2
+        let name = cell.viewWithTag(2) as! UILabel
+        //name.text = FAME.dev_ss_Rname + FAME.dev_ss_name
+        
+        
+        
+        let name_Str:String! = name.text as String!
 
-        let name_Str:String! = self.sensors[index]["name1"] as String!
-        let roomName_Str:String! = self.sensors[index]["roomName"] as String!
-        FAME.dev_ss_name = name_Str
-        FAME.dev_ss_Rname = roomName_Str
-
-        //print("2222222\(FAME.dev_ss_Rname)")
+        
+        FAME.dev_ss_Rname = name_Str.substringWithRange(0, end: 2)
+        FAME.dev_ss_name = (name_Str as NSString).substringFromIndex(2)
+        
+        //print("4444444\()")
         
         self.showPop()
         
-        let myThread1 = NSThread(target: self, selector: "linkShow", object: nil)
-        myThread1.start()
+        
         
         
     }
@@ -844,7 +885,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                         self.Links3.append(["name":btn_str,"act_id":inid * 2])
                         inid++
                     }
-                    print("3333333\(self.Links3)")
+                    
                     
                 }else{
                     let cur = self.Links1[row]["curtains"] as! Int!
@@ -980,7 +1021,8 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         }else{
             if pickerView.selectedRowInComponent(0) == 0 {
                 return ""
-            }else{
+            }
+            else{
                 return self.Links3[row]["name"] as! String!
             }
         }
@@ -1008,6 +1050,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         if self.showId == 0{
             
             e_id = (dev_id - 85) * 3 + 1
+            
         }else{
             
             e_id = (dev_id - 85) * 3 + 3
@@ -1021,13 +1064,21 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                     
                     var linkid:Int!
                     linkid = received.valueForKey("detail")?.valueForKey("action_id") as! Int
+                    if linkid <= 0{
+                        dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                            let lable = self.view.viewWithTag(400) as! UILabel
+                            lable.text = ""
+                        })
+                    }
+                    else if (FAME.idForNamesMode[linkid] != nil) {
+                        self.linkString = FAME.idForNamesMode[linkid]
+                        print(self.linkString)
+                        dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                            let lable = self.view.viewWithTag(400) as! UILabel
+                            lable.text = FAME.idForNamesMode[linkid]
+                         })
+                    }
                     
-                    self.linkString = FAME.idForNamesMode[linkid]
-                    print(self.linkString)
-//                    dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-//                     let lable = self.view.viewWithTag(400) as! UILabel
-//                     lable.text = FAME.idForNamesMode[linkid]
-//                    })
                     
                 }
                 
@@ -1181,7 +1232,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         //print(self.sensors)
         let dev_Str:String! = self.sensors[indexPath.row]["dev_id"] as String!
         let dev_id:Int! = Int(dev_Str)
-        FAME.dev_id = dev_id ;
+        FAME.dev_id = dev_id 
         
         cell.dev_id = dev_id
         
@@ -1310,7 +1361,41 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
 }
 
 
+extension String
+{
+    
+    func substringWithRange(start: Int, end: Int) -> String
+    {
+        if (start < 0 || start > self.characters.count)
+        {
+            print("start index \(start) out of bounds")
+            return ""
+        }
+        else if end < 0 || end > self.characters.count
+        {
+            print("end index \(end) out of bounds")
+            return ""
+        }
+        let range = Range(start: self.startIndex.advancedBy(start), end: self.startIndex.advancedBy(end))
+        return self.substringWithRange(range)
+    }
+    func substringWithRange(start: Int, location: Int) -> String
+    {
+        if (start < 0 || start > self.characters.count)
+        {
+            print("start index \(start) out of bounds")
+            return ""
+        }
+        else if location < 0 || start + location > self.characters.count
+        {
+            print("end index \(start + location) out of bounds")
+            return ""
+        }
+        let range = Range(start: self.startIndex.advancedBy(start), end: self.startIndex.advancedBy(start + location))
+        return self.substringWithRange(range)
+    }
 
+}
 
 
 
@@ -2151,7 +2236,7 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.title = FAME.dev_ss_name
+        //self.title = FAME.dev_ss_name
         self.nameArray = FAME.rooms;
         
         for(var i = 0; i < self.nameArray.count ; i++){
@@ -2162,6 +2247,8 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         
         let dev_name = self.view.viewWithTag(18) as! UITextField!;
         dev_name.text = FAME.dev_ss_name ;
+        
+        
         
         let room_button = self.view.viewWithTag(19) as! UIButton!;
         room_button .addTarget(self, action: Selector("roomClick:"), forControlEvents: UIControlEvents.TouchUpInside);
@@ -2219,7 +2306,7 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
             if recevied["result"] as! NSObject == 0
             {
                 //fame.showMessage("111111");
-                
+                FAME.getDeviceTable()
                 self.delegate?.reloadName();
                 self.navigationController?.popViewControllerAnimated(true);
             }
@@ -2407,7 +2494,7 @@ class ViewControllerSS7air6: UIViewController,UITextFieldDelegate {
     }
     
 }
-class ViewControllerSS6: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
+class ViewControllerSS6: UITableViewCell,UIPickerViewDataSource,UIPickerViewDelegate {
  
     var BGView:UIView!
     var pickView:UIView!
@@ -2416,62 +2503,41 @@ class ViewControllerSS6: UIViewController,UIPickerViewDataSource,UIPickerViewDel
     var selectCount:Int!
     
     
-    override func viewWillAppear(animated: Bool){
-        super.viewWillAppear(animated)
-        
-        
-        
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-       
-        // Do any additional setup after loading the view, typically from a nib.
-        
-//        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
-//        self.navigationItem.rightBarButtonItem = addButton
-        
-        if FAME.sensors30.count == 0 {
-            let view1 = self.view.viewWithTag(51) as UIView!
-            view1.hidden = true
-            let view2 = self.view.viewWithTag(52) as UIView!
-            view2.hidden = true
-            let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,self.view.frame.size.height/10,self.view.frame.size.width*3/4,self.view.frame.size.height*4/5))
-            textLabel.text = Defined_Tips_none
-            
-            //textLabel.backgroundColor = UIColor.blackColor()
-            textLabel.textColor = UIColor.whiteColor()
-            textLabel.textAlignment = NSTextAlignment.Center
-            textLabel.numberOfLines = 0;
-            textLabel.font = UIFont.systemFontOfSize(25)
-            self.view.addSubview(textLabel)
-            return ;
-            
-        }
-
-        let lable1 = self.view.viewWithTag(77) as! UILabel!
-        lable1.text = FAME.sensors30[0]["name"]! as String
-        
-        let view = self.view.viewWithTag(51) as UIView!
-        view.layer.borderColor=UIColor.whiteColor().CGColor;
-        view.layer.borderWidth = 1;
-        view.layer.cornerRadius=10;
-        
-        let setButton = self.view.viewWithTag(70) as! UIButton!
-        setButton.addTarget(self, action: Selector("actSetBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
-        
-        for i in 501...506 {
-            let searchButton = self.view.viewWithTag(i) as! UIButton!
-            searchButton.addTarget(self, action: Selector("actAddBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
-        }
-        
-        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
-        myThread.start()
-        
-        
-
-        
-        
-    }
+    
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//       
+//        // Do any additional setup after loading the view, typically from a nib.
+//        
+////        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
+////        self.navigationItem.rightBarButtonItem = addButton
+//        
+//        
+//
+//        let lable1 = self.view.viewWithTag(77) as! UILabel!
+//        lable1.text = FAME.sensors30[0]["name"]! as String
+//        
+//        let view = self.view.viewWithTag(51) as UIView!
+//        view.layer.borderColor=UIColor.whiteColor().CGColor;
+//        view.layer.borderWidth = 1;
+//        view.layer.cornerRadius=10;
+//        
+//        let setButton = self.view.viewWithTag(70) as! UIButton!
+//        setButton.addTarget(self, action: Selector("actSetBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+//        
+//        for i in 501...506 {
+//            let searchButton = self.view.viewWithTag(i) as! UIButton!
+//            searchButton.addTarget(self, action: Selector("actAddBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+//        }
+//        
+//        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+//        myThread.start()
+//        
+//        
+//
+//        
+//        
+//    }
     func Timerset(){
         let act_id = FAME.sensors30[0]["act_id"]! as String
         let act_idInt:Int! = Int(act_id)
@@ -2502,7 +2568,7 @@ class ViewControllerSS6: UIViewController,UIPickerViewDataSource,UIPickerViewDel
         
         print(self.selectCount)
         self.BGView.hidden = true ;
-        let lable1 = self.view.viewWithTag(self.selectCount) as! UILabel!;
+        let lable1 = self.viewWithTag(self.selectCount) as! UILabel!;
         lable1.text = self.seletedStr;
         
         
@@ -2525,7 +2591,7 @@ class ViewControllerSS6: UIViewController,UIPickerViewDataSource,UIPickerViewDel
     }
     func createPop(){
         
-        self.BGView = UIView(frame: CGRect(x: 0, y: 0 , width: self.view.frame.width, height: self.view.frame.height))
+        self.BGView = UIView(frame: CGRect(x: 0, y: 0 , width: self.frame.width, height: self.frame.height))
         self.BGView.backgroundColor = UIColor.clearColor()
         
         
@@ -2549,7 +2615,7 @@ class ViewControllerSS6: UIViewController,UIPickerViewDataSource,UIPickerViewDel
         
         
         
-        let btn = UIButton(frame: CGRect(x: self.view.frame.width - 60, y: 20, width: 40, height: 20))
+        let btn = UIButton(frame: CGRect(x: self.frame.width - 60, y: 20, width: 40, height: 20))
         btn.setTitle("\(Defined_ALERT_OK)", forState: UIControlState.Normal)
         btn.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         btn.tag = 1
@@ -2576,7 +2642,7 @@ class ViewControllerSS6: UIViewController,UIPickerViewDataSource,UIPickerViewDel
         self.pickView.addSubview(btn2)
         
         //self.BGView.hidden = true ;
-        self.view.addSubview(self.BGView)
+        self.addSubview(self.BGView)
         self.BGView.addSubview(self.pickView)
     }
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
@@ -2597,13 +2663,92 @@ class ViewControllerSS6: UIViewController,UIPickerViewDataSource,UIPickerViewDel
         return FAME.models[row]["name"] as String!
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    
     
     
     
 }
+class ViewControllerSS_mode: UIViewController {
+    
+    @IBOutlet weak var tableView: UITableView!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        if FAME.sensors30.count == 0 {
+            
+            let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,self.view.frame.size.height/10,self.view.frame.size.width*3/4,self.view.frame.size.height*4/5))
+            textLabel.text = Defined_Tips_none
+            
+            //textLabel.backgroundColor = UIColor.blackColor()
+            textLabel.textColor = UIColor.whiteColor()
+            textLabel.textAlignment = NSTextAlignment.Center
+            textLabel.numberOfLines = 0;
+            textLabel.font = UIFont.systemFontOfSize(25)
+            self.view.addSubview(textLabel)
+            return ;
+            
+        }
+        
+        tableView.hidden = true
+        
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
+    }
+}
+extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+        
+        return FAME.sensors30.count
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+        
+        tableView
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
+        //cell.backgroundColor = UIColor.clearColor()
+        cell.selectionStyle = UITableViewCellSelectionStyle.None ;
 
+        cell.backgroundColor = UIColor.clearColor()
+        let lable1 = cell.viewWithTag(77) as! UILabel!
+        lable1.text = FAME.sensors30[indexPath.row]["name"]! as String
+        
+        let view = cell.viewWithTag(51) as UIView!
+        view.layer.borderColor=UIColor.whiteColor().CGColor;
+        view.layer.borderWidth = 1;
+        view.layer.cornerRadius=10;
+        
+        let setButton = cell.viewWithTag(70) as! UIButton!
+        setButton.addTarget(self, action: Selector("actSetBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        for i in 501...506 {
+            let searchButton = cell.viewWithTag(i) as! UIButton!
+            searchButton.addTarget(self, action: Selector("actAddBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        }
+
+        
+        
+        return cell
+        
+        
+    }
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
+        
+        return HEIGHT * 0.6
+        
+    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+        
+        print(indexPath)
+        let next = GBoard.instantiateViewControllerWithIdentifier("viewCell") as UIViewController
+        //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
+        
+        self.navigationController?.pushViewController(next, animated: true)
+    }
+
+}
 

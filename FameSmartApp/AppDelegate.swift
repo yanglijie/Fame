@@ -9,7 +9,7 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
     
     var window: UIWindow?
     
@@ -40,7 +40,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let pushSettiong = UIApplication.sharedApplication().currentUserNotificationSettings()
             if (pushSettiong != nil) {
                 let pushType = pushSettiong!.types
-                
+                if (FAME.defaults.valueForKey("PushState") != nil){
+                    let pushState = FAME.defaults.valueForKey("PushState") as! Bool
+                    if !pushState{
+                        FAME.bPushEnable = false
+                        
+                    }
+                    
+                }
                 if pushType == UIUserNotificationType.None{
                     FAME.bPushEnable = false
                     
@@ -137,19 +144,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             FAME.msgs .append(alertDic)
             FAME.defaults.setObject(FAME.msgs.reverse(), forKey: "alarm")
-            print("\(FAME.msgs)")
+            //print("111111\(FAME.msgs)")
+      
+//            let alertView = UIAlertView (title: " 远程推送通知 " , message: alertDic, delegate: nil , cancelButtonTitle: " 返回 " )
+//            alertView.delegate = self
+//            alertView.show()
             
-            NSNotificationCenter.defaultCenter().postNotificationName("msgChange", object: self)
+            let alert = UIAlertView()
+            alert.title = " 远程推送通知 "
+            alert.delegate = self
+            alert.message =  alertDic
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.show()
             
-
-            let alertView = UIAlertView (title: " 远程推送通知 " , message: alertDic, delegate: nil , cancelButtonTitle: " 返回 " )
-            alertView.show()
+            NSNotificationCenter.defaultCenter().postNotificationName("msgChange", object: FAME.msgs.reverse())
         }
         
         
         
     }
-    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        
+        //print("555555555")
+//        let next :UIViewController = GBoard.instantiateViewControllerWithIdentifier("msg") as UIViewController
+//        self.window?.rootViewController?.presentViewController(next, animated: true, completion: nil)
+        //navigationController?.pushViewController(next, animated: true)
+        
+    }
        
     //Receive
     

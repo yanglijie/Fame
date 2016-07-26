@@ -16,6 +16,9 @@
 
 import Foundation
 
+let WIDTH = UIScreen.mainScreen().bounds.size.width
+let HEIGHT = UIScreen.mainScreen().bounds.size.height
+
 let Defined_navigation_back_title = "返回"
 
 let Defined_Unkown_Device = "未知设备"
@@ -163,7 +166,7 @@ let Defined_cur_update = "时间设置成功"
 let Defined_cur_failed = "时间设置失败"
 
 let Defined_appl_10 = ["开","关","停止"]
-let Defined_appl_16 = ["btn116","btn2","btn3","btn4","btn5","btn6","btn7","btn8","btn9","自定义1","自定义2","自定义3","自定义4"]
+let Defined_appl_16 = ["节目减","音量加","OK","节目加","音量减","HOME","静音","开/关","返回","自定义1","自定义2","自定义3","自定义4"]
 let Defined_appl_17 = ["节目减","音量加","OK","节目加","音量减","HOME","静音","开/关","返回","自定义1","自定义2","自定义3","自定义4"]
 let Defined_appl_18 = ["上一曲","音量加","播放/暂停","下一曲","音量减","随机播放","静音","开/关","循环播放","自定义1","自定义2","自定义3","自定义4"]
 let Defined_appl_19 = ["开","关","除湿","送风","制冷","制热","btn7","btn8","btn9","自定义1","自定义2","自定义3","自定义4"]

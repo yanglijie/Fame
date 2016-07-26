@@ -17,7 +17,7 @@ import AVFoundation
 
 
 let GBoard = UIStoryboard(name: "Main", bundle: nil)
-let Surl="http://www.famesmart.com/famecloud/user_intf.php"
+var Surl="http://www.famesmart.com/famecloud/user_intf.php"
 let Curl="http://219.220.215.211/weixin/fame/wx_fame.php"
 
 
@@ -506,9 +506,7 @@ class fame:NSObject{
                 alert.show()
                 self.timmer = NSTimer.scheduledTimerWithTimeInterval(5.0, target:self, selector:"checkDelFunction", userInfo:nil, repeats:false)
                 FAME.isAddingDevice = true
-                
-                
-                
+
                 return true
             }else{
                 return false
@@ -561,7 +559,7 @@ class fame:NSObject{
         //e
         
         //1
-        //self.Links.append(["name":Defined_NULL,"show":3,"room":0,"sub":[["name":"","act_id":-2,"type":1]]])
+        self.Links.append(["name":Defined_NULL,"show":3,"room":0,"sub":[["name":"","act_id":-2,"type":1]]])
         
         //modes
         
@@ -655,7 +653,7 @@ class fame:NSObject{
                         
                         
                         
-                            self.lights.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)\(subValue)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                            self.lights.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         
                         
                         
@@ -924,8 +922,8 @@ class fame:NSObject{
                 self.idForNamesMode[act_id] = "\(roomName) \(name) 开"
                 
                     //2
-//                Links3 = [["name":"","act_id":act_id,"type":1]]
-//                self.Links.append(["name":"\(roomName) \(name)","show":3,"curtains":1,"room":room,"sub":Links3])
+                Links3 = [["name":"","act_id":act_id,"type":1]]
+                self.Links.append(["name":"\(roomName) \(name)","show":3,"curtains":1,"room":room,"sub":Links3])
                     
                     
                 }
@@ -1079,6 +1077,7 @@ class fame:NSObject{
             
             if httpRequert().addDevie() {
                 self.timmer = NSTimer.scheduledTimerWithTimeInterval(40.0, target:self, selector:"timerFunction", userInfo:nil, repeats:false)
+                
                 FAME.isAddingDevice = true
                 return true
             }else{
@@ -1089,6 +1088,12 @@ class fame:NSObject{
         return false
     }
     func checkAddedDevice(){
+//        let received :NSDictionary?
+//        
+//        //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+//            received = self.cheackAdd()
+//        //}
+        
         let received :NSDictionary? = httpRequert().checkAddedDevice()
         print(received)
         if  (received != nil){
@@ -1097,7 +1102,7 @@ class fame:NSObject{
             print(received)
             
             for values:AnyObject in received!.valueForKey("detail") as! NSArray {
-                print(values)
+                //print(values)
                 let AddedObj = values as! NSDictionary
                 let ADDieee_addr :String!  = AddedObj.valueForKey("ieee_addr") as! String
                 let ADDflag :NSNumber  = AddedObj.valueForKey("flag") as! NSNumber
@@ -1105,7 +1110,7 @@ class fame:NSObject{
                 
                 print("check:\(ADDieee_addr) addflag:\(ADDflag)")
                 //var isA = false
-                
+                print("11111\(FAME.addDeviceArray)")
                 for value : AnyObject in FAME.addDeviceArray {
                     
                     let Ahvaddr:String! = value.valueForKey("hvaddr") as! String
@@ -1120,7 +1125,7 @@ class fame:NSObject{
                                 alert.message =  "\(Aname) \(Defined_Add_Title_success)"
                                 alert.addButtonWithTitle(Defined_ALERT_OK)
                                 alert.show()
-                            
+                                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                                 
                                 
                             }else{
@@ -1130,7 +1135,7 @@ class fame:NSObject{
                                 alert.message =  "\(Aname) \(Defined_Add_failed)"
                                 alert.addButtonWithTitle(Defined_ALERT_OK)
                                 alert.show()
-                                
+                                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                             }
                         }
                     }
@@ -1138,6 +1143,7 @@ class fame:NSObject{
             }
             //self.deCodeDeviceTable()
         }
+        
         FAME.addDeviceArray = []
         FAME.isAddingDevice = false
         FAME.getDeviceTable()

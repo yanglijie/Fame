@@ -451,6 +451,8 @@ class httpRequert : NSObject{
     }
     
     func checkAddedDevice() -> NSDictionary!{
+        
+        
         let cmdStr = "{\"cmd\": 29, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd )\", \"did\": \(FAME.user_did)}"
         if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr){
             if recevied["error_code"] as! NSObject == 0
@@ -465,6 +467,7 @@ class httpRequert : NSObject{
                 alert.message = "中控正在忙，请稍后再试"
                 alert.addButtonWithTitle(Defined_ALERT_OK)
                 alert.show()
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 return nil
             }
             
@@ -476,6 +479,7 @@ class httpRequert : NSObject{
             alert.message = "中控正在忙，请稍后再试"
             alert.addButtonWithTitle(Defined_ALERT_OK)
             alert.show()
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             return nil
         }
     }

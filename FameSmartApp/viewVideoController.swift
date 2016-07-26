@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 class ViewControllerVideo: UIViewController,UITableViewDelegate,UITableViewDataSource{
-    var cells:Array<String> = ["看家宝","海康威视","米视通"]
-    var apps:Array<String> = ["v380://","https://itunes.apple.com/us/app/shi-pin-qu/id571195405","p2pcamlive://"]
-    var urls:Array<String> = ["http://www.anm7.com/","https://itunes.apple.com/us/app/shi-pin-qu/id571195405","https://itunes.apple.com/cn/app/easyn-p/id893617705"]
+    var cells:Array<String> = ["看家宝","海康威视","米视通","萤石"]
+    var apps:Array<String> = ["v380://","https://itunes.apple.com/us/app/shi-pin-qu/id571195405","p2pcamlive://","https://itunes.apple.com/us/app/shi-pin-qu/id571195405?ls=1&mt=8"]
+    var urls:Array<String> = ["http://www.anm7.com/","https://itunes.apple.com/us/app/shi-pin-qu/id571195405","https://itunes.apple.com/cn/app/easyn-p/id893617705","https://itunes.apple.com/us/app/shi-pin-qu/id571195405?ls=1&mt=8"]
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -275,6 +275,7 @@
 		956F11F61D2710F5006D1197 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 956F11E11D2710F5006D1197 /* UIScrollView+MJRefresh.m */; };
 		956F11F71D2710F5006D1197 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 956F11E31D2710F5006D1197 /* UIView+MJExtension.m */; };
 		95865C421D2F1C8F00F552DD /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95865C411D2F1C8F00F552DD /* RefreshView.swift */; };
+		95C8104E1D42A924000BC78B /* myloginbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 95C8104D1D42A924000BC78B /* myloginbg.png */; };
 		FD24394D19C1480300200750 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD24394C19C1480300200750 /* extension.swift */; };
 		FD24397C19C187A100200750 /* viewTempertureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD24397B19C187A100200750 /* viewTempertureController.swift */; };
 		FD2C41501AFB12FD0087B08F /* viewSA2and4.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2C414F1AFB12FD0087B08F /* viewSA2and4.swift */; };
@@ -606,6 +607,7 @@
 		956F11E31D2710F5006D1197 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
 		956F11F91D271458006D1197 /* FameSmartApp-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FameSmartApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		95865C411D2F1C8F00F552DD /* RefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
+		95C8104D1D42A924000BC78B /* myloginbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myloginbg.png; sourceTree = "<group>"; };
 		FD0A248C1A2EDC5A00ED1C43 /* FameSmartAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FameSmartAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD24394C19C1480300200750 /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
 		FD24397B19C187A100200750 /* viewTempertureController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewTempertureController.swift; sourceTree = "<group>"; };
@@ -742,6 +744,7 @@
 		9569013F1D306A2E0098422C /* appImg */ = {
 			isa = PBXGroup;
 			children = (
+				95C8104D1D42A924000BC78B /* myloginbg.png */,
 				956902EE1D306B640098422C /* split_left_1.png */,
 				956902EF1D306B640098422C /* split_right_1.png */,
 				956901401D306A2E0098422C /* airBtn.png */,
@@ -1329,6 +1332,7 @@
 				956902A11D306A2E0098422C /* ss2_21.png in Resources */,
 				956902B91D306A2E0098422C /* clock_17.png in Resources */,
 				956902751D306A2E0098422C /* modelEdit.png in Resources */,
+				95C8104E1D42A924000BC78B /* myloginbg.png in Resources */,
 				956902521D306A2E0098422C /* curtain_icon1.png in Resources */,
 				956902CD1D306A2E0098422C /* icon.jpg in Resources */,
 				9532BC0E1D344EAE0014763B /* ss8_81.png in Resources */,

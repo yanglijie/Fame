@@ -15,4 +15,8 @@
 #import <AudioToolbox/AudioSession.h>
 #import "iflyMSC/IFlySpeechSynthesizer.h"
 
-#import "MJRefresh.h" 
+#import "MJRefresh.h"
+
+
+#import <ifaddrs.h>
+#import <arpa/inet.h>

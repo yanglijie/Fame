@@ -101,8 +101,13 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
     }
     func Timerset2(){
         let cmdStr = "{\"cmd\": 32, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"action_id\":\(FAME.tempMode)}}"
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         if let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
             print("refresh successed")
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                FAME.showMessage("刷新成功")
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            })
             let detail:NSDictionary = received.valueForKey("detail") as! NSDictionary
             var index = 0
             for values:AnyObject in detail.valueForKey("sub_actions") as! NSArray {
@@ -124,6 +129,11 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
             }
             
         }else{
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                FAME.showMessage("刷新失败")
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            })
+            
         }
     }
     func Timerset(){
@@ -250,7 +260,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
                         self.Links3.append(["name":btn_str,"act_id":inid * 2])
                         inid++
                     }
-                    
+                    print(self.Links3)
                     
                 }else{
                     let cur = self.Links1[row]["curtains"] as! Int!
@@ -376,11 +386,23 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         }
     }
     
+    func tapPress(sender:AnyObject!){
+        self.hidePop()
+    }
+    
     func createPop(){
         
         self.BGView = UIView(frame: CGRect(x: 0, y: 0 , width: self.view.frame.width, height: self.view.frame.height))
         self.BGView.backgroundColor = UIColor.clearColor()
         self.BGView.tag = 500
+        
+        
+        let longPressRec = UITapGestureRecognizer()
+        longPressRec.addTarget(self, action: "tapPress:")
+        
+        self.BGView.addGestureRecognizer(longPressRec)
+        
+        self.BGView.userInteractionEnabled = true
         
         
         self.pickView = UIView(frame: CGRect(x: 0, y: self.view.frame.height + 25 , width: self.view.frame.width, height: 300))

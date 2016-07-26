@@ -15,7 +15,7 @@ import UIKit
 //
 //*********************
 
-class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDelegate {
+class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDelegate, ViewControllerSS_nameDelegate{
     
     var BGView:UIView!
     var pickView:UIView!
@@ -44,14 +44,34 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     var seletedBtn :UIButton2!
     
     var ieee:String! = ""
+    var subValue:String! = ""
     
-
+    var index:Int = 0
+    
+    
+    
     
     
     var sensors:Array<Dictionary<String,String>> = []
+    var lights:Array<Dictionary<String,String>> = []
+    
+    func reloadName() {
+        FAME.showMessage("名字修改成功");
 
-    
-    
+//        self.paixun()
+//        self.TableView.reloadData()
+        for subCell:AnyObject in self.TableView!.visibleCells {
+            //print(subCell)
+            let cell = subCell as! UITableViewCell2
+            subValue = self.lights[cell.index]["subValue"] as String!
+            if cell.dev_id == FAME.dev_id{
+                let name = cell.viewWithTag(1) as! UILabel
+                name.text = FAME.dev_ss_Rname + FAME.dev_ss_name + subValue ;
+            }
+        }
+        
+        
+    }
     
     func handleLongpressGesture(sender: UILongPressGestureRecognizer) {
 
@@ -62,13 +82,19 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             if(indexPath != nil){
                 let cell:UITableViewCell2! = self.TableView.cellForRowAtIndexPath(indexPath) as! UITableViewCell2
                 
-                let name_Str:String! = FAME.lights[cell.index]["name1"] as String!
-                let roomName_Str:String! = FAME.lights[cell.index]["roomName"] as String!
-                FAME.dev_ss_name = name_Str
-                FAME.dev_ss_Rname = roomName_Str
-                //name.text = FAME.dev_ss_Rname + FAME.dev_ss_name ;
+                index = cell.index
+                FAME.dev_id = cell.dev_id
+                let name = cell.viewWithTag(1) as! UILabel
+                //name.text = FAME.dev_ss_Rname + FAME.dev_ss_name
                 
-                self.ieee = FAME.lights[cell.index]["ieee"] as String!
+                
+                
+                let name_Str:String! = name.text as String!
+                
+                
+                FAME.dev_ss_Rname = name_Str.substringWithRange(0, end: 2)
+                FAME.dev_ss_name = (name_Str as NSString).substringFromIndex(2)
+                self.ieee = self.lights[cell.index]["ieee"] as String!
                 
                 self.BGView.hidden = false
                 
@@ -154,7 +180,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     func btns1Fun(sender:UIButton){
         self.BGView.hidden = true
         let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_name") as! ViewControllerSS_name
-        //next.delegate = self ;
+        next.delegate = self ;
         
         self.navigationController?.pushViewController(next, animated: true)
         let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
@@ -166,6 +192,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         let alertController = UIAlertController(title: "友情提示", message: "请输入密码删除该设备", preferredStyle: UIAlertControllerStyle.Alert);
         alertController.addTextFieldWithConfigurationHandler {
             (textField: UITextField!) -> Void in
+            
         }
         let cancelAction = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
         let okAction = UIAlertAction(title: "好的", style: .Default,
@@ -175,7 +202,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 let login = alertController.textFields!.first! as UITextField
                 print("用户名：\(login.text)")
                 
-                
+                self.presentedViewController?.dismissViewControllerAnimated(false, completion: nil)
                 
                 if login.text! == "\(FAME.user_name)34637169"
                 {
@@ -193,6 +220,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                             FAME.delDeviceArray.addObject(dic)
                             
                             FAME.doDeleteDev()
+                            
                             self.navigationController?.popToRootViewControllerAnimated(true)
                         }
 
@@ -211,7 +239,10 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         
     }
 
-    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+    }
     // returns the number of 'columns' to display.
     
 
@@ -244,7 +275,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        
+        
         switch FAME.tempSensorId {
         case 1:
             self.lightIdArr = FAME.showLight1Arr
@@ -279,12 +311,25 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         // Do any additional setup after loading the view, typically from a nib.
         
         self.createPop()
+        self.paixun()
+        
+        
+        //print(lights)
         
 //        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
 //        self.navigationItem.rightBarButtonItem = addButton
         
         
         
+    }
+    func paixun(){
+        for i in 0..<FAME.rooms.count{
+            for j in 0..<FAME.lights.count{
+                if FAME.rooms[i] == FAME.lights[j]["roomName"]{
+                    lights.append(FAME.lights[j])
+                }
+            }
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -310,6 +355,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     
     func Timerset(){
         //get the state
+
         
         //create the post string
        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
@@ -370,13 +416,13 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         
         
         
-        let dev_Str:String! = FAME.lights[showId]["dev_id"] as String!
+        let dev_Str:String! = self.lights[showId]["dev_id"] as String!
         let dev_id:Int! = Int(dev_Str)
         
-        let index_Str:String! = FAME.lights[showId]["index"] as String!
+        let index_Str:String! = self.lights[showId]["index"] as String!
         let index:Int! = Int(index_Str)
         
-        let type_Str:String! = FAME.lights[showId]["dev_type"] as String!
+        let type_Str:String! = self.lights[showId]["dev_type"] as String!
         let type:Int! = Int(type_Str)
         
         
@@ -387,7 +433,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         cell.id = dev_id * 10 + index
         //name
         let name = cell.viewWithTag(1) as! UILabel
-        name.text = FAME.lights[showId]["name"]
+        name.text = self.lights[showId]["name"]
         
         
         
@@ -402,7 +448,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         if (tag != nil) {
             let tagOn = cell.viewWithTag(3) as! UIButton2!
             let tagOff = cell.viewWithTag(4) as! UIButton2!
-            let act_Str:String! = FAME.lights[showId]["act_id"] as String!
+            let act_Str:String! = self.lights[showId]["act_id"] as String!
             
             let act_id:Int = Int(act_Str)!
             //print("2222222\(act_id)")
@@ -417,7 +463,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
           
             
             if (state != nil) {
-                print("state:\(state)")
+                //print("state:\(state)")
                 if state == 1 {
                     view.image = UIImage(named: "socket_10.png")
                     imgObj.image = UIImage(named: Defined_SA_icons1[FAME.tempSensorId])
@@ -497,6 +543,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     }
     
     
+   
+    
     
 }
 
@@ -526,13 +574,15 @@ class ViewControllerSocket: UIViewController,UITableViewDataSource,UITableViewDe
             let indexPath:NSIndexPath! = self.TableView.indexPathForRowAtPoint(point)
             if(indexPath != nil){
                 let cell:UITableViewCell2! = self.TableView.cellForRowAtIndexPath(indexPath) as! UITableViewCell2
-                //let name = cell.viewWithTag(1) as! UILabel
+                let name = cell.viewWithTag(1) as! UILabel
 
                 
-                let name_Str:String! = self.sensors[cell.index]["name1"] as String!
-                let roomName_Str:String! = self.sensors[cell.index]["roomName"] as String!
-                FAME.dev_ss_name = name_Str
-                FAME.dev_ss_Rname = roomName_Str
+                let name_Str:String! = name.text as String!
+                
+                
+                FAME.dev_ss_Rname = name_Str.substringWithRange(0, end: 2)
+                FAME.dev_ss_name = (name_Str as NSString).substringFromIndex(2)
+                
                 //name.text = FAME.dev_ss_Rname + FAME.dev_ss_name ;
                 
                 self.ieee = self.sensors[cell.index]["ieee"] as String!

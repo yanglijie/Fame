@@ -11,8 +11,9 @@ import UIKit
 
 class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
-    var msgs :Array<String> = []
+    //var msgs :Array<String> = []
     
+    @IBOutlet weak var tableView: UITableView!
     @IBAction func NoticOn(sender: UISwitch) {
 
         print(sender.on)
@@ -23,7 +24,7 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
         }
         else{
             FAME.showMessage("推送打开")
-            //UIApplication.sharedApplication().registerForRemoteNotifications()
+            UIApplication.sharedApplication().registerForRemoteNotifications()
         }
     }
     override func viewDidLoad() {
@@ -45,11 +46,24 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
         
         
     }
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    func raload(){
-        print("222222222")
+//    deinit {
+//        NSNotificationCenter.defaultCenter().removeObserver(self, name: "msgChange", object: nil)
+//        NSNotificationCenter.defaultCenter().removeObserver(self)
+//        
+//    }
+    
+    func raload(notification:NSNotification){
+        if (FAME.defaults.valueForKey("alarm") != nil){
+            FAME.msgs = FAME.defaults.valueForKey("alarm") as! Array
+            
+        }
+        //FAME.msgs = notification.object as! Array
+        
+        //print("222222222\(FAME.msgs)")
+        
+        tableView.reloadData()
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "msgChange", object: nil)
         
     }
     override func didReceiveMemoryWarning() {
@@ -63,7 +77,7 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
         if (FAME.defaults.valueForKey("PushState") != nil){
             stateOn.on = FAME.defaults.valueForKey("PushState") as! Bool
             if !stateOn.on{
-                UIApplication.sharedApplication().unregisterForRemoteNotifications()
+                //UIApplication.sharedApplication().unregisterForRemoteNotifications()
             }
         }
         
@@ -109,7 +123,7 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         print(indexPath.row)
         //***********************
-        msgs.removeAtIndex(indexPath.row)
+        FAME.msgs.removeAtIndex(indexPath.row)
         //self.msgTabel?.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Top)
         self.msgTabel?.reloadData()
         
