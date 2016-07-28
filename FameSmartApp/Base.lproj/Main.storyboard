@@ -2316,23 +2316,64 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginpanel.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="TSS-p3-REt">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <view tag="10" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="97J-LV-EiL">
-                                <rect key="frame" x="30" y="20" width="540" height="580"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zbd-zE-ikV">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" id="O8p-sS-20h" customClass="UITableViewCell2" customModule="米居" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O8p-sS-20h" id="e4d-Kb-054">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="99" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="curtain_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="eZ1-5z-B0N">
+                                                    <rect key="frame" x="34" y="0.0" width="42" height="39"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="678-Gf-QYb"/>
+                                                        <constraint firstAttribute="height" constant="35" id="DGg-3y-Ia2"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="客厅窗帘开关" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIs-uq-Te7">
+                                                    <rect key="frame" x="332" y="13" width="240" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="gIs-uq-Te7" firstAttribute="width" secondItem="e4d-Kb-054" secondAttribute="width" multiplier="0.4" id="6i6-k1-YwB"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="gIs-uq-Te7" secondAttribute="trailing" constant="20" id="NSp-I0-PsN"/>
+                                                <constraint firstItem="eZ1-5z-B0N" firstAttribute="leading" secondItem="e4d-Kb-054" secondAttribute="leadingMargin" constant="20" id="ajf-Jt-jhP"/>
+                                                <constraint firstItem="gIs-uq-Te7" firstAttribute="centerY" secondItem="e4d-Kb-054" secondAttribute="centerY" id="sFq-6S-ImK"/>
+                                                <constraint firstItem="eZ1-5z-B0N" firstAttribute="centerY" secondItem="e4d-Kb-054" secondAttribute="centerY" id="xJb-4m-mQl"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="LnR-OP-2xv" id="ADP-tR-tr2"/>
+                                    <outlet property="delegate" destination="LnR-OP-2xv" id="rLb-0u-pib"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="UAF-k5-fiH" firstAttribute="top" secondItem="97J-LV-EiL" secondAttribute="bottom" id="2dw-ym-wwN"/>
                             <constraint firstItem="UAF-k5-fiH" firstAttribute="top" secondItem="TSS-p3-REt" secondAttribute="bottom" id="Czy-co-uV1"/>
                             <constraint firstItem="TSS-p3-REt" firstAttribute="top" secondItem="f9f-K8-pP9" secondAttribute="top" id="DQq-cV-sJL"/>
-                            <constraint firstItem="97J-LV-EiL" firstAttribute="leading" secondItem="f9f-K8-pP9" secondAttribute="leading" constant="30" id="KpV-Cd-rOV"/>
+                            <constraint firstItem="zbd-zE-ikV" firstAttribute="leading" secondItem="f9f-K8-pP9" secondAttribute="leading" id="ELF-Yo-o5e"/>
+                            <constraint firstItem="zbd-zE-ikV" firstAttribute="top" secondItem="KQT-U3-Bwp" secondAttribute="bottom" id="F37-Lo-Gkp"/>
                             <constraint firstAttribute="trailing" secondItem="TSS-p3-REt" secondAttribute="trailing" id="Q1I-Lh-rEm"/>
-                            <constraint firstItem="97J-LV-EiL" firstAttribute="top" secondItem="KQT-U3-Bwp" secondAttribute="bottom" id="Yw3-ZF-hXo"/>
-                            <constraint firstAttribute="trailing" secondItem="97J-LV-EiL" secondAttribute="trailing" constant="30" id="pfY-0q-o3p"/>
+                            <constraint firstItem="UAF-k5-fiH" firstAttribute="top" secondItem="zbd-zE-ikV" secondAttribute="bottom" id="QHb-Lm-AvB"/>
+                            <constraint firstAttribute="trailing" secondItem="zbd-zE-ikV" secondAttribute="trailing" id="c6Q-BF-Afe"/>
                             <constraint firstItem="TSS-p3-REt" firstAttribute="leading" secondItem="f9f-K8-pP9" secondAttribute="leading" id="xP1-MZ-tL7"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="zbd-zE-ikV" id="o5t-1N-plZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ff1-gf-Zhv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -3134,10 +3175,10 @@
             </objects>
             <point key="canvasLocation" x="6908" y="1555"/>
         </scene>
-        <!--View Controller Socket-->
+        <!--View Controller-->
         <scene sceneID="p8E-y0-8Mk">
             <objects>
-                <viewController storyboardIdentifier="viewSA5" id="y7z-Ad-Cle" customClass="ViewControllerSocket" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="viewSA5" id="y7z-Ad-Cle" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Km5-k2-Jc6"/>
                         <viewControllerLayoutGuide type="bottom" id="p2U-qE-shj"/>
@@ -3275,33 +3316,33 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <view tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Bh-qs-nvk">
-                                <rect key="frame" x="30" y="20" width="540" height="580"/>
+                                <rect key="frame" x="20" y="20" width="570" height="580"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="79" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Try-UZ-YMu">
-                                        <rect key="frame" x="8" y="0.0" width="540" height="580"/>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="79" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Try-UZ-YMu">
+                                        <rect key="frame" x="0.0" y="0.0" width="570" height="580"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="100" id="hSJ-D7-bCi" customClass="UITableViewCell2" customModule="米居" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="540" height="100"/>
+                                                <rect key="frame" x="0.0" y="28" width="570" height="100"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="cell" tableViewCell="hSJ-D7-bCi" id="Ytt-5J-EK3">
-                                                    <rect key="frame" x="0.0" y="0.0" width="540" height="100"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="570" height="100"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4nT-HT-a8F">
-                                                            <rect key="frame" x="0.0" y="0.0" width="540" height="100"/>
+                                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4nT-HT-a8F">
+                                                            <rect key="frame" x="0.0" y="0.0" width="560" height="100"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="socket_06.png" translatesAutoresizingMaskIntoConstraints="NO" id="SIk-l4-d4y">
-                                                                    <rect key="frame" x="420" y="30" width="100" height="40"/>
+                                                                <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="socket_06.png" translatesAutoresizingMaskIntoConstraints="NO" id="SIk-l4-d4y">
+                                                                    <rect key="frame" x="440" y="30" width="100" height="40"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="100" id="ESL-Cs-63p"/>
                                                                         <constraint firstAttribute="height" constant="40" id="JCY-un-gYA"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7rb-KS-CPy" customClass="UIButton2" customModule="米居" customModuleProvider="target">
-                                                                    <rect key="frame" x="470" y="30" width="50" height="40"/>
+                                                                <button opaque="NO" tag="4" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7rb-KS-CPy" customClass="UIButton2" customModule="米居" customModuleProvider="target">
+                                                                    <rect key="frame" x="490" y="30" width="50" height="40"/>
                                                                     <state key="normal">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
@@ -3309,8 +3350,8 @@
                                                                         <action selector="lightTap2:" destination="Qbg-Fo-gUI" eventType="touchUpInside" id="3Rc-nR-Ehm"/>
                                                                     </connections>
                                                                 </button>
-                                                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LHw-Yf-kYx" customClass="UIButton2" customModule="米居" customModuleProvider="target">
-                                                                    <rect key="frame" x="420" y="30" width="50" height="40"/>
+                                                                <button opaque="NO" tag="3" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LHw-Yf-kYx" customClass="UIButton2" customModule="米居" customModuleProvider="target">
+                                                                    <rect key="frame" x="440" y="30" width="50" height="40"/>
                                                                     <state key="normal">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
@@ -3319,13 +3360,13 @@
                                                                     </connections>
                                                                 </button>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Light" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oqY-lt-ruV">
-                                                                    <rect key="frame" x="25" y="73" width="33" height="17"/>
+                                                                    <rect key="frame" x="0.0" y="73" width="33" height="17"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <imageView userInteractionEnabled="NO" tag="99" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="light_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="NT7-kP-3iR">
-                                                                    <rect key="frame" x="20" y="20" width="60" height="50"/>
+                                                                    <rect key="frame" x="15" y="20" width="60" height="50"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="50" id="3Rc-xC-stn"/>
                                                                         <constraint firstAttribute="width" constant="60" id="4An-CS-18D"/>
@@ -3339,11 +3380,11 @@
                                                                 <constraint firstAttribute="bottom" secondItem="oqY-lt-ruV" secondAttribute="bottom" constant="10" id="M8o-43-kkD"/>
                                                                 <constraint firstAttribute="trailing" secondItem="SIk-l4-d4y" secondAttribute="trailing" constant="20" id="PVg-Iq-IZL"/>
                                                                 <constraint firstAttribute="centerY" secondItem="SIk-l4-d4y" secondAttribute="centerY" id="WX2-bB-vde"/>
-                                                                <constraint firstItem="oqY-lt-ruV" firstAttribute="leading" secondItem="NT7-kP-3iR" secondAttribute="leading" constant="5" id="ZV2-Qr-CJ8"/>
                                                                 <constraint firstItem="LHw-Yf-kYx" firstAttribute="leading" secondItem="SIk-l4-d4y" secondAttribute="leading" id="bHU-ov-DD2"/>
                                                                 <constraint firstItem="7rb-KS-CPy" firstAttribute="height" secondItem="LHw-Yf-kYx" secondAttribute="height" id="ddC-VM-t0p"/>
                                                                 <constraint firstItem="7rb-KS-CPy" firstAttribute="width" secondItem="SIk-l4-d4y" secondAttribute="width" multiplier="0.5" id="fUx-FW-wa6"/>
-                                                                <constraint firstItem="NT7-kP-3iR" firstAttribute="leading" secondItem="4nT-HT-a8F" secondAttribute="leading" constant="20" id="mMj-n4-Mse"/>
+                                                                <constraint firstItem="oqY-lt-ruV" firstAttribute="leading" secondItem="4nT-HT-a8F" secondAttribute="leading" id="hdt-zB-haV"/>
+                                                                <constraint firstItem="NT7-kP-3iR" firstAttribute="leading" secondItem="4nT-HT-a8F" secondAttribute="leading" constant="15" id="mMj-n4-Mse"/>
                                                                 <constraint firstItem="7rb-KS-CPy" firstAttribute="trailing" secondItem="SIk-l4-d4y" secondAttribute="trailing" id="rRL-Ov-C5Y"/>
                                                                 <constraint firstItem="7rb-KS-CPy" firstAttribute="centerY" secondItem="LHw-Yf-kYx" secondAttribute="centerY" id="vQS-Eo-kmT"/>
                                                                 <constraint firstItem="7rb-KS-CPy" firstAttribute="height" secondItem="SIk-l4-d4y" secondAttribute="height" id="xnv-OA-cLt"/>
@@ -3379,9 +3420,9 @@
                         <constraints>
                             <constraint firstItem="ZBP-Ho-jDj" firstAttribute="top" secondItem="D1M-GZ-SB6" secondAttribute="top" id="6Bd-MG-e5b"/>
                             <constraint firstAttribute="trailing" secondItem="ZBP-Ho-jDj" secondAttribute="trailing" id="AGs-u9-oaa"/>
-                            <constraint firstItem="7Bh-qs-nvk" firstAttribute="leading" secondItem="D1M-GZ-SB6" secondAttribute="leading" constant="30" id="Ftc-zN-xHr"/>
+                            <constraint firstItem="7Bh-qs-nvk" firstAttribute="leading" secondItem="D1M-GZ-SB6" secondAttribute="leading" constant="20" id="Ftc-zN-xHr"/>
                             <constraint firstItem="ZBP-Ho-jDj" firstAttribute="leading" secondItem="D1M-GZ-SB6" secondAttribute="leading" id="Yqm-zE-gS9"/>
-                            <constraint firstAttribute="trailing" secondItem="7Bh-qs-nvk" secondAttribute="trailing" constant="30" id="mcs-pA-rYt"/>
+                            <constraint firstAttribute="trailing" secondItem="7Bh-qs-nvk" secondAttribute="trailing" constant="10" id="mcs-pA-rYt"/>
                             <constraint firstItem="W9T-xj-b9F" firstAttribute="top" secondItem="ZBP-Ho-jDj" secondAttribute="bottom" id="t2k-bo-vGd"/>
                             <constraint firstItem="7Bh-qs-nvk" firstAttribute="top" secondItem="vDJ-vi-B8u" secondAttribute="bottom" id="tsS-Fy-XHl"/>
                             <constraint firstItem="W9T-xj-b9F" firstAttribute="top" secondItem="7Bh-qs-nvk" secondAttribute="bottom" id="znM-td-x2f"/>
@@ -4776,13 +4817,13 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="71" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="设备全开" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yjp-4Q-Xpe">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="71" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="点击添加" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yjp-4Q-Xpe">
                                                                     <rect key="frame" x="280" y="12" width="168" height="36"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gas_03.png" translatesAutoresizingMaskIntoConstraints="NO" id="hXo-Zp-Su6">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="spinner_list_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="hXo-Zp-Su6">
                                                                     <rect key="frame" x="512" y="23" width="28" height="20"/>
                                                                 </imageView>
                                                             </subviews>
@@ -4819,13 +4860,13 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="72" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备全开" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mhj-sO-20i">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="72" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击添加" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mhj-sO-20i">
                                                                     <rect key="frame" x="280" y="13" width="168" height="39"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gas_03.png" translatesAutoresizingMaskIntoConstraints="NO" id="3uS-c5-sqS">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="spinner_list_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="3uS-c5-sqS">
                                                                     <rect key="frame" x="512" y="23" width="28" height="19"/>
                                                                 </imageView>
                                                             </subviews>
@@ -4862,13 +4903,13 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="73" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备全开" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YwT-kf-Zmf">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="73" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击添加" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YwT-kf-Zmf">
                                                                     <rect key="frame" x="280" y="13" width="168" height="40"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="gas_03.png" translatesAutoresizingMaskIntoConstraints="NO" id="xgm-hq-rmf">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="spinner_list_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="xgm-hq-rmf">
                                                                     <rect key="frame" x="515" y="21" width="25" height="18"/>
                                                                 </imageView>
                                                             </subviews>
@@ -4896,19 +4937,19 @@
                                                             <rect key="frame" x="10" y="199" width="560" height="67"/>
                                                             <subviews>
                                                                 <button opaque="NO" tag="504" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b9I-i3-QIa">
-                                                                    <rect key="frame" x="270" y="13" width="280" height="40"/>
+                                                                    <rect key="frame" x="272" y="13" width="280" height="40"/>
                                                                     <color key="backgroundColor" red="0.42745098040000001" green="0.67843137249999996" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <state key="normal">
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="74" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="设备全开" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i1p-Jx-n8f">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="74" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="点击添加" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i1p-Jx-n8f">
                                                                     <rect key="frame" x="280" y="13" width="168" height="40"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="gas_03.png" translatesAutoresizingMaskIntoConstraints="NO" id="dpJ-WW-8dH">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="spinner_list_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="dpJ-WW-8dH">
                                                                     <rect key="frame" x="512" y="23" width="28" height="20"/>
                                                                 </imageView>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="scene4.png" translatesAutoresizingMaskIntoConstraints="NO" id="L13-An-lnI">
@@ -4948,13 +4989,13 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备全开" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cri-3a-69e">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击添加" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cri-3a-69e">
                                                                     <rect key="frame" x="280" y="13" width="168" height="40"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="gas_03.png" translatesAutoresizingMaskIntoConstraints="NO" id="thq-cA-c8I">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="spinner_list_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="thq-cA-c8I">
                                                                     <rect key="frame" x="515" y="21" width="25" height="18"/>
                                                                 </imageView>
                                                             </subviews>
@@ -4991,13 +5032,13 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="76" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="设备全开" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r8Z-lw-ECB">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="76" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="点击添加" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r8Z-lw-ECB">
                                                                     <rect key="frame" x="280" y="12" width="168" height="36"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gas_03.png" translatesAutoresizingMaskIntoConstraints="NO" id="252-N8-KBB">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="spinner_list_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="252-N8-KBB">
                                                                     <rect key="frame" x="512" y="22" width="28" height="20"/>
                                                                 </imageView>
                                                             </subviews>
@@ -5576,10 +5617,10 @@
             </objects>
             <point key="canvasLocation" x="7776" y="3724"/>
         </scene>
-        <!--ViewSS Link Controller-->
+        <!--View Controller-->
         <scene sceneID="bUZ-Yd-vhH">
             <objects>
-                <viewController storyboardIdentifier="viewSS_link" id="yEh-X6-wqy" customClass="ViewSSLinkController" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="viewSS_link" id="yEh-X6-wqy" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="o8S-0T-LSv"/>
                         <viewControllerLayoutGuide type="bottom" id="swv-Pu-uwn"/>
@@ -6768,6 +6809,7 @@
         <image name="curtain_11.png" width="23" height="46"/>
         <image name="curtain_14.png" width="59" height="33"/>
         <image name="curtain_17.png" width="40" height="33"/>
+        <image name="curtain_icon.png" width="215" height="213"/>
         <image name="download.png" width="79" height="71"/>
         <image name="fame.png" width="184" height="183"/>
         <image name="gas_03.png" width="80" height="109"/>
@@ -6805,6 +6847,7 @@
         <image name="socket_06.png" width="185" height="84"/>
         <image name="socket_17.png" width="96" height="40"/>
         <image name="speech1.png" width="348" height="348"/>
+        <image name="spinner_list_down.png" width="63" height="55"/>
         <image name="telphone.png" width="24" height="40"/>
         <image name="tempture.png" width="51" height="115"/>
         <image name="tv_07-03.png" width="210" height="67"/>

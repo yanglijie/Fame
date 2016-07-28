@@ -37,20 +37,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
             let settins:UIUserNotificationSettings = UIUserNotificationSettings(forTypes:[.Badge, .Sound, .Alert], categories: nil)
             UIApplication.sharedApplication().registerUserNotificationSettings(settins)
             
+        
+            
             let pushSettiong = UIApplication.sharedApplication().currentUserNotificationSettings()
+            
             if (pushSettiong != nil) {
                 let pushType = pushSettiong!.types
-                if (FAME.defaults.valueForKey("PushState") != nil){
-                    let pushState = FAME.defaults.valueForKey("PushState") as! Bool
-                    if !pushState{
-                        FAME.bPushEnable = false
-                        
-                    }
-                    
-                }
+                
+//                if (FAME.defaults.valueForKey("PushState") != nil){
+//                    let pushState = FAME.defaults.valueForKey("PushState") as! Bool
+//                    print("1111111pushType=\(pushState)")
+//                    if !pushState{
+//                        FAME.bPushEnable1 = false
+//                        
+//                    }
+//                    
+//                }
                 if pushType == UIUserNotificationType.None{
                     FAME.bPushEnable = false
-                    
                     print("PUSH disabled")
                 }else{
                         
@@ -85,7 +89,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
             alert.addButtonWithTitle(Defined_ALERT_OK)
             alert.show()
         }
-        
+//        if !FAME.bPushEnable1 {
+//            let alert = UIAlertView()
+//            alert.title = Defined_PUSH_Title
+//            alert.message =  Defined_PUSH_failed
+//            alert.addButtonWithTitle(Defined_ALERT_OK)
+//            alert.show()
+//        }
         
         return true
     }

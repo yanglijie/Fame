@@ -115,6 +115,19 @@ class ViewControllerLogin0: UIViewController {
                 
             case 0 :
                 print("login successed")
+                
+                if (FAME.defaults.valueForKey("PushState") != nil){
+                    let pushState = FAME.defaults.valueForKey("PushState") as! Bool
+                    if pushState{
+                        UIApplication.sharedApplication().registerForRemoteNotifications()
+                        
+                    }
+                    
+                }
+                else{
+                    UIApplication.sharedApplication().registerForRemoteNotifications()
+                }
+                
                 FAME.user_uid = received.valueForKey("user_uid") as! UInt
                 
                 if received.valueForKey("device_count") as! Int == 0 {
@@ -129,15 +142,7 @@ class ViewControllerLogin0: UIViewController {
                     
                     
                     //UIApplication.sharedApplication().registerForRemoteNotifications()
-                    if (FAME.defaults.valueForKey("PushState") != nil){
-                        let pushState = FAME.defaults.valueForKey("PushState") as! Bool
-                        if pushState{
-                            UIApplication.sharedApplication().registerForRemoteNotifications()
-                            
-                        }
-                        
-                    }
-
+                    
                     
                     //get the devicetable
                     let DTValue = FAME.getDeviceTable()
@@ -315,6 +320,19 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                 
             case 0 :
                 print("login successed")
+                
+                if (FAME.defaults.valueForKey("PushState") != nil){
+                    let pushState = FAME.defaults.valueForKey("PushState") as! Bool
+                    if pushState{
+                        UIApplication.sharedApplication().registerForRemoteNotifications()
+                        
+                    }
+                    
+                }
+                else{
+                    UIApplication.sharedApplication().registerForRemoteNotifications()
+                }
+                
                 FAME.user_uid = received.valueForKey("user_uid") as! UInt
             
                 if received.valueForKey("device_count") as! Int == 0 {
@@ -329,14 +347,6 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                     
                     //UIApplication.sharedApplication().registerForRemoteNotifications()
                     
-                    if (FAME.defaults.valueForKey("PushState") != nil){
-                        let pushState = FAME.defaults.valueForKey("PushState") as! Bool
-                        if pushState{
-                            UIApplication.sharedApplication().registerForRemoteNotifications()
-                            
-                        }
-                        
-                    }
                     
                     //get the devicetable
                     let DTValue = FAME.getDeviceTable()

@@ -32,15 +32,16 @@ let Defined_ALERT_del = "删除设备"
 let Defined_ALERT_del2 = "确定要删除此设备？"
 
 
-let Defined_SA_btns = ["灯光","智能电机","空调","影音","移动智能","智能浴霸","智能门锁","风机控制"]
+let Defined_SA_btns = ["灯光","智能电机","空调","影音","移动智能","智能浴霸","智能门锁","风机控制","中央空调"]
 let Defined_SS_btns = ["温湿监测","门窗磁","运动感应","烟雾报警","燃气报警","漏水检测","情景模式面板","空气质量"]
 
 let Defined_SS_icons =
     ["0","ss2_2.png","move_03.png","smork_03.png","gas_03.png","ss6_6","0","ss8_8.png"]
 let Defined_SS_icons1 = ["0","ss2_21.png","move_031.png","gas_031.png","smork_031.png","ss6_61","0","ss8_81.png"]
 
-let Defined_SA_icons = ["0","light_icon.png","0","0","0","socket_03.png","light_icon3.png","lock_icon.png","socket_03.png"]
-let Defined_SA_icons1 = ["0","light_icon2.png","0","0","0","socket61.png","SA61.png","lock_icon2.png","0"]
+let Defined_SA_icons = ["0","light_icon.png","0","0","0","socket_03.png","light_icon3.png","lock_icon.png","0","cta_stop.png"]
+let Defined_SA_icons1 = ["0","light_icon2.png","0","0","0","socket61.png","SA61.png","lock_icon2.png","0","cta_open.png"]
+
 
 let Defined_VC6_AlertTitle="提示"
 let Defined_VC6_AlertMessage="设备自动添加过程将会持续40秒左右"
@@ -151,6 +152,7 @@ let Defined_LS_Title3 = "联 动 配 置"
 let Defined_PUSH_Title = "设置"
 let Defined_PUSH_Title2 = "报警消息"
 let Defined_PUSH_failed = "请打开推送设置"
+//let Defined_PUSH_failed1 = "请打开信息记录的"
 
 let Defined_LINKS_NAMES = ["情景模式","灯光","传感"]
 let Defined_NULL = "清空"

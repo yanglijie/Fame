@@ -65,6 +65,7 @@ class fame:NSObject{
     var msgs :Array<String>= []
     var IS_IOS8:Bool = false
     var bPushEnable:Bool = false
+    var bPushEnable1:Bool = true
     var deviceToken:String!
     
     var defaults = NSUserDefaults.standardUserDefaults()
@@ -105,8 +106,11 @@ class fame:NSObject{
     var tempTimerView:UITableView!
     
     var rooms:Array<String> = []
+    
     var models:Array<Dictionary<String,String>> = []
     var lights:Array<Dictionary<String,String>> = []
+    var lights7:Array<Dictionary<String,String>> = []
+    var lights11:Array<Dictionary<String,String>> = []
     var sockets:Array<Dictionary<String,String>> = []
     var socket13:Array<Dictionary<String,String>> = []
     var socket31:Array<Dictionary<String,String>> = []
@@ -567,6 +571,7 @@ class fame:NSObject{
         
         var act_id = 8
         self.models = []
+        
         if (self.device_table.valueForKey("modes") != nil) {
             for value:String in self.device_table.valueForKey("modes") as! Array<String> {
                 self.models.append(["name":value,"act_id":"\(act_id)"])
@@ -593,6 +598,8 @@ class fame:NSObject{
         //lights
         act_id = 20
         self.lights = []
+        self.lights7 = []
+        self.lights11 = []
         self.sockets = []
         self.socket13 = []
         self.socket31 = []
@@ -653,7 +660,7 @@ class fame:NSObject{
                         
                         
                         
-                            self.lights.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                            //self.lights.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         
                         
                         
@@ -681,7 +688,7 @@ class fame:NSObject{
                         
                         
                         
-                            index++
+                            
                         
                         
                         
@@ -689,12 +696,16 @@ class fame:NSObject{
                         
                             //Lights?
                             if (dev_type == 11)||(dev_type == 12) {
-                                FAME.showLight2Arr.append(lightId)
+                                //FAME.showLight2Arr.append(lightId)
+                                self.lights11.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                             
                             }else{
-                                FAME.showLight1Arr.append(lightId)
+                                //FAME.showLight1Arr.append(lightId)
+                                self.lights7.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                             }
                         
+                            index++
+                            
                             lightId++
                         
                         }
@@ -725,11 +736,11 @@ class fame:NSObject{
                     //sockets
                         switch dev_type {
                         case 13 :
-                            self.socket13.append(["name":"\(roomName) \(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                            self.socket13.append(["name":"\(roomName) \(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         case 31 :
-                            self.socket31.append(["name":"\(roomName) \(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                            self.socket31.append(["name":"\(roomName) \(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         case 33 :
-                            self.socket33.append(["name":"\(roomName) \(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                            self.socket33.append(["name":"\(roomName) \(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         default:
                             
                             break
@@ -907,7 +918,7 @@ class fame:NSObject{
                 */
                 
                 
-                self.curtains.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])      //  2015-05-18
+                self.curtains.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","roomName":"\(roomName)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])      //  2015-05-18
                 
                 FAME.deviceCount++
                 
@@ -1073,7 +1084,7 @@ class fame:NSObject{
         
         if (FAME.isNotAdding()) {
             FAME.isAddingDevice = true
-            self.defaults.setObject(self.addDeviceArray, forKey: "addDeviceArray")
+            //self.defaults.setObject(self.addDeviceArray, forKey: "addDeviceArray")
             
             if httpRequert().addDevie() {
                 self.timmer = NSTimer.scheduledTimerWithTimeInterval(40.0, target:self, selector:"timerFunction", userInfo:nil, repeats:false)
@@ -1199,7 +1210,19 @@ class fame:NSObject{
         print("refresh llllllll")
         let paramArray = NSMutableArray()
         var lastId = "0"
-        for value in FAME.lights {
+        switch FAME.tempSensorId {
+        case 1:
+            self.lights = lights7
+            
+        case 6:
+            self.lights = lights11
+            
+            
+        default:
+            break
+        }
+        //print(lights)
+        for value in lights {
             let AddedObj = value as NSDictionary
             let dev_id:NSString! = AddedObj["dev_id"] as! NSString
             if lastId != dev_id {
@@ -1274,6 +1297,7 @@ class fame:NSObject{
                     id = ADDieee_addr * 10
                     FAME.lightsCellState["\(id)"] = 0
                 }
+                
                 
             }
             return true

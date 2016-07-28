@@ -2670,6 +2670,15 @@ class ViewControllerSS6: UITableViewCell,UIPickerViewDataSource,UIPickerViewDele
 }
 class ViewControllerSS_mode: UIViewController {
     
+    var BGView:UIView!
+    var pickView:UIView!
+    var picker:UIPickerView!
+    var seletedStr:String! = ""
+    var selectCount:Int!
+    var selectId:Int!
+    
+    var act_ids = [0,0,0,0,0,0,0,0]
+    
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -2688,8 +2697,14 @@ class ViewControllerSS_mode: UIViewController {
             return ;
             
         }
+        for i in 0..<Defined_MODE_NAME.count{
+            FAME.models.append(["name":Defined_MODE_NAME[i],"act_id":"\(14 + i)"])
+            
+        }
+        print(FAME.models)
         
-        tableView.hidden = true
+        
+        
         
     }
     override func didReceiveMemoryWarning() {
@@ -2700,6 +2715,132 @@ class ViewControllerSS_mode: UIViewController {
         super.viewWillAppear(animated)
         
     }
+    
+    func actSetBtn(sender:UIButton!){
+        
+        print("点击了设定按钮")
+        
+        for i in 0..<act_ids.count{
+            httpRequert().sendRequest(act_ids[i])
+        }
+        
+        
+    }
+    func actAddBtn(sender:UIButton!){
+        
+        print("点击了选择按钮")
+        self .createPop() ;
+        self.selectCount = sender.tag - 430 
+        
+    }
+    func selectedActBtn(sender : AnyObject){
+        
+        print(act_ids)
+        self.BGView.hidden = true ;
+        let lable1 = self.view.viewWithTag(self.selectCount) as! UILabel!;
+        lable1.text = self.seletedStr;
+
+        
+        
+        
+    }
+    
+    func cancleActBtn( sender : AnyObject){
+        
+        print("cancleActBtn")
+        
+        self.BGView.hidden = true ;
+    }
+    func tapPress( sender : AnyObject){
+        
+        print("cancleActBtn")
+        //roomSheet.dismissWithClickedButtonIndex(1, animated: true)
+        
+        self.BGView.hidden = true ;
+    }
+    func createPop(){
+        
+        self.BGView = UIView(frame: CGRect(x: 0, y: 0 , width: self.view.frame.width, height: self.view.frame.height))
+        self.BGView.backgroundColor = UIColor.clearColor()
+        
+        
+        //cancel
+        
+        let tapPressRec = UITapGestureRecognizer()
+        tapPressRec.addTarget(self, action: "tapPress:")
+        
+        self.BGView.addGestureRecognizer(tapPressRec)
+        
+        self.BGView.userInteractionEnabled = true
+        
+        
+        
+        self.pickView = UIView(frame: CGRect(x: 0, y: self.BGView.frame.height-300 , width: self.BGView.frame.width, height: 300 ))
+        self.pickView.backgroundColor = UIColor.whiteColor()
+        
+        
+        
+        //picker
+        
+        
+        
+        let btn = UIButton(frame: CGRect(x: self.view.frame.width - 60, y: 20, width: 40, height: 20))
+        btn.setTitle("\(Defined_ALERT_OK)", forState: UIControlState.Normal)
+        btn.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        btn.tag = 1
+        btn.addTarget(self, action: Selector("selectedActBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        let btn2 = UIButton(frame: CGRect(x: 20, y: 20, width: 40, height: 20))
+        btn2.setTitle(Defined_ALERT_CANCEL, forState: UIControlState.Normal)
+        btn2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        btn2.tag = 2
+        btn2.addTarget(self, action: Selector("cancleActBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        self.picker = UIPickerView(frame: CGRect(x: 20, y: 40, width: pickView.frame.width - 40 , height: 230))
+        
+        self.picker.dataSource = self
+        self.picker.delegate = self
+        
+        self.picker.backgroundColor = UIColor.clearColor() ;
+        
+        
+        //self.pickView.addSubview(self.pickView2)
+        self.pickView.addSubview(self.picker)
+        self.pickView.addSubview(btn)
+        self.pickView.addSubview(btn2)
+        
+        //self.BGView.hidden = true ;
+        self.view.addSubview(self.BGView)
+        self.BGView.addSubview(self.pickView)
+    }
+    
+
+}
+extension ViewControllerSS_mode: UIPickerViewDataSource,UIPickerViewDelegate {
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
+        
+        self.seletedStr = FAME.models[row]["name"] as String!
+        let id = FAME.models[row]["act_id"] as String!
+        selectId = Int(id)
+        act_ids[row] = selectId
+        
+        print("pickerView selected:\(self.seletedStr)   id=\(selectId)")
+        
+    }
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int)->Int {
+        return FAME.models.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return FAME.models[row]["name"] as String!
+    }
+
 }
 extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
