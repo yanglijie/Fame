@@ -1060,7 +1060,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             let cmdStr = "{\"cmd\": 34, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id)}}"
             
             if let received = (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90)){
-                if received.valueForKey("result") as! UInt == 0{
+                //if received.valueForKey("result") as! UInt == 0{
                     
                     var linkid:Int!
                     linkid = received.valueForKey("detail")?.valueForKey("action_id") as! Int
@@ -1080,7 +1080,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                     }
                     
                     
-                }
+                //}
                 
             }
 
@@ -2676,10 +2676,22 @@ class ViewControllerSS_mode: UIViewController {
     var seletedStr:String! = ""
     var selectCount:Int!
     var selectId:Int!
+    var buttonTag:Int!
     
-    var act_ids = [0,0,0,0,0,0,0,0]
+    var dev_id:Int!
+    
+    var ieee:String!
+    
+    //var model:Dictionary<String,String> = [:]
     
     @IBOutlet weak var tableView: UITableView!
+    
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -2694,54 +2706,181 @@ class ViewControllerSS_mode: UIViewController {
             textLabel.numberOfLines = 0;
             textLabel.font = UIFont.systemFontOfSize(25)
             self.view.addSubview(textLabel)
-            return ;
+            return
             
         }
-        for i in 0..<Defined_MODE_NAME.count{
-            FAME.models.append(["name":Defined_MODE_NAME[i],"act_id":"\(14 + i)"])
+        else{
+ 
+            if FAME.models.count < 7{
+                for i in 0..<Defined_MODE_NAME.count{
+                    FAME.models.append(["name":Defined_MODE_NAME[i],"act_id":"\(1 + i)"])
+                    
+                }
+                FAME.models.insert(["name":"设备全开","act_id":"0"], atIndex: 0)
+            }
+            print(FAME.sensors30)
+            tableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "dataArrId")
+            tableView.mj_header.beginRefreshing()
             
         }
-        print(FAME.models)
+
         
+    }
+    
+    func dataArrId(){
+        var cellCount :Int = 0
+        //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
         
+            for i in 0..<FAME.sensors30.count{
+                let dev = FAME.sensors30[i]["dev_id"]! as String
+                let dev_id1:Int! = Int(dev)
+                FAME.boolCounts = 0
+                FAME.requestEventActionIds(dev_id1)
+                
+                if FAME.boolCounts > 0{
+                    cellCount = cellCount + 1
+                }
+                
+            }
         
+        //}
         
+        if cellCount > 0{
+            self.tableView.mj_header.endRefreshing()
+            FAME.showMessage("刷新成功")
+            //UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        }
+        else{
+            self.tableView.mj_header.endRefreshing()
+            FAME.showMessage("刷新失败，网络超时 请检查中控")
+            //UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        }
+        print(FAME.action_ids)
+        
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
+        //self.Timerset()
+        
+    }
+    
+    func Timerset(){
+
+        //UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+
+        for subCell:AnyObject in tableView.visibleCells {
+            //print(subCell)
+            let cell = subCell as! UITableViewCell2
+   
+            dev_id = cell.dev_id
+
+            for i in 0..<FAME.action_ids[dev_id]!.count{
+                    
+            let lable = cell.viewWithTag(i + 71) as! UILabel
+                    
+                for j in 0..<FAME.models.count{
+                    let name = FAME.models[j]["name"] as String!
+                    let id = FAME.models[j]["act_id"] as String!
+                    
+                    if FAME.action_ids[dev_id]![i] == 0{
+                        dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                            lable.text = Defined_Event_Title
+                        })
+                        
+                        
+                    }
+                    else if FAME.action_ids[dev_id]![i] == Int(id) {
+                        
+                        dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                            lable.text = name
+                        })
+                    }
+                    
+                }
+            }
+            
+                
+        }
+ 
+
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func viewWillAppear(animated: Bool){
-        super.viewWillAppear(animated)
-        
-    }
     
-    func actSetBtn(sender:UIButton!){
+    
+    func actSetBtn(sender:UIButton2!){
         
         print("点击了设定按钮")
-        
-        for i in 0..<act_ids.count{
-            httpRequert().sendRequest(act_ids[i])
-        }
-        
-        
-    }
-    func actAddBtn(sender:UIButton!){
-        
-        print("点击了选择按钮")
-        self .createPop() ;
-        self.selectCount = sender.tag - 430 
-        
-    }
-    func selectedActBtn(sender : AnyObject){
-        
-        print(act_ids)
-        self.BGView.hidden = true ;
-        let lable1 = self.view.viewWithTag(self.selectCount) as! UILabel!;
-        lable1.text = self.seletedStr;
 
         
+        dev_id = sender.dev_id
         
+        var event_id : Int! = 0
+        var count : Int! = 0
+        let array : NSArray! = FAME.action_ids[dev_id]
+        
+        for i in 0..<array.count{
+            if i < 3{
+                event_id = (dev_id - 85) * 3 + 1 + i
+            }
+            else{
+                event_id = (dev_id - 85) * 3 + 1 + i + 45
+            }
+            
+            let cmdStr = "{\"cmd\": 33, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(event_id),\"filter_data\":[\(dev_id),11,18,\(i)],\"action_id\":\(array[i]),\"active\":1}}"
+            if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
+                print("link device successed")
+                
+                
+                
+                count = count + 1
+                
+            }
+
+            
+        }
+        if count > 0{
+            let alert = UIAlertView()
+            alert.title = Defined_mode1_title
+            alert.message = Defined_mode1_update
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.show()
+        }
+        else{
+            let alert = UIAlertView()
+            alert.title = Defined_mode1_title
+            alert.message = Defined_mode1_failed
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.show()
+        }
+   
+    }
+    func actAddBtn(sender:UIButton2!){
+        
+        print("点击了选择按钮")
+        self .createPop()
+        self.selectCount = sender.tag - 430
+        buttonTag = sender.tag - 501
+        dev_id = sender.dev_id
+        selectId = nil
+        
+    }
+    func selectedActBtn(sender : AnyObject!){
+        
+        
+        self.BGView.hidden = true ;
+        let lable1 = self.view.viewWithTag(self.selectCount) as! UILabel!;
+        if selectId == nil{
+            lable1.text = Defined_Event_Title
+            FAME.action_ids[dev_id]![buttonTag] = 0
+        }
+        else
+        {
+            lable1.text = self.seletedStr;
+            FAME.action_ids[dev_id]![buttonTag] = selectId
+        }
+        print(FAME.action_ids[dev_id])
         
     }
     
@@ -2824,7 +2963,7 @@ extension ViewControllerSS_mode: UIPickerViewDataSource,UIPickerViewDelegate {
         self.seletedStr = FAME.models[row]["name"] as String!
         let id = FAME.models[row]["act_id"] as String!
         selectId = Int(id)
-        act_ids[row] = selectId
+        
         
         print("pickerView selected:\(self.seletedStr)   id=\(selectId)")
         
@@ -2850,7 +2989,8 @@ extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         
         tableView
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell2
+        //let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell2
         //cell.backgroundColor = UIColor.clearColor()
         cell.selectionStyle = UITableViewCellSelectionStyle.None ;
 
@@ -2858,21 +2998,30 @@ extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
         let lable1 = cell.viewWithTag(77) as! UILabel!
         lable1.text = FAME.sensors30[indexPath.row]["name"]! as String
         
+        
+        
+        let dev = FAME.sensors30[indexPath.row]["dev_id"]! as String
+        let dev_id1:Int! = Int(dev)
+        
+        cell.dev_id = Int(dev_id1)
+        
         let view = cell.viewWithTag(51) as UIView!
         view.layer.borderColor=UIColor.whiteColor().CGColor;
         view.layer.borderWidth = 1;
         view.layer.cornerRadius=10;
         
-        let setButton = cell.viewWithTag(70) as! UIButton!
+        let setButton = cell.viewWithTag(70) as! UIButton2
+        
         setButton.addTarget(self, action: Selector("actSetBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        setButton.dev_id = Int(dev_id1)
         
         for i in 501...506 {
-            let searchButton = cell.viewWithTag(i) as! UIButton!
+            let searchButton = cell.viewWithTag(i) as! UIButton2!
             searchButton.addTarget(self, action: Selector("actAddBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+            searchButton.dev_id = Int(dev_id1)
+            
         }
 
-        
-        
         return cell
         
         
@@ -2882,14 +3031,24 @@ extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
         return HEIGHT * 0.6
         
     }
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        print(indexPath.row)
+            //***********************
+    
+        let ieee : String! = FAME.sensors30[indexPath.row]["ieee"]
+    
+        FAME.delDeviceByIeee(ieee)
+        self.navigationController?.popToRootViewControllerAnimated(true)
         
-        print(indexPath)
-        let next = GBoard.instantiateViewControllerWithIdentifier("viewCell") as UIViewController
-        //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
+        //tableView.reloadData()
         
-        self.navigationController?.pushViewController(next, animated: true)
     }
-
+    
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+       
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
+    }
 }
 

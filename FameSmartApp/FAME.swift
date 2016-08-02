@@ -171,7 +171,10 @@ class fame:NSObject{
     //  Array["light"][Array<Dic>]
     //  Array[ ["name":"ss","show":0,"room":0,"sub":[ ["name":"A","act_id":12,"type":0]  ]  [......]                  ]
     
-    
+    //情景模式面板
+    var event_ids = [1,2,3,49,50,51]
+    var action_ids : Dictionary<Int,Array<Int>> = [:]
+    var boolCounts : Int!
     
     var saActid2 = 0;
     var saActid3 = 0;
@@ -1306,7 +1309,58 @@ class fame:NSObject{
             return false
         }
     }
-    
+    func loadingString(isLoad:Bool){
+        
+        let window :UIWindow! = UIApplication.sharedApplication().keyWindow;
+        
+        let showView :UIView! = UIView(frame: CGRect(x: window.frame.size.width*0.1, y: (window.frame.size.height-100) * 0.5 , width: window.frame.size.width*0.8, height: 100 ));
+        showView.backgroundColor = UIColor.blackColor();
+        
+        showView.layer.cornerRadius = 5.0;
+        showView.layer.masksToBounds = true ;
+        window .addSubview(showView);
+        
+        let imgV = UIImageView(frame: CGRectMake((showView.frame.size.width - 50 )/2, 10, 50, 50))
+        
+        imgV.animationDuration = 2.0
+        imgV.tag = 99
+        showView .addSubview(imgV)
+        
+        var images = [UIImage]()
+        
+        for i in 0...11{
+              let img = UIImage(named: "loading_login\(i + 1)")
+              images.append(img!)
+         }
+         imgV.animationImages = images
+         imgV.animationRepeatCount = 0
+         imgV.startAnimating()
+        
+        
+        let lable : UILabel! = UILabel(frame: CGRectMake((showView.frame.size.width - 100 )/2, 70, 100, 20))
+        lable.text = "正在配置中，请稍后....";
+        lable.font = UIFont.systemFontOfSize(15)
+        lable.textColor = UIColor.whiteColor() ;
+        lable.backgroundColor = UIColor.clearColor() ;
+        lable.textAlignment = NSTextAlignment.Center ;
+        showView .addSubview(lable) ;
+        
+        if isLoad{
+            showView.alpha = 1.0;
+        }
+        else{
+            showView.alpha = 0
+            showView.removeFromSuperview()
+        }
+        
+//        UIView.animateWithDuration(3, animations: { () -> Void in
+//            showView.alpha = 0;
+//            }) { (flase) -> Void in
+//                showView.removeFromSuperview();
+//        }
+        
+    }
+
     func showMessage(str:String){
         
         let window :UIWindow! = UIApplication.sharedApplication().keyWindow;
@@ -1337,47 +1391,41 @@ class fame:NSObject{
     }
     
     
-    func loading1(isLoading : Bool){
+    func requestEventActionIds(dev_id : Int){
+        var event_id : Int!
+        var actids = [0,0,0,0,0,0]
+        for i in 0..<6{
+            //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            if i < 3{
+                event_id = (dev_id - 85) * 3 + 1 + i
+            }
+            else{
+                event_id = (dev_id - 85) * 3 + 1 + i + 45
+            }
+            let cmdStr = "{\"cmd\": 34, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(event_id)}}"
+                
+            if let received = (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90)){
+                    
+                actids[i] = received.valueForKey("detail")?.valueForKey("action_id") as! Int
+                self.boolCounts = self.boolCounts + 1
+                    
+            }
+            event_id = 0
+                
+            //}
+        }
         
-        let window :UIWindow! = UIApplication.sharedApplication().keyWindow;
-        let height = window.frame.size.height
-        let width = window.frame.size.width
-        
-        let view :UIView! = UIView(frame: CGRect(x: 0, y: 0 , width: width, height: height ));
-        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
-        //view.hidden = isLoading
-        window .addSubview(view);
-        
-        let showView :UIActivityIndicatorView! = UIActivityIndicatorView(frame: CGRect(x: width*0.15, y: height*0.425 , width: width*0.7, height: height*0.15 ));
-        showView.activityIndicatorViewStyle = .WhiteLarge
-        showView.backgroundColor = UIColor.blackColor()
-        showView.alpha = 0.5
-        showView.layer.cornerRadius = 6.0
-        showView.layer.masksToBounds = true
-        view .addSubview(showView)
-        
-        let lable : UILabel! = UILabel(frame: CGRect(x: (showView.frame.size.width-200)/2, y: height*0.15 - 25 , width: 200, height: 20 ));
-        lable.text = "Loading.......";
-        lable.font = UIFont.systemFontOfSize(15)
-        lable.textColor = UIColor.whiteColor() ;
-        lable.backgroundColor = UIColor.clearColor() ;
-        lable.textAlignment = NSTextAlignment.Center ;
-        showView .addSubview(lable) ;
-
-           
-//        if isLoading{
-//            view.hidden = false
-            //showView .startAnimating()
-//        }
-//        else{
-//            showView .stopAnimating()
-//            view.removeFromSuperview()
-//            //view.hidden = true
-//            print("结束了")
-//        }
+        self.action_ids[dev_id] = actids
         
     }
-
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
 
