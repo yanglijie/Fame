@@ -1024,8 +1024,9 @@ class fame:NSObject{
                 var inid = 0
                 
                 for(btn_str) in btns_str{
-                    self.idForNamesMode[act_id + inid * 2] = "\(roomName) \(name) \(btn_str)"
+                    self.idForNamesMode[act_id + inid * 2 + 1] = "\(roomName) \(name) \(btn_str)"
                     inid++
+                    //
                 }
                 
                 
@@ -1213,17 +1214,16 @@ class fame:NSObject{
         print("refresh llllllll")
         let paramArray = NSMutableArray()
         var lastId = "0"
-        switch FAME.tempSensorId {
-        case 1:
-            self.lights = lights7
-            
-        case 6:
-            self.lights = lights11
-            
-            
-        default:
-            break
-        }
+//        switch FAME.tempSensorId {
+//        case 1:
+//            self.lights = lights7
+//            
+//        case 6:
+//            self.lights = lights11
+//  
+//        default:
+//            break
+//        }
         //print(lights)
         for value in lights {
             let AddedObj = value as NSDictionary
