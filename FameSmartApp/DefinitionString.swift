@@ -83,11 +83,6 @@ let Defined_mode_failed = "情景模式配置失败"
 let Defined_mode_update = "情景模式配置成功"
 let Defined_mode_title = "情景模式配置"
 
-let Defined_mode1_failed = "情景模式面板配置失败"
-let Defined_mode1_update = "情景模式面板配置成功"
-let Defined_mode1_title = "情景模式面板配置"
-
-
 let Defined_link_update = "联动配置成功"
 let Defined_link_failed = "联动配置失败"
 let Defined_link_title = "联动配置"
@@ -158,9 +153,6 @@ let Defined_PUSH_Title = "设置"
 let Defined_PUSH_Title2 = "报警消息"
 let Defined_PUSH_failed = "请打开推送设置"
 //let Defined_PUSH_failed1 = "请打开信息记录的"
-
-let Defined_Event_Title = "设备全开"
-
 
 let Defined_LINKS_NAMES = ["情景模式","灯光","传感"]
 let Defined_NULL = "清空"
