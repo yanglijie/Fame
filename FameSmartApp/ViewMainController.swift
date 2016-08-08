@@ -207,12 +207,18 @@ class ViewControllerMainP: UIViewController {
             count = NSTimeInterval(btns.count)
         }
         
+        
+        
+        
         let btnImgs = ["model1.png","model2.png","model3.png","model4.png","model5.png","model6.png","model7.png","model8.png","model9.png"]
         
         //fix position
         self.btns_count = btns.count
         
         let view0:UIView = self.view.viewWithTag(10)!
+        
+        
+        
         view0.frame.size.width = self.view.frame.size.width - 60
         let divW:CGFloat = 0.27
         //let top:CGFloat =  60
@@ -254,6 +260,12 @@ class ViewControllerMainP: UIViewController {
 //        }
         
         btnX = btns.count <= 3 ? diffX + btnX : btnX
+        
+        
+        let btnShake = UIButton(frame: CGRect(x: view0.frame.size.width - top/3 * 2 + 30 , y: top/3/2  , width: top/3 * 2, height: top/3 * 2))
+        btnShake.setBackgroundImage(UIImage(named: "shake.png"), forState: UIControlState.Normal)
+        btnShake.addTarget(self, action: "tapShake:", forControlEvents: UIControlEvents.TouchUpInside)
+        view0.addSubview(btnShake)
         
 
         for idx in 0..<btns.count + 3 {
@@ -336,6 +348,16 @@ class ViewControllerMainP: UIViewController {
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
         self.canShowDetail = true
+        
+    }
+    
+    func tapShake(sender : AnyObject!){
+        
+        
+        let next = GBoard.instantiateViewControllerWithIdentifier("viewShake") as UIViewController
+        
+        
+        self.navigationController?.pushViewController(next, animated: true)
         
     }
     func tap(sender : AnyObject!){
@@ -501,3 +523,31 @@ class ViewAboutUs2Controller: UIViewController {
 
     
 }
+
+
+
+
+class ViewControllerShake: UIViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
+    }
+    
+    
+}
+
+
+
