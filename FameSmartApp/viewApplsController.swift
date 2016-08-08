@@ -83,8 +83,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         refreshData()
         data(roomIndex)
         
-        print("11111=\(roomIndex)")
-        print("4444444\(indexCount)")
+//        print("11111=\(roomIndex)")
+//        print("4444444\(indexCount)")
         
         if indexCount.count > 0{
             for subCell:AnyObject in self.TableView!.visibleCells {
@@ -264,6 +264,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                             FAME.delDeviceArray.addObject(dic)
                             
                             FAME.doDeleteDev()
+                            
+                            //FAME.delDeviceByIeee(ieee)
                             
                             self.navigationController?.popToRootViewControllerAnimated(true)
                         }
@@ -937,7 +939,8 @@ class ViewControllerApplas: UIViewController {
     
     @IBOutlet weak var btnTmp2: UIButton!
     
-    var isLearn:Bool = false
+    var isLearn:Bool = true
+    
     func refreshData(){
         
     }
@@ -981,7 +984,7 @@ class ViewControllerApplas: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Compose, target: self, action: "insertNewObject:")
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Pause, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
         
     }
@@ -1200,6 +1203,7 @@ class ViewControllerCurtains: UIViewController {
     func selectedActBtn(sender : AnyObject){
         
         let int:Int = Int(self.viewSlider.value)
+
         
         self.tmpStr = "{\"cmd\": 41, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"position\":0,\"dev_id\":\(self.dev_id),\"step\":\(int)}}"
         
@@ -1223,18 +1227,22 @@ class ViewControllerCurtains: UIViewController {
     func privateCmd(){
         if (httpRequert().downloadFromPostUrlSync(Surl,cmd: self.tmpStr,timeout:8) != nil){
             print("delay-set successed")
-            let alert = UIAlertView()
-            alert.title = Defined_cur_title
-            alert.message =  Defined_cur_update
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.show()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertView()
+                alert.title = Defined_cur_title
+                alert.message =  Defined_cur_update
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            })
             
         }else{
-            let alert = UIAlertView()
-            alert.title = Defined_cur_title
-            alert.message =  Defined_cur_failed
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.show()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertView()
+                alert.title = Defined_cur_title
+                alert.message =  Defined_cur_failed
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            })
         }
     }
     
