@@ -890,11 +890,10 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                 }else{
                     let cur = self.Links1[row]["curtains"] as! Int!
                     if(cur != nil){
-                        self.Links3 = [["name":Defined_mode_on,"act_id":0],["name":Defined_mode_off,"act_id":1]]
+                        self.Links3 = [["name":"打开","act_id":0],["name":"停止","act_id":1],["name":"暂停","act_id":2]]
                     }else{
                         self.Links3 = [["name":Defined_mode_on,"act_id":1],["name":Defined_mode_off,"act_id":0]]
-                    }
-                }
+                    }                }
                 
             }else{
                 
@@ -2064,11 +2063,13 @@ class ViewControllerSS7Detail: UIViewController {
         view.layer.borderWidth = 1;
         view.layer.cornerRadius=10;
         
+        createUpView()
         
         let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: "handleSwipeGesture:")
         swipeLeftGesture.direction = UISwipeGestureRecognizerDirection.Down //不设置是右
         subView.addGestureRecognizer(swipeLeftGesture)
 
+        
         
         
     }
@@ -2093,10 +2094,13 @@ class ViewControllerSS7Detail: UIViewController {
         let cmdStr = "{\"cmd\": 42, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"dev_id\":\(FAME.dev_id)}}"
         if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
             print("link device successed")
-            self.viewUp.hidden = true
-            self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
+            
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                self.viewUp.hidden = true
+                self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
+                
                 self.airDetail=recevied["detail"] as! NSDictionary;
                 let detail=self.airDetail;
                 
@@ -2190,11 +2194,14 @@ class ViewControllerSS7Detail: UIViewController {
             
         }else{
             
-            self.viewUp.hidden = true
-            self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
+            
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 FAME.showMessage("空气质量刷新失败")
+                
+                self.viewUp.hidden = true
+                self.subView.transform = CGAffineTransformMakeTranslation(0 , 80)
+                
             })
             
             print("link event failed")

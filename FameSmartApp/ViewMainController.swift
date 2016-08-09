@@ -17,6 +17,7 @@
 
 import UIKit
 
+
 var animationSS :Bool = true
 var animationSA :Bool = true
 var animationP :Bool = true
@@ -200,6 +201,9 @@ class ViewControllerMainP: UIViewController {
         returnButtonItem.title = Defined_navigation_back_title
         self.navigationItem.backBarButtonItem = returnButtonItem
         
+//        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "tapShake:")
+//        self.navigationItem.rightBarButtonItem = addButton
+        
         
         var btns:Array<String>!
         if let modesObj:AnyObject? = FAME.device_table.valueForKey("modes") {
@@ -263,6 +267,7 @@ class ViewControllerMainP: UIViewController {
         
         
         let btnShake = UIButton(frame: CGRect(x: view0.frame.size.width - top/3 * 2 + 30 , y: top/3/2  , width: top/3 * 2, height: top/3 * 2))
+        //let btnShake = UIButton(frame: CGRect(x: view0.frame.size.width - top/3 * 2 , y: 0  , width: 50, height: 50))
         btnShake.setBackgroundImage(UIImage(named: "shake.png"), forState: UIControlState.Normal)
         btnShake.addTarget(self, action: "tapShake:", forControlEvents: UIControlEvents.TouchUpInside)
         view0.addSubview(btnShake)
@@ -354,9 +359,8 @@ class ViewControllerMainP: UIViewController {
     func tapShake(sender : AnyObject!){
         
         
-        let next = GBoard.instantiateViewControllerWithIdentifier("viewShake") as UIViewController
-        
-        
+        let next = GBoard.instantiateViewControllerWithIdentifier("Shake") as! ViewShakeController
+        next.delegate = self
         self.navigationController?.pushViewController(next, animated: true)
         
     }
@@ -374,7 +378,14 @@ class ViewControllerMainP: UIViewController {
         
     }
 }
-
+extension ViewControllerMainP : ViewShakeControllerDelegate {
+    
+    func shakeAction() {
+        FAME.showMessage("我的模式启动")
+        httpRequert().sendRequest(13)
+    }
+    
+}
 
 class ViewControllerMainSS: UIViewController {
 
@@ -527,27 +538,7 @@ class ViewAboutUs2Controller: UIViewController {
 
 
 
-class ViewControllerShake: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        
-        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    override func viewWillAppear(animated: Bool){
-        super.viewWillAppear(animated)
-        
-    }
-    
-    
-}
+
 
 
 

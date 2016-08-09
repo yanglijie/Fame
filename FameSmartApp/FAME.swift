@@ -925,15 +925,17 @@ class fame:NSObject{
                 
                 FAME.deviceCount++
                 
-                FAME.idForNames[act_id + 1]=["name":"\(name)开","room":"\(roomName)","string":"\(roomName) \(name) 开","act_id":"\(act_id  + 1 )"]
-                FAME.idForNames[act_id ]=["name":"\(name)关","room":"\(roomName)","string":"\(roomName) \(name) 关","act_id":"\(act_id)"]
+                    FAME.idForNames[act_id + 1]=["name":"\(name)打开","room":"\(roomName)","string":"\(roomName) \(name) 打开","act_id":"\(act_id  + 1 )"]
+                FAME.idForNames[act_id + 2]=["name":"\(name)暂停","room":"\(roomName)","string":"\(roomName) \(name) 暂停","act_id":"\(act_id  + 2 )"]
+                FAME.idForNames[act_id ]=["name":"\(name)停止","room":"\(roomName)","string":"\(roomName) \(name) 停止","act_id":"\(act_id)"]
                 
                 //add to linkArray
                 //  FAME.linkArray[2].append(["name":[name],"room":[roomName],"subName":[" "],"subId":["\(act_id )"]])
                 
                 //add to Links
-                self.idForNamesMode[act_id + 1] = "\(roomName) \(name) 关"
-                self.idForNamesMode[act_id] = "\(roomName) \(name) 开"
+                    self.idForNamesMode[act_id + 2] = "\(roomName) \(name) 暂停"
+                self.idForNamesMode[act_id + 1] = "\(roomName) \(name) 停止"
+                self.idForNamesMode[act_id] = "\(roomName) \(name) 打开"
                 
                     //2
                 Links3 = [["name":"","act_id":act_id,"type":1]]

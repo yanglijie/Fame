@@ -224,7 +224,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     func btns1Fun(sender:UIButton){
         self.BGView.hidden = true
         let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_name") as! ViewControllerSS_name
-        next.delegate = self ;
+        next.delegate = self 
         
         self.navigationController?.pushViewController(next, animated: true)
         let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)

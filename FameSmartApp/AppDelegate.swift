@@ -19,8 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
         // Override point for customization after application launch.
         
         
-        //UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent;
-        
+       
+        //UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         
         
         //is the ios8

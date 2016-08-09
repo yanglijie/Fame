@@ -287,7 +287,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
                 }else{
                     let cur = self.Links1[row]["curtains"] as! Int!
                     if(cur != nil){
-                        self.Links3 = [["name":Defined_mode_on,"act_id":0],["name":Defined_mode_off,"act_id":1]]
+                        self.Links3 = [["name":"打开","act_id":0],["name":"停止","act_id":1],["name":"暂停","act_id":2]]
                     }else{
                         self.Links3 = [["name":Defined_mode_on,"act_id":1],["name":Defined_mode_off,"act_id":0]]
                     }
