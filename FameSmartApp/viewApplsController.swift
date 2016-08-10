@@ -15,7 +15,7 @@ import UIKit
 //
 //*********************
 
-class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDelegate, ViewControllerSS_nameDelegate,UIAlertViewDelegate {
+class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDelegate, ViewControllerSS_nameDelegate{
     
     var BGView:UIView!
     var pickView:UIView!
@@ -53,32 +53,16 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     var view1 = UIScrollView()
     var indexCount : Array<Dictionary<String,String>> = []
     var indexRoom : Int! = 1000
-    var right : Bool = false
+    var right : Bool = true
     
     
     var sensors:Array<Dictionary<String,String>> = []
     var lights:Array<Dictionary<String,String>> = []
     
-    @IBAction func linkClick(sender: AnyObject) {
-        let alert :UIAlertView = UIAlertView()
-        alert.delegate = self
-        alert.title = "设置联动"
-        alert.message = "客厅浴霸联动"
-        alert.addButtonWithTitle(Defined_ALERT_OK)
-        alert.addButtonWithTitle(Defined_ALERT_CANCEL)
-        alert.show()
-    }
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        print("click at \(buttonIndex)")
-        
-        
-        
-    }
     func reloadName() {
         FAME.showMessage("名字修改成功");
 
 
-          
         //
         refreshData()
         data(roomIndex)
@@ -115,8 +99,6 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             let indexPath:NSIndexPath! = self.TableView.indexPathForRowAtPoint(point)
             if(indexPath != nil){
                 let cell:UITableViewCell2! = self.TableView.cellForRowAtIndexPath(indexPath) as! UITableViewCell2
-                
-                
                 
                 index = cell.index
                 FAME.dev_id = cell.dev_id
@@ -368,9 +350,13 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             
         }
         else {
+            TableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "Timerset")
+            TableView.mj_header.beginRefreshing()
+            
             data(0)
             swipeView()
             self.createPop()
+<<<<<<< HEAD
             if FAME.tempSensorId == 6{
                 view1.hidden = true
             }
@@ -384,8 +370,14 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             TableView.mj_header.beginRefreshing()
             
             
+=======
+>>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
         }
-
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        
+        
         
         //print(lights)
         
@@ -404,11 +396,13 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         super.viewWillAppear(animated)
         
         FAME.tempTableView = self.TableView
-   
+//        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+//        myThread.start()
+        
         
     }
     
-    func refreshLights(){
+    func refreshLights(sender:AnyObject!){
         print("refreshLights")
         //self.TableView!.reloadData()
         if indexCount.count == 0{
@@ -432,13 +426,10 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         //create the post string
        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         if FAME.tempSensorId == 1 || FAME.tempSensorId == 6{
-            FAME.lights = indexCount
             if FAME.refreshLightState() {
                 
                 self.TableView.mj_header.endRefreshing()
-                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                    FAME.showMessage("刷新成功")
-                })
+                FAME.showMessage("刷新成功")
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 
                 //print("3333333\(FAME.lightsCellState)")
@@ -454,47 +445,25 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                     
                     //print("id == \(cell.id)")
                     
-                    
-                    let type:Int! = cell.dev_id
-                    
-                    dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                        if (state != nil) {
-                            
-                            //print("state:\(state)")
-                            if state == 1 {
-                                view.image = UIImage(named: "socket_10.png")
-                                if type == 7 {
-                                    imgObj.image = UIImage(named: "panel_icon1.png")
-                                }
-                                else{
-                                    imgObj.image = UIImage(named: Defined_SA_icons1[FAME.tempSensorId])
-                                }
-                            }else {
-                                view.image = UIImage(named: "socket_06.png")
-                                if type == 7 {
-                                    imgObj.image = UIImage(named: "panel_icon.png")
-                                }
-                                else{
-                                    imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
-                                }
-                            }
+                    if (state != nil) {
+                        
+                        //print("state:\(state)")
+                        if state == 1 {
+                            view.image = UIImage(named: "socket_10.png")
+                            imgObj.image = UIImage(named: Defined_SA_icons1[FAME.tempSensorId])
+                        }else {
+                            view.image = UIImage(named: "socket_06.png")
+                            imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
                         }
-                        else{
-                            if type == 7 {
-                                imgObj.image = UIImage(named: "panel_icon.png")
-                            }
-                            else{
-                                imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
-                            }
-                        }
-                    })
+                    }
+                    else{
+                        imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
+                    }
                 }
             }
             else{
                 self.TableView.mj_header.endRefreshing()
-                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                    FAME.showMessage("刷新失败，网络超时 请检查中控")
-                })
+                FAME.showMessage("刷新失败，网络超时 请检查中控")
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             }
 
@@ -519,9 +488,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             if (received != nil){
                 
                 self.TableView.mj_header.endRefreshing()
-                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                    FAME.showMessage("刷新成功")
-                })
+                FAME.showMessage("刷新成功")
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 //got the state
                 for values:AnyObject in received.valueForKey("states") as! NSArray {
@@ -551,69 +518,61 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                     let cell = subCell as! UITableViewCell2
                     let view = cell.viewWithTag(2) as! UIImageView
                     let imgObj = cell.viewWithTag(99) as! UIImageView
-                    let view1 = cell.viewWithTag(86) as! UIImageView
                     //print(FAME.lightsCellState)
                     let state :Int! = FAME.socketsCellState["\(cell.id)"]
                     
                     print("id == \(cell.id)")
                     
-                    dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                        if (state != nil) {
-                            if FAME.tempSensorId == 9{
-                                let number = String(state,radix:2)
-                                //print("state:\(state)")
-                                
-                                switch Int(number)! {
-                                case 0:
-                                    //完全关闭
-                                    view.image = UIImage(named: "socket_06.png")
-                                    imgObj.image = UIImage(named: "cta_stop.png")
-                                case 10000:
-                                    //节能模式
-                                    view.image = UIImage(named: "socket_10.png")
-                                    imgObj.image = UIImage(named: "cta_unuse.png")
-                                case 10011:
-                                    //3速打开
-                                    view.image = UIImage(named: "socket_10.png")
-                                    imgObj.image = UIImage(named: "cta_open.png")
-                                    view1.image = UIImage(named: "speed3.png")
-                                case 11001:
-                                    //2速打开
-                                    view.image = UIImage(named: "socket_10.png")
-                                    imgObj.image = UIImage(named: "cta_open.png")
-                                    view1.image = UIImage(named: "speed2.png")
-                                case 10101:
-                                    //1速打开
-                                    view.image = UIImage(named: "socket_10.png")
-                                    imgObj.image = UIImage(named: "cta_open.png")
-                                    view1.image = UIImage(named: "speed1.png")
-                                default:
-                                    break
-                                }
-                                
-                            }
-                            else{
-                                if state == 1 {
-                                    view.image = UIImage(named: "socket_10.png")
-                                    imgObj.image = UIImage(named: Defined_SA_icons1[FAME.tempSensorId])
-                                }else {
-                                    view.image = UIImage(named: "socket_06.png")
-                                    imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
-                                }
-                            }
+                    if (state != nil) {
+                        if FAME.tempSensorId == 9{
+                            let number = String(state,radix:2)
+                            //print("state:\(state)")
                             
+                            switch Int(number)! {
+                            case 0:
+                                //完全关闭
+                                view.image = UIImage(named: "socket_06.png")
+                                imgObj.image = UIImage(named: "cta_stop.png")
+                            case 10000:
+                                //节能模式
+                                view.image = UIImage(named: "socket_10.png")
+                                imgObj.image = UIImage(named: "cta_unuse.png")
+                            case 10011:
+                                //3速打开
+                                view.image = UIImage(named: "socket_10.png")
+                                imgObj.image = UIImage(named: "cta_open.png")
+                            case 11001:
+                                //2速打开
+                                view.image = UIImage(named: "socket_10.png")
+                                imgObj.image = UIImage(named: "cta_open.png")
+                            case 10101:
+                                //1速打开
+                                view.image = UIImage(named: "socket_10.png")
+                                imgObj.image = UIImage(named: "cta_open.png")
+                            default:
+                                break
+                            }
+
                         }
                         else{
-                            imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
+                            if state == 1 {
+                                view.image = UIImage(named: "socket_10.png")
+                                imgObj.image = UIImage(named: Defined_SA_icons1[FAME.tempSensorId])
+                            }else {
+                                view.image = UIImage(named: "socket_06.png")
+                                imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
+                            }
                         }
-                    })
+                        
+                    }
+                    else{
+                        imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
+                    }
                 }
             }else{
                 print("get the state failed")
                 self.TableView.mj_header.endRefreshing()
-                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                    FAME.showMessage("刷新失败，网络超时 请检查中控")
-                })
+                FAME.showMessage("刷新失败，网络超时 请检查中控")
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             }
 
@@ -641,7 +600,6 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         
         cell .addGestureRecognizer(longpressGesutre)
         
-        cell.selectionStyle = .Gray
         
         
         let dev_Str:String! = indexCount[indexPath.row]["dev_id"] as String!
@@ -691,8 +649,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             let view = cell.viewWithTag(2) as! UIImageView
             let state :Int! = FAME.lightsCellState["\(cell.id)"]
             //let state :Int? = NSUserDefaults.standardUserDefaults().valueForKey("\(tagOn.id)") as? Int
-          let view1 = cell.viewWithTag(86) as! UIImageView
-          let view5 = cell.viewWithTag(5) as! UIButton
+          
             
             if (state != nil) {
                 //print("state:\(state)")
@@ -706,7 +663,6 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                         //完全关闭
                         view.image = UIImage(named: "socket_06.png")
                         imgObj.image = UIImage(named: "cta_stop.png")
-                        
                     case 10000:
                         //节能模式
                         view.image = UIImage(named: "socket_10.png")
@@ -715,17 +671,14 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                         //3速打开
                         view.image = UIImage(named: "socket_10.png")
                         imgObj.image = UIImage(named: "cta_open.png")
-                        view1.image = UIImage(named: "speed3.png")
                     case 11001:
                         //2速打开
                         view.image = UIImage(named: "socket_10.png")
                         imgObj.image = UIImage(named: "cta_open.png")
-                        view1.image = UIImage(named: "speed2.png")
                     case 10101:
                         //1速打开
                         view.image = UIImage(named: "socket_10.png")
                         imgObj.image = UIImage(named: "cta_open.png")
-                        view1.image = UIImage(named: "speed1.png")
                     default:
                         break
                     }
@@ -735,54 +688,37 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 else{
                     if state == 1 {
                         view.image = UIImage(named: "socket_10.png")
-                        if type == 11 {
-                            imgObj.image = UIImage(named: "panel_icon1.png")
-                        }
-                        else{
-                            imgObj.image = UIImage(named: Defined_SA_icons1[FAME.tempSensorId])
-                        }
+                        imgObj.image = UIImage(named: Defined_SA_icons1[FAME.tempSensorId])
                     }else {
                         view.image = UIImage(named: "socket_06.png")
-                        if type == 11 {
-                            imgObj.image = UIImage(named: "panel_icon.png")
-                        }
-                        else{
-                            imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
-                        }
+                        imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
                     }
                 }
                 
             }else{
                 view.image = UIImage(named: "socket_06.png")
-                if type == 11 {
-                    imgObj.image = UIImage(named: "panel_icon.png")
-                }
-                else{
-                    imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
-                }
+                imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
             }
             
             tagOn.hidden = false
             tagOff.hidden = false
             view.hidden = false
-            view5.hidden = true
+            
             //conLight
-            
-            
             
             if type == 11 {
                 tagOn.hidden = true
                 tagOff.hidden = true
                 view.hidden = true
-                
-                view5.hidden = false
-                
                 print("set the \(name) hide")
             }
             
         }
         
+        
+        
 
+        
         
         return cell
         
@@ -792,17 +728,22 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         return 100
         
     }
-   
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+    /*
+    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!){
         
-        self .performSelector("deselect", withObject: nil, afterDelay: 0.5)
-    }
-    func deselect(){
+        println(indexPath)
+        var next = GBoard.instantiateViewControllerWithIdentifier("viewCell") as UIViewController
+        //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
         
+<<<<<<< HEAD
         if (TableView.indexPathForSelectedRow != nil){
             TableView.deselectRowAtIndexPath(TableView.indexPathForSelectedRow!, animated: true)
         }
+=======
+        self.navigationController.pushViewController(next, animated: true)
+>>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
     }
+    */
 //    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle{
 //        
 //        return UITableViewCellEditingStyle.Delete
@@ -837,6 +778,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     func swipeView(){
         view1 = UIScrollView(frame: CGRectMake(0, 64, WIDTH/3, HEIGHT))
         view1.backgroundColor = UIColor.grayColor()
+        view1.hidden = true
         self.view.addSubview(view1)
         let viewTitle = UILabel(frame: CGRectMake(0, 0, WIDTH/3, HEIGHT/10))
         viewTitle.text = "房间名"
@@ -850,7 +792,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         
         for i in 0..<FAME.rooms.count{
             
-            let button = UIButton(frame: CGRectMake(0, HEIGHT/10 * 1.2 + HEIGHT/14 * CGFloat(i), WIDTH/3, HEIGHT/14))
+            let button = UIButton(frame: CGRectMake(0, HEIGHT/10 * 1.2 + HEIGHT/14 * CGFloat(i) * 1.15, WIDTH/3, HEIGHT/14))
             button.tag = i + 1000
             button.setTitle(FAME.rooms[i], forState: UIControlState.Normal)
             button.addTarget(self, action: Selector("refreshh:"), forControlEvents: UIControlEvents.TouchUpInside)
@@ -860,7 +802,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             }
             else{
                 
-                let view = UIView(frame: CGRectMake(0, HEIGHT/10 * 1.2 + HEIGHT/14 * CGFloat(i), WIDTH/3, 1))
+                let view = UIView(frame: CGRectMake(0, HEIGHT/10 * 1.2 + HEIGHT/14 * CGFloat(i) * 1.16, WIDTH/3, 1))
                 view.backgroundColor = UIColor.whiteColor()
                 view1.addSubview(view)
             }
@@ -1089,7 +1031,11 @@ class ViewControllerCurtains: UIViewController {
         print("OKOKOK")
         
         let act_id = sender.tag  + FAME.tempApplsId - 1
+<<<<<<< HEAD
         //print("555555555=\(act_id)")
+=======
+
+>>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
    
         httpRequert().sendRequest(act_id)
     }

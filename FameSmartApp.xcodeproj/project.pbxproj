@@ -39,11 +39,14 @@
 		07CBA3C81A2C41CF00411102 /* viewSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CBA3C71A2C41CF00411102 /* viewSettingController.swift */; };
 		07CBA7591990934600484BBC /* ViewRootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CBA7581990934600484BBC /* ViewRootController.swift */; };
 		07E0D2881999EFB300CE752F /* ViewSSController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E0D2871999EFB300CE752F /* ViewSSController.swift */; };
+<<<<<<< HEAD
 		95056B651D5909B1001A7356 /* rock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 95056B631D5909B1001A7356 /* rock.mp3 */; };
 		95056B661D5909B1001A7356 /* rock_end.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 95056B641D5909B1001A7356 /* rock_end.mp3 */; };
 		95056B6D1D592E8D001A7356 /* ViewShakeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95056B6C1D592E8D001A7356 /* ViewShakeController.swift */; };
 		95228BE81D53DAEA00C4CDFE /* panel_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 95228BE61D53DAEA00C4CDFE /* panel_icon.png */; };
 		95228BE91D53DAEA00C4CDFE /* panel_icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 95228BE71D53DAEA00C4CDFE /* panel_icon1.png */; };
+=======
+>>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
 		952DC40E1D480E7B007F68C0 /* cta_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 952DC4071D480E7B007F68C0 /* cta_close.png */; };
 		952DC40F1D480E7B007F68C0 /* cta_open.png in Resources */ = {isa = PBXBuildFile; fileRef = 952DC4081D480E7B007F68C0 /* cta_open.png */; };
 		952DC4101D480E7B007F68C0 /* cta_stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 952DC4091D480E7B007F68C0 /* cta_stop.png */; };
@@ -53,10 +56,6 @@
 		952DC4141D480E7B007F68C0 /* speed3.png in Resources */ = {isa = PBXBuildFile; fileRef = 952DC40D1D480E7B007F68C0 /* speed3.png */; };
 		9532BC0E1D344EAE0014763B /* ss8_81.png in Resources */ = {isa = PBXBuildFile; fileRef = 9532BC0D1D344EAE0014763B /* ss8_81.png */; };
 		9532BC101D344F6E0014763B /* ss6_61.png in Resources */ = {isa = PBXBuildFile; fileRef = 9532BC0F1D344F6E0014763B /* ss6_61.png */; };
-		9562A2721D55584E004F7AD8 /* shake.png in Resources */ = {isa = PBXBuildFile; fileRef = 9562A2711D55584E004F7AD8 /* shake.png */; };
-		9562A27A1D555EEE004F7AD8 /* shake_hide_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9562A2771D555EEE004F7AD8 /* shake_hide_bg.png */; };
-		9562A27B1D555EEE004F7AD8 /* shake_logo_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 9562A2781D555EEE004F7AD8 /* shake_logo_down.png */; };
-		9562A27C1D555EEE004F7AD8 /* shake_logo_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 9562A2791D555EEE004F7AD8 /* shake_logo_up.png */; };
 		9569021C1D306A2E0098422C /* airBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 956901401D306A2E0098422C /* airBtn.png */; };
 		9569021D1D306A2E0098422C /* air-condition_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 956901421D306A2E0098422C /* air-condition_03.png */; };
 		9569021E1D306A2E0098422C /* air-condition_05.png in Resources */ = {isa = PBXBuildFile; fileRef = 956901431D306A2E0098422C /* air-condition_05.png */; };
@@ -371,11 +370,14 @@
 		07CBA3C71A2C41CF00411102 /* viewSettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewSettingController.swift; sourceTree = "<group>"; };
 		07CBA7581990934600484BBC /* ViewRootController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewRootController.swift; sourceTree = "<group>"; };
 		07E0D2871999EFB300CE752F /* ViewSSController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewSSController.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		95056B631D5909B1001A7356 /* rock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = rock.mp3; sourceTree = "<group>"; };
 		95056B641D5909B1001A7356 /* rock_end.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = rock_end.mp3; sourceTree = "<group>"; };
 		95056B6C1D592E8D001A7356 /* ViewShakeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewShakeController.swift; sourceTree = "<group>"; };
 		95228BE61D53DAEA00C4CDFE /* panel_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panel_icon.png; sourceTree = "<group>"; };
 		95228BE71D53DAEA00C4CDFE /* panel_icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panel_icon1.png; sourceTree = "<group>"; };
+=======
+>>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
 		952DC4071D480E7B007F68C0 /* cta_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cta_close.png; path = airCon/cta_close.png; sourceTree = "<group>"; };
 		952DC4081D480E7B007F68C0 /* cta_open.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cta_open.png; path = airCon/cta_open.png; sourceTree = "<group>"; };
 		952DC4091D480E7B007F68C0 /* cta_stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cta_stop.png; path = airCon/cta_stop.png; sourceTree = "<group>"; };
@@ -385,10 +387,13 @@
 		952DC40D1D480E7B007F68C0 /* speed3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = speed3.png; path = airCon/speed3.png; sourceTree = "<group>"; };
 		9532BC0D1D344EAE0014763B /* ss8_81.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ss8_81.png; sourceTree = "<group>"; };
 		9532BC0F1D344F6E0014763B /* ss6_61.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ss6_61.png; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		9562A2711D55584E004F7AD8 /* shake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shake.png; sourceTree = "<group>"; };
 		9562A2771D555EEE004F7AD8 /* shake_hide_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shake_hide_bg.png; sourceTree = "<group>"; };
 		9562A2781D555EEE004F7AD8 /* shake_logo_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shake_logo_down.png; sourceTree = "<group>"; };
 		9562A2791D555EEE004F7AD8 /* shake_logo_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shake_logo_up.png; sourceTree = "<group>"; };
+=======
+>>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
 		956901401D306A2E0098422C /* airBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airBtn.png; sourceTree = "<group>"; };
 		956901421D306A2E0098422C /* air-condition_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "air-condition_03.png"; sourceTree = "<group>"; };
 		956901431D306A2E0098422C /* air-condition_05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "air-condition_05.png"; sourceTree = "<group>"; };
@@ -694,7 +699,10 @@
 		077882D6198B254B003E2390 = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				95056B621D5909B1001A7356 /* MP3 */,
+=======
+>>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
 				956F11B51D2710F5006D1197 /* MJRefresh */,
 				01DD0F7F1C90237300B86162 /* Default-568h@2x.png */,
 				0710E90819907C0D008548F4 /* libz.dylib */,
@@ -796,12 +804,15 @@
 		9569013F1D306A2E0098422C /* appImg */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				9562A2771D555EEE004F7AD8 /* shake_hide_bg.png */,
 				9562A2781D555EEE004F7AD8 /* shake_logo_down.png */,
 				9562A2791D555EEE004F7AD8 /* shake_logo_up.png */,
 				9562A2711D55584E004F7AD8 /* shake.png */,
 				95228BE61D53DAEA00C4CDFE /* panel_icon.png */,
 				95228BE71D53DAEA00C4CDFE /* panel_icon1.png */,
+=======
+>>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
 				95A5B3C81D496D910050C8A7 /* spinner_list_down.png */,
 				952DC4071D480E7B007F68C0 /* cta_close.png */,
 				952DC4081D480E7B007F68C0 /* cta_open.png */,
@@ -1366,7 +1377,6 @@
 				956902E01D306A2E0098422C /* QRCodeScanLine@2x.png in Resources */,
 				9569027E1D306A2E0098422C /* sa5.png in Resources */,
 				956902841D306A2E0098422C /* scene3.png in Resources */,
-				9562A27A1D555EEE004F7AD8 /* shake_hide_bg.png in Resources */,
 				956902D31D306A2E0098422C /* ini.png in Resources */,
 				956902B21D306A2E0098422C /* clock_04_14.png in Resources */,
 				956902D21D306A2E0098422C /* ini.jpg.bak.jpg in Resources */,
@@ -1397,7 +1407,6 @@
 				956902E71D306A2E0098422C /* setting_03.png in Resources */,
 				956902771D306A2E0098422C /* sa1_p.png in Resources */,
 				9569022E1D306A2E0098422C /* pop_touch_07.png in Resources */,
-				9562A2721D55584E004F7AD8 /* shake.png in Resources */,
 				956902F01D306B640098422C /* split_left_1.png in Resources */,
 				956902A91D306A2E0098422C /* ss8_8.png in Resources */,
 				956902591D306A2E0098422C /* sound_icon.png in Resources */,
@@ -1494,7 +1503,6 @@
 				956902931D306A2E0098422C /* socket_13.png in Resources */,
 				9569025F1D306A2E0098422C /* curtain_04_10.png in Resources */,
 				956902C11D306A2E0098422C /* icon.jpg in Resources */,
-				95228BE91D53DAEA00C4CDFE /* panel_icon1.png in Resources */,
 				956902551D306A2E0098422C /* light_icon3.png in Resources */,
 				956902971D306A2E0098422C /* gas_03.png in Resources */,
 				9569029B1D306A2E0098422C /* move_03.png in Resources */,
@@ -1502,7 +1510,6 @@
 				9569028B1D306A2E0098422C /* lock_icon2.png in Resources */,
 				9569028C1D306A2E0098422C /* SA61.png in Resources */,
 				956902BA1D306A2E0098422C /* clock_touch_13.png in Resources */,
-				9562A27C1D555EEE004F7AD8 /* shake_logo_up.png in Resources */,
 				956902371D306A2E0098422C /* radio_touch04_03.png in Resources */,
 				956902DA1D306A2E0098422C /* mainBtnP.png in Resources */,
 				956902DE1D306A2E0098422C /* mainBtnUM.png in Resources */,
@@ -1520,8 +1527,6 @@
 				9569029F1D306A2E0098422C /* ss2.png in Resources */,
 				077882EA198B254B003E2390 /* Main.storyboard in Resources */,
 				9569027B1D306A2E0098422C /* sa3_p.png in Resources */,
-				95228BE81D53DAEA00C4CDFE /* panel_icon.png in Resources */,
-				9562A27B1D555EEE004F7AD8 /* shake_logo_down.png in Resources */,
 				956902261D306A2E0098422C /* appl_power_press.png in Resources */,
 				956902C81D306A2E0098422C /* 58 ios_meitu_7.png in Resources */,
 				956902E81D306A2E0098422C /* setting_05.png in Resources */,

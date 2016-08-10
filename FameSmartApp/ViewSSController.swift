@@ -136,7 +136,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             break
         }
     }
-    func refreshLights(){
+    func refreshLights(sender:AnyObject!){
         print("refreshLights")
         //self.TableView!.reloadData()
         let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
@@ -166,7 +166,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         }
         else {
-            tabelVeiw.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "refreshLights")
+            tabelVeiw.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "Timerset2")
             tabelVeiw.mj_header.beginRefreshing()
         }
         
@@ -1300,7 +1300,6 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         
         print(indexPath)
-        self.performSelector("deselect", withObject: nil, afterDelay: 0.5)
         switch FAME.tempSensorId {
         case 7:
             let showId = self.sensors[indexPath.row]
@@ -1323,6 +1322,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     }
 
     
+<<<<<<< HEAD
     func deselect(){
         if (tabelVeiw.indexPathForSelectedRow != nil){
             tabelVeiw.deselectRowAtIndexPath(tabelVeiw.indexPathForSelectedRow!, animated: true)
@@ -1330,6 +1330,8 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
     }
     
+=======
+>>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
     //*****DELETE
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle{
         
@@ -2052,10 +2054,6 @@ class ViewControllerSS7: UIViewController,UITableViewDataSource,UITableViewDeleg
 }
 
 class ViewControllerSS7Detail: UIViewController {
-    
-    var viewUp = UIView()
-    
-    @IBOutlet var subView: UIView!
     var airDetail: NSDictionary!;
     var refreshControl = UIRefreshControl()
     override func viewDidLoad() {
@@ -2069,36 +2067,27 @@ class ViewControllerSS7Detail: UIViewController {
         
         createUpView()
         
-        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: "handleSwipeGesture:")
-        swipeLeftGesture.direction = UISwipeGestureRecognizerDirection.Down //不设置是右
-        subView.addGestureRecognizer(swipeLeftGesture)
 
         
         
         
     }
-    func handleSwipeGesture(sender: UISwipeGestureRecognizer){
-        refreshModes()
-    }
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
         
-        refreshModes()
-        
-        
-    }
-    func refreshModes(){
-        viewUp.hidden = false
-        subView.transform = CGAffineTransformMakeTranslation(0 , 80)
-        
         let myThread = NSThread(target: self, selector: "Timerset", object: nil)
         myThread.start()
+        
+        
     }
     func Timerset(){
         let cmdStr = "{\"cmd\": 42, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"dev_id\":\(FAME.dev_id)}}"
         if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
             print("link device successed")
+<<<<<<< HEAD
             
+=======
+>>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
@@ -2197,9 +2186,12 @@ class ViewControllerSS7Detail: UIViewController {
             
             
         }else{
+<<<<<<< HEAD
             
             
             
+=======
+>>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 FAME.showMessage("空气质量刷新失败")
                 
@@ -2255,44 +2247,11 @@ class ViewControllerSS7Detail: UIViewController {
 //            return str;
 //        }
     }
-    
-    func createUpView(){
-        
-        viewUp = UIView(frame: CGRect(x: 0, y: 64 , width: self.view.frame.width, height: 80))
-        viewUp.backgroundColor = UIColor(red: 0, green: 139, blue: 139, alpha: 0.1)
-        viewUp.hidden = true
-        self.view.addSubview(viewUp)
-        
-        let imgV = UIImageView(frame: CGRectMake(80, 30, 20, 20))
-        
-        imgV.animationDuration = 2.0
-        viewUp .addSubview(imgV)
-        
-        var images = [UIImage]()
-        
-        for i in 0...11{
-            let img = UIImage(named: "loading_login\(i + 1)")
-            images.append(img!)
-        }
-        imgV.animationImages = images
-        imgV.animationRepeatCount = 0
-        imgV.startAnimating()
-        
-        
-        let lable = UILabel(frame: CGRect(x: 0, y: 30 , width: self.view.frame.width, height: 20))
-        lable.text = "正在刷新中......."
-        lable.textAlignment = .Center
-        viewUp.addSubview(lable)
-        
-    }
-
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
    
-    
 
 
 }
@@ -2566,8 +2525,181 @@ class ViewControllerSS7air6: UIViewController,UITextFieldDelegate {
     }
     
 }
+class ViewControllerSS6: UITableViewCell,UIPickerViewDataSource,UIPickerViewDelegate {
+ 
+    var BGView:UIView!
+    var pickView:UIView!
+    var picker:UIPickerView!
+    var seletedStr:String! = ""
+    var selectCount:Int!
+    
+    
+    
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//       
+//        // Do any additional setup after loading the view, typically from a nib.
+//        
+////        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
+////        self.navigationItem.rightBarButtonItem = addButton
+//        
+//        
+//
+//        let lable1 = self.view.viewWithTag(77) as! UILabel!
+//        lable1.text = FAME.sensors30[0]["name"]! as String
+//        
+//        let view = self.view.viewWithTag(51) as UIView!
+//        view.layer.borderColor=UIColor.whiteColor().CGColor;
+//        view.layer.borderWidth = 1;
+//        view.layer.cornerRadius=10;
+//        
+//        let setButton = self.view.viewWithTag(70) as! UIButton!
+//        setButton.addTarget(self, action: Selector("actSetBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+//        
+//        for i in 501...506 {
+//            let searchButton = self.view.viewWithTag(i) as! UIButton!
+//            searchButton.addTarget(self, action: Selector("actAddBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+//        }
+//        
+//        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+//        myThread.start()
+//        
+//        
+//
+//        
+//        
+//    }
+    func Timerset(){
+        let act_id = FAME.sensors30[0]["act_id"]! as String
+        let act_idInt:Int! = Int(act_id)
+        print(act_idInt)
+        
+        let cmdStr = "{\"cmd\": 32, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"action_id\":\(act_idInt + 2)}}"
+        if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+            
+            
+        }
+    }
+    func actSetBtn(sender:UIButton!){
+        
+        print("点击了设定按钮")
+        
+        
+        
+        
+    }
+    func actAddBtn(sender:UIButton!){
+        
+        print("点击了选择按钮")
+        self .createPop() ;
+        self.selectCount = sender.tag - 430 ;
+        
+    }
+    func selectedActBtn(sender : AnyObject){
+        
+        print(self.selectCount)
+        self.BGView.hidden = true ;
+        let lable1 = self.viewWithTag(self.selectCount) as! UILabel!;
+        lable1.text = self.seletedStr;
+        
+        
+        
+        
+    }
 
-class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
+    func cancleActBtn( sender : AnyObject){
+        
+        print("cancleActBtn")
+        
+        self.BGView.hidden = true ;
+    }
+    func tapPress( sender : AnyObject){
+        
+        print("cancleActBtn")
+        //roomSheet.dismissWithClickedButtonIndex(1, animated: true)
+        
+        self.BGView.hidden = true ;
+    }
+    func createPop(){
+        
+        self.BGView = UIView(frame: CGRect(x: 0, y: 0 , width: self.frame.width, height: self.frame.height))
+        self.BGView.backgroundColor = UIColor.clearColor()
+        
+        
+        //cancel
+        
+        let tapPressRec = UITapGestureRecognizer()
+        tapPressRec.addTarget(self, action: "tapPress:")
+        
+        self.BGView.addGestureRecognizer(tapPressRec)
+        
+        self.BGView.userInteractionEnabled = true
+        
+        
+        
+        self.pickView = UIView(frame: CGRect(x: 0, y: self.BGView.frame.height-300 , width: self.BGView.frame.width, height: 300 ))
+        self.pickView.backgroundColor = UIColor.whiteColor()
+        
+        
+        
+        //picker
+        
+        
+        
+        let btn = UIButton(frame: CGRect(x: self.frame.width - 60, y: 20, width: 40, height: 20))
+        btn.setTitle("\(Defined_ALERT_OK)", forState: UIControlState.Normal)
+        btn.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        btn.tag = 1
+        btn.addTarget(self, action: Selector("selectedActBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        let btn2 = UIButton(frame: CGRect(x: 20, y: 20, width: 40, height: 20))
+        btn2.setTitle(Defined_ALERT_CANCEL, forState: UIControlState.Normal)
+        btn2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        btn2.tag = 2
+        btn2.addTarget(self, action: Selector("cancleActBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        self.picker = UIPickerView(frame: CGRect(x: 20, y: 40, width: pickView.frame.width - 40 , height: 230))
+        
+        self.picker.dataSource = self
+        self.picker.delegate = self
+        self.picker.backgroundColor = UIColor.clearColor() ;
+        
+        
+        //self.pickView.addSubview(self.pickView2)
+        self.pickView.addSubview(self.picker)
+        self.pickView.addSubview(btn)
+        self.pickView.addSubview(btn2)
+        
+        //self.BGView.hidden = true ;
+        self.addSubview(self.BGView)
+        self.BGView.addSubview(self.pickView)
+    }
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
+        
+        self.seletedStr = FAME.models[row]["name"] as String!
+        print("pickerView selected:\(self.seletedStr)")
+        
+    }
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int)->Int {
+        return FAME.models.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return FAME.models[row]["name"] as String!
+    }
+    
+    
+    
+    
+    
+}
+class ViewControllerSS_mode: UIViewController {
     
     var BGView:UIView!
     var pickView:UIView!
@@ -2581,63 +2713,13 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
     
     var ieee:String!
     
-    var view1 = UIScrollView()
-    var indexCount : Array<Dictionary<String,String>> = []
-    var indexRoom : Int! = 1000
-    var right : Bool = false
-    
-    
-    var viewUp = UIView()
-    
-    
-    
     //var model:Dictionary<String,String> = [:]
     
     @IBOutlet weak var tableView: UITableView!
     
-    func handleLongpressGesture(sender: UILongPressGestureRecognizer) {
-        
-        
-        if sender.state == UIGestureRecognizerState.Began {
-            let point:CGPoint = sender.locationInView(self.tableView)
-            let indexPath:NSIndexPath! = self.tableView.indexPathForRowAtPoint(point)
-            if(indexPath != nil){
-                let cell:UITableViewCell2! = self.tableView.cellForRowAtIndexPath(indexPath) as! UITableViewCell2
-
-                ieee = indexCount[cell.index]["ieee"] as String!
-                let alert :UIAlertView = UIAlertView()
-                alert.delegate = self
-                alert.title = Defined_ALERT_del
-                alert.message = Defined_ALERT_del2
-                alert.addButtonWithTitle(Defined_ALERT_OK)
-                alert.addButtonWithTitle(Defined_ALERT_CANCEL)
-                alert.show()
-                
-                
-                
-            }
-        }
-
-        
-        
-    }
-    
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        
-        if buttonIndex == 0 {
-
-            FAME.delDeviceByIeee(ieee)
-            self.navigationController?.popToRootViewControllerAnimated(true)
-            
-            
-        }
-    }
-
-    
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
-//        let myThread = NSThread(target: self, selector: "dataArrId", object: nil)
-//        myThread.start()
+
         
     }
     
@@ -2659,9 +2741,7 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
             
         }
         else{
-            data(0)
-            swipeView()
-            createUpView()
+ 
             if FAME.models.count < 7{
                 for i in 0..<Defined_MODE_NAME.count{
                     FAME.models.append(["name":Defined_MODE_NAME[i],"act_id":"\(1 + i)"])
@@ -2670,29 +2750,20 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
                 FAME.models.insert(["name":"设备全开","act_id":"0"], atIndex: 0)
             }
             print(FAME.sensors30)
-            
-            tableView.transform = CGAffineTransformMakeTranslation(WIDTH/3 , 0)
-            
-            tableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "refreshLights")
+            tableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "dataArrId")
             tableView.mj_header.beginRefreshing()
             
         }
 
         
     }
-    func refreshLights(){
-        print("refreshLights")
-        //self.TableView!.reloadData()
-        let myThread = NSThread(target: self, selector: "dataArrId", object: nil)
-        myThread.start()
-        
-    }
+    
     func dataArrId(){
         var cellCount :Int = 0
         //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-            //print(indexCount)
-            for i in 0..<indexCount.count{
-                let dev = indexCount[i]["dev_id"]! as String
+        
+            for i in 0..<FAME.sensors30.count{
+                let dev = FAME.sensors30[i]["dev_id"]! as String
                 let dev_id1:Int! = Int(dev)
                 FAME.boolCounts = 0
                 FAME.requestEventActionIds(dev_id1)
@@ -2707,16 +2778,12 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
         
         if cellCount > 0{
             self.tableView.mj_header.endRefreshing()
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                FAME.showMessage("刷新成功")
-            })
+            FAME.showMessage("刷新成功")
             //UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
         else{
             self.tableView.mj_header.endRefreshing()
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                FAME.showMessage("刷新失败，网络超时 请检查中控")
-            })
+            FAME.showMessage("刷新失败，网络超时 请检查中控")
             //UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
         print(FAME.action_ids)
@@ -2728,7 +2795,7 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
     }
     
     func Timerset(){
-        
+
         //UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
         for subCell:AnyObject in tableView.visibleCells {
@@ -2776,21 +2843,10 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
     func actSetBtn(sender:UIButton2!){
         
         print("点击了设定按钮")
-        
-        viewUp.hidden = false
-        tableView.transform = CGAffineTransformMakeTranslation(0 , 80)
 
+        
         dev_id = sender.dev_id
         
-        let myThread = NSThread(target: self, selector: "Timerset1", object: nil)
-        myThread.start()
-        
-        
-        
-        
-        
-    }
-    func Timerset1(){
         var event_id : Int! = 0
         var count : Int! = 0
         let array : NSArray! = FAME.action_ids[dev_id]
@@ -2807,36 +2863,29 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
             if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
                 print("link device successed")
                 
+                
+                
                 count = count + 1
                 
             }
-            
+
             
         }
         if count > 0{
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                self.viewUp.hidden = true
-                self.tableView.transform = CGAffineTransformMakeTranslation(0 , 0)
-                
-                let alert = UIAlertView()
-                alert.title = Defined_mode1_title
-                alert.message = Defined_mode1_update
-                alert.addButtonWithTitle(Defined_ALERT_OK)
-                alert.show()
-            })
+            let alert = UIAlertView()
+            alert.title = Defined_mode1_title
+            alert.message = Defined_mode1_update
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.show()
         }
         else{
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                self.viewUp.hidden = true
-                self.tableView.transform = CGAffineTransformMakeTranslation(0 , 0)
-                let alert = UIAlertView()
-                alert.title = Defined_mode1_title
-                alert.message = Defined_mode1_failed
-                alert.addButtonWithTitle(Defined_ALERT_OK)
-                alert.show()
-            })
+            let alert = UIAlertView()
+            alert.title = Defined_mode1_title
+            alert.message = Defined_mode1_failed
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.show()
         }
-
+   
     }
     func actAddBtn(sender:UIButton2!){
         
@@ -2878,35 +2927,6 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
         //roomSheet.dismissWithClickedButtonIndex(1, animated: true)
         
         self.BGView.hidden = true ;
-    }
-    func createUpView(){
-        
-        viewUp = UIView(frame: CGRect(x: 0, y: 64 , width: self.view.frame.width, height: 80))
-        viewUp.backgroundColor = UIColor(red: 0, green: 139, blue: 139, alpha: 0.1)
-        viewUp.hidden = true
-        self.view.addSubview(viewUp)
-        
-        let imgV = UIImageView(frame: CGRectMake(80, 30, 20, 20))
-        
-        imgV.animationDuration = 2.0
-        viewUp .addSubview(imgV)
-        
-        var images = [UIImage]()
-        
-        for i in 0...11{
-            let img = UIImage(named: "loading_login\(i + 1)")
-            images.append(img!)
-        }
-        imgV.animationImages = images
-        imgV.animationRepeatCount = 0
-        imgV.startAnimating()
-        
-        
-        let lable = UILabel(frame: CGRect(x: 0, y: 30 , width: self.view.frame.width, height: 20))
-        lable.text = "正在配置中......."
-        lable.textAlignment = .Center
-        viewUp.addSubview(lable)
-        
     }
     func createPop(){
         
@@ -2965,111 +2985,7 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
         self.view.addSubview(self.BGView)
         self.BGView.addSubview(self.pickView)
     }
-    //侧滑
     
-    func swipeView(){
-        view1 = UIScrollView(frame: CGRectMake(0, 64, WIDTH/3, HEIGHT))
-        view1.backgroundColor = UIColor.grayColor()
-        //view1.hidden = true
-        self.view.addSubview(view1)
-        let viewTitle = UILabel(frame: CGRectMake(0, 0, WIDTH/3, HEIGHT/10))
-        viewTitle.text = "房间名"
-        viewTitle.textColor = UIColor.whiteColor()
-        viewTitle.textAlignment = .Center
-        view1.addSubview(viewTitle)
-        let view = UIView(frame: CGRectMake(0, HEIGHT/10 * 1.2 , WIDTH/3, 1))
-        view.backgroundColor = UIColor.whiteColor()
-        view1.addSubview(view)
-        
-        
-        for i in 0..<FAME.rooms.count{
-            
-            let button = UIButton(frame: CGRectMake(0, HEIGHT/10 * 1.2 + HEIGHT/14 * CGFloat(i), WIDTH/3, HEIGHT/14))
-            button.tag = i + 1000
-            button.setTitle(FAME.rooms[i], forState: UIControlState.Normal)
-            button.addTarget(self, action: Selector("refreshh:"), forControlEvents: UIControlEvents.TouchUpInside)
-            if i == 0{
-                button.backgroundColor = UIColor(red: 0, green: 206, blue: 209, alpha: 1.0)
-                
-            }
-            else{
-                
-                let view = UIView(frame: CGRectMake(0, HEIGHT/10 * 1.2 + HEIGHT/14 * CGFloat(i), WIDTH/3, 1))
-                view.backgroundColor = UIColor.whiteColor()
-                view1.addSubview(view)
-            }
-            view1.addSubview(button)
-            
-        }
-        
-        
-        //左划
-        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: "handleSwipeGesture:")
-        swipeLeftGesture.direction = UISwipeGestureRecognizerDirection.Left //不设置是右
-        tableView.addGestureRecognizer(swipeLeftGesture)
-        
-        
-        let swipeGesture = UISwipeGestureRecognizer(target: self, action: "handleSwipeGesture:")
-        tableView.addGestureRecognizer(swipeGesture)
-    }
-    
-    func handleSwipeGesture(sender: UISwipeGestureRecognizer){
-        
-        //判断是上下左右
-        
-        if right{
-            
-            
-            tableView.transform = CGAffineTransformMakeTranslation(WIDTH/3 , 0)
-            view1.hidden = false
-            self.right = false
-            
-        }
-        else{
-            
-            tableView.transform = CGAffineTransformMakeTranslation(0 , 0)
-            
-            view1.hidden = true
-            self.right = true
-        }
-        
-        
-    }
-    
-    func data(indeex : Int) {
-        //super.viewWillAppear(animated)
-        if indexCount.count != 0{
-            indexCount.removeAll()
-        }
-        for i in 0..<FAME.sensors30.count{
-            //FAME.lights[i]["room"]
-            
-            if Int(FAME.sensors30[i]["room"]!)! == indeex{
-                
-                indexCount.append(FAME.sensors30[i])
-            }
-            
-        }
-        //print(indexCount)
-        
-    }
-    func refreshh(sender : UIButton!){
-        let button = self.view.viewWithTag(indexRoom) as! UIButton
-        
-        if button.tag != sender.tag{
-            sender.backgroundColor = UIColor(red: 0, green: 206, blue: 209, alpha: 1.0)
-            button.backgroundColor = UIColor.clearColor()
-        }
-        
-        
-        data(sender.tag - 1000)
-        
-        tableView.reloadData()
-        
-        indexRoom = sender.tag
-        //print("11111\(sender.tag)")
-    }
-
 
 }
 extension ViewControllerSS_mode: UIPickerViewDataSource,UIPickerViewDelegate {
@@ -3099,7 +3015,7 @@ extension ViewControllerSS_mode: UIPickerViewDataSource,UIPickerViewDelegate {
 extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         
-        return indexCount.count
+        return FAME.sensors30.count
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         
@@ -3109,25 +3025,13 @@ extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
         //cell.backgroundColor = UIColor.clearColor()
         cell.selectionStyle = UITableViewCellSelectionStyle.None ;
 
-        
-        //长按手势
-        let longpressGesutre = UILongPressGestureRecognizer(target:self
-            , action: "handleLongpressGesture:")
-        longpressGesutre.minimumPressDuration = 1.0;
-        
-        cell .addGestureRecognizer(longpressGesutre)
-        
-        cell.selectionStyle = .Blue
-        
-        
         cell.backgroundColor = UIColor.clearColor()
         let lable1 = cell.viewWithTag(77) as! UILabel!
-        lable1.text = indexCount[indexPath.row]["name"]! as String
+        lable1.text = FAME.sensors30[indexPath.row]["name"]! as String
         
         
         
-        
-        let dev = indexCount[indexPath.row]["dev_id"]! as String
+        let dev = FAME.sensors30[indexPath.row]["dev_id"]! as String
         let dev_id1:Int! = Int(dev)
         
         cell.dev_id = Int(dev_id1)
@@ -3158,34 +3062,30 @@ extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
         return HEIGHT * 0.6
         
     }
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        print(indexPath.row)
+            //***********************
+    
+        let ieee : String! = FAME.sensors30[indexPath.row]["ieee"]
+    
+        FAME.delDeviceByIeee(ieee)
+        self.navigationController?.popToRootViewControllerAnimated(true)
         
-        self .performSelector("deselect", withObject: nil, afterDelay: 0.5)
-    }
-    func deselect(){
+        //tableView.reloadData()
         
+<<<<<<< HEAD
         if (tableView.indexPathForSelectedRow != nil){
             tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow!, animated: true)
         }
+=======
+>>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
     }
-//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-//        print(indexPath.row)
-//            //***********************
-//    
-//        let ieee : String! = indexCount[indexPath.row]["ieee"]
-//    
-//        FAME.delDeviceByIeee(ieee)
-//        self.navigationController?.popToRootViewControllerAnimated(true)
-//        
-//        //tableView.reloadData()
-//        
-//    }
     
     
-//    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-//       
-//        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
-//        myThread.start()
-//    }
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+       
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
+    }
 }
 
