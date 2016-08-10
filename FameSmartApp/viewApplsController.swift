@@ -379,7 +379,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             }
             
             
-            
+
             TableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "refreshLights")
             TableView.mj_header.beginRefreshing()
             
@@ -411,8 +411,17 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     func refreshLights(){
         print("refreshLights")
         //self.TableView!.reloadData()
-        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
-        myThread.start()
+        if indexCount.count == 0{
+            self.TableView.mj_header.endRefreshing()
+            FAME.showMessage("刷新成功")
+        }
+        else{
+            let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+            myThread.start()
+        }
+        
+
+        
         
     }
     
@@ -790,7 +799,9 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     }
     func deselect(){
         
-        TableView.deselectRowAtIndexPath(TableView.indexPathForSelectedRow!, animated: true)
+        if (TableView.indexPathForSelectedRow != nil){
+            TableView.deselectRowAtIndexPath(TableView.indexPathForSelectedRow!, animated: true)
+        }
     }
 //    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle{
 //        
@@ -916,7 +927,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             button.backgroundColor = UIColor.clearColor()
         }
         
-        
+        self.TableView.mj_header.endRefreshing()
         data(sender.tag - 1000)
         
         TableView.reloadData()
@@ -1078,7 +1089,7 @@ class ViewControllerCurtains: UIViewController {
         print("OKOKOK")
         
         let act_id = sender.tag  + FAME.tempApplsId - 1
-        print("555555555=\(act_id)")
+        //print("555555555=\(act_id)")
    
         httpRequert().sendRequest(act_id)
     }
@@ -1090,9 +1101,7 @@ class ViewControllerCurtains: UIViewController {
         self.BGView.backgroundColor = UIColor.clearColor()
         self.BGView.tag = 500
         
-        
-        
-        
+
         
         //cancel
         
@@ -1274,11 +1283,11 @@ class ViewControllerCurtains: UIViewController {
 }
 
 class ViewControllerAirC: UIViewController {
-    var isLearn:Bool = false
+    var isLearn:Bool = true
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Compose, target: self, action: "insertNewObject:")
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Pause, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
         
     }
@@ -1309,8 +1318,8 @@ class ViewControllerAirC: UIViewController {
     
     @IBAction func downApplay(sender : UIButton) {
         print("OKOKOK")
-
-        var act_id = sender.tag * 28 + FAME.tempApplsId - 2
+        print(FAME.tempApplsId)
+        var act_id = sender.tag * 2 + FAME.tempApplsId - 2
         if self.isLearn {
             act_id = act_id + 1
         }

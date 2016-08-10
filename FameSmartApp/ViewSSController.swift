@@ -224,11 +224,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             alarm_value = 0
             e_id = (dev_id - 85) * 3 + 3
         }
-        
-        
-        
-        
-        
+
         if FAME.link_id == 0 {
             let cmdStr = "{\"cmd\": 33, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"event_id\":\(e_id),\"filter_data\":[\(dev_id),11,17,\(alarm_value)],\"action_id\":\(action_id),\"active\":0}}"
             if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
@@ -533,10 +529,11 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         self.showVIew2()
         
     }
-    //恢复联动
+    //恢复后的联动
     func btns74Fun(sender:UIButton){
-        self.showId = 0
-        FAME.link_id = 0
+        self.showId = 3
+        //FAME.link_id = 0
+        FAME.link_id = 1
         self.showVIew2()
     }
     //设置延时联动
@@ -1227,11 +1224,16 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         tableView
         let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell2
         //cell.backgroundColor = UIColor.clearColor()
-        cell.selectionStyle = UITableViewCellSelectionStyle.None ;
+        if FAME.tempSensorId == 7{
+            cell.selectionStyle = UITableViewCellSelectionStyle.Gray
+        }
+        else{
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+        }
         //print(self.sensors)
         let dev_Str:String! = self.sensors[indexPath.row]["dev_id"] as String!
         let dev_id:Int! = Int(dev_Str)
-        FAME.dev_id = dev_id 
+        //FAME.dev_id = dev_id
         
         cell.dev_id = dev_id
         
@@ -1322,7 +1324,9 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
 
     
     func deselect(){
-        tabelVeiw.deselectRowAtIndexPath(tabelVeiw.indexPathForSelectedRow!, animated: true)
+        if (tabelVeiw.indexPathForSelectedRow != nil){
+            tabelVeiw.deselectRowAtIndexPath(tabelVeiw.indexPathForSelectedRow!, animated: true)
+        }
         
     }
     
@@ -3160,7 +3164,9 @@ extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
     }
     func deselect(){
         
-        tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow!, animated: true)
+        if (tableView.indexPathForSelectedRow != nil){
+            tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow!, animated: true)
+        }
     }
 //    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
 //        print(indexPath.row)

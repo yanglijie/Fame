@@ -368,8 +368,6 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         FAME.saActid2 = indexPath.row
         
         FAME.tempApplsId = act_ids[indexPath.row]
-        //var viewId = indexPath.row
-        //print("444444444=\(FAME.tempApplsId)777777=\(act_ids)")
         
         
         self .performSelector("deselect", withObject: nil, afterDelay: 0.5)
@@ -383,7 +381,9 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
     }
     func deselect(){
         
-        tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow!, animated: true)
+        if (tableView.indexPathForSelectedRow != nil){
+            tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow!, animated: true)
+        }
     }
     
     
