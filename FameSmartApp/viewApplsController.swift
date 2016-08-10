@@ -356,7 +356,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             data(0)
             swipeView()
             self.createPop()
-<<<<<<< HEAD
+
             if FAME.tempSensorId == 6{
                 view1.hidden = true
             }
@@ -370,8 +370,6 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             TableView.mj_header.beginRefreshing()
             
             
-=======
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
         }
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -1031,11 +1029,9 @@ class ViewControllerCurtains: UIViewController {
         print("OKOKOK")
         
         let act_id = sender.tag  + FAME.tempApplsId - 1
-<<<<<<< HEAD
-        //print("555555555=\(act_id)")
-=======
 
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
+        //print("555555555=\(act_id)")
+
    
         httpRequert().sendRequest(act_id)
     }

@@ -1322,7 +1322,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     }
 
     
-<<<<<<< HEAD
+
     func deselect(){
         if (tabelVeiw.indexPathForSelectedRow != nil){
             tabelVeiw.deselectRowAtIndexPath(tabelVeiw.indexPathForSelectedRow!, animated: true)
@@ -1330,8 +1330,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
     }
     
-=======
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
+
     //*****DELETE
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle{
         
@@ -2065,7 +2064,7 @@ class ViewControllerSS7Detail: UIViewController {
         view.layer.borderWidth = 1;
         view.layer.cornerRadius=10;
         
-        createUpView()
+        //createUpView()
         
 
         
@@ -2084,15 +2083,14 @@ class ViewControllerSS7Detail: UIViewController {
         let cmdStr = "{\"cmd\": 42, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"dev_id\":\(FAME.dev_id)}}"
         if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
             print("link device successed")
-<<<<<<< HEAD
+
             
-=======
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
+
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-                self.viewUp.hidden = true
-                self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
+//                self.viewUp.hidden = true
+//                self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
                 
                 self.airDetail=recevied["detail"] as! NSDictionary;
                 let detail=self.airDetail;
@@ -2186,17 +2184,16 @@ class ViewControllerSS7Detail: UIViewController {
             
             
         }else{
-<<<<<<< HEAD
+
             
             
             
-=======
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
+
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 FAME.showMessage("空气质量刷新失败")
                 
-                self.viewUp.hidden = true
-                self.subView.transform = CGAffineTransformMakeTranslation(0 , 80)
+//                self.viewUp.hidden = true
+//                self.subView.transform = CGAffineTransformMakeTranslation(0 , 80)
                 
             })
             
@@ -3073,12 +3070,11 @@ extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
         
         //tableView.reloadData()
         
-<<<<<<< HEAD
+
         if (tableView.indexPathForSelectedRow != nil){
             tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow!, animated: true)
         }
-=======
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
+
     }
     
     

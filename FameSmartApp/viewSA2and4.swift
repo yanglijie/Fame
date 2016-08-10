@@ -357,18 +357,18 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         FAME.saActid2 = indexPath.row
         //print(indexPath.row)
         FAME.tempApplsId = act_ids[indexPath.row]
-<<<<<<< HEAD
+
         
         
         self .performSelector("deselect", withObject: nil, afterDelay: 0.5)
-=======
+
         //var viewId = indexPath.row
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
+
         
         let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA21") as UIViewController!
         next.title = curtains[indexPath.row]["name"]
         self.navigationController?.pushViewController(next, animated: true)
-<<<<<<< HEAD
+
   
         
         
@@ -378,8 +378,7 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         if (tableView.indexPathForSelectedRow != nil){
             tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow!, animated: true)
         }
-=======
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
+
     }
     
     

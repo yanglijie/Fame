@@ -4393,17 +4393,17 @@
             </objects>
             <point key="canvasLocation" x="7228" y="2885"/>
         </scene>
-<<<<<<< HEAD
+
         <!--摇一摇-->
         <scene sceneID="fOp-Ff-fla">
             <objects>
                 <viewController storyboardIdentifier="Shake" title="摇一摇" id="b5g-nN-Pa0" customClass="ViewShakeController" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
-=======
+
         <!--View ControllerSS2-->
         <scene sceneID="6gs-wG-T1w">
             <objects>
                 <viewController storyboardIdentifier="viewSS7" id="qse-li-861" customClass="ViewControllerSS2" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
+
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bee-4v-2pq"/>
                         <viewControllerLayoutGuide type="bottom" id="prR-95-IyU"/>
@@ -4412,7 +4412,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-<<<<<<< HEAD
+
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginpanel.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="zbe-Io-uoY">
                                 <rect key="frame" x="0.0" y="-200" width="600" height="800"/>
                             </imageView>
@@ -4584,11 +4584,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7TA-PT-nKR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-<<<<<<< HEAD
+
             <point key="canvasLocation" x="6729" y="4240"/>
-=======
+
             <point key="canvasLocation" x="7894" y="2873"/>
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
+
         </scene>
         <!--View ControllerSS7 Detail-->
         <scene sceneID="rn8-Ob-xZK">
@@ -4605,10 +4605,10 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginpanel.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="K2L-ea-Bxq">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-<<<<<<< HEAD
+
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WAI-eb-GV9">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-=======
+
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kdg-dA-JRV">
                                 <rect key="frame" x="0.0" y="172" width="600" height="428"/>
                             </scrollView>
@@ -4891,12 +4891,12 @@
                             <constraint firstAttribute="trailing" secondItem="WAI-eb-GV9" secondAttribute="trailing" id="wjp-Rz-z5H"/>
                         </constraints>
                     </view>
-<<<<<<< HEAD
+
                     <connections>
                         <outlet property="subView" destination="WAI-eb-GV9" id="rGN-hj-FR3"/>
                     </connections>
-=======
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
+
+
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tAT-at-XNN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

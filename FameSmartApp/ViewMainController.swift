@@ -259,7 +259,7 @@ class ViewControllerMainP: UIViewController {
         
         btnX = btns.count <= 3 ? diffX + btnX : btnX
         
-<<<<<<< HEAD
+
         
         let btnShake = UIButton(frame: CGRect(x: view0.frame.size.width - top/3 * 2 + 30 , y: top/3/2  , width: top/3 * 2, height: top/3 * 2))
         //let btnShake = UIButton(frame: CGRect(x: view0.frame.size.width - top/3 * 2 , y: 0  , width: 50, height: 50))
@@ -267,8 +267,7 @@ class ViewControllerMainP: UIViewController {
         btnShake.addTarget(self, action: "tapShake:", forControlEvents: UIControlEvents.TouchUpInside)
         view0.addSubview(btnShake)
         
-=======
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
+
 
         for idx in 0..<btns.count + 3 {
             
@@ -352,7 +351,7 @@ class ViewControllerMainP: UIViewController {
         self.canShowDetail = true
         
     }
-<<<<<<< HEAD
+
     
     func tapShake(sender : AnyObject!){
         
@@ -362,8 +361,7 @@ class ViewControllerMainP: UIViewController {
         self.navigationController?.pushViewController(next, animated: true)
         
     }
-=======
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
+
     func tap(sender : AnyObject!){
         print("btn tapped \(sender.tag)")
         if sender.tag > self.btns_count {
@@ -534,14 +532,6 @@ class ViewAboutUs2Controller: UIViewController {
 
     
 }
-<<<<<<< HEAD
 
 
 
-
-
-
-
-
-=======
->>>>>>> parent of dde0066... 下拉刷新卡主线程已经解决了
