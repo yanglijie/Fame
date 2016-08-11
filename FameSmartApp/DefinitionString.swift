@@ -39,7 +39,7 @@ let Defined_SS_icons =
     ["0","ss2_2.png","move_03.png","smork_03.png","gas_03.png","ss6_6","0","ss8_8.png"]
 let Defined_SS_icons1 = ["0","ss2_21.png","move_031.png","gas_031.png","smork_031.png","ss6_61","0","ss8_81.png"]
 
-let Defined_SA_icons = ["0","light_icon.png","0","0","0","socket_03.png","light_icon3.png","lock_icon.png","0","cta_stop.png"]
+let Defined_SA_icons = ["0","light_icon.png","curtain_03.png","sa31.png","sa41.png","socket_03.png","light_icon3.png","lock_icon.png","0","cta_stop.png"]
 let Defined_SA_icons1 = ["0","light_icon2.png","0","0","0","socket61.png","SA61.png","lock_icon2.png","0","cta_open.png"]
 
 

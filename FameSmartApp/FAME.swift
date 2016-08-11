@@ -998,7 +998,7 @@ class fame:NSObject{
                 }
                 */
                 if (dev_type == 19){
-                    self.airs.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                    self.airs.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                 }else{
                     self.appls.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                 }
@@ -1026,8 +1026,9 @@ class fame:NSObject{
                 var inid = 0
                 
                 for(btn_str) in btns_str{
-                    self.idForNamesMode[act_id + inid * 2] = "\(roomName) \(name) \(btn_str)"
+                    self.idForNamesMode[act_id + inid * 2 + 1] = "\(roomName) \(name) \(btn_str)"
                     inid++
+                    //
                 }
                 
                 
@@ -1215,17 +1216,16 @@ class fame:NSObject{
         print("refresh llllllll")
         let paramArray = NSMutableArray()
         var lastId = "0"
-        switch FAME.tempSensorId {
-        case 1:
-            self.lights = lights7
-            
-        case 6:
-            self.lights = lights11
-            
-            
-        default:
-            break
-        }
+//        switch FAME.tempSensorId {
+//        case 1:
+//            self.lights = lights7
+//            
+//        case 6:
+//            self.lights = lights11
+//  
+//        default:
+//            break
+//        }
         //print(lights)
         for value in lights {
             let AddedObj = value as NSDictionary

@@ -70,9 +70,40 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     }
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
         print("click at \(buttonIndex)")
+        if buttonIndex == 0{
+           print("select1= \(selectDevid1)select2= \(selectDevid2)")
+           
+            let myThread = NSThread(target: self, selector: "TimersetLink", object: nil)
+            myThread.start()
+            
+        }
         
         
+    }
+    func TimersetLink(){
+        let cmdStr = "{\"cmd\": 36, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"operation\":0,\"dev_id1\":\(selectDevid1),\"dev_id2\":\(selectDevid2)}}"
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90)
         
+        if( received != nil){
+            if received.valueForKey("error_code") as! UInt == 0{
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    FAME.showMessage("联动配置成功")
+                    
+                })
+            }
+            else{
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    FAME.showMessage("联动配置失败")
+                    
+                })
+            }
+        }
+        else{
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                FAME.showMessage("联动配置失败")
+                
+            })
+        }
     }
     func reloadName() {
         FAME.showMessage("名字修改成功");
@@ -370,8 +401,11 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         else {
             data(0)
             swipeView()
+            
             self.createPop()
             if FAME.tempSensorId == 6{
+                
+                selectDevid()
                 view1.hidden = true
             }
             else{
@@ -395,7 +429,23 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         
         
     }
-    
+    func selectDevid(){
+        var paramArray:Array<Int> = []
+        var lastId = "0"
+        for value in indexCount {
+            let AddedObj = value as NSDictionary
+            let dev_id:String! = AddedObj["dev_id"] as! String
+            if lastId != dev_id {
+                paramArray.append(Int(dev_id)!)
+                lastId = dev_id as String
+            }
+            
+        }
+        
+        selectDevid1 = paramArray[0]
+        selectDevid2 = paramArray[1]
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -777,6 +827,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 
                 view5.hidden = false
                 
+                
+                
                 print("set the \(name) hide")
             }
             
@@ -803,6 +855,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             TableView.deselectRowAtIndexPath(TableView.indexPathForSelectedRow!, animated: true)
         }
     }
+    
 //    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle{
 //        
 //        return UITableViewCellEditingStyle.Delete
@@ -1024,16 +1077,16 @@ class ViewControllerApplas: UIViewController {
         
         print(FAME.saActid4)
         
-        let applObj = FAME.appls[FAME.saActid4] as NSDictionary
-        //let appName:String! = applObj["name"] as! String
-        let appActid:String! = applObj["act_id"] as! String
-        //self.actId = applObj["act_id"] as! Int
-        //let appIeee:String! = applObj["ieee"] as! String
-        let appType:String! = applObj["dev_type"] as! String
-        
-        print(appType)
-        print("appActid:\(appActid)")
-        if(Int(appType)! == 17){
+//        let applObj = FAME.appls[FAME.saActid4] as NSDictionary
+//        //let appName:String! = applObj["name"] as! String
+//        let appActid:String! = applObj["act_id"] as! String
+//        //self.actId = applObj["act_id"] as! Int
+//        //let appIeee:String! = applObj["ieee"] as! String
+//        let appType:String! = applObj["dev_type"] as! String
+//        
+//        print(appType)
+//        print("appActid:\(appActid)")
+        if(FAME.saActid4 == 17){
             print("tvtvtv")
 
             self.btnTmp1.setBackgroundImage(UIImage(named:"tv_07-03.png"), forState:UIControlState.Normal)
@@ -1064,6 +1117,7 @@ class ViewControllerCurtains: UIViewController {
     var tmpStr:String!
     
     var dev_id:Int!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.createPop()
@@ -1078,10 +1132,10 @@ class ViewControllerCurtains: UIViewController {
         
         print(FAME.saActid2)
         
-        let curObj = FAME.curtains[FAME.saActid2] as NSDictionary
-        //let curName:String! = curObj["name"] as! String
-        let curDevid:String! = curObj["dev_id"] as! String
-        self.dev_id = Int(curDevid)!
+//        let curObj = FAME.curtains[FAME.saActid2] as NSDictionary
+//        //let curName:String! = curObj["name"] as! String
+//        let curDevid:String! = curObj["dev_id"] as! String
+//        self.dev_id = Int(curDevid)!
     }
     
     @IBAction func downApplay(sender : UIButton) {
@@ -1313,7 +1367,7 @@ class ViewControllerAirC: UIViewController {
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
         
-        print(FAME.saActid3)
+        //print(FAME.saActid3)
     }
     
     @IBAction func downApplay(sender : UIButton) {

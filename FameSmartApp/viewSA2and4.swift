@@ -23,6 +23,7 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     var curtains:Array<Dictionary<String,String>> = []
     
+    var lights:Array<Dictionary<String,String>> = []
     func longPress(sender : UIButton!) {
         
         print("longpress")
@@ -60,14 +61,51 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
             
         }
     }
-    func paixun(){
+    func refreshData(){
+        switch FAME.tempSensorId {
+        case 2:
+            self.lights = FAME.curtains
+        case 3:
+            self.lights = FAME.airs
+        case 4:
+            self.lights = FAME.appls
+        default:
+            break
+        }
+    }
+    func paixu(){
+
+        refreshData()
+        
+        btns=[]
+        act_ids=[]
+        dev_types = []  //  2015-05-18
+        ieees = []
+        
+        if curtains.count != 0{
+            curtains.removeAll()
+        }
+        print(lights)
         for i in 0..<FAME.rooms.count{
-            for j in 0..<FAME.curtains.count{
-                if FAME.rooms[i] == FAME.curtains[j]["roomName"]{
-                    curtains.append(FAME.curtains[j])
+            for j in 0..<lights.count{
+                if i == Int(lights[j]["room"]!){
+                    curtains.append(lights[j])
                 }
             }
         }
+        
+        for value in curtains {
+            let curtainObj = value as NSDictionary
+            let curName:String! = curtainObj["name"] as! String
+            let curActid:String! = curtainObj["act_id"] as! String
+            let curIeee:String! = curtainObj["ieee"] as! String
+            let curType:String! = curtainObj["dev_type"] as! String
+            self.btns.append(curName)
+            self.act_ids.append(Int(curActid)!)
+            self.dev_types.append(Int(curType)!)
+            self.ieees.append(curIeee)
+        }
+        
     }
     func handleLongpressGesture(sender: UILongPressGestureRecognizer) {
         
@@ -101,11 +139,10 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-        btns=[]
-        act_ids=[]
-        dev_types = []  //  2015-05-18
         
-        if FAME.curtains.count == 0 {
+        paixu()
+        
+        if curtains.count == 0 {
             
             let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,view.frame.size.height/10,self.view.frame.size.width*3/4,view.frame.size.height*4/5))
             textLabel.text = Defined_Tips_none
@@ -122,21 +159,11 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
         }
         
         else{
-            paixun()
-            createPop()
-            print(curtains)
             
-            for value in FAME.curtains {
-                let curtainObj = value as NSDictionary
-                let curName:String! = curtainObj["name"] as! String
-                let curActid:String! = curtainObj["act_id"] as! String
-                let curIeee:String! = curtainObj["ieee"] as! String
-                let curType:String! = curtainObj["dev_type"] as! String
-                self.btns.append(curName)
-                self.act_ids.append(Int(curActid)!)
-                self.dev_types.append(Int(curType)!)
-                self.ieees.append(curIeee)
-            }
+            
+            createPop()
+            
+            
         }
       
         
@@ -153,8 +180,10 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
     
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
+        
         self.navigationController?.title = "modes"
         FAME.tempTableView = nil
+       
     }
     
     func tapPress( sender : AnyObject){
@@ -298,20 +327,10 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
 extension ViewControllerMainSA2:ViewControllerSS_nameDelegate{
     func reloadName() {
         FAME.showMessage("名字修改成功");
-        
-        //        self.paixun()
-        //        self.TableView.reloadData()
-        paixun()
-        for subCell:AnyObject in self.tableView!.visibleCells {
-            //print(subCell)
-            let cell = subCell as! UITableViewCell2
-            
-            if cell.dev_id == FAME.dev_id{
-                let name = cell.viewWithTag(1) as! UILabel
-                name.text = FAME.dev_ss_Rname + FAME.dev_ss_name ;
-            }
-        }
-        
+
+        paixu()
+        tableView.reloadData()
+    
         
     }
 }
@@ -322,7 +341,7 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
         
-        return 80
+        return 100
         
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -335,6 +354,7 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         
         cell .addGestureRecognizer(longpressGesutre)
         
+        cell.selectionStyle = .Gray
         let dev_Str:String! = curtains[indexPath.row]["dev_id"] as String!
         let dev_id:Int! = Int(dev_Str)
         cell.dev_id = dev_id
@@ -350,25 +370,38 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         if (self.dev_types[indexPath.row] == 15){     //  2015-05-18
             imgObj.image = UIImage(named: "screen_icon.png")      //  2015-05-18
         }
-        
+        else{
+            imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
+        }
         return cell
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        FAME.saActid2 = indexPath.row
-        //print(indexPath.row)
+        
+        let dev_Str:String! = curtains[indexPath.row]["dev_id"] as String!
+        let dev_id:Int! = Int(dev_Str)
+        
+        let dev_Type:String! = curtains[indexPath.row]["dev_type"] as String!
+        let dev_type:Int! = Int(dev_Type)
+        
         FAME.tempApplsId = act_ids[indexPath.row]
 
-        
-        
+        var viewId:Int = 0
+        if FAME.tempSensorId == 2{
+            viewId = 2 * 10 + 1
+            FAME.saActid2 = dev_id
+        }
+        else if FAME.tempSensorId == 3{
+            viewId = 3 * 10 + 1
+        }
+        else{
+            viewId = 4 * 10 + 1
+            FAME.saActid4 = dev_type
+        }
         self .performSelector("deselect", withObject: nil, afterDelay: 0.5)
-
-        //var viewId = indexPath.row
-
         
-        let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA21") as UIViewController!
+        let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA\(viewId)") as UIViewController!
         next.title = curtains[indexPath.row]["name"]
         self.navigationController?.pushViewController(next, animated: true)
-
   
         
         
@@ -378,7 +411,6 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         if (tableView.indexPathForSelectedRow != nil){
             tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow!, animated: true)
         }
-
     }
     
     
@@ -756,9 +788,12 @@ class ViewControllerMainSA4: UIViewController,UIAlertViewDelegate {
         print("btn tapped \(sender.tag)")
         FAME.saActid4 = sender.tag-1
         FAME.tempApplsId = act_ids[sender.tag-1]
-        var viewId = sender.tag
+        //var viewId = sender.tag
+        
+        let appActid:String! = FAME.appls[FAME.saActid4]["name"]! as String
         
         let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA41") as UIViewController!
+        next.title = appActid
         self.navigationController?.pushViewController(next, animated: true)
         
     }

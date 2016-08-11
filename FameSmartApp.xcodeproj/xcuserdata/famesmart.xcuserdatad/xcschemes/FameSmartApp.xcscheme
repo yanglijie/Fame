@@ -20,20 +20,6 @@
                ReferencedContainer = "container:FameSmartApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "077882F0198B254B003E2390"
-               BuildableName = "FameSmartAppTests.xctest"
-               BlueprintName = "FameSmartAppTests"
-               ReferencedContainer = "container:FameSmartApp.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

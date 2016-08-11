@@ -2329,15 +2329,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="99" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="curtain_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="eZ1-5z-B0N">
-                                                    <rect key="frame" x="34" y="0.0" width="42" height="39"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="678-Gf-QYb"/>
-                                                        <constraint firstAttribute="height" constant="35" id="DGg-3y-Ia2"/>
-                                                    </constraints>
+                                                <imageView userInteractionEnabled="NO" tag="99" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="curtain_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="eZ1-5z-B0N">
+                                                    <rect key="frame" x="28" y="9" width="26" height="26"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="客厅窗帘开关" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIs-uq-Te7">
-                                                    <rect key="frame" x="332" y="13" width="240" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="客厅窗帘开关" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIs-uq-Te7">
+                                                    <rect key="frame" x="332" y="11" width="240" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -2345,11 +2341,13 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
+                                                <constraint firstItem="eZ1-5z-B0N" firstAttribute="width" secondItem="e4d-Kb-054" secondAttribute="height" multiplier="0.6" id="2fn-cs-mpp"/>
                                                 <constraint firstItem="gIs-uq-Te7" firstAttribute="width" secondItem="e4d-Kb-054" secondAttribute="width" multiplier="0.4" id="6i6-k1-YwB"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="gIs-uq-Te7" secondAttribute="trailing" constant="20" id="NSp-I0-PsN"/>
                                                 <constraint firstItem="eZ1-5z-B0N" firstAttribute="leading" secondItem="e4d-Kb-054" secondAttribute="leadingMargin" constant="20" id="ajf-Jt-jhP"/>
                                                 <constraint firstItem="gIs-uq-Te7" firstAttribute="centerY" secondItem="e4d-Kb-054" secondAttribute="centerY" id="sFq-6S-ImK"/>
                                                 <constraint firstItem="eZ1-5z-B0N" firstAttribute="centerY" secondItem="e4d-Kb-054" secondAttribute="centerY" id="xJb-4m-mQl"/>
+                                                <constraint firstItem="eZ1-5z-B0N" firstAttribute="height" secondItem="e4d-Kb-054" secondAttribute="height" multiplier="0.6" id="zNX-fo-bIM"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
