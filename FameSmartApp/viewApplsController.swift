@@ -994,7 +994,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
 }
 
 
-class ViewControllerApplas: UIViewController {
+class ViewControllerApplas: UIViewController,UIAlertViewDelegate {
 
     var actId :Int!
     @IBOutlet var btnImg : UIImageView!
@@ -1036,8 +1036,7 @@ class ViewControllerApplas: UIViewController {
         if self.isLearn {
             act_id = act_id + 1
         }
-   
-        
+    
         httpRequert().sendRequest(act_id)
     }
     
@@ -1055,9 +1054,16 @@ class ViewControllerApplas: UIViewController {
     func insertNewObject(sender:AnyObject!){
         print("learn")
         if self.isLearn {
-            self.isLearn = false
-            let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Compose, target: self, action: "insertNewObject:")
-            self.navigationItem.rightBarButtonItem = addButton
+            
+            let alert = UIAlertView()
+            alert.delegate = self
+            alert.title = Defined_VC6_AlertTitle
+            alert.message =  Defined_VC6_AlertMessage1
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.addButtonWithTitle(Defined_ALERT_CANCEL)
+            alert.show()
+            
+            
             
         }else{
             self.isLearn = true
@@ -1066,6 +1072,16 @@ class ViewControllerApplas: UIViewController {
             
         }
         
+    }
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        print(buttonIndex)
+        if buttonIndex == 0{
+            self.isLearn = false
+            let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Compose, target: self, action: "insertNewObject:")
+            self.navigationItem.rightBarButtonItem = addButton
+            FAME.showMessage("学习模式已经开启")
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -1086,7 +1102,7 @@ class ViewControllerApplas: UIViewController {
 //        
 //        print(appType)
 //        print("appActid:\(appActid)")
-        if(FAME.saActid4 == 17){
+        if(FAME.saActid4 == 17 || FAME.saActid4 == 16){
             print("tvtvtv")
 
             self.btnTmp1.setBackgroundImage(UIImage(named:"tv_07-03.png"), forState:UIControlState.Normal)
@@ -1336,7 +1352,7 @@ class ViewControllerCurtains: UIViewController {
     
 }
 
-class ViewControllerAirC: UIViewController {
+class ViewControllerAirC: UIViewController,UIAlertViewDelegate {
     var isLearn:Bool = true
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1348,9 +1364,16 @@ class ViewControllerAirC: UIViewController {
     func insertNewObject(sender:AnyObject!){
         print("learn")
         if self.isLearn {
-            self.isLearn = false
-            let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Compose, target: self, action: "insertNewObject:")
-            self.navigationItem.rightBarButtonItem = addButton
+
+            let alert = UIAlertView()
+            alert.delegate = self
+            alert.title = Defined_VC6_AlertTitle
+            alert.message =  Defined_VC6_AlertMessage1
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.addButtonWithTitle(Defined_ALERT_CANCEL)
+            alert.show()
+            
+            
             
         }else{
             self.isLearn = true
@@ -1359,6 +1382,15 @@ class ViewControllerAirC: UIViewController {
             
         }
         
+    }
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        print(buttonIndex)
+        if buttonIndex == 0{
+            self.isLearn = false
+            let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Compose, target: self, action: "insertNewObject:")
+            self.navigationItem.rightBarButtonItem = addButton
+            FAME.showMessage("学习模式已经开启")
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -1377,6 +1409,7 @@ class ViewControllerAirC: UIViewController {
         if self.isLearn {
             act_id = act_id + 1
         }
+        print("7777777act=\(act_id)")
         httpRequert().sendRequest(act_id)
     }
     

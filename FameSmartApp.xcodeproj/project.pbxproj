@@ -297,8 +297,6 @@
 		95B61A4B1D510AD000D3B77A /* loading_login11.png in Resources */ = {isa = PBXBuildFile; fileRef = 95B61A3F1D510AD000D3B77A /* loading_login11.png */; };
 		95B61A4C1D510AD000D3B77A /* loading_login12.png in Resources */ = {isa = PBXBuildFile; fileRef = 95B61A401D510AD000D3B77A /* loading_login12.png */; };
 		95C8104E1D42A924000BC78B /* myloginbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 95C8104D1D42A924000BC78B /* myloginbg.png */; };
-		95DDFDA21D5D093C00016274 /* sa31.png in Resources */ = {isa = PBXBuildFile; fileRef = 95DDFDA01D5D093C00016274 /* sa31.png */; };
-		95DDFDA31D5D093C00016274 /* sa41.png in Resources */ = {isa = PBXBuildFile; fileRef = 95DDFDA11D5D093C00016274 /* sa41.png */; };
 		FD24394D19C1480300200750 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD24394C19C1480300200750 /* extension.swift */; };
 		FD24397C19C187A100200750 /* viewTempertureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD24397B19C187A100200750 /* viewTempertureController.swift */; };
 		FD2C41501AFB12FD0087B08F /* viewSA2and4.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2C414F1AFB12FD0087B08F /* viewSA2and4.swift */; };
@@ -652,8 +650,6 @@
 		95B61A3F1D510AD000D3B77A /* loading_login11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading_login11.png; path = ../loading_login11.png; sourceTree = "<group>"; };
 		95B61A401D510AD000D3B77A /* loading_login12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading_login12.png; path = ../loading_login12.png; sourceTree = "<group>"; };
 		95C8104D1D42A924000BC78B /* myloginbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myloginbg.png; sourceTree = "<group>"; };
-		95DDFDA01D5D093C00016274 /* sa31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sa31.png; path = appImg/btn/sa31.png; sourceTree = "<group>"; };
-		95DDFDA11D5D093C00016274 /* sa41.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sa41.png; path = appImg/btn/sa41.png; sourceTree = "<group>"; };
 		FD0A248C1A2EDC5A00ED1C43 /* FameSmartAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FameSmartAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD24394C19C1480300200750 /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
 		FD24397B19C187A100200750 /* viewTempertureController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewTempertureController.swift; sourceTree = "<group>"; };
@@ -698,8 +694,6 @@
 		077882D6198B254B003E2390 = {
 			isa = PBXGroup;
 			children = (
-				95DDFDA01D5D093C00016274 /* sa31.png */,
-				95DDFDA11D5D093C00016274 /* sa41.png */,
 				95056B621D5909B1001A7356 /* MP3 */,
 				956F11B51D2710F5006D1197 /* MJRefresh */,
 				01DD0F7F1C90237300B86162 /* Default-568h@2x.png */,
@@ -1338,7 +1332,6 @@
 				95B61A4C1D510AD000D3B77A /* loading_login12.png in Resources */,
 				FD37E99D1A662D3700276158 /* detail.txt in Resources */,
 				01DD0F7E1C8FF9F200B86162 /* Images.xcassets in Resources */,
-				95DDFDA31D5D093C00016274 /* sa41.png in Resources */,
 				956902A41D306A2E0098422C /* ss5.png in Resources */,
 				956902B61D306A2E0098422C /* clock_13.png in Resources */,
 				956902CA1D306A2E0098422C /* 76.png in Resources */,
@@ -1415,7 +1408,6 @@
 				9569023E1D306A2E0098422C /* tv-box_09.png in Resources */,
 				956902C61D306A2E0098422C /* 180 ios_meitu_3.jpg in Resources */,
 				956902821D306A2E0098422C /* scene1.png in Resources */,
-				95DDFDA21D5D093C00016274 /* sa31.png in Resources */,
 				956902A11D306A2E0098422C /* ss2_21.png in Resources */,
 				956902B91D306A2E0098422C /* clock_17.png in Resources */,
 				956902751D306A2E0098422C /* modelEdit.png in Resources */,

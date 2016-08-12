@@ -370,6 +370,9 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         if (self.dev_types[indexPath.row] == 15){     //  2015-05-18
             imgObj.image = UIImage(named: "screen_icon.png")      //  2015-05-18
         }
+        else if (self.dev_types[indexPath.row] == 16){
+            imgObj.image = UIImage(named: "appl_17_icon.png")
+        }
         else{
             imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
         }
