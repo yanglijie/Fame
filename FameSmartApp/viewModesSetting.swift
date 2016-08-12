@@ -15,14 +15,14 @@
 import UIKit
 
 class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPickerViewDataSource,UIPickerViewDelegate {
-
+    
     var BGView:UIView!
     var pickView:UIView!
     
     var ids = [0,0,0,0,0,0,0,0]
     var id1 = -2
     var id2 = 0
-
+    
     var act = 0
     var Links1:Array<Dictionary<String,AnyObject>> = []
     var Links2 : Array<Dictionary<String,AnyObject>> = []
@@ -32,10 +32,13 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
     var seletedStr3:String! = ""
     var seletedBtn :UIButton!
     
+    var viewUp = UIView()
+    
     @IBOutlet var subView : UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
         let btnWidth = self.view.frame.size.width * 0.7
         let btnHeight = self.view.frame.size.height * 0.07
@@ -56,9 +59,10 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         
         let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
-
+        
         
         self.createPop()
+        createUpView()
         
         self.Links1 = []
         if FAME.Links.count > 0 {
@@ -90,12 +94,17 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
     }
     func insertNewObject(sender:AnyObject!){
         print("linked")
+        viewUp.hidden = false
+        subView.transform = CGAffineTransformMakeTranslation(0 , 80)
         let myThread = NSThread(target: self, selector: "Timerset", object: nil)
         myThread.start()
         
     }
     func refreshModes(){
         print("refresh")
+        viewUp.hidden = false
+        subView.transform = CGAffineTransformMakeTranslation(0 , 80)
+        
         let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
         myThread.start()
     }
@@ -106,6 +115,8 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
             print("refresh successed")
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
                 FAME.showMessage("刷新成功")
+                self.viewUp.hidden = true
+                self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             })
             let detail:NSDictionary = received.valueForKey("detail") as! NSDictionary
@@ -114,22 +125,25 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
                 let idObj = values as! Int
                 
                 print(FAME.idForNamesMode[idObj])
+                
                 let btnTmp = self.subView.viewWithTag(index) as! UIButton
                 if (FAME.idForNamesMode[idObj] != nil){
                     
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
+                        btnTmp.setTitle("\(FAME.idForNamesMode[idObj]!)", forState: UIControlState.Normal)
+                    })
                     
-                    btnTmp.setTitle("\(FAME.idForNamesMode[idObj]!)", forState: UIControlState.Normal)
-                })
-                
-                
-                self.ids[index] = idObj
+                    
+                    self.ids[index] = idObj
                 }
                 index++
             }
             
         }else{
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                self.viewUp.hidden = true
+                self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
                 FAME.showMessage("刷新失败")
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             })
@@ -149,6 +163,9 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         let cmdStr = "{\"cmd\": 31, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"action_id\":\(FAME.tempMode),\"sub_actions\":[\(param)]}}"
         if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
             print("link device successed")
+            self.viewUp.hidden = true
+            self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
+            
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 let alert = UIAlertView()
                 alert.title = Defined_mode_title
@@ -159,13 +176,18 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
             
             
         }else{
+            
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                self.viewUp.hidden = true
+                self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
+                
                 let alert = UIAlertView()
                 alert.title = Defined_mode_title
                 alert.message =  Defined_mode_failed
                 alert.addButtonWithTitle(Defined_ALERT_OK)
                 alert.show()
-
+                
             })
         }
     }
@@ -225,7 +247,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         if component == 0 {
             self.seletedStr1 = self.Links1[row]["name"] as! String!
             
-
+            
             
             let links = self.Links1[row]["sub"] as! Array<Dictionary<String,AnyObject>>!
             if links != nil {
@@ -265,7 +287,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
                 }else{
                     let cur = self.Links1[row]["curtains"] as! Int!
                     if(cur != nil){
-                        self.Links3 = [["name":"打开","act_id":0],["name":"停止","act_id":1],["name":"暂停","act_id":2]]
+                        self.Links3 = [["name":Defined_mode_on,"act_id":0],["name":Defined_mode_off,"act_id":1]]
                     }else{
                         self.Links3 = [["name":Defined_mode_on,"act_id":1],["name":Defined_mode_off,"act_id":0]]
                     }
@@ -277,7 +299,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
             }
             
             if self.Links2.count > 1 {
-            
+                
             }else if self.Links2.count == 1{
                 
                 
@@ -306,7 +328,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
             if let act_id2 :Int! = self.Links3[0]["act_id"] as! Int!{
                 self.id2 = act_id2
             }
-
+            
         }else if component == 1 {
             
             if let act_id :Int! = self.Links2[row]["act_id"] as! Int!{
@@ -439,7 +461,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         self.view.addSubview(self.BGView)
         self.view.addSubview(self.pickView)
         
-
+        
     }
     func showPop(){
         
@@ -469,6 +491,35 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         })
         
     }
-    
+    func createUpView(){
+        
+        viewUp = UIView(frame: CGRect(x: 0, y: 64 , width: self.view.frame.width, height: 80))
+        viewUp.backgroundColor = UIColor(red: 0, green: 139, blue: 139, alpha: 0.1)
+        viewUp.hidden = true
+        viewUp.alpha = 0.8
+        self.view.addSubview(viewUp)
+        
+        let imgV = UIImageView(frame: CGRectMake(80, 30, 20, 20))
+        
+        imgV.animationDuration = 2.0
+        viewUp .addSubview(imgV)
+        
+        var images = [UIImage]()
+        
+        for i in 0...11{
+            let img = UIImage(named: "loading_login\(i + 1)")
+            images.append(img!)
+        }
+        imgV.animationImages = images
+        imgV.animationRepeatCount = 0
+        imgV.startAnimating()
+        
+        
+        let lable = UILabel(frame: CGRect(x: 0, y: 30 , width: self.view.frame.width, height: 20))
+        lable.text = "正在配置中......."
+        lable.textAlignment = .Center
+        viewUp.addSubview(lable)
+        
+    }
     
 }

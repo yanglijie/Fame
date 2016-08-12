@@ -1036,7 +1036,7 @@ class ViewControllerApplas: UIViewController,UIAlertViewDelegate {
         if self.isLearn {
             act_id = act_id + 1
         }
-    
+        print("actid=\(act_id)")
         httpRequert().sendRequest(act_id)
     }
     
@@ -1152,6 +1152,9 @@ class ViewControllerCurtains: UIViewController {
 //        //let curName:String! = curObj["name"] as! String
 //        let curDevid:String! = curObj["dev_id"] as! String
 //        self.dev_id = Int(curDevid)!
+        
+        self.dev_id = FAME.saActid2
+        
     }
     
     @IBAction func downApplay(sender : UIButton) {

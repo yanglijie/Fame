@@ -1006,6 +1006,8 @@ class fame:NSObject{
                 
                 
                 // idfornames
+                    
+                //var btns_str = value.valueForKey("button_name") as! NSArray
                 var btns_str = []
                 switch (dev_type){
                 case 16:
@@ -1036,7 +1038,7 @@ class fame:NSObject{
                 
                 FAME.deviceCount++
                 
-                FAME.idForNames[act_id ]=["name":"\(name)关","room":"\(roomName)","string":"\(roomName) \(name) 关","act_id":"\(act_id)"]
+                FAME.idForNames[act_id + 3]=["name":"\(name)关","room":"\(roomName)","string":"\(roomName) \(name) 关","act_id":"\(act_id + 3)"]
                 
                 //add to linkArray
                 //  FAME.linkArray[2].append(["name":[name],"room":[roomName],"subName":[" "],"subId":["\(act_id )"]])

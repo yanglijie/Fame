@@ -53,6 +53,9 @@ class ViewControllerSUTimer: UIViewController,UITableViewDataSource,UITableViewD
         self.currentDic = FAME.timerArray2
         //self.refresh()
         
+        let button = self.view.viewWithTag(122) as! UIButton
+        button.setBackgroundImage(UIImage(named: "aboutFameBtn.png"), forState: .Normal)
+        
         
         
     }
@@ -150,16 +153,36 @@ class ViewControllerSUTimer: UIViewController,UITableViewDataSource,UITableViewD
     }
     
     @IBAction func modelBtnFun1(sender: AnyObject) {
+        
+        let button = self.view.viewWithTag(self.currentArray + 120) as! UIButton
+        
+        if (button.tag != sender.tag){
+            button.setBackgroundImage(UIImage(named: "curtain_time_button_press.png"), forState: .Normal)
+            sender.setBackgroundImage(UIImage(named: "aboutFameBtn.png"), forState: .Normal)
+        }
+        
         self.currentArray = 1
         self.refreshLocal()
+        
     }
     
     @IBAction func modelBtnFun2(sender: AnyObject) {
+        let button = self.view.viewWithTag(self.currentArray + 120) as! UIButton
+        if (button.tag != sender.tag){
+            button.setBackgroundImage(UIImage(named: "curtain_time_button_press.png"), forState: .Normal)
+            sender.setBackgroundImage(UIImage(named: "aboutFameBtn.png"), forState: .Normal)
+        }
         self.currentArray = 2
         self.refreshLocal()
     }
 
     @IBAction func modelBtnFun3(sender: AnyObject) {
+        let button = self.view.viewWithTag(self.currentArray + 120) as! UIButton
+        
+        if (button.tag != sender.tag){
+            button.setBackgroundImage(UIImage(named: "curtain_time_button_press.png"), forState: .Normal)
+            sender.setBackgroundImage(UIImage(named: "aboutFameBtn.png"), forState: .Normal)
+        }
         self.currentArray = 3
         self.refreshLocal()
     }
@@ -168,6 +191,12 @@ class ViewControllerSUTimer: UIViewController,UITableViewDataSource,UITableViewD
     
     
     @IBAction func modelBtnFun4(sender: AnyObject) {
+        let button = self.view.viewWithTag(self.currentArray + 120) as! UIButton
+        
+        if (button.tag != sender.tag){
+            button.setBackgroundImage(UIImage(named: "curtain_time_button_press.png"), forState: .Normal)
+            sender.setBackgroundImage(UIImage(named: "aboutFameBtn.png"), forState: .Normal)
+        }
         self.currentArray = 4
         self.refreshLocal()
         print("sensor")
@@ -243,9 +272,9 @@ class ViewControllerSUTimer: UIViewController,UITableViewDataSource,UITableViewD
                     
                     if(timerAction_id < 20){
                         FAME.timerArray1.append(timeNew)
-                    }else if(timerAction_id<300){
+                    }else if(timerAction_id<200){
                         FAME.timerArray2.append(timeNew)
-                    }else if( timerAction_id<400){
+                    }else if( timerAction_id<300){
                         FAME.timerArray3.append(timeNew)
                     }else{
                         FAME.timerArray4.append(timeNew)
@@ -474,8 +503,10 @@ class ViewControllerSUTimerCell: UIViewController,UIPickerViewDataSource,UIPicke
         FAME.tempTimerArrayContent["action_id"] = self.ids[self.id0]["act_id"]
         FAME.tempTimerArrayContent["room"] = self.ids[self.id0]["room"]
         
+        print("55555555=\(FAME.tempTimerArrayContent)")
+        
         self.hidePop()
-        print(FAME.tempTimerArrayContent)
+        
     }
     
     func cancleActBtn( sender : AnyObject){
@@ -583,11 +614,11 @@ class ViewControllerSUTimerCell: UIViewController,UIPickerViewDataSource,UIPicke
     @IBOutlet weak var btnOk: UIButton!
     @IBAction func mOK(sender: UIButton) {
         if FAME.tempTimerArrayID >= 0 {
-            self.btnOk.enabled = false
+            //self.btnOk.enabled = false
             let myThread = NSThread(target: self, selector: "moTimer", object: nil)
             myThread.start()
         } else {
-            self.btnOk.enabled = false
+            //self.btnOk.enabled = false
             let myThread = NSThread(target: self, selector: "addTimer", object: nil)
             myThread.start()
             //self.navigationController?.popViewControllerAnimated(true)
@@ -605,19 +636,39 @@ class ViewControllerSUTimerCell: UIViewController,UIPickerViewDataSource,UIPicke
         
 
         let time:String = "\(FAME.stringFromDate(self.Date.date, type: 4)):00"
-        
-        
-        //self.btnAdd.enabled = false
-        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 38, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": {\"cmd\": 9, \"param\": {\"index\": \(index), \"action_id\": \(action_id), \"enable\": \(enable), \"repeat_type\": \(repeat_type), \"time\": \"\(time)\", \"repeat_day\":\(self.repeat_dayArr)}}}",timeout : 90)
+        var count:Int = 0
+        for i in 0..<self.repeat_dayArr.count{
+            if (repeat_dayArr[i] == 1){
+                count = count + 1
+            }
+        }
+        if count == 0{
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertView()
+                alert.title = Defined_VC6_AlertTitle
+                alert.message =  "请选择哪一天再提交"
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            })
+        }
+        else{
+            //self.btnAdd.enabled = false
+            let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 38, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": {\"cmd\": 9, \"param\": {\"index\": \(index), \"action_id\": \(action_id), \"enable\": \(enable), \"repeat_type\": \(repeat_type), \"time\": \"\(time)\", \"repeat_day\":\(self.repeat_dayArr)}}}",timeout : 90)
             
-
-        
-        if (received != nil){
-            print("OK")
-            self.navigationController?.popViewControllerAnimated(true)
+            
+            
+            if (received != nil){
+                print("OK")
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    
+                    self.navigationController?.popViewControllerAnimated(true)
+                    
+                })
+            }
+            
+            //self.btnAdd.enabled = true
         }
         
-        //self.btnAdd.enabled = true
     }
     
     @IBOutlet weak var btnAdd: UIButton!
@@ -630,17 +681,42 @@ class ViewControllerSUTimerCell: UIViewController,UIPickerViewDataSource,UIPicke
         let action_id = nC["action_id"]!
         
         let time:String = "\(FAME.stringFromDate(self.Date.date, type: 4)):00"
-        
-        if ( Int(action_id)! > 0){
+        var count:Int = 0
+        for i in 0..<self.repeat_dayArr.count{
+            if (repeat_dayArr[i] == 1){
+                count = count + 1
+            }
+        }
+        if count == 0{
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertView()
+                alert.title = Defined_VC6_AlertTitle
+                alert.message =  "请选择哪一天再提交"
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            })
+        }
+        else if ( Int(action_id)! > 0){
             //self.btnAdd.enabled = false
             let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 38, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": {\"cmd\": 8, \"param\": {\"action_id\": \(action_id), \"enable\": \(enable), \"repeat_type\": \(repeat_type), \"time\": \"\(time)\", \"repeat_day\":\(self.repeat_dayArr)}}}",timeout : 90)
             
             if (received != nil){
                 print("OK")
-                self.navigationController?.popViewControllerAnimated(true)
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    
+                    self.navigationController?.popViewControllerAnimated(true)
+                    
+                })
             }
-        }else{
-            self.navigationController?.popViewControllerAnimated(true)
+        }
+        else{
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertView()
+                alert.title = Defined_VC6_AlertTitle
+                alert.message =  "你没有选择事件"
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            })
         }
 
         //self.btnAdd.enabled = true
