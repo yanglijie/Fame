@@ -55,7 +55,7 @@ class httpRequert : NSObject{
                 print("DATA RECEIVED\n \(str)")
                 
                 let resObj:NSDictionary! = try NSJSONSerialization.JSONObjectWithData(received, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
-
+                
                 if !(resObj != nil){
                     return nil
                 }

@@ -18,6 +18,7 @@ import AVFoundation
 
 let GBoard = UIStoryboard(name: "Main", bundle: nil)
 var Surl="http://www.famesmart.com/famecloud/user_intf.php"
+//var Surl="http://famesmart.com/fame_test/index.php/Home/Index/cmd"
 let Curl="http://219.220.215.211/weixin/fame/wx_fame.php"
 
 
@@ -53,6 +54,8 @@ class fame:NSObject{
     //修改设备名称
     var dev_ss_name :String!
     var dev_ss_Rname :String!
+    var variation_index :Int!
+    
     
     var loading :UILabel!
     
@@ -61,6 +64,7 @@ class fame:NSObject{
     
     
     var dev_id :Int! = 0
+    var dev_type :Int! = 0
     
     var msgs :Array<String>= []
     var IS_IOS8:Bool = false
@@ -166,6 +170,7 @@ class fame:NSObject{
     
     var idForNamesMode:Dictionary<Int,String> = [:]
     
+    var subNames : Dictionary<Int,Array<String>> = [:]
     
     var Links:Array<Dictionary<String,AnyObject>> = []
     //  Array["light"][Array<Dic>]
@@ -614,6 +619,7 @@ class fame:NSObject{
         var isShow:Bool = true
         var flag:NSNumber!
         if (self.device_table.valueForKey("lights") != nil) {
+            
             for value : AnyObject in self.device_table.valueForKey("lights") as! NSArray {
                 let DTlight = value as! NSDictionary
                 let ieee :String  = DTlight.valueForKey("ieee") as! String
@@ -622,6 +628,8 @@ class fame:NSObject{
                 let dev_id : Int  =  DTlight.valueForKey("dev_id") as! Int
                 let room:Int = DTlight.valueForKey("room") as! Int
                 let dev_type:NSNumber = DTlight.valueForKey("dev_type") as! NSNumber
+                
+                let sub = value.valueForKey("variation") as! Array<String>
                 
                 let roomName = self.rooms[room]
                 
@@ -654,13 +662,21 @@ class fame:NSObject{
                     if (dev_type == 7)||(dev_type == 8)||(dev_type == 9)||(dev_type == 11)||(dev_type == 12){
                         //light
                         var index = 0
-                        var subName:Array<String> = []
+                        let subName:Array<String> = []
                         var subId:Array<String> = []
                     
                     
                         Links3 = []
+                        //var sub :Array<String> = []
+                        
+                        
+                        self.subNames[dev_id] = sub
+                        
+                        
+                        
                         for subValue in value.valueForKey("variation") as! Array<String> {
                         
+                            //sub.append("\(subValue)")
                         
                         
                             //self.lights.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
@@ -682,7 +698,7 @@ class fame:NSObject{
                         
                             FAME.deviceCount++
                         
-                            subName.append(subValue)
+                            
                             subId.append("\(act_id + index * 2)")
                         
                         
@@ -713,7 +729,7 @@ class fame:NSObject{
                         
                         }
                     
-                    
+                        
                     
                         if (dev_type != 11){
                         //add to Links
@@ -730,7 +746,7 @@ class fame:NSObject{
                     
                     //YB
                         if dev_type == 12 {
-                            FAME.linkYB.append(["name":"\(roomName) \(name)","dev_id":"\(dev_id)"])
+                            FAME.linkYB.append(["name":"\(roomName)\(name)","dev_id":"\(dev_id)"])
                         }
                     
                     
@@ -739,11 +755,11 @@ class fame:NSObject{
                     //sockets
                         switch dev_type {
                         case 13 :
-                            self.socket13.append(["name":"\(roomName) \(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                            self.socket13.append(["name":"\(roomName)\(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         case 31 :
-                            self.socket31.append(["name":"\(roomName) \(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                            self.socket31.append(["name":"\(roomName)\(name)\(sub[0])","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         case 33 :
-                            self.socket33.append(["name":"\(roomName) \(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                            self.socket33.append(["name":"\(roomName)\(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         default:
                             
                             break
@@ -751,14 +767,14 @@ class fame:NSObject{
                         }
 
                         
-                        self.sockets.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
-                        self.linkMoled.append(["name":"\(roomName) \(name)","id":"\(act_id)"])
+                        self.sockets.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                        self.linkMoled.append(["name":"\(roomName)\(name)","id":"\(act_id)"])
                     
                         FAME.idForNames[act_id + 1 ]=["name":"\(name)开","room":"\(roomName)","string":"\(roomName) \(name) 开","act_id":"\(act_id + 1 )"]
                         FAME.idForNames[act_id ]=["name":"\(name)关","room":"\(roomName)","string":"\(roomName) \(name) 关","act_id":"\(act_id )"]
                     
-                        self.idForNamesMode[act_id + 1] = "\(roomName) \(name) 开"
-                        self.idForNamesMode[act_id] = "\(roomName) \(name) 关"
+                        self.idForNamesMode[act_id + 1] = "\(roomName)\(name) 开"
+                        self.idForNamesMode[act_id] = "\(roomName)\(name) 关"
                     
                         FAME.deviceCount++
                     
@@ -769,7 +785,7 @@ class fame:NSObject{
                         //add to Links
 
                         Links3 = [["name":"","act_id":act_id,"type":1]]
-                        self.Links.append(["name":"\(roomName) \(name)","show":1,"room":room,"sub":Links3])
+                        self.Links.append(["name":"\(roomName)\(name)","show":1,"room":room,"sub":Links3])
 
                     }
                 }
@@ -933,13 +949,13 @@ class fame:NSObject{
                 //  FAME.linkArray[2].append(["name":[name],"room":[roomName],"subName":[" "],"subId":["\(act_id )"]])
                 
                 //add to Links
-                    self.idForNamesMode[act_id + 2] = "\(roomName) \(name) 暂停"
-                self.idForNamesMode[act_id + 1] = "\(roomName) \(name) 停止"
-                self.idForNamesMode[act_id] = "\(roomName) \(name) 打开"
+                    self.idForNamesMode[act_id + 2] = "\(roomName)\(name) 暂停"
+                self.idForNamesMode[act_id + 1] = "\(roomName)\(name) 停止"
+                self.idForNamesMode[act_id] = "\(roomName)\(name) 打开"
                 
                     //2
                 Links3 = [["name":"","act_id":act_id,"type":1]]
-                self.Links.append(["name":"\(roomName) \(name)","show":3,"curtains":1,"room":room,"sub":Links3])
+                self.Links.append(["name":"\(roomName)\(name)","show":3,"curtains":1,"room":room,"sub":Links3])
                     
                     
                 }
@@ -998,9 +1014,9 @@ class fame:NSObject{
                 }
                 */
                 if (dev_type == 19){
-                    self.airs.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                    self.airs.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                 }else{
-                    self.appls.append(["name":"\(roomName) \(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                    self.appls.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                 }
                 
                 
@@ -1038,7 +1054,7 @@ class fame:NSObject{
                 
                 FAME.deviceCount++
                 
-                FAME.idForNames[act_id + 3]=["name":"\(name)关","room":"\(roomName)","string":"\(roomName) \(name) 关","act_id":"\(act_id + 3)"]
+                FAME.idForNames[act_id + 3]=["name":"\(name)关","room":"\(roomName)","string":"\(roomName)\(name) 关","act_id":"\(act_id + 3)"]
                 
                 //add to linkArray
                 //  FAME.linkArray[2].append(["name":[name],"room":[roomName],"subName":[" "],"subId":["\(act_id )"]])
@@ -1050,7 +1066,7 @@ class fame:NSObject{
                 
                 Links3 = [["name":"","act_id":act_id,"type":1]]
                 
-                self.Links.append(["name":"\(roomName) \(name)","show":1,"dev_type":dev_type,"room":room,"sub":Links3])
+                self.Links.append(["name":"\(roomName)\(name)","show":1,"dev_type":dev_type,"room":room,"sub":Links3])
             }
                 
             }

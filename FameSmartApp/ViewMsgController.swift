@@ -31,14 +31,33 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
         super.viewDidLoad()
 
         // Do any additional setup after loading the view, typically from a nib.
+        let button = UIButton(frame: CGRectMake(0,0,80,35))
+        button.setBackgroundImage(UIImage(named: "yuba_spinner_press.png"), forState: UIControlState.Normal)
+        button.setBackgroundImage(UIImage(named: "curtain_04_10.png"), forState: UIControlState.Highlighted)
+        button.setTitle("清空", forState: UIControlState.Normal)
+        button.addTarget(self, action: Selector("deleteAll:"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "deleteAll:")
-        self.navigationItem.rightBarButtonItem = addButton
-        if (FAME.defaults.valueForKey("alarm") != nil){
-            FAME.msgs = FAME.defaults.valueForKey("alarm") as! Array
+//        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "deleteAll:")
+//        self.navigationItem.rightBarButtonItem = addButton
+        
+        
+        if (FAME.defaults.valueForKey("\(FAME.user_name)") != nil){
+            FAME.msgs = FAME.defaults.valueForKey("\(FAME.user_name)") as! Array
 
             
         }
+        
+        if FAME.msgs.count == 0{
+            let textLabel = UILabel (frame:CGRectMake(20,self.view.frame.size.height * 0.25,self.view.frame.size.width - 20,20))
+            textLabel.text = "无报警信息"
+            
+            //textLabel.backgroundColor = UIColor.blackColor()
+            textLabel.textColor = UIColor.whiteColor()
+            textLabel.font = UIFont.systemFontOfSize(17)
+            self.view.addSubview(textLabel)
+        }
+        
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "raload:", name: "msgChange", object: nil)
         
@@ -53,8 +72,8 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
 //    }
     
     func raload(notification:NSNotification){
-        if (FAME.defaults.valueForKey("alarm") != nil){
-            FAME.msgs = FAME.defaults.valueForKey("alarm") as! Array
+        if (FAME.defaults.valueForKey("\(FAME.user_name)") != nil){
+            FAME.msgs = FAME.defaults.valueForKey("\(FAME.user_name)") as! Array
             
         }
         //FAME.msgs = notification.object as! Array
@@ -88,10 +107,12 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
         return FAME.msgs.count
 
     }
+    
     func deleteAll(sender:AnyObject!){
         FAME.msgs = []
         self.msgTabel?.reloadData()
-        FAME.defaults.setObject(FAME.msgs, forKey: "alarm")
+        FAME.defaults.setObject(FAME.msgs, forKey: "\(FAME.user_name)")
+        print("清空了")
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{

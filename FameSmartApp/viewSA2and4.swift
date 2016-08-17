@@ -370,7 +370,7 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         if (self.dev_types[indexPath.row] == 15){     //  2015-05-18
             imgObj.image = UIImage(named: "screen_icon.png")      //  2015-05-18
         }
-        else if (self.dev_types[indexPath.row] == 16){
+        else if (self.dev_types[indexPath.row] == 16 || self.dev_types[indexPath.row] == 17){
             imgObj.image = UIImage(named: "appl_17_icon.png")
         }
         else{
@@ -400,12 +400,13 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
             viewId = 4 * 10 + 1
             FAME.saActid4 = dev_type
         }
-        self .performSelector("deselect", withObject: nil, afterDelay: 0.5)
+        
         
         let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA\(viewId)") as UIViewController!
         next.title = curtains[indexPath.row]["name"]
         self.navigationController?.pushViewController(next, animated: true)
-  
+        
+        self .performSelector("deselect", withObject: nil, afterDelay: 0.5)
         
         
     }

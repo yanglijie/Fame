@@ -43,9 +43,10 @@ let Defined_SA_icons = ["0","light_icon.png","curtain_03.png","appl_19_icon.png"
 let Defined_SA_icons1 = ["0","light_icon2.png","0","0","0","socket61.png","SA61.png","lock_icon2.png","0","cta_open.png"]
 
 
-let Defined_VC6_AlertTitle="友情提示"
+let Defined_VC6_AlertTitle="提示"
 let Defined_VC6_AlertMessage1="你要抹掉之前所学习的按键，开启学习模式吗？"
 let Defined_VC6_AlertMessage="设备自动添加过程将会持续40秒左右"
+let Defined_VC6_AlertMessage2="不能添加空设备"
 
 let Defined_Add_Title1 = "添加设置"
 let Defined_Add_Title_failed = "添加失败"

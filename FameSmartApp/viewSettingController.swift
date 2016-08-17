@@ -218,20 +218,67 @@ class ViewSettingMTimerController: UIViewController {
     @IBOutlet weak var BtnDate: UIButton!
     @IBOutlet weak var BtnTime: UIButton!
     
+    var viewUp = UIView()
+    
+    @IBOutlet weak var subView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        createUpView()
         self.createPop()
         
+        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: "handleSwipeGesture:")
+        swipeLeftGesture.direction = UISwipeGestureRecognizerDirection.Down //不设置是右
+        subView.addGestureRecognizer(swipeLeftGesture)
+        
+        
+        
+        
+    }
+    func handleSwipeGesture(sender: UISwipeGestureRecognizer){
+        refreshModes()
+    }
+    func Timerset(){
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 38, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": {\"cmd\": 1}}",timeout : 90)
+        
+        
+        if (received["result"] as! NSObject == 0){
+            print(received)
+            self.viewUp.hidden = true
+            self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
+            
+            //let date = FAME.getDateFormLocal()
+            let date1 = received["detail"]!["time"] as! String
+            
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            let date = dateFormatter.dateFromString(date1)!
+            
+            //let date = NSDate
+            self.picker.setDate(date, animated: true)
+            
+            
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                self.BtnDate.setTitle("\(Defined_Timer_Date) \(FAME.stringFromDate(date, type: 1))", forState: UIControlState.Normal)
+                self.BtnTime.setTitle("\(Defined_Timer_Time) \(FAME.stringFromDate(date, type: 2))", forState: UIControlState.Normal)
+            })
+            
+        }
+    }
+    func refreshModes(){
+        print("refresh")
+        viewUp.hidden = false
+        subView.transform = CGAffineTransformMakeTranslation(0 , 80)
+        
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
     }
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
-        let date = FAME.getDateFormLocal()
         
-        self.picker.setDate(date, animated: true)
         
-        self.BtnDate.setTitle("\(Defined_Timer_Date) \(FAME.stringFromDate(date, type: 1))", forState: UIControlState.Normal)
-        self.BtnTime.setTitle("\(Defined_Timer_Time) \(FAME.stringFromDate(date, type: 2))", forState: UIControlState.Normal)
+        self.refreshModes()
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -254,33 +301,54 @@ class ViewSettingMTimerController: UIViewController {
     
     func selectedActBtn( sender : AnyObject){
         print("selectedActBtn")
+        self.hidePop()
+        
+        viewUp.hidden = false
+        subView.transform = CGAffineTransformMakeTranslation(0 , 80)
+        
         print(self.picker.date)
         FAME.theTimeInterval = self.picker.date.timeIntervalSinceDate(NSDate())
         
         self.BtnDate.setTitle("\(Defined_Timer_Date) \(FAME.stringFromDate(self.picker.date, type: 1))", forState: UIControlState.Normal)
         self.BtnTime.setTitle("\(Defined_Timer_Date) \(FAME.stringFromDate(self.picker.date, type: 2))", forState: UIControlState.Normal)
         
-        self.hidePop()
+        let myThread = NSThread(target: self, selector: "Timerset1", object: nil)
+        myThread.start()
         
+        
+    }
+    func Timerset1(){
         if FAME.updateDateToServer(self.picker.date) {
             print("OK")
+            viewUp.hidden = true
+            subView.transform = CGAffineTransformMakeTranslation(0 , 0)
         }else{
             print("failed")
         }
     }
-    
     func cancleActBtn( sender : AnyObject){
         
         print("cancleActBtn")
         //roomSheet.dismissWithClickedButtonIndex(1, animated: true)
         self.hidePop()
     }
-    
+    func tapPress( sender : AnyObject){
+        
+        self.hidePop()
+    }
     func createPop(){
         
         self.BGView = UIView(frame: CGRect(x: 0, y: 0 , width: self.view.frame.width, height: self.view.frame.height))
         self.BGView.backgroundColor = UIColor.clearColor()
         self.BGView.tag = 500
+        
+        
+        let longPressRec = UITapGestureRecognizer()
+        longPressRec.addTarget(self, action: "tapPress:")
+        
+        self.BGView.addGestureRecognizer(longPressRec)
+        
+        self.BGView.userInteractionEnabled = true
         
         
         self.pickView = UIView(frame: CGRect(x: 0, y: self.view.frame.height + 5 , width: self.view.frame.width, height: 300))
@@ -348,6 +416,39 @@ class ViewSettingMTimerController: UIViewController {
         })
         
     }
+    
+    func createUpView(){
+        
+        viewUp = UIView(frame: CGRect(x: 0, y: 64 , width: self.view.frame.width, height: 80))
+        viewUp.backgroundColor = UIColor(red: 0, green: 139, blue: 139, alpha: 0.1)
+        viewUp.hidden = true
+        viewUp.alpha = 0.8
+        self.view.addSubview(viewUp)
+        
+        let imgV = UIImageView(frame: CGRectMake(80, 30, 20, 20))
+        
+        imgV.animationDuration = 2.0
+        viewUp .addSubview(imgV)
+        
+        var images = [UIImage]()
+        
+        for i in 0...11{
+            let img = UIImage(named: "loading_login\(i + 1)")
+            images.append(img!)
+        }
+        imgV.animationImages = images
+        imgV.animationRepeatCount = 0
+        imgV.startAnimating()
+        
+        
+        let lable = UILabel(frame: CGRect(x: 0, y: 30 , width: self.view.frame.width, height: 20))
+        lable.text = "正在刷新中......."
+        lable.textColor = UIColor.whiteColor()
+        lable.textAlignment = .Center
+        viewUp.addSubview(lable)
+        
+    }
+
 
 }
 

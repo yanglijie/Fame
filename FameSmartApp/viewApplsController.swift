@@ -59,27 +59,14 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     var sensors:Array<Dictionary<String,String>> = []
     var lights:Array<Dictionary<String,String>> = []
     
-    @IBAction func linkClick(sender: AnyObject) {
-        let alert :UIAlertView = UIAlertView()
-        alert.delegate = self
-        alert.title = "设置联动"
-        alert.message = "客厅浴霸联动"
-        alert.addButtonWithTitle(Defined_ALERT_OK)
-        alert.addButtonWithTitle(Defined_ALERT_CANCEL)
-        alert.show()
-    }
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        print("click at \(buttonIndex)")
-        if buttonIndex == 0{
-           print("select1= \(selectDevid1)select2= \(selectDevid2)")
-           
-            let myThread = NSThread(target: self, selector: "TimersetLink", object: nil)
-            myThread.start()
-            
-        }
-        
-        
-    }
+    
+    var LinkView:UIView!
+    
+    var ChooseLinkView:UIView!
+    
+    //门锁ActionId
+    var lockId:Int = 0
+    
     func TimersetLink(){
         let cmdStr = "{\"cmd\": 36, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"operation\":0,\"dev_id1\":\(selectDevid1),\"dev_id2\":\(selectDevid2)}}"
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90)
@@ -121,11 +108,11 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             for subCell:AnyObject in self.TableView!.visibleCells {
                 //print(subCell)
                 let cell = subCell as! UITableViewCell2
-                subValue = indexCount[cell.index]["subValue"] as String!
+                //subValue = indexCount[cell.index]["subValue"] as String!
                 if cell.dev_id == FAME.dev_id{
                     let name = cell.viewWithTag(1) as! UILabel
                     if FAME.tempSensorId == 1 || FAME.tempSensorId == 6{
-                        name.text = FAME.dev_ss_Rname + FAME.dev_ss_name  + subValue
+                        name.text = FAME.dev_ss_Rname + FAME.dev_ss_name  + FAME.subNames[FAME.dev_id]![FAME.variation_index]
                     }else{
                         name.text = FAME.dev_ss_Rname + FAME.dev_ss_name
                     }
@@ -149,19 +136,27 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 
                 
                 
-                index = cell.index
-                FAME.dev_id = cell.dev_id
-                let name = cell.viewWithTag(1) as! UILabel
-                let name_Str:String! = name.text as String!
-    
                 
-                FAME.dev_ss_Rname = name_Str.substringWithRange(0, end: 2)
+                FAME.dev_id = cell.dev_id
+                
+                let type_Str:String! = indexCount[indexPath.row]["dev_type"] as String!
+                let type:Int! = Int(type_Str)
+                FAME.dev_type = type
+                
+                FAME.dev_ss_name = indexCount[indexPath.row]["name1"]
+                FAME.dev_ss_Rname = indexCount[indexPath.row]["roomName"]
+                lockId = Int(indexCount[indexPath.row]["act_id"] as String!)!
+                if FAME.dev_type == 11{
+                    
+                    selectDevid1 = cell.dev_id
+                }
+                
                 if FAME.tempSensorId == 1{
-                    FAME.dev_ss_name = name_Str.substringWithRange(2, end: name_Str.characters.count - 1)
+                    let index1 = indexCount[indexPath.row]["index"] as String!
+                    FAME.variation_index = Int(index1)
+                    FAME.subNames[FAME.dev_id]![FAME.variation_index] = indexCount[indexPath.row]["subValue"]!
                 }
-                else{
-                    FAME.dev_ss_name = (name_Str as NSString).substringFromIndex(2)
-                }
+
               
                 for(var i = 0; i < FAME.rooms.count ; i++){
                     if FAME.dev_ss_Rname == FAME.rooms[i]{
@@ -171,6 +166,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 
                 self.ieee = indexCount[cell.index]["ieee"] as String!
                 
+                createPop()
                 self.BGView.hidden = false
                 
             }
@@ -180,6 +176,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     func tapPress( sender : AnyObject){
         
         self.BGView.hidden = true
+        LinkView.hidden = true
     }
     
     func createPop(){
@@ -228,13 +225,25 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         btnS2.addTarget(self, action: Selector("btns2Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         let btnS3 = UIButton(frame: CGRect(x: btnX, y: btnY + 100, width: btnWidth, height: btnHeight))
-        btnS3.setTitle(Defined_SS_Title4, forState: UIControlState.Normal)
+        
         btnS3.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
         btnS3.tag = 3
-        btnS3.addTarget(self, action: Selector("btns3Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
         
-        
+        if FAME.dev_type == 11{
+            
+            btnS3.setTitle(Defined_SS_air_Title3, forState: UIControlState.Normal)
+            btnS3.addTarget(self, action: Selector("btns4Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        }
+        else if FAME.dev_type == 31{
+            
+            btnS3.setTitle("常开状态设置", forState: UIControlState.Normal)
+            btnS3.addTarget(self, action: Selector("btns41Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        }
+        else{
+            btnS3.setTitle(Defined_SS_Title4, forState: UIControlState.Normal)
+            btnS3.addTarget(self, action: Selector("btns3Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        }
         
         
         self.pickView.addSubview(btnS1)
@@ -247,9 +256,47 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         self.BGView.hidden = true
         
     }
+    //常开状态设置
+    func btns41Fun(sender:UIButton){
+        self.BGView.hidden = true
+        print("常开状态设置")
+        
+        let alert :UIAlertView = UIAlertView()
+        alert.delegate = self
+        alert.title = "友情提示"
+        alert.message = "切换常开状态"
+        alert.addButtonWithTitle("设置常开")
+        alert.addButtonWithTitle("取消常开")
+        alert.show()
+        
+        print(lockId)
+        
+    }
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
+        print("click at \(buttonIndex)")
+        if buttonIndex == 0{
+            httpRequert().sendRequest(lockId + 2)
+            print("设置常开")
+            
+        }
+        else{
+            httpRequert().sendRequest(lockId + 3)
+            print("取消常开")
+        }
+        
+    }
+    //设置联动
+    func btns4Fun(sender:UIButton){
+        self.BGView.hidden = true
+        print("设置联动")
+        createLinkView()
+        LinkView.hidden = false
+        
+    }
     //取消
     func btns3Fun(sender:UIButton){
         self.BGView.hidden = true
+        
     }
     //修改名字
     func btns1Fun(sender:UIButton){
@@ -318,6 +365,20 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+
+        //NSThread.currentThread().cancel()
+        
+        
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+//        if NSThread.currentThread().executing{
+//            print("杀死")
+//            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+//            
+//            //NSThread.exit()
+//        }
         
     }
     // returns the number of 'columns' to display.
@@ -402,7 +463,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             data(0)
             swipeView()
             
-            self.createPop()
+            
             if FAME.tempSensorId == 6{
                 
                 selectDevid()
@@ -418,13 +479,9 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             TableView.mj_header.beginRefreshing()
             
             
+            
         }
 
-        
-        //print(lights)
-        
-//        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLights:")
-//        self.navigationItem.rightBarButtonItem = addButton
         
         
         
@@ -442,8 +499,6 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             
         }
         
-        selectDevid1 = paramArray[0]
-        selectDevid2 = paramArray[1]
         
     }
     override func didReceiveMemoryWarning() {
@@ -468,6 +523,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         else{
             let myThread = NSThread(target: self, selector: "Timerset", object: nil)
             myThread.start()
+            
         }
         
 
@@ -680,9 +736,11 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell2
         cell.backgroundColor = UIColor.clearColor()
         
+        
+        
         //let showId = self.lightIdArr[indexPath.row]
         
-        cell.index = indexPath.row ;
+        cell.index = indexPath.row
         
         //长按手势
         let longpressGesutre = UILongPressGestureRecognizer(target:self
@@ -742,7 +800,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             let state :Int! = FAME.lightsCellState["\(cell.id)"]
             //let state :Int? = NSUserDefaults.standardUserDefaults().valueForKey("\(tagOn.id)") as? Int
           let view1 = cell.viewWithTag(86) as! UIImageView
-          let view5 = cell.viewWithTag(5) as! UIButton
+          
             
             if (state != nil) {
                 //print("state:\(state)")
@@ -815,7 +873,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             tagOn.hidden = false
             tagOff.hidden = false
             view.hidden = false
-            view5.hidden = true
+            
             //conLight
             
             
@@ -824,8 +882,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 tagOn.hidden = true
                 tagOff.hidden = true
                 view.hidden = true
-                
-                view5.hidden = false
+
                 
                 
                 
@@ -989,7 +1046,130 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         //print("11111\(sender.tag)")
     }
 
+    func createLinkView(){
+        LinkView = UIView(frame: CGRect(x: 0, y: 0 , width: self.view.frame.width, height: self.view.frame.height))
+        LinkView.backgroundColor = UIColor.clearColor()
+        LinkView.hidden = true
+        self.view .addSubview(LinkView)
+        //cancel
+        
+        let longPressRec = UITapGestureRecognizer()
+        longPressRec.addTarget(self, action: "tapPress:")
+        
+        LinkView.addGestureRecognizer(longPressRec)
+        
+        LinkView.userInteractionEnabled = true
+        
+        let backView = UIView(frame: CGRect(x: self.view.frame.width * 0.15, y: self.view.frame.height * 0.4 , width: self.view.frame.width * 0.7, height: self.view.frame.height * 0.3))
+        backView.backgroundColor = UIColor.whiteColor()
+        LinkView .addSubview(backView)
+        
+        let lable = UILabel(frame: CGRect(x: 20, y: 10 , width: backView.frame.width - 40, height: backView.frame.height * 0.2))
+        lable.tag = 122
+        lable.text = FAME.dev_ss_Rname + FAME.dev_ss_name
+        lable.textColor = UIColor.greenColor()
+        backView .addSubview(lable)
+        
+        let view2 = UIView(frame: CGRect(x: 20, y: 10 + backView.frame.height * 0.2 , width: backView.frame.width - 40, height: 1))
+        view2.backgroundColor = UIColor.blackColor()
+        backView .addSubview(view2)
+        
+        let btnS2 = UIButton(frame: CGRect(x: 20, y: backView.frame.height * 0.4, width: backView.frame.width - 40, height: backView.frame.height * 0.17))
+        btnS2.backgroundColor = UIColor.grayColor()
+        btnS2.addTarget(self, action: Selector("btns5Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        backView .addSubview(btnS2)
+        
+        let lable1 = UILabel(frame: CGRect(x: 5, y: 0 , width: btnS2.frame.width * 0.7, height: btnS2.frame.height))
+        
+        lable1.text = FAME.linkYB[0]["name"]
+        btnS2 .addSubview(lable1)
+        let image = UIImageView(frame: CGRect(x: btnS2.frame.width - btnS2.frame.height * 0.5 - 10, y: btnS2.frame.height * 0.25 , width: btnS2.frame.height * 0.5, height: btnS2.frame.height * 0.5))
+        image.image = UIImage(named: "about_us_icon.png")
+        btnS2 .addSubview(image)
+        
+        
+        
+        let btnS3 = UIButton(frame: CGRect(x: 20, y: backView.frame.height * 0.75, width: backView.frame.width - 40, height: backView.frame.height * 0.17))
+        btnS3.setTitle("确定", forState: UIControlState.Normal)
+        btnS3.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        btnS3.setBackgroundImage(UIImage(named: "yuba_spinner_press.png"), forState: UIControlState.Normal)
+        btnS3.setBackgroundImage(UIImage(named: "curtain_04_10.png"), forState: UIControlState.Highlighted)
+        btnS3.addTarget(self, action: Selector("btns6Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        backView .addSubview(btnS3)
+    }
     
+    //设置联动
+    func btns5Fun(sender:UIButton){
+        
+        createChooseLink()
+        ChooseLinkView.hidden = false
+        
+    }
+    //确定联动
+    func btns6Fun(sender:UIButton){
+        
+        LinkView.hidden = true
+        
+        let myThread = NSThread(target: self, selector: "TimersetLink", object: nil)
+        myThread.start()
+        
+    }
+    //选择关联的浴霸
+    func btns7Fun(sender:UIButton){
+        
+        ChooseLinkView.hidden = true
+        let linkString = FAME.linkYB[sender.tag - 45]["name"]
+        
+        let lable = self.view.viewWithTag(122) as! UILabel
+        lable.text = linkString
+        
+        let select = FAME.linkYB[sender.tag - 45]["dev_id"] as String!
+        selectDevid2 = Int(select)!
+        
+        print("select1= \(selectDevid1)select2= \(selectDevid2)")
+        
+        
+    }
+    func tapPress1( sender : AnyObject){
+ 
+        ChooseLinkView.hidden = true
+        
+    }
+    
+    func createChooseLink(){
+        ChooseLinkView = UIView(frame: CGRect(x: 0, y: 0 , width: self.view.frame.width, height: self.view.frame.height))
+        ChooseLinkView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+        ChooseLinkView.hidden = true
+        self.view .addSubview(ChooseLinkView)
+        //cancel
+        
+        let longPressRec = UITapGestureRecognizer()
+        longPressRec.addTarget(self, action: "tapPress1:")
+        
+        ChooseLinkView.addGestureRecognizer(longPressRec)
+        
+        ChooseLinkView.userInteractionEnabled = true
+        
+        let btnDiff = HEIGHT * 0.06
+        let btnTop0:CGFloat = HEIGHT * 0.52 - btnDiff
+        var y = btnTop0
+        for i in 0..<FAME.linkYB.count{
+            y = y + btnDiff
+            let btnS2 = UIButton(frame: CGRect(x: WIDTH * 0.15 + 20, y: y  , width: WIDTH * 0.7 - 40, height: btnDiff))
+
+            btnS2.backgroundColor = UIColor.whiteColor()
+
+            btnS2.tag = 45
+            btnS2.setTitle(FAME.linkYB[i]["name"], forState: UIControlState.Normal)
+            btnS2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            btnS2.addTarget(self, action: Selector("btns7Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            ChooseLinkView .addSubview(btnS2)
+            
+        }
+        
+        
+        
+    }
     
 }
 
@@ -1134,8 +1314,14 @@ class ViewControllerCurtains: UIViewController {
     
     var dev_id:Int!
     
+    @IBOutlet weak var setButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setButton.layer.borderColor=UIColor(red: 102, green: 153, blue: 153, alpha: 0.4).CGColor
+        setButton.layer.borderWidth = 1
+        setButton.layer.cornerRadius = 2
+        
         self.createPop()
     }
 
@@ -1212,7 +1398,7 @@ class ViewControllerCurtains: UIViewController {
         //Slider
         self.viewSlider = UISlider(frame: CGRect(x: 20, y: 45, width: self.pickView.frame.width - 40 , height: 50))
         self.viewSlider.minimumValue = 1
-        self.viewSlider.maximumValue = 254
+        self.viewSlider.maximumValue = 255
         self.viewSlider.value = 5
         self.viewSlider.addTarget(self, action: "sliderChanged:", forControlEvents: UIControlEvents.ValueChanged)
         

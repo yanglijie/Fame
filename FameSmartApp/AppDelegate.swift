@@ -147,13 +147,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
         
         else{
             //
-            if (FAME.defaults.valueForKey("alarm") != nil){
+            if (FAME.defaults.valueForKey("\(FAME.user_name)") != nil){
                 FAME.msgs.removeAll()
-                FAME.msgs = (FAME.defaults.valueForKey("alarm") as! Array).reverse()
+                FAME.msgs = (FAME.defaults.valueForKey("\(FAME.user_name)") as! Array).reverse()
             }
 
             FAME.msgs .append(alertDic)
-            FAME.defaults.setObject(FAME.msgs.reverse(), forKey: "alarm")
+            FAME.defaults.setObject(FAME.msgs.reverse(), forKey: "\(FAME.user_name)")
             //print("111111\(FAME.msgs)")
       
 //            let alertView = UIAlertView (title: " 远程推送通知 " , message: alertDic, delegate: nil , cancelButtonTitle: " 返回 " )

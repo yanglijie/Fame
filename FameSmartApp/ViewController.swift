@@ -59,8 +59,6 @@ class ViewControllerWelcome: UIViewController {
             //network error
             //viewAnimate().showTip(self.tip, content: Defined_network_failed)
             let next = GBoard.instantiateViewControllerWithIdentifier("navLogin") as UIViewController
-            //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
-            
             self.presentViewController(next, animated: true, completion: nil)
             
         
@@ -116,6 +114,13 @@ class ViewControllerLogin0: UIViewController {
             case 0 :
                 print("login successed")
                 
+                let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
+                //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
+                self.presentViewController(next, animated: false, completion: {
+                    self.navigationController?.popToRootViewControllerAnimated(false)
+                })
+                
+                
                 if (FAME.defaults.valueForKey("PushState") != nil){
                     let pushState = FAME.defaults.valueForKey("PushState") as! Bool
                     if pushState{
@@ -145,34 +150,28 @@ class ViewControllerLogin0: UIViewController {
                     
                     
                     //get the devicetable
-                    let DTValue = FAME.getDeviceTable()
-                    if (DTValue != nil) {
-                        if DTValue == 0 {
-                            print("DeviceTable is OK")
-                            let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
-                            //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
-                            self.presentViewController(next, animated: false, completion: {
-                                self.navigationController?.popToRootViewControllerAnimated(false)
-                            })
-                            
-                            //self.showNavMain()
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+                        let DTValue = FAME.getDeviceTable()
+                        if (DTValue != nil) {
+                            if DTValue == 0 {
+                                print("DeviceTable is OK")
+                                
+                                
+                                //self.showNavMain()
+                            }else{
+                                print("DeviceTable is null")
+                                FAME.getDeviceTable()
+                                FAME.lastDTversion = FAME.DTversion
+                                let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
+                                self.navigationController?.pushViewController(next, animated: true)
+                                FAME.isAddDeviceFromSetting = false
+                                
+                            }
                         }else{
-                            print("DeviceTable is null")
-                            FAME.getDeviceTable()
-                            FAME.lastDTversion = FAME.DTversion
-                            let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
-                            self.navigationController?.pushViewController(next, animated: true)
-                            FAME.isAddDeviceFromSetting = false
-                            
+                            print("get DT failed")
+
                         }
-                    }else{
-                        print("get DT failed")
-                        
-                        
-                        //                        viewAnimate().shrkInput(userName)
-                        //                        viewAnimate().shrkInput(userPass)
-                        //viewAnimate().showTip(self.tip, content: Defined_login_dt_failed)
-                        
+
                     }
                     
                 }
@@ -315,11 +314,14 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
         
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 10, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"client_type\": \"ios\"}",cmplx:true)
 
+        
         if (received != nil) {
             switch received.valueForKey("result") as! NSNumber {
                 
             case 0 :
                 print("login successed")
+                
+                self.showNavMain()
                 
                 if (FAME.defaults.valueForKey("PushState") != nil){
                     let pushState = FAME.defaults.valueForKey("PushState") as! Bool
@@ -350,10 +352,11 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                     
                     //get the devicetable
                     let DTValue = FAME.getDeviceTable()
+                    
                     if (DTValue != nil) {
                         if DTValue == 0 {
                             print("DeviceTable is OK")
-                            self.showNavMain()
+                            
                         }else{
                             print("DeviceTable is null")
                             FAME.getDeviceTable()
@@ -363,7 +366,8 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                             FAME.isAddDeviceFromSetting = false
                             
                         }
-                    }else{
+                    }
+                    else{
                         print("get DT failed")
                         
                         viewAnimate().shrkInput(self.userName)
@@ -702,7 +706,7 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
     
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "moveScannerLayer:", userInfo: nil, repeats: true)
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -710,12 +714,16 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
     }
     
     func setupCamera(){
-        do{
+        //do{
             
         //Device
         self.device=AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         //input
-        self.input = try AVCaptureDeviceInput(device: self.device) 
+        do{
+
+            self.input = try AVCaptureDeviceInput(device: self.device) as AVCaptureDeviceInput
+
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "moveScannerLayer:", userInfo: nil, repeats: true)
         //output
         self.output=AVCaptureMetadataOutput()
         self.output.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
@@ -783,11 +791,11 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
         //scanLine.backgroundColor = UIColor.redColor()
         self.scanRectView .addSubview(scanLine)
         createBackGroundView()
-            
-        
-        
+
         //开始捕获
         self.session.startRunning()
+           
+        
         }
         catch{
             
@@ -830,6 +838,15 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
     }
     func createBackGroundView() {
         let windowSize:CGSize = UIScreen.mainScreen().bounds.size;
+        
+        let label1 = UILabel(frame: CGRect(x: 0, y: 20, width:windowSize.width, height: 44))
+        label1.textAlignment = .Center
+        label1.font = UIFont.systemFontOfSize(24)
+        label1.textColor = UIColor.redColor()
+        label1.text = "请点击该处返回"
+        
+        self.view .addSubview(label1)
+        
         let height = ( windowSize.height - (windowSize.width * 0.75) )/2
         let topView = UIView(frame: CGRect(x: 0, y: 0, width: windowSize.width, height:height))
         let bottomView = UIView(frame: CGRect(x: 0, y: windowSize.width * 0.75 + height, width: windowSize.width, height: height))
@@ -2028,40 +2045,48 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        //print("2222222\(FAME.addDeviceArray)")
     }
     @IBAction func doAddDeviceBtn(sender : AnyObject) {
         //send to server
-        
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        
-        if FAME.doAddDevice() {
-            print("2222222\(FAME.addDeviceArray)")
-            if FAME.addDeviceArray.count > 0 {
-                let alert :UIAlertView = UIAlertView()
-                alert.delegate = self
-                alert.title = Defined_VC6_AlertTitle
-                alert.message = Defined_VC6_AlertMessage
-                alert.addButtonWithTitle(Defined_ALERT_OK)
-                alert.show()
-                
-                
-            }
-            
-            if FAME.isAddDeviceFromSetting {
-                self.navigationController?.popToRootViewControllerAnimated(true)
-                
-            }else{
-                
-                let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
-                //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
-                self.presentViewController(next, animated: false, completion:nil)
-                self.navigationController?.popToRootViewControllerAnimated(true)
-            }
-            
+
+        if FAME.addDeviceArray.count == 0{
+            let alert :UIAlertView = UIAlertView()
+            alert.title = Defined_VC6_AlertTitle
+            alert.message = Defined_VC6_AlertMessage2
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.show()
         }
-        
-        
+        else{
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            
+            if FAME.doAddDevice() {
+                
+                if FAME.addDeviceArray.count > 0 {
+                    let alert :UIAlertView = UIAlertView()
+                    alert.delegate = self
+                    alert.title = Defined_VC6_AlertTitle
+                    alert.message = Defined_VC6_AlertMessage
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    
+                    
+                }
+                
+                if FAME.isAddDeviceFromSetting {
+                    self.navigationController?.popToRootViewControllerAnimated(true)
+                    
+                }else{
+                    
+                    let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
+                    //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
+                    self.presentViewController(next, animated: false, completion:nil)
+                    self.navigationController?.popToRootViewControllerAnimated(true)
+                }
+                
+            }
+
+        }
         
     }
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){

@@ -298,6 +298,8 @@
 		95B61A4B1D510AD000D3B77A /* loading_login11.png in Resources */ = {isa = PBXBuildFile; fileRef = 95B61A3F1D510AD000D3B77A /* loading_login11.png */; };
 		95B61A4C1D510AD000D3B77A /* loading_login12.png in Resources */ = {isa = PBXBuildFile; fileRef = 95B61A401D510AD000D3B77A /* loading_login12.png */; };
 		95C8104E1D42A924000BC78B /* myloginbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 95C8104D1D42A924000BC78B /* myloginbg.png */; };
+		95E7EF9E1D650DC00019F7B8 /* yuba_spinner_press.png in Resources */ = {isa = PBXBuildFile; fileRef = 95E7EF9D1D650DC00019F7B8 /* yuba_spinner_press.png */; };
+		95E7EFA01D6510A30019F7B8 /* about_us_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 95E7EF9F1D6510A30019F7B8 /* about_us_icon.png */; };
 		FD24394D19C1480300200750 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD24394C19C1480300200750 /* extension.swift */; };
 		FD24397C19C187A100200750 /* viewTempertureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD24397B19C187A100200750 /* viewTempertureController.swift */; };
 		FD2C41501AFB12FD0087B08F /* viewSA2and4.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2C414F1AFB12FD0087B08F /* viewSA2and4.swift */; };
@@ -652,6 +654,8 @@
 		95B61A3F1D510AD000D3B77A /* loading_login11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading_login11.png; path = ../loading_login11.png; sourceTree = "<group>"; };
 		95B61A401D510AD000D3B77A /* loading_login12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading_login12.png; path = ../loading_login12.png; sourceTree = "<group>"; };
 		95C8104D1D42A924000BC78B /* myloginbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myloginbg.png; sourceTree = "<group>"; };
+		95E7EF9D1D650DC00019F7B8 /* yuba_spinner_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yuba_spinner_press.png; sourceTree = "<group>"; };
+		95E7EF9F1D6510A30019F7B8 /* about_us_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about_us_icon.png; sourceTree = "<group>"; };
 		FD0A248C1A2EDC5A00ED1C43 /* FameSmartAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FameSmartAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD24394C19C1480300200750 /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
 		FD24397B19C187A100200750 /* viewTempertureController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewTempertureController.swift; sourceTree = "<group>"; };
@@ -798,6 +802,8 @@
 		9569013F1D306A2E0098422C /* appImg */ = {
 			isa = PBXGroup;
 			children = (
+				95E7EF9F1D6510A30019F7B8 /* about_us_icon.png */,
+				95E7EF9D1D650DC00019F7B8 /* yuba_spinner_press.png */,
 				955F13B71D5E41FA00F27707 /* curtain_time_button_press.png */,
 				9562A2771D555EEE004F7AD8 /* shake_hide_bg.png */,
 				9562A2781D555EEE004F7AD8 /* shake_logo_down.png */,
@@ -1316,6 +1322,7 @@
 				95A5B3C91D496D910050C8A7 /* spinner_list_down.png in Resources */,
 				956902321D306A2E0098422C /* radio.png in Resources */,
 				9569025A1D306A2E0098422C /* yuba_icon.png in Resources */,
+				95E7EF9E1D650DC00019F7B8 /* yuba_spinner_press.png in Resources */,
 				95B61A471D510AD000D3B77A /* loading_login7.png in Resources */,
 				9569024B1D306A2E0098422C /* tv-box_touch_20.png in Resources */,
 				956902281D306A2E0098422C /* appl_sound_press.png in Resources */,
@@ -1381,6 +1388,7 @@
 				956902EA1D306A2E0098422C /* 房间扫一扫_06.png in Resources */,
 				9532BC101D344F6E0014763B /* ss6_61.png in Resources */,
 				956902391D306A2E0098422C /* radio_touch_03.png in Resources */,
+				95E7EFA01D6510A30019F7B8 /* about_us_icon.png in Resources */,
 				956902781D306A2E0098422C /* sa2.png in Resources */,
 				9569024E1D306A2E0098422C /* aboutFameBtn.png in Resources */,
 				956902561D306A2E0098422C /* screen_down.png in Resources */,

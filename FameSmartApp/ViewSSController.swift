@@ -762,18 +762,12 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         let subCell:AnyObject = self.tabelVeiw.visibleCells[index]
         //print(subCell)
         let cell = subCell as! UITableViewCell2
-        let name = cell.viewWithTag(2) as! UILabel
-        //name.text = FAME.dev_ss_Rname + FAME.dev_ss_name
         
         
+        FAME.dev_ss_name = self.sensors[index]["name1"] as String!
+        FAME.dev_ss_Rname = self.sensors[index]["roomName"] as String!
         
-        let name_Str:String! = name.text as String!
 
-        
-        FAME.dev_ss_Rname = name_Str.substringWithRange(0, end: 2)
-        FAME.dev_ss_name = (name_Str as NSString).substringFromIndex(2)
-        
-        //print("4444444\()")
         
         self.showPop()
         
@@ -2308,24 +2302,41 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
     var count:Int! = 0
     var delegate :ViewControllerSS_nameDelegate?
     
+    var subName:Array<String> = []
+    
+    @IBOutlet weak var isShowView: UIView!
+    @IBOutlet weak var roomView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         //self.title = FAME.dev_ss_name
+
+        if FAME.tempSensorId == 1{
+            isShowView.alpha = 1.0
+            
+            roomView.transform = CGAffineTransformMakeTranslation(0 , 25)
+            
+            print("222222=\(FAME.subNames[FAME.dev_id])dev_id = \(FAME.dev_id)")
+            
+            let variation_name = self.view.viewWithTag(17) as! UITextField!;
+            variation_name.text = FAME.subNames[FAME.dev_id]![FAME.variation_index]
+            
+        }
+        
         self.nameArray = FAME.rooms;
         
         for(var i = 0; i < self.nameArray.count ; i++){
             if FAME.dev_ss_Rname == self.nameArray[i]{
-                count = i ;
+                count = i
             }
         }
         
         let dev_name = self.view.viewWithTag(18) as! UITextField!;
-        dev_name.text = FAME.dev_ss_name ;
+        dev_name.text = FAME.dev_ss_name
         
         
         
-        let room_button = self.view.viewWithTag(19) as! UIButton!;
+        let room_button = self.view.viewWithTag(19) as! UIButton
         room_button .addTarget(self, action: Selector("roomClick:"), forControlEvents: UIControlEvents.TouchUpInside);
         
         
@@ -2364,17 +2375,30 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
     }
     func sureClick(sender:UIButton){
         print("点击了确定按钮");
-        let dev_name = self.view.viewWithTag(18) as! UITextField!;
- 
+        let dev_name = self.view.viewWithTag(18) as! UITextField!
+        
+        if FAME.tempSensorId == 1{
+            let subname1 = self.view.viewWithTag(17) as! UITextField!
+            let subname:String = subname1.text as String!
+            FAME.subNames[FAME.dev_id]![FAME.variation_index] = subname
+            subName = FAME.subNames[FAME.dev_id]!
+        }
+        else{
+            subName = []
+        }
 //        let room_name = self.view.viewWithTag(20) as! UILabel!;
 //        room_name.text = self.nameArray[count];
         let name:String = dev_name.text as String!
         
-        FAME.dev_ss_name = name ;
+        
+        
+        FAME.dev_ss_name = name
         
         
         
-        let cmdStr = "{\"cmd\": 47,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"name\": \"\(name)\",\"room\":\(count)}"
+        
+        
+        let cmdStr = "{\"cmd\": 47,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"name\": \"\(name)\",\"room\":\(count), \"variation\": \(subName)}"
         if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
             
             //print(recevied)
