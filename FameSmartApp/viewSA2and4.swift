@@ -371,6 +371,7 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
             imgObj.image = UIImage(named: "screen_icon.png")      //  2015-05-18
         }
         else if (self.dev_types[indexPath.row] == 16 || self.dev_types[indexPath.row] == 17){
+            imgObj
             imgObj.image = UIImage(named: "appl_17_icon.png")
         }
         else{

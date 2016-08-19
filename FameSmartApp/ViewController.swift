@@ -351,28 +351,31 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                     
                     
                     //get the devicetable
-                    let DTValue = FAME.getDeviceTable()
-                    
-                    if (DTValue != nil) {
-                        if DTValue == 0 {
-                            print("DeviceTable is OK")
-                            
-                        }else{
-                            print("DeviceTable is null")
-                            FAME.getDeviceTable()
-                            FAME.lastDTversion = FAME.DTversion
-                            let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
-                            self.navigationController?.pushViewController(next, animated: true)
-                            FAME.isAddDeviceFromSetting = false
-                            
-                        }
-                    }
-                    else{
-                        print("get DT failed")
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+                        let DTValue = FAME.getDeviceTable()
                         
-                        viewAnimate().shrkInput(self.userName)
-                        viewAnimate().shrkInput(self.userPwd)
-                        viewAnimate().showTip(self.tip, content: Defined_login_dt_failed)
+                        if (DTValue != nil) {
+                            if DTValue == 0 {
+                                print("DeviceTable is OK")
+                                
+                            }else{
+                                print("DeviceTable is null")
+                                FAME.getDeviceTable()
+                                FAME.lastDTversion = FAME.DTversion
+                                let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
+                                self.navigationController?.pushViewController(next, animated: true)
+                                FAME.isAddDeviceFromSetting = false
+                                
+                            }
+                        }
+                        else{
+                            print("get DT failed")
+                            
+                            viewAnimate().shrkInput(self.userName)
+                            viewAnimate().shrkInput(self.userPwd)
+                            viewAnimate().showTip(self.tip, content: Defined_login_dt_failed)
+                        }
+ 
                     }
                     
                 }

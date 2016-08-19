@@ -2377,28 +2377,28 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         print("点击了确定按钮");
         let dev_name = self.view.viewWithTag(18) as! UITextField!
         
+        //        let room_name = self.view.viewWithTag(20) as! UILabel!;
+//        room_name.text = self.nameArray[count];
+        let name:String = dev_name.text as String!
+
+        FAME.dev_ss_name = name
+        
+        let cmdStr:String!
+        
         if FAME.tempSensorId == 1{
             let subname1 = self.view.viewWithTag(17) as! UITextField!
             let subname:String = subname1.text as String!
             FAME.subNames[FAME.dev_id]![FAME.variation_index] = subname
             subName = FAME.subNames[FAME.dev_id]!
+            
+            cmdStr = "{\"cmd\": 47,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"name\": \"\(name)\",\"room\":\(count), \"variation\": \(subName)}"
         }
         else{
-            subName = []
+            
+            cmdStr = "{\"cmd\": 47,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"name\": \"\(name)\",\"room\":\(count)}"
         }
-//        let room_name = self.view.viewWithTag(20) as! UILabel!;
-//        room_name.text = self.nameArray[count];
-        let name:String = dev_name.text as String!
-        
-        
-        
-        FAME.dev_ss_name = name
-        
-        
-        
-        
-        
-        let cmdStr = "{\"cmd\": 47,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"name\": \"\(name)\",\"room\":\(count), \"variation\": \(subName)}"
+
+  
         if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
             
             //print(recevied)

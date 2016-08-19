@@ -64,6 +64,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     
     var ChooseLinkView:UIView!
     
+    var thread:NSThread!
+    
     //门锁ActionId
     var lockId:Int = 0
     
@@ -176,9 +178,12 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     func tapPress( sender : AnyObject){
         
         self.BGView.hidden = true
+        
+    }
+    func tapPress2( sender : AnyObject){
+        
         LinkView.hidden = true
     }
-    
     func createPop(){
         
         self.BGView = UIView(frame: CGRect(x: 0, y: 0 , width: self.view.frame.width, height: self.view.frame.height))
@@ -368,6 +373,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
 
         //NSThread.currentThread().cancel()
         
+        thread .cancel()
         
     }
     
@@ -521,8 +527,9 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             FAME.showMessage("刷新成功")
         }
         else{
-            let myThread = NSThread(target: self, selector: "Timerset", object: nil)
-            myThread.start()
+            
+            thread = NSThread(target: self, selector: "Timerset", object: nil)
+            thread.start()
             
         }
         
@@ -537,6 +544,9 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         
         //create the post string
        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        
+        
         if FAME.tempSensorId == 1 || FAME.tempSensorId == 6{
             FAME.lights = indexCount
             if FAME.refreshLightState() {
@@ -544,8 +554,9 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 self.TableView.mj_header.endRefreshing()
                 dispatch_sync(dispatch_get_main_queue(), { () -> Void in
                     FAME.showMessage("刷新成功")
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 })
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                
                 
                 //print("3333333\(FAME.lightsCellState)")
                 
@@ -903,8 +914,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     }
    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
-        
-        self .performSelector("deselect", withObject: nil, afterDelay: 0.5)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        //self .performSelector("deselect", withObject: nil, afterDelay: 0.5)
     }
     func deselect(){
         
@@ -1054,7 +1065,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         //cancel
         
         let longPressRec = UITapGestureRecognizer()
-        longPressRec.addTarget(self, action: "tapPress:")
+        longPressRec.addTarget(self, action: "tapPress2:")
         
         LinkView.addGestureRecognizer(longPressRec)
         
@@ -1189,19 +1200,60 @@ class ViewControllerApplas: UIViewController,UIAlertViewDelegate {
         
     }
     @IBAction func downUp(sender : UIButton) {
-        self.btnImg.image = UIImage(named: "radio_touch02_03.png")
+        if(FAME.saActid4 == 16){
+            self.btnImg.image = UIImage(named: "appl_16_button1_press2.png")
+        }
+        if(FAME.saActid4 == 17){
+            self.btnImg.image = UIImage(named: "appl_17_button1_press2.png")
+        }
+        if(FAME.saActid4 == 18){
+            self.btnImg.image = UIImage(named: "appl_18_button1_press2.png")
+        }
+        
     }
     @IBAction func downLeft(sender : UIButton) {
-        self.btnImg.image = UIImage(named: "radio_touch05_03.png")
+        if(FAME.saActid4 == 16){
+            self.btnImg.image = UIImage(named: "appl_16_button1_press5.png")
+        }
+        if(FAME.saActid4 == 17){
+            self.btnImg.image = UIImage(named: "appl_17_button1_press5.png")
+        }
+        if(FAME.saActid4 == 18){
+            self.btnImg.image = UIImage(named: "appl_18_button1_press5.png")
+        }
     }
     @IBAction func downRight(sender : UIButton) {
-        self.btnImg.image = UIImage(named: "radio_touch03_03.png")
+        if(FAME.saActid4 == 16){
+            self.btnImg.image = UIImage(named: "appl_16_button1_press3.png")
+        }
+        if(FAME.saActid4 == 17){
+            self.btnImg.image = UIImage(named: "appl_17_button1_press3.png")
+        }
+        if(FAME.saActid4 == 18){
+            self.btnImg.image = UIImage(named: "appl_18_button1_press3.png")
+        }
     }
     @IBAction func downDown(sender : UIButton) {
-        self.btnImg.image = UIImage(named: "radio_touch04_03.png")
+        if(FAME.saActid4 == 16){
+            self.btnImg.image = UIImage(named: "appl_16_button1_press4.png")
+        }
+        if(FAME.saActid4 == 17){
+            self.btnImg.image = UIImage(named: "appl_17_button1_press4.png")
+        }
+        if(FAME.saActid4 == 18){
+            self.btnImg.image = UIImage(named: "appl_18_button1_press4.png")
+        }
     }
     @IBAction func downOk(sender : UIButton) {
-        self.btnImg.image = UIImage(named: "radio_touch_03.png")
+        if(FAME.saActid4 == 16){
+            self.btnImg.image = UIImage(named: "appl_16_button1_press1.png")
+        }
+        if(FAME.saActid4 == 17){
+            self.btnImg.image = UIImage(named: "appl_17_button1_press1.png")
+        }
+        if(FAME.saActid4 == 18){
+            self.btnImg.image = UIImage(named: "appl_18_button1_press1.png")
+        }
     }
     
     @IBAction func downCancel(sender : UIButton) {
@@ -1209,7 +1261,15 @@ class ViewControllerApplas: UIViewController,UIAlertViewDelegate {
     }
     
     @IBAction func downApplay(sender : UIButton) {
-        self.btnImg.image = UIImage(named: "radio_03.png")
+        if(FAME.saActid4 == 16){
+            self.btnImg.image = UIImage(named: "appl_16_button1_normal.png")
+        }
+        if(FAME.saActid4 == 17){
+            self.btnImg.image = UIImage(named: "appl_17_button1_normal.png")
+        }
+        if(FAME.saActid4 == 18){
+            self.btnImg.image = UIImage(named: "appl_18_button1_normal.png")
+        }
         print("OKOKOK")
   
         var act_id = sender.tag * 2 + FAME.tempApplsId - 2
@@ -1221,15 +1281,36 @@ class ViewControllerApplas: UIViewController,UIAlertViewDelegate {
     }
     
     @IBAction func downApplayOut(sender : UIButton) {
-        self.btnImg.image = UIImage(named: "radio_03.png")
+        if(FAME.saActid4 == 16){
+            self.btnImg.image = UIImage(named: "appl_16_button1_normal.png")
+        }
+        if(FAME.saActid4 == 17){
+            self.btnImg.image = UIImage(named: "appl_17_button1_normal.png")
+        }
+        if(FAME.saActid4 == 18){
+            self.btnImg.image = UIImage(named: "appl_18_button1_normal.png")
+        }
         
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Pause, target: self, action: "insertNewObject:")
-        self.navigationItem.rightBarButtonItem = addButton
         
+        creatLearnView()
+//        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Pause, target: self, action: "insertNewObject:")
+//        self.navigationItem.rightBarButtonItem = addButton
+        
+    }
+    func creatLearnView(){
+        let button = UIButton(frame: CGRectMake(0,0,35,35))
+        if self.isLearn{
+            button.setBackgroundImage(UIImage(named: "appl_learn_normal.png"), forState: UIControlState.Normal)
+        }
+        else{
+            button.setBackgroundImage(UIImage(named: "appl_learn_isleanrning.png"), forState: UIControlState.Normal)
+        }
+        button.addTarget(self, action: Selector("insertNewObject:"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
     }
     func insertNewObject(sender:AnyObject!){
         print("learn")
@@ -1247,8 +1328,7 @@ class ViewControllerApplas: UIViewController,UIAlertViewDelegate {
             
         }else{
             self.isLearn = true
-            let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Pause, target: self, action: "insertNewObject:")
-            self.navigationItem.rightBarButtonItem = addButton
+            creatLearnView()
             
         }
         
@@ -1258,8 +1338,7 @@ class ViewControllerApplas: UIViewController,UIAlertViewDelegate {
         print(buttonIndex)
         if buttonIndex == 0{
             self.isLearn = false
-            let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Compose, target: self, action: "insertNewObject:")
-            self.navigationItem.rightBarButtonItem = addButton
+            creatLearnView()
             FAME.showMessage("学习模式已经开启")
         }
     }
@@ -1282,15 +1361,22 @@ class ViewControllerApplas: UIViewController,UIAlertViewDelegate {
 //        
 //        print(appType)
 //        print("appActid:\(appActid)")
-        if(FAME.saActid4 == 17 || FAME.saActid4 == 16){
-            print("tvtvtv")
-
+        if(FAME.saActid4 == 17){
+            print("电视机tvtvtv")
+            
+            btnImg.image = UIImage(named: "appl_17_button1_normal.png")
+            
             self.btnTmp1.setBackgroundImage(UIImage(named:"tv_07-03.png"), forState:UIControlState.Normal)
             self.btnTmp1.setTitle("HOME", forState:UIControlState.Normal)
             
             self.btnTmp2.setBackgroundImage(UIImage(named:"tv_07-03.png"), forState:UIControlState.Normal)
             self.btnTmp2.setTitle(Defined_btn_return, forState:UIControlState.Normal)
             
+        }
+        if(FAME.saActid4 == 16){
+            print("电视机tvtvtv")
+            
+            btnImg.image = UIImage(named: "appl_16_button1_normal.png")
         }
         
     }
@@ -1546,9 +1632,19 @@ class ViewControllerAirC: UIViewController,UIAlertViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Pause, target: self, action: "insertNewObject:")
-        self.navigationItem.rightBarButtonItem = addButton
+        creatLearnView()
         
+    }
+    func creatLearnView(){
+        let button = UIButton(frame: CGRectMake(0,0,35,35))
+        if self.isLearn{
+            button.setBackgroundImage(UIImage(named: "appl_learn_normal.png"), forState: UIControlState.Normal)
+        }
+        else{
+            button.setBackgroundImage(UIImage(named: "appl_learn_isleanrning.png"), forState: UIControlState.Normal)
+        }
+        button.addTarget(self, action: Selector("insertNewObject:"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
     }
     func insertNewObject(sender:AnyObject!){
         print("learn")
@@ -1566,8 +1662,7 @@ class ViewControllerAirC: UIViewController,UIAlertViewDelegate {
             
         }else{
             self.isLearn = true
-            let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Pause, target: self, action: "insertNewObject:")
-            self.navigationItem.rightBarButtonItem = addButton
+            creatLearnView()
             
         }
         
@@ -1576,8 +1671,7 @@ class ViewControllerAirC: UIViewController,UIAlertViewDelegate {
         print(buttonIndex)
         if buttonIndex == 0{
             self.isLearn = false
-            let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Compose, target: self, action: "insertNewObject:")
-            self.navigationItem.rightBarButtonItem = addButton
+            creatLearnView()
             FAME.showMessage("学习模式已经开启")
         }
     }

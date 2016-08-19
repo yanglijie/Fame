@@ -47,10 +47,16 @@ class httpRequert : NSObject{
         request.HTTPMethod = "POST"
         let bodyString = cmd as NSString
         request.HTTPBody=bodyString.dataUsingEncoding(NSUTF8StringEncoding)
+        
+        if NSThread.currentThread().cancelled{
+            NSThread .exit()
+            print("222222")
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        }
  
             do{
                 let received = try NSURLConnection.sendSynchronousRequest(request, returningResponse: nil)
-                
+
                 let str = NSString(data: received, encoding: NSUTF8StringEncoding)
                 print("DATA RECEIVED\n \(str)")
                 
