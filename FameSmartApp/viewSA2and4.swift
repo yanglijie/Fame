@@ -126,7 +126,7 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
                 
                 FAME.dev_ss_Rname = name_Str.substringWithRange(0, end: 2)
                 FAME.dev_ss_name = (name_Str as NSString).substringFromIndex(2)
-                self.ieee = curtains[cell.index]["ieee"] as String!
+                self.ieee = curtains[indexPath.row]["ieee"] as String!
                 
                 self.BGView.hidden = false
                 

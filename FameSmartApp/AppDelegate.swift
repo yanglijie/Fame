@@ -18,11 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool{
         // Override point for customization after application launch.
         
-        
-       
-        //UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
-        
-        
+        print("应用启动，并进行初始化时调用")
         //is the ios8
         
         let version = (UIDevice.currentDevice().systemVersion as NSString).floatValue
@@ -33,26 +29,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
             FAME.IS_IOS8 = false
         }
         //register for push notifications
-        if FAME.IS_IOS8 {
+
             let settins:UIUserNotificationSettings = UIUserNotificationSettings(forTypes:[.Badge, .Sound, .Alert], categories: nil)
             UIApplication.sharedApplication().registerUserNotificationSettings(settins)
-            
-        
-            
+ 
             let pushSettiong = UIApplication.sharedApplication().currentUserNotificationSettings()
             
             if (pushSettiong != nil) {
                 let pushType = pushSettiong!.types
                 
-//                if (FAME.defaults.valueForKey("PushState") != nil){
-//                    let pushState = FAME.defaults.valueForKey("PushState") as! Bool
-//                    print("1111111pushType=\(pushState)")
-//                    if !pushState{
-//                        FAME.bPushEnable1 = false
-//                        
-//                    }
-//                    
-//                }
                 if pushType == UIUserNotificationType.None{
                     FAME.bPushEnable = false
                     print("PUSH disabled")
@@ -63,24 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
                 }
                 
             }
-            
-            //UIApplication.sharedApplication().registerForRemoteNotifications()
-            
-            
-            
-        }
-        else{
-            application.registerForRemoteNotificationTypes([.Badge,.Alert,.Sound])
-            
-            let pushType = UIApplication.sharedApplication().enabledRemoteNotificationTypes()
-            if (pushType == UIRemoteNotificationType.None){
-                FAME.bPushEnable = false
-                print("PUSH disabled")
-            }else{
-                FAME.bPushEnable = true
-                print("PUSH enabled")
-            }
-        }
+        //let info:NSDictionary = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]
+        //print("4444444=\()")
         
         if !FAME.bPushEnable {
             let alert = UIAlertView()
@@ -89,13 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
             alert.addButtonWithTitle(Defined_ALERT_OK)
             alert.show()
         }
-//        if !FAME.bPushEnable1 {
-//            let alert = UIAlertView()
-//            alert.title = Defined_PUSH_Title
-//            alert.message =  Defined_PUSH_failed
-//            alert.addButtonWithTitle(Defined_ALERT_OK)
-//            alert.show()
-//        }
         
         return true
     }
@@ -154,20 +116,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
 
             FAME.msgs .append(alertDic)
             FAME.defaults.setObject(FAME.msgs.reverse(), forKey: "\(FAME.user_name)")
-            //print("111111\(FAME.msgs)")
-      
-//            let alertView = UIAlertView (title: " 远程推送通知 " , message: alertDic, delegate: nil , cancelButtonTitle: " 返回 " )
-//            alertView.delegate = self
-//            alertView.show()
             
-            let alert = UIAlertView()
-            alert.title = " 远程推送通知 "
-            alert.delegate = self
-            alert.message =  alertDic
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.show()
+
+
+            //判断程序现在是在前台运行还是后台
+            if UIApplication.sharedApplication().applicationState == .Active{
+                let alert = UIAlertView()
+                alert.title = " 远程推送通知 "
+                alert.delegate = self
+                alert.message =  alertDic
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            }
+            else{
+                print("刚刚在后台")
+                let next :UIViewController = GBoard.instantiateViewControllerWithIdentifier("msg") as UIViewController
+                self.window?.rootViewController?.presentViewController(next, animated: true, completion: nil)
+                
+            }
             
-            NSNotificationCenter.defaultCenter().postNotificationName("msgChange", object: FAME.msgs.reverse())
+            
+        NSNotificationCenter.defaultCenter().postNotificationName("msgChange", object: FAME.msgs.reverse())
         }
         
         
@@ -176,9 +145,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         
         //print("555555555")
-//        let next :UIViewController = GBoard.instantiateViewControllerWithIdentifier("msg") as UIViewController
-//        self.window?.rootViewController?.presentViewController(next, animated: true, completion: nil)
-        //navigationController?.pushViewController(next, animated: true)
+        
         
     }
        
@@ -223,23 +190,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        print("应用从活动状态进入非活动状态时调用")
+        
     }
     
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        print("应用进入后台时调用")
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        print("应用进入前台时调用")
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        print("应用进入前台并处于活动状态时调用")
     }
     
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        print("应用被终止时调用")
     }
     
     

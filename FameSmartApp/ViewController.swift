@@ -65,7 +65,7 @@ class ViewControllerWelcome: UIViewController {
     }
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
-        
+   
         
         let timmer:NSTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:"timerFunction", userInfo:nil, repeats:false)
     }
@@ -129,9 +129,9 @@ class ViewControllerLogin0: UIViewController {
                     }
                     
                 }
-                else{
-                    UIApplication.sharedApplication().registerForRemoteNotifications()
-                }
+//                else{
+//                    UIApplication.sharedApplication().registerForRemoteNotifications()
+//                }
                 
                 FAME.user_uid = received.valueForKey("user_uid") as! UInt
                 
@@ -331,9 +331,9 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                     }
                     
                 }
-                else{
-                    UIApplication.sharedApplication().registerForRemoteNotifications()
-                }
+//                else{
+//                    UIApplication.sharedApplication().registerForRemoteNotifications()
+//                }
                 
                 FAME.user_uid = received.valueForKey("user_uid") as! UInt
             

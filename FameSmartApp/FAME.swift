@@ -17,8 +17,8 @@ import AVFoundation
 
 
 let GBoard = UIStoryboard(name: "Main", bundle: nil)
-//var Surl="http://www.famesmart.com/famecloud/user_intf.php"
-var Surl="http://famesmart.com/fame_test/index.php/Home/Index/cmd"
+var Surl="http://www.famesmart.com/famecloud/user_intf.php"
+//var Surl="http://famesmart.com/fame_test/index.php/Home/Index/cmd"
 let Curl="http://219.220.215.211/weixin/fame/wx_fame.php"
 
 
@@ -720,7 +720,7 @@ class fame:NSObject{
                             
                             }else{
                                 //FAME.showLight1Arr.append(lightId)
-                                self.lights7.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)","index_count":"\(sub)"])
+                                self.lights7.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                             }
                         
                             index++
@@ -1250,30 +1250,12 @@ class fame:NSObject{
         for value in lights {
             let AddedObj = value as NSDictionary
             let dev_id:NSString! = AddedObj["dev_id"] as! NSString
-            let count:String! = AddedObj["index_count"] as! String
-            let arr:Array = count.componentsSeparatedByString(",")
-            print(count)
-            if lastId != count {
-                for i in 0..<arr.count{
-                    paramArray.addObject(dev_id)
-                    break
-                    
-                }
-                lastId = count as String
+            if lastId != dev_id {
+                paramArray.addObject(dev_id)
+                lastId = dev_id as String
             }
-            
-            
-        
+
         }
-//        for value in lights {
-//            let AddedObj = value as NSDictionary
-//            let dev_id:NSString! = AddedObj["dev_id"] as! NSString
-//            if lastId != dev_id {
-//                paramArray.addObject(dev_id)
-//                lastId = dev_id as String
-//            }
-//
-//        }
         
         let param = paramArray.componentsJoinedByString(",")
         

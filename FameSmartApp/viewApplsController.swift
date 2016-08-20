@@ -46,7 +46,6 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     var ieee:String! = ""
     var subValue:String! = ""
     
-    var index:Int = 0
     var roomIndex : Int = 0
     
     
@@ -97,33 +96,11 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     func reloadName() {
         FAME.showMessage("名字修改成功");
 
-
-          
-        //
         refreshData()
         data(roomIndex)
+
+        TableView.reloadData()
         
-//        print("11111=\(roomIndex)")
-//        print("4444444\(indexCount)")
-        
-        if indexCount.count > 0{
-            for subCell:AnyObject in self.TableView!.visibleCells {
-                //print(subCell)
-                let cell = subCell as! UITableViewCell2
-                //subValue = indexCount[cell.index]["subValue"] as String!
-                if cell.dev_id == FAME.dev_id{
-                    let name = cell.viewWithTag(1) as! UILabel
-                    if FAME.tempSensorId == 1 || FAME.tempSensorId == 6{
-                        name.text = FAME.dev_ss_Rname + FAME.dev_ss_name  + FAME.subNames[FAME.dev_id]![FAME.variation_index]
-                    }else{
-                        name.text = FAME.dev_ss_Rname + FAME.dev_ss_name
-                    }
-                }
-            }
-        }
-        else{
-            TableView.reloadData()
-        }
         
     }
     
@@ -153,10 +130,12 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                     selectDevid1 = cell.dev_id
                 }
                 
-                if FAME.tempSensorId == 1{
+                
+                if FAME.tempSensorId == 1 || FAME.tempSensorId == 6{
                     let index1 = indexCount[indexPath.row]["index"] as String!
                     FAME.variation_index = Int(index1)
                     FAME.subNames[FAME.dev_id]![FAME.variation_index] = indexCount[indexPath.row]["subValue"]!
+                    
                 }
 
               
@@ -166,7 +145,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                     }
                 }
                 
-                self.ieee = indexCount[cell.index]["ieee"] as String!
+                self.ieee = indexCount[indexPath.row]["ieee"] as String!
                 
                 createPop()
                 self.BGView.hidden = false
@@ -294,6 +273,12 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     func btns4Fun(sender:UIButton){
         self.BGView.hidden = true
         print("设置联动")
+        
+        let select = FAME.linkYB[0]["dev_id"] as String!
+        selectDevid2 = Int(select)!
+        
+        print("select1= \(selectDevid1)select2= \(selectDevid2)")
+        
         createLinkView()
         LinkView.hidden = false
         
@@ -373,7 +358,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
 
         //NSThread.currentThread().cancel()
         
-        thread .cancel()
+        //thread .cancel()
         
     }
     
@@ -572,7 +557,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                     //print("id == \(cell.id)")
                     
                     
-                    let type:Int! = cell.dev_id
+                    let type:Int! = cell.type
                     
                     dispatch_sync(dispatch_get_main_queue(), { () -> Void in
                         if (state != nil) {
@@ -580,7 +565,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                             //print("state:\(state)")
                             if state == 1 {
                                 view.image = UIImage(named: "socket_10.png")
-                                if type == 7 {
+                                if type == 11 {
                                     imgObj.image = UIImage(named: "panel_icon1.png")
                                 }
                                 else{
@@ -588,7 +573,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                                 }
                             }else {
                                 view.image = UIImage(named: "socket_06.png")
-                                if type == 7 {
+                                if type == 11 {
                                     imgObj.image = UIImage(named: "panel_icon.png")
                                 }
                                 else{
@@ -597,7 +582,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                             }
                         }
                         else{
-                            if type == 7 {
+                            if type == 11 {
                                 imgObj.image = UIImage(named: "panel_icon.png")
                             }
                             else{
@@ -751,7 +736,6 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         
         //let showId = self.lightIdArr[indexPath.row]
         
-        cell.index = indexPath.row
         
         //长按手势
         let longpressGesutre = UILongPressGestureRecognizer(target:self
@@ -771,12 +755,13 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         
         let type_Str:String! = indexCount[indexPath.row]["dev_type"] as String!
         let type:Int! = Int(type_Str)
-        
+        cell.type = type
         
         
         //cell.tag = dev_id * 10 + index
         
         cell.dev_id = dev_id
+        
         cell.id = dev_id * 10 + index
         
         //name
@@ -1111,6 +1096,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     
     //设置联动
     func btns5Fun(sender:UIButton){
+        
         
         createChooseLink()
         ChooseLinkView.hidden = false

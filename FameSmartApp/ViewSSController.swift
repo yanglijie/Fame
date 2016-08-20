@@ -82,11 +82,14 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     }
     func reloadName() {
         FAME.showMessage("名字修改成功");
-        let subCell:AnyObject = self.tabelVeiw.visibleCells[index]
-            //print(subCell)
-        let cell = subCell as! UITableViewCell2
-        let name = cell.viewWithTag(2) as! UILabel
-        name.text = FAME.dev_ss_Rname + FAME.dev_ss_name ;
+//        let subCell:AnyObject = self.tabelVeiw.visibleCells[index]
+//            //print(subCell)
+//        let cell = subCell as! UITableViewCell2
+//        let name = cell.viewWithTag(2) as! UILabel
+//        name.text = FAME.dev_ss_Rname + FAME.dev_ss_name
+        
+        refreshData()
+        tabelVeiw.reloadData()
 
     }
     @IBAction func tap(sender : UISwitch2) {
@@ -2631,7 +2634,7 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
             if(indexPath != nil){
                 let cell:UITableViewCell2! = self.tableView.cellForRowAtIndexPath(indexPath) as! UITableViewCell2
 
-                ieee = indexCount[cell.index]["ieee"] as String!
+                ieee = indexCount[indexPath.row]["ieee"] as String!
                 let alert :UIAlertView = UIAlertView()
                 alert.delegate = self
                 alert.title = Defined_ALERT_del
