@@ -32,8 +32,10 @@ let Defined_ALERT_del = "删除设备"
 let Defined_ALERT_del2 = "确定要删除此设备？"
 
 
+let Defined_SA_btns1 = ["灯 光","窗 帘","空 调","影 音","移 动 智 能","智 能 浴 霸","智 能 门 锁","风 机 控 制","中 央 空 调"]
 let Defined_SA_btns = ["灯光","智能电机","空调","影音","移动智能","智能浴霸","智能门锁","风机控制","中央空调"]
 let Defined_SS_btns = ["温湿监测","门窗磁","运动感应","烟雾报警","燃气报警","漏水检测","情景模式面板","空气质量"]
+let Defined_SS_btns1 = ["温 湿 监 测","门 窗 磁","运 动 感 应","烟 雾 报 警","燃 气 报 警","漏 水 检 测","情 景 模 式 面 板","空 气 质 量"]
 
 let Defined_SS_icons =
     ["0","ss2_2.png","move_03.png","smork_03.png","gas_03.png","ss6_6","0","ss8_8.png"]

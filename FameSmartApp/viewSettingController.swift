@@ -70,7 +70,7 @@ class ViewSettingPwdController: UIViewController ,UITextFieldDelegate,UIAlertVie
     
     @IBOutlet var userPwd3 : UITextField!
     
-    @IBOutlet var pwdLabel : UILabel!
+
     
     
     

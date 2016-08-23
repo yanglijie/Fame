@@ -690,6 +690,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                                     imgObj.image = UIImage(named: "cta_open.png")
                                     view1.image = UIImage(named: "speed1.png")
                                 default:
+                                    view.image = UIImage(named: "socket_06.png")
+                                    imgObj.image = UIImage(named: "cta_close.png")
                                     break
                                 }
                                 
@@ -706,7 +708,14 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                             
                         }
                         else{
-                            imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
+                            view.image = UIImage(named: "socket_06.png")
+                            if FAME.tempSensorId == 9{
+                                imgObj.image = UIImage(named: "cta_close.png")
+                            }
+                            else{
+                                imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
+                            }
+                            
                         }
                     })
                 }
@@ -831,6 +840,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                         imgObj.image = UIImage(named: "cta_open.png")
                         view1.image = UIImage(named: "speed1.png")
                     default:
+                        view.image = UIImage(named: "socket_06.png")
+                        imgObj.image = UIImage(named: "cta_close.png")
                         break
                     }
                     
@@ -860,6 +871,9 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 view.image = UIImage(named: "socket_06.png")
                 if type == 11 {
                     imgObj.image = UIImage(named: "panel_icon.png")
+                }
+                else if FAME.tempSensorId == 9{
+                    imgObj.image = UIImage(named: "cta_close.png")
                 }
                 else{
                     imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])

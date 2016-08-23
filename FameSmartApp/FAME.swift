@@ -17,8 +17,8 @@ import AVFoundation
 
 
 let GBoard = UIStoryboard(name: "Main", bundle: nil)
-var Surl="http://www.famesmart.com/famecloud/user_intf.php"
-//var Surl="http://famesmart.com/fame_test/index.php/Home/Index/cmd"
+//var Surl="http://www.famesmart.com/famecloud/user_intf.php"
+var Surl="http://famesmart.com/fame_test/index.php/Home/Index/cmd"
 let Curl="http://219.220.215.211/weixin/fame/wx_fame.php"
 
 
@@ -757,7 +757,7 @@ class fame:NSObject{
                         case 13 :
                             self.socket13.append(["name":"\(roomName)\(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         case 31 :
-                            self.socket31.append(["name":"\(roomName)\(name)\(sub[0])","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                            self.socket31.append(["name":"\(roomName)\(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         case 33 :
                             self.socket33.append(["name":"\(roomName)\(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         default:

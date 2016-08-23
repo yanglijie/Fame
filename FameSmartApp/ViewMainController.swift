@@ -168,7 +168,7 @@ class ViewControllerMainSA: UIViewController {
         }
         
         let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA\(viewId)") as UIViewController!
-        next.title = "\(Defined_SA_btns[sender.tag - 1])"
+        next.title = "\(Defined_SA_btns1[sender.tag - 1])"
         self.navigationController?.pushViewController(next, animated: true)
         
     }
@@ -489,7 +489,7 @@ class ViewControllerMainSS: UIViewController {
             next = GBoard.instantiateViewControllerWithIdentifier("viewSS") as UIViewController
         }
 
-        next.title = "\(Defined_SS_btns[sender.tag])"
+        next.title = "\(Defined_SS_btns1[sender.tag])"
         FAME.tempSensorId = sender.tag
         self.navigationController?.pushViewController(next, animated: true)
         //self.navigationController.navigationBar.topItem.title = "Back"
@@ -535,6 +535,33 @@ class ViewAboutUs2Controller: UIViewController {
 }
 
 
+class ViewControllerMainUM: UIViewController {
+    
+    @IBOutlet weak var webView: UIWebView!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        let returnButtonItem = UIBarButtonItem()
+        returnButtonItem.title = Defined_navigation_back_title
+        self.navigationItem.backBarButtonItem = returnButtonItem
+        
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
+    }
+    func Timerset(){
+        let url = NSURL(string: "http://www.famesmart.com/product/usermanual.html")
+        let request = NSURLRequest(URL: url!)
+        webView.loadRequest(request)
+    }
+}
 
 
 

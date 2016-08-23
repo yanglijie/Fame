@@ -76,7 +76,7 @@ class ViewControllerMain: RefreshView ,UIAlertViewDelegate {
         
         //play()
         
-        FAME.getDateFormServer()
+        //FAME.getDateFormServer()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "play1:", name: "play", object: nil)
         
