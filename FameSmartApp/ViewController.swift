@@ -305,6 +305,12 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
         FAME.user_name = self.userName.text
         FAME.user_pwd = self.userPwd.text
         
+        let userName = FAME.getProfile(0)
+        if userName != self.userName.text{
+            FAME.msgs.removeAll()
+            FAME.defaults.setObject(FAME.msgs.reverse(), forKey: "\(FAME.user_name)")
+        }
+
         //save to local
         
         FAME.saveProfile(FAME.user_name, pwd: FAME.user_pwd)

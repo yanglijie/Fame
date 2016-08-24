@@ -266,6 +266,8 @@ class ViewControllerMainP: UIViewController {
         
         
         let btnShake = UIButton(frame: CGRect(x: view0.frame.size.width - top/3 * 2 + 30 , y: top/3/2  , width: top/3 * 2, height: top/3 * 2))
+        
+        
         //let btnShake = UIButton(frame: CGRect(x: view0.frame.size.width - top/3 * 2 , y: 0  , width: 50, height: 50))
         btnShake.setBackgroundImage(UIImage(named: "shake.png"), forState: UIControlState.Normal)
         btnShake.addTarget(self, action: "tapShake:", forControlEvents: UIControlEvents.TouchUpInside)

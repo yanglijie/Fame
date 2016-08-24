@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
         print("应用启动，并进行初始化时调用")
         //is the ios8
         
+        
+        
         let version = (UIDevice.currentDevice().systemVersion as NSString).floatValue
         
         if version >= 8 {

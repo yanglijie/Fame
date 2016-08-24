@@ -17,8 +17,8 @@ import AVFoundation
 
 
 let GBoard = UIStoryboard(name: "Main", bundle: nil)
-//var Surl="http://www.famesmart.com/famecloud/user_intf.php"
-var Surl="http://famesmart.com/fame_test/index.php/Home/Index/cmd"
+var Surl="http://www.famesmart.com/famecloud/user_intf.php"
+//var Surl="http://famesmart.com/fame_test/index.php/Home/Index/cmd"
 let Curl="http://219.220.215.211/weixin/fame/wx_fame.php"
 
 
@@ -170,7 +170,7 @@ class fame:NSObject{
     
     var idForNamesMode:Dictionary<Int,String> = [:]
     
-    var subNames : Dictionary<Int,Array<String>> = [:]
+    var subNames : Dictionary<Int,Array<AnyObject>> = [:]
     
     var Links:Array<Dictionary<String,AnyObject>> = []
     //  Array["light"][Array<Dic>]
@@ -629,7 +629,7 @@ class fame:NSObject{
                 let room:Int = DTlight.valueForKey("room") as! Int
                 let dev_type:NSNumber = DTlight.valueForKey("dev_type") as! NSNumber
                 
-                let sub = value.valueForKey("variation") as! Array<String>
+                
                 
                 let roomName = self.rooms[room]
                 
@@ -669,16 +669,23 @@ class fame:NSObject{
                         Links3 = []
                         //var sub :Array<String> = []
                         
+                        var sub:Array<AnyObject> = []
+
+                        let set:Array = value.valueForKey("set") as! Array<Int>
+                        //for subValue in value.valueForKey("variation") as! Array<AnyObject> {
                         
-                        self.subNames[dev_id] = sub
-                        
-                        
-                        
-                        for subValue in value.valueForKey("variation") as! Array<String> {
-                        
-                            //sub.append("\(subValue)")
-                        
-                        
+                        let variation = value.valueForKey("variation") as! NSArray
+                        for i in 0..<set.count{
+                            
+                            var subValue:AnyObject
+                            
+                            if variation.count == 0{
+                                subValue = ""
+                            }
+                            else{
+                                subValue = variation[i]
+                            }
+                            sub.append("\(subValue)")
                             //self.lights.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         
                         
@@ -729,7 +736,7 @@ class fame:NSObject{
                         
                         }
                     
-                        
+                        self.subNames[dev_id] = sub
                     
                         if (dev_type != 11){
                         //add to Links

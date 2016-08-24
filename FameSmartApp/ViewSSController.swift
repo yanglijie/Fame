@@ -2309,11 +2309,9 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
     
     @IBOutlet weak var isShowView: UIView!
     @IBOutlet weak var roomView: UIView!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        //self.title = FAME.dev_ss_name
-
+    
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
         if FAME.tempSensorId == 1{
             isShowView.alpha = 1.0
             
@@ -2321,8 +2319,9 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
             
             print("222222=\(FAME.subNames[FAME.dev_id])dev_id = \(FAME.dev_id)")
             
-            let variation_name = self.view.viewWithTag(17) as! UITextField!;
-            variation_name.text = FAME.subNames[FAME.dev_id]![FAME.variation_index]
+            let variation_name = self.view.viewWithTag(17) as! UITextField!
+            
+            variation_name.text = FAME.subNames[FAME.dev_id]![FAME.variation_index] as? String
             
         }
         
@@ -2336,19 +2335,23 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         
         let dev_name = self.view.viewWithTag(18) as! UITextField!;
         dev_name.text = FAME.dev_ss_name
-        
-        
-        
+
         let room_button = self.view.viewWithTag(19) as! UIButton
         room_button .addTarget(self, action: Selector("roomClick:"), forControlEvents: UIControlEvents.TouchUpInside);
-        
-        
+
         let sure_button = self.view.viewWithTag(21) as! UIButton!;
         sure_button .addTarget(self, action: Selector("sureClick:"), forControlEvents: UIControlEvents.TouchUpInside);
         
         let room_name = self.view.viewWithTag(20) as! UILabel!;
         room_name.text = FAME.dev_ss_Rname;
-        
+    }
+
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        //self.title = FAME.dev_ss_name
+
         
         let tap = UITapGestureRecognizer(target: self, action: "tapClick:")
         tap.numberOfTapsRequired = 1
@@ -2383,6 +2386,7 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         //        let room_name = self.view.viewWithTag(20) as! UILabel!;
 //        room_name.text = self.nameArray[count];
         let name:String = dev_name.text as String!
+        
 
         FAME.dev_ss_name = name
         
@@ -2391,9 +2395,21 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         if FAME.tempSensorId == 1{
             let subname1 = self.view.viewWithTag(17) as! UITextField!
             let subname:String = subname1.text as String!
-            FAME.subNames[FAME.dev_id]![FAME.variation_index] = subname
-            subName = FAME.subNames[FAME.dev_id]!
+            print("222222====\(subname)lllllll===\(FAME.variation_index)")
             
+            FAME.subNames[FAME.dev_id]![FAME.variation_index] = subname
+            for i in 0..<FAME.subNames[FAME.dev_id]!.count{
+                
+                if FAME.subNames[FAME.dev_id]![i].isEqual(""){
+                    
+                    subName.append("")
+                }
+                else{
+                    subName.append("\(FAME.subNames[FAME.dev_id]![i])")
+                }
+            }
+            //subName = FAME.subNames[FAME.dev_id]!
+            print(subName)
             cmdStr = "{\"cmd\": 47,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"name\": \"\(name)\",\"room\":\(count), \"variation\": \(subName)}"
         }
         else{
@@ -2485,10 +2501,6 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    override func viewWillAppear(animated: Bool){
-        super.viewWillAppear(animated)
-        
     }
     
 }

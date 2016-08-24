@@ -131,10 +131,13 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 }
                 
                 
-                if FAME.tempSensorId == 1 || FAME.tempSensorId == 6{
+                if FAME.tempSensorId == 1{
                     let index1 = indexCount[indexPath.row]["index"] as String!
                     FAME.variation_index = Int(index1)
+                    
                     FAME.subNames[FAME.dev_id]![FAME.variation_index] = indexCount[indexPath.row]["subValue"]!
+                   
+                    
                     
                 }
 
