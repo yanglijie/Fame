@@ -600,24 +600,24 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
         print(hvMd5Str)
         print(md5Str)
         
-        if md5Str == hvMd5Str {
-            print("MD5 OK")
-            if (self.inputType.text == ""){
-                //get the Type
-                let dl = httpRequert()
-                if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
-                    
-                    self.model_id = received.valueForKey("model_id") as! UInt
-                    self.inputType.text = received.valueForKey("model_name") as? String
-                    
-                }else{
-                    self.inputType.text = Defined_Unkown_Device
-                }
-                
-                
-            }
-            
-        }
+//        if md5Str == hvMd5Str {
+//            print("MD5 OK")
+//            if (self.inputType.text == ""){
+//                //get the Type
+//                let dl = httpRequert()
+//                if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
+//                    
+//                    self.model_id = received.valueForKey("model_id") as! UInt
+//                    self.inputType.text = received.valueForKey("model_name") as? String
+//                    
+//                }else{
+//                    self.inputType.text = Defined_Unkown_Device
+//                }
+//                
+//                
+//            }
+//            
+//        }
         
 
     }
@@ -634,22 +634,35 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
             print("MD5 OK")
             
             
-            
-            //check the type
-            if (self.model_id == 2 )||(self.model_id == 3 ) {
-                FAME.user_ieee_addr = self.inputHv.text!
-                FAME.user_ieee_ck = self.inputCK.text!
-                let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin3") as UIViewController
-                self.navigationController?.pushViewController(next, animated: true)
+            if let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 1, \"ieee_addr\": \"\(self.inputHv.text!)\", \"verify_code\": \"\(self.inputCK.text!)\"}"){
                 
-            }else{
-                
-                viewAnimate().shrkInput(self.inputType!)
-                viewAnimate().showTip(self.tip!, content: Defined_register_not_router)
+                self.model_id = received.valueForKey("model_id") as! UInt
+                //check the type
+                if (self.model_id == 2 )||(self.model_id == 3 ) {
+                    FAME.user_ieee_addr = self.inputHv.text!
+                    FAME.user_ieee_ck = self.inputCK.text!
+                    let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin3") as UIViewController
+                    self.navigationController?.pushViewController(next, animated: true)
+                    
+                }else{
+                    
+                    viewAnimate().shrkInput(self.inputType!)
+                    viewAnimate().showTip(self.tip!, content: Defined_register_not_router)
+                    
+                }
+
                 
             }
+
             
-            
+            else{
+                print("MD5 error")
+                self.inputCK.textColor = UIColor.redColor()
+                self.inputHv.textColor = UIColor.redColor()
+                viewAnimate().shrkInput(self.inputCK)
+                viewAnimate().shrkInput(self.inputHv)
+            }
+ 
 
         }else{
             print("MD5 error")
@@ -953,8 +966,9 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
         
         if self.userPwd1.text == self.userPwd2.text {
             //do regist
-            let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 3, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\",\"user_pwd1\": \"\(FAME.user_pwd)\",\"user_vcode\": \"\", \"user_email\": \"web@lyzic.com\"}",cmplx:true)
+            let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 3, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\",\"user_pwd1\": \"\(FAME.user_pwd)\", \"user_email\": \"web@lyzic.com\"}",cmplx:true)
             print(received)
+            
             if (received != nil){
             
                 switch received.valueForKey("result") as! UInt {
@@ -989,9 +1003,14 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
                     
                     //link the device
                     FAME.user_uid = received.valueForKey("uid") as! UInt
+                    print(FAME.user_uid)
+                    
                     if let received2 = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 13, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\",\"ieee_addr\": \"\(FAME.user_ieee_addr)\",\"verify_code\": \"\(FAME.user_ieee_ck)\", \"dname\": \"My SmartHome\"}") {
                         
                         print("linked")
+                        
+                        FAME.saveProfile(FAME.user_name, pwd: FAME.user_pwd)
+                        
                         self.tip.text = nil
                         FAME.user_did = received2.valueForKey("did") as! UInt
                         //get the DT
@@ -1182,12 +1201,17 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
 
     @IBAction func didShowLogin5(sender : AnyObject) {
 
-//        let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
-//        self.navigationController?.pushViewController(next, animated: true)
-//        self.navigationController?.setNavigationBarHidden(true, animated: true)
         
-        let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
-        myThread.start()
+        
+        if (!self.inputTel.text!.isEmpty) && (!self.inputVcode.text!.isEmpty){
+            let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
+            myThread.start()
+        }
+        else{
+        
+            FAME.showMessage("填写的不完整")
+        }
+        
         
     }
     func Timerset2(){
@@ -1218,7 +1242,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         
         
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        self.navigationController?.popViewControllerAnimated(true)
         
     }
     @IBAction func showLogin5(sender : AnyObject) {

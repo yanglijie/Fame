@@ -1142,7 +1142,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                 dispatch_sync(dispatch_get_main_queue(), { () -> Void in
                 
                 self.tabelVeiw.mj_header.endRefreshing()
-                FAME.showMessage("刷新成功")
+                //FAME.showMessage("刷新成功")
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                     
                     //got the state
@@ -1211,9 +1211,10 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
    
     override func viewWillDisappear(animated: Bool){
         super.viewWillDisappear(animated)
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.tabelVeiw.setEditing(false, animated: false)
     }
-    
+   
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         
         self.refreshData()
@@ -2395,7 +2396,7 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         if FAME.tempSensorId == 1{
             let subname1 = self.view.viewWithTag(17) as! UITextField!
             let subname:String = subname1.text as String!
-            print("222222====\(subname)lllllll===\(FAME.variation_index)")
+            //print("222222====\(subname)lllllll===\(FAME.variation_index)")
             
             FAME.subNames[FAME.dev_id]![FAME.variation_index] = subname
             for i in 0..<FAME.subNames[FAME.dev_id]!.count{

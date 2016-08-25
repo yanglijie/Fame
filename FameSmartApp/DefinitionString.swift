@@ -118,7 +118,7 @@ let Defined_setting_success = "修改成功"
 
 let Defined_telphone_success1 = "该用户还没有绑定手机号，请先绑定手机号"
 let Defined_telphone_success = "手机号绑定成功"
-let Defined_telphone_error = "手机号绑定成功"
+let Defined_telphone_error = "验证码不正确，请重新获取"
 
 let Defined_device_title = "设备忙"
 let Defined_device_failed = "当前正在进行设备的添加或删除，请稍后再试"

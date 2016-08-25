@@ -19,7 +19,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
     var BGView:UIView!
     var pickView:UIView!
     
-    var ids = [0,0,0,0,0,0,0,0]
+    var ids = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     var id1 = -2
     var id2 = 0
     
@@ -34,8 +34,17 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
     
     var viewUp = UIView()
     
-    @IBOutlet var subView : UIView!
+
     
+    @IBOutlet weak var subView: UIView!
+  
+    @IBAction func saveClick(sender: AnyObject) {
+        viewUp.hidden = false
+        subView.transform = CGAffineTransformMakeTranslation(0 , 80)
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,7 +55,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         let btnDiff = self.view.frame.size.height * 0.09
         let btnTop0:CGFloat = self.view.frame.size.height * 0.06 - btnDiff
         var y = btnTop0
-        for index in 0...7 {
+        for index in 0...15 {
             y = y + btnDiff
             let btn = UIButton(frame: CGRect(x: x, y: y, width: btnWidth, height: btnHeight))
             btn.setBackgroundImage(UIImage(named: "aboutFameBtn.png"), forState: UIControlState.Normal)
@@ -57,8 +66,8 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
             self.subView.addSubview(btn)
         }
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "insertNewObject:")
-        self.navigationItem.rightBarButtonItem = addButton
+//        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "insertNewObject:")
+//        self.navigationItem.rightBarButtonItem = addButton
         
         
         self.createPop()
@@ -114,7 +123,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         if let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
             print("refresh successed")
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                FAME.showMessage("刷新成功")
+                //FAME.showMessage("刷新成功")
                 self.viewUp.hidden = true
                 self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false

@@ -183,12 +183,15 @@ class ViewControllerMainP: UIViewController {
     var canShowDetail = true
     var count:NSTimeInterval = 0
     var btns_count:Int = 0
+    var modes:Array<String> = []
     func longPress(sender : AnyObject!) {
         
         if self.canShowDetail {
-            print(sender)
-            let next : viewModesSettingController! = GBoard.instantiateViewControllerWithIdentifier("viewModesSetting") as! viewModesSettingController
             
+            print(sender)
+            
+            let next : viewModesSettingController! = GBoard.instantiateViewControllerWithIdentifier("viewModesSetting") as! viewModesSettingController
+            next.title = modes[FAME.tempMode - 8]
             self.navigationController?.pushViewController(next, animated: true)
             self.canShowDetail = false
         }
@@ -206,7 +209,8 @@ class ViewControllerMainP: UIViewController {
         
         var btns:Array<String>!
         if let modesObj:AnyObject? = FAME.device_table.valueForKey("modes") {
-             btns = modesObj as! Array<String>
+            btns = modesObj as! Array<String>
+            modes = btns
             count = NSTimeInterval(btns.count)
         }
         

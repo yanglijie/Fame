@@ -359,6 +359,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        
         //NSThread.currentThread().cancel()
         
         //thread .cancel()
@@ -367,6 +369,8 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+        
+        
 //        if NSThread.currentThread().executing{
 //            print("杀死")
 //            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -541,7 +545,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 
                 self.TableView.mj_header.endRefreshing()
                 dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                    FAME.showMessage("刷新成功")
+                    //FAME.showMessage("刷新成功")
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 })
                 
@@ -625,7 +629,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 
                 self.TableView.mj_header.endRefreshing()
                 dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                    FAME.showMessage("刷新成功")
+                    //FAME.showMessage("刷新成功")
                 })
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 //got the state
@@ -1054,7 +1058,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         data(sender.tag - 1000)
         
         TableView.reloadData()
-        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         indexRoom = sender.tag
         //print("11111\(sender.tag)")
     }
@@ -1167,6 +1171,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         let btnDiff = HEIGHT * 0.06
         let btnTop0:CGFloat = HEIGHT * 0.52 - btnDiff
         var y = btnTop0
+        print("3444343434====\(FAME.linkYB)")
         for i in 0..<FAME.linkYB.count{
             y = y + btnDiff
             let btnS2 = UIButton(frame: CGRect(x: WIDTH * 0.15 + 20, y: y  , width: WIDTH * 0.7 - 40, height: btnDiff))
@@ -1174,6 +1179,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             btnS2.backgroundColor = UIColor.whiteColor()
 
             btnS2.tag = 45
+            
             btnS2.setTitle(FAME.linkYB[i]["name"], forState: UIControlState.Normal)
             btnS2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
             btnS2.addTarget(self, action: Selector("btns7Fun:"), forControlEvents: UIControlEvents.TouchUpInside)

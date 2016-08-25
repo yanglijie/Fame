@@ -249,7 +249,6 @@ class ViewSettingMTimerController: UIViewController {
             
             //let date = FAME.getDateFormLocal()
             let date1 = received["detail"]!["time"] as! String
-            
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             let date = dateFormatter.dateFromString(date1)!

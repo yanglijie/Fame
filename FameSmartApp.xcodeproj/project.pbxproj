@@ -124,7 +124,6 @@
 		956902371D306A2E0098422C /* radio_touch04_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 9569015C1D306A2E0098422C /* radio_touch04_03.png */; };
 		956902381D306A2E0098422C /* radio_touch05_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 9569015D1D306A2E0098422C /* radio_touch05_03.png */; };
 		956902391D306A2E0098422C /* radio_touch_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 9569015E1D306A2E0098422C /* radio_touch_03.png */; };
-		9569023A1D306A2E0098422C /* setting_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 9569015F1D306A2E0098422C /* setting_03.png */; };
 		9569023C1D306A2E0098422C /* tv-box_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 956901611D306A2E0098422C /* tv-box_03.png */; };
 		9569023D1D306A2E0098422C /* tv-box_07.png in Resources */ = {isa = PBXBuildFile; fileRef = 956901621D306A2E0098422C /* tv-box_07.png */; };
 		9569023E1D306A2E0098422C /* tv-box_09.png in Resources */ = {isa = PBXBuildFile; fileRef = 956901631D306A2E0098422C /* tv-box_09.png */; };
@@ -487,7 +486,6 @@
 		9569015C1D306A2E0098422C /* radio_touch04_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_touch04_03.png; sourceTree = "<group>"; };
 		9569015D1D306A2E0098422C /* radio_touch05_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_touch05_03.png; sourceTree = "<group>"; };
 		9569015E1D306A2E0098422C /* radio_touch_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_touch_03.png; sourceTree = "<group>"; };
-		9569015F1D306A2E0098422C /* setting_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting_03.png; sourceTree = "<group>"; };
 		956901611D306A2E0098422C /* tv-box_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tv-box_03.png"; sourceTree = "<group>"; };
 		956901621D306A2E0098422C /* tv-box_07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tv-box_07.png"; sourceTree = "<group>"; };
 		956901631D306A2E0098422C /* tv-box_09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tv-box_09.png"; sourceTree = "<group>"; };
@@ -982,7 +980,6 @@
 				9569015C1D306A2E0098422C /* radio_touch04_03.png */,
 				9569015D1D306A2E0098422C /* radio_touch05_03.png */,
 				9569015E1D306A2E0098422C /* radio_touch_03.png */,
-				9569015F1D306A2E0098422C /* setting_03.png */,
 				956901611D306A2E0098422C /* tv-box_03.png */,
 				956901621D306A2E0098422C /* tv-box_07.png */,
 				956901631D306A2E0098422C /* tv-box_09.png */,
@@ -1448,7 +1445,6 @@
 				9569026A1D306A2E0098422C /* curtain_44.png in Resources */,
 				956902AE1D306A2E0098422C /* clock_03.png in Resources */,
 				956902981D306A2E0098422C /* gate_03.png in Resources */,
-				9569023A1D306A2E0098422C /* setting_03.png in Resources */,
 				9569026F1D306A2E0098422C /* model4.png in Resources */,
 				955F13B81D5E41FA00F27707 /* curtain_time_button_press.png in Resources */,
 				9518D2681D665F360083067F /* appl_18_button1_press4.png in Resources */,

@@ -605,6 +605,7 @@ class fame:NSObject{
         
         //lights
         act_id = 20
+        self.linkYB = []
         self.lights = []
         self.lights7 = []
         self.lights11 = []
