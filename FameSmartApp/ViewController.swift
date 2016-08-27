@@ -933,6 +933,9 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
     @IBAction func didTapped(sender : AnyObject) {
         self.view.endEditing(false)
     }
+    
+    var isAgree:Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -948,6 +951,18 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
         returnButtonItem.title = Defined_navigation_back_title
         self.navigationItem.backBarButtonItem = returnButtonItem
     }
+    @IBAction func isAgreeProtocol(sender: AnyObject) {
+        
+        if isAgree{
+            sender.setImage(UIImage(imageLiteral: "checkbox_selected.png"), forState: UIControlState.Normal)
+            isAgree = false
+        }
+        else{
+            sender.setImage(UIImage(imageLiteral: "checkbox_unselect.png"), forState: UIControlState.Normal)
+            isAgree = true
+        }
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -962,9 +977,11 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
         FAME.user_pwd = self.userPwd1.text
         var ani = viewAnimate()
         
-       
+        if !isAgree{
+            FAME.showMessage("请同意遵守协议")
+        }
         
-        if self.userPwd1.text == self.userPwd2.text {
+        else if self.userPwd1.text == self.userPwd2.text {
             //do regist
             let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 3, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\",\"user_pwd1\": \"\(FAME.user_pwd)\", \"user_email\": \"web@lyzic.com\"}",cmplx:true)
             print(received)

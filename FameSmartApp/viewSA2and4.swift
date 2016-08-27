@@ -24,44 +24,7 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
     var curtains:Array<Dictionary<String,String>> = []
     
     var lights:Array<Dictionary<String,String>> = []
-    func longPress(sender : UIButton!) {
-        
-        print("longpress")
-        print(sender)
-        //self.tmp_tag = sender.tag
-        if (!self.is_alert){
-            self.is_alert = true
-            let alert :UIAlertView = UIAlertView()
-            alert.delegate = self
-            alert.title = Defined_ALERT_del
-            alert.message = Defined_ALERT_del2
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.addButtonWithTitle(Defined_ALERT_CANCEL)
-            alert.show()
-            
-        }
-    }
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        print("click at \(buttonIndex)")
-        let ieee : String! = self.ieees[self.tmp_tag - 1]
-        print("del ieee:\(ieee)")
-        self.is_alert = false
-        if buttonIndex == 0 {
-            print("del")
-            
-            let ieee : String! = self.ieees[self.tmp_tag - 1]
-            print("del ieee:\(ieee)")
-            let dic:NSMutableDictionary = ["hvaddr":"\(ieee)"]
-            FAME.delDeviceArray.removeAllObjects()
-            FAME.delDeviceArray.addObject(dic)
-            FAME.doDeleteDev()
-            print(FAME.device_table)
-            self.navigationController?.popToRootViewControllerAnimated(true)
-            
-            
-        }
-    }
-    func refreshData(){
+        func refreshData(){
         switch FAME.tempSensorId {
         case 2:
             self.lights = FAME.curtains
@@ -181,7 +144,7 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
         
-        self.navigationController?.title = "modes"
+        
         FAME.tempTableView = nil
        
     }
@@ -237,13 +200,14 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
         btnS2.addTarget(self, action: Selector("btns2Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         let btnS3 = UIButton(frame: CGRect(x: btnX, y: btnY + 100, width: btnWidth, height: btnHeight))
-        btnS3.setTitle(Defined_SS_Title4, forState: UIControlState.Normal)
+        
         btnS3.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+
         btnS3.tag = 3
+
+        btnS3.setTitle("更改设备名", forState: UIControlState.Normal)
         btnS3.addTarget(self, action: Selector("btns3Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
-        
-        
+
         
         
         self.pickView.addSubview(btnS1)
@@ -256,10 +220,20 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
         self.BGView.hidden = true
         
     }
-    //取消
+    //更改设备名
     func btns3Fun(sender:UIButton){
         self.BGView.hidden = true
+        print("更改设备名")
+        let next = GBoard.instantiateViewControllerWithIdentifier("music")
+        
+        self.navigationController?.pushViewController(next, animated: true)
+        let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = item;
+        
+        
+        
     }
+
     //修改名字
     func btns1Fun(sender:UIButton){
         self.BGView.hidden = true
@@ -386,6 +360,8 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         
         let dev_Type:String! = curtains[indexPath.row]["dev_type"] as String!
         let dev_type:Int! = Int(dev_Type)
+        
+        FAME.dev_id = dev_id
         
         FAME.tempApplsId = act_ids[indexPath.row]
 

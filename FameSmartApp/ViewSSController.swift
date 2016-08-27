@@ -318,7 +318,37 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         let btnHeight:CGFloat = 30
         let btnY:CGFloat = 25
         
-        if FAME.tempSensorId == 7{
+        if FAME.tempSensorId == 4{
+            
+            let btnS1 = UIButton(frame: CGRect(x: btnX, y: btnY + 25, width: btnWidth, height: btnHeight))
+            btnS1.setTitle(Defined_SS_air_Title1, forState: UIControlState.Normal)
+            btnS1.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            //btnS1.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS1.tag = 1
+            btnS1.addTarget(self, action: Selector("btns71Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            
+            let btnS2 = UIButton(frame: CGRect(x: btnX, y: btnY + 75, width: btnWidth, height: btnHeight))
+            btnS2.setTitle(Defined_SS_air_Title2, forState: UIControlState.Normal)
+            btnS2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            btnS2.tag = 2
+            //btnS2.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS2.addTarget(self, action: Selector("btns72Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            
+            let btnS3 = UIButton(frame: CGRect(x: btnX, y: btnY + 125, width: btnWidth, height: btnHeight))
+            btnS3.setTitle(Defined_SS_air_Title3, forState: UIControlState.Normal)
+            btnS3.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            //btnS3.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+            btnS3.tag = 3
+            btnS3.addTarget(self, action: Selector("btns1Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+            
+            self.pickView1.addSubview(btnS1)
+            self.pickView1.addSubview(btnS2)
+            self.pickView1.addSubview(btnS3)
+            
+        }
+
+        
+        else if FAME.tempSensorId == 7{
             let btnS1 = UIButton(frame: CGRect(x: btnX, y: btnY, width: btnWidth, height: btnHeight))
             btnS1.setTitle(Defined_SS_air_Title1, forState: UIControlState.Normal)
             btnS1.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
@@ -2110,81 +2140,90 @@ class ViewControllerSS7Detail: UIViewController {
                 let detail=self.airDetail;
                 
                 let viewpm2_5 = self.view.viewWithTag(300) as! UILabel!;
-                let index_Str:Double! = detail["pm2_5"] as! Double!;
-                if index_Str == 0{
-                    viewpm2_5.text = "0.0";
-                }
-                else{
-                    viewpm2_5.text="\(self.StringSplit(String(index_Str)))";
-                }
+                let index_Str:Int! = detail["pm2_5"] as! Int!
                 
-                let viewpm_lable = self.view.viewWithTag(301) as! UILabel!;
+//                var index_Str:Double! = detail["pm2_5"] as! Double!
+//                index_Str = round(index_Str * 10) / 10
+                
+                viewpm2_5.text="\(index_Str)"
+                
+                let viewpm_lable = self.view.viewWithTag(301) as! UILabel!
+                
                 if index_Str <= 70{
-                    viewpm_lable.text = "空气质量佳";
+                    viewpm_lable.text = "空气质量佳"
                 }
-                if index_Str >= 130{
-                    viewpm_lable.text = "空气质量差";
+                else if index_Str >= 130{
+                    viewpm_lable.text = "空气质量差"
                 }
                 else{
-                    viewpm_lable.text = "空气质量良";
+                    viewpm_lable.text = "空气质量良"
                 }
                 
                 
-                let hcho = self.view.viewWithTag(302) as! UILabel!;
-                let index_Str1:Double! = detail["hcho"] as! Double!;
+                let hcho = self.view.viewWithTag(302) as! UILabel!
+                var index_Str1:Double! = detail["hcho"] as! Double!
+                index_Str1 = round(index_Str1 * 100) / 100
                 if index_Str1 == 0{
-                    hcho.text = "0.0  mg/M³";
+                    hcho.text = "0.0  mg/M³"
                 }
                 else{
-                    hcho.text="\(self.StringSplit(String(index_Str1)))  mg/M³"
+                    hcho.text="\(index_Str1)  mg/M³"
                 }
                 
-                let hcho_lable = self.view.viewWithTag(303) as! UILabel!;
+                let hcho_lable = self.view.viewWithTag(303) as! UILabel!
                 if index_Str1 >= 0.08{
-                    hcho_lable.text = "偏高";
+                    hcho_lable.text = "偏高"
                 }
                 else{
-                    hcho_lable.text = "正常";
+                    hcho_lable.text = "正常"
                 }
                 
                 
-                let temperature = self.view.viewWithTag(304) as! UILabel!;
-                let index_Str2:Double! = detail["temperature"] as! Double!;
+                let temperature = self.view.viewWithTag(304) as! UILabel!
+                var index_Str2:Double! = detail["temperature"] as! Double!;
+                index_Str2 = round(index_Str2 * 10) / 10
                 if index_Str2 == 0{
                     temperature.text = "0.0  ºC";
                 }
                 else{
-                    temperature.text="\(self.StringSplit(String(index_Str2)))  ºC"
+                    temperature.text="\(index_Str2)  ºC"
                 }
                 
                 let temperature_lable = self.view.viewWithTag(305) as! UILabel!;
-                if index_Str2 >= 50{
-                    temperature_lable.text = "偏高";
+                if index_Str2 <= 35 && index_Str2 > 23{
+                    temperature_lable.text = "正常";
                 }
-                else if index_Str2 <= -30{
+                else if index_Str2 <= 23 && index_Str2 > 15{
                     temperature_lable.text = "偏低";
                 }
+                else if index_Str2 <= 42 && index_Str2 > 35{
+                    temperature_lable.text = "炎热";
+                }
+                else if index_Str2 > 42{
+                    temperature_lable.text = "酷热";
+                }
                 else{
-                    temperature_lable.text = "正常";
+                    temperature_lable.text = "寒冷";
                 }
                 
                 let humidity = self.view.viewWithTag(306) as! UILabel!;
-                let index_Str3:Double! = detail["humidity"] as! Double!;
+                var index_Str3:Double! = detail["humidity"] as! Double!
+                index_Str3 = round(index_Str3 * 10) / 10
                 if index_Str3 == 0{
-                    humidity.text = "0.0  %RH";
+                    humidity.text = "0.0  %RH"
                 }
                 else{
-                    humidity.text="\(self.StringSplit(String(index_Str3)))  %RH"
+                    humidity.text="\(index_Str3)  %RH"
                 }
                 let humidity_lable = self.view.viewWithTag(307) as! UILabel!;
-                if index_Str3 >= 99{
-                    humidity_lable.text = "偏高";
+                if index_Str3 >= 70{
+                    humidity_lable.text = "潮湿"
                 }
-                else if index_Str3 <= 20{
-                    humidity_lable.text = "偏低";
+                else if index_Str3 <= 30{
+                    humidity_lable.text = "干燥"
                 }
                 else{
-                    humidity_lable.text = "正常";
+                    humidity_lable.text = "正常"
                 }
                 
                 let update_time = self.view.viewWithTag(308) as! UILabel!;
@@ -2214,48 +2253,6 @@ class ViewControllerSS7Detail: UIViewController {
 
     }
     
-    func StringSplit(str: String) -> String{
-        var string :String;
-        var bool :Int = 0 ;
-        for i in str.characters {
-            if i == "." {
-                bool = bool + 1;
-            }
-        }
-        //if bool == 1{
-            let splitedArray=str.componentsSeparatedByString(".");
-            if splitedArray.count == 1{
-                return str
-            }
-            else{
-            
-                let ns3:Int!;
-                if (splitedArray[1] as NSString).length == 0 {
-                    ns3=0;
-                }
-                else if (splitedArray[1] as NSString).length == 1 {
-                    return str;
-                }
-                else{
-                    ns3 = Int((splitedArray[1] as NSString).substringWithRange(NSMakeRange(1, 1)));
-                }
-                var ns4:Int! = 0;
-                if ns3 >= 5 {
-                    ns4=Int((splitedArray[1] as NSString).substringWithRange(NSMakeRange(0, 1)));
-                    ns4 = ns4 + 1;
-                }
-                else{
-                    ns4=Int((splitedArray[1] as NSString).substringWithRange(NSMakeRange(0, 1)));
-                }
-                string=splitedArray[0] as String + "." + String(ns4);
-                return string;
-            }
-
-//        }
-//        else{
-//            return str;
-//        }
-    }
     
     func createUpView(){
         

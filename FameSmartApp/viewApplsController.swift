@@ -227,6 +227,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             btnS3.setTitle("常开状态设置", forState: UIControlState.Normal)
             btnS3.addTarget(self, action: Selector("btns41Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
         }
+        
         else{
             btnS3.setTitle(Defined_SS_Title4, forState: UIControlState.Normal)
             btnS3.addTarget(self, action: Selector("btns3Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
@@ -243,6 +244,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         self.BGView.hidden = true
         
     }
+    
     //常开状态设置
     func btns41Fun(sender:UIButton){
         self.BGView.hidden = true
@@ -1203,6 +1205,13 @@ class ViewControllerApplas: UIViewController,UIAlertViewDelegate {
     
     @IBOutlet weak var btnTmp2: UIButton!
     
+    @IBOutlet weak var btn1: UIButton!
+    @IBOutlet weak var btn2: UIButton!
+    @IBOutlet weak var btn3: UIButton!
+    
+    @IBOutlet weak var btn4: UIButton!
+    
+    
     var isLearn:Bool = true
     
     func refreshData(){
@@ -1361,15 +1370,15 @@ class ViewControllerApplas: UIViewController,UIAlertViewDelegate {
         
         print(FAME.saActid4)
         
-//        let applObj = FAME.appls[FAME.saActid4] as NSDictionary
-//        //let appName:String! = applObj["name"] as! String
-//        let appActid:String! = applObj["act_id"] as! String
-//        //self.actId = applObj["act_id"] as! Int
-//        //let appIeee:String! = applObj["ieee"] as! String
-//        let appType:String! = applObj["dev_type"] as! String
-//        
-//        print(appType)
-//        print("appActid:\(appActid)")
+        let array = FAME.button_names[FAME.dev_id]
+        
+        
+        btn1.setTitle("\(array![9] as! String)", forState: UIControlState.Normal)
+        btn2.setTitle("\(array![10] as! String)", forState: UIControlState.Normal)
+        btn3.setTitle("\(array![11] as! String)", forState: UIControlState.Normal)
+        btn4.setTitle("\(array![12] as! String)", forState: UIControlState.Normal)
+        
+
         if(FAME.saActid4 == 17){
             print("电视机tvtvtv")
             
@@ -1638,6 +1647,13 @@ class ViewControllerCurtains: UIViewController {
 
 class ViewControllerAirC: UIViewController,UIAlertViewDelegate {
     var isLearn:Bool = true
+    
+    @IBOutlet weak var btn1: UIButton!
+    
+    @IBOutlet weak var btn2: UIButton!
+    
+    @IBOutlet weak var btn3: UIButton!
+    @IBOutlet weak var btn4: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -1692,6 +1708,18 @@ class ViewControllerAirC: UIViewController,UIAlertViewDelegate {
         super.viewWillAppear(animated)
         
         //print(FAME.saActid3)
+        
+        let array = FAME.button_names[FAME.dev_id]
+        
+        
+        btn1.setTitle("\(array![9] as! String)", forState: UIControlState.Normal)
+        btn2.setTitle("\(array![10] as! String)", forState: UIControlState.Normal)
+        btn3.setTitle("\(array![11] as! String)", forState: UIControlState.Normal)
+        btn4.setTitle("\(array![12] as! String)", forState: UIControlState.Normal)
+
+        
+        
+        
     }
     
     @IBAction func downApplay(sender : UIButton) {
@@ -1706,3 +1734,77 @@ class ViewControllerAirC: UIViewController,UIAlertViewDelegate {
     }
     
 }
+
+
+class ViewControllerMusicName: UIViewController {
+
+    @IBOutlet weak var textFiled1: UITextField!
+    @IBOutlet weak var textFiled2: UITextField!
+    @IBOutlet weak var textFiled3: UITextField!
+    @IBOutlet weak var textFiled4: UITextField!
+    
+    var subName:Array<String> = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        print(FAME.dev_id)
+        let array = FAME.button_names[FAME.dev_id]
+        
+        
+        textFiled1.text = array![9] as? String
+        textFiled2.text = array![10] as? String
+        textFiled3.text = array![11] as? String
+        textFiled4.text = array![12] as? String
+        
+        
+        
+    }
+   
+    @IBAction func sureClick(sender: AnyObject) {
+    
+        
+        let array = FAME.button_names[FAME.dev_id]!
+        for i in 0..<(array.count - 4){
+            let str = array[i] as! String
+            subName.append(str)
+            
+        }
+        subName.append(textFiled1.text!)
+        subName.append(textFiled2.text!)
+        subName.append(textFiled3.text!)
+        subName.append(textFiled4.text!)
+        print(subName)
+        let cmdStr = "{\"cmd\": 48,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"button_name\": \(subName)}"
+
+        if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+        
+        //print(recevied)
+            if recevied["result"] as! NSObject == 0
+            {
+            
+            
+                    FAME.getDeviceTable()
+            self.navigationController?.popViewControllerAnimated(true);
+            }
+        }
+
+    
+    
+    }
+
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
+        //print(FAME.saActid3)
+    }
+    
+   
+    
+}
+

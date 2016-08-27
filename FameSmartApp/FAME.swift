@@ -17,8 +17,8 @@ import AVFoundation
 
 
 let GBoard = UIStoryboard(name: "Main", bundle: nil)
-var Surl="http://www.famesmart.com/famecloud/user_intf.php"
-//var Surl="http://famesmart.com/fame_test/index.php/Home/Index/cmd"
+//var Surl="http://www.famesmart.com/famecloud/user_intf.php"
+var Surl="http://famesmart.com/fame_test/index.php/Home/Index/cmd"
 let Curl="http://219.220.215.211/weixin/fame/wx_fame.php"
 
 
@@ -171,6 +171,7 @@ class fame:NSObject{
     var idForNamesMode:Dictionary<Int,String> = [:]
     
     var subNames : Dictionary<Int,Array<AnyObject>> = [:]
+    var button_names : Dictionary<Int,Array<AnyObject>> = [:]
     
     var Links:Array<Dictionary<String,AnyObject>> = []
     //  Array["light"][Array<Dic>]
@@ -615,6 +616,7 @@ class fame:NSObject{
         self.socket33 = []
         self.showLight1Arr = []
         self.showLight2Arr = []
+        self.subNames = [:]
         Links3 = []
         var  lightId:Int = 0
         var isShow:Bool = true
@@ -979,7 +981,7 @@ class fame:NSObject{
         //act_id = 0
         Links3 = []
         
-        
+        button_names = [:]
         
         
         
@@ -1003,6 +1005,9 @@ class fame:NSObject{
                 let dev_id : Int  =  DTappl.valueForKey("dev_id") as! Int
                 let dev_type : Int  =  DTappl.valueForKey("dev_type") as! Int
                 let room:Int = DTappl.valueForKey("room") as! Int
+                    
+                var sub:Array<AnyObject> = []
+                sub = DTappl.valueForKey("button_name") as! Array
                 
                 let roomName = self.rooms[room]
                 
@@ -1058,7 +1063,7 @@ class fame:NSObject{
                 }
                 
                 
-                
+                self.button_names[dev_id] = sub
                 
                 FAME.deviceCount++
                 
