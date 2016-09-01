@@ -533,10 +533,10 @@
             </objects>
             <point key="canvasLocation" x="3665" y="3575"/>
         </scene>
-        <!--安全监测-->
+        <!--安 全 监 测-->
         <scene sceneID="UJO-ET-5Gk">
             <objects>
-                <viewController storyboardIdentifier="msg" title="安全监测" id="enu-Eo-e10" customClass="ViewControllerMsg" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="msg" title="安 全 监 测" id="enu-Eo-e10" customClass="ViewControllerMsg" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="J66-3l-JD2"/>
                         <viewControllerLayoutGuide type="bottom" id="b6c-L8-Isz"/>
@@ -1621,10 +1621,10 @@
             </objects>
             <point key="canvasLocation" x="1327" y="452"/>
         </scene>
-        <!--忘记密码-->
+        <!--忘 记 密 码-->
         <scene sceneID="SfB-Ds-eOq">
             <objects>
-                <viewController storyboardIdentifier="viewPicker" title="忘记密码" id="8ZJ-x3-pfG" customClass="ViewControllerForgetPass" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="viewPicker" title="忘 记 密 码" id="8ZJ-x3-pfG" customClass="ViewControllerForgetPass" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hfx-G6-TOf"/>
                         <viewControllerLayoutGuide type="bottom" id="ENk-1E-kIu"/>
@@ -2191,10 +2191,10 @@
             </objects>
             <point key="canvasLocation" x="6382" y="5"/>
         </scene>
-        <!--温湿监测-->
+        <!--温 湿 监 测-->
         <scene sceneID="JZj-Cj-uhY">
             <objects>
-                <viewController storyboardIdentifier="viewSS1" title="温湿监测" id="x0z-ob-f5H" customClass="ViewTempController" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="viewSS1" title="温 湿 监 测" id="x0z-ob-f5H" customClass="ViewTempController" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PfL-sI-a1n"/>
                         <viewControllerLayoutGuide type="bottom" id="5OX-tb-piM"/>
@@ -2461,10 +2461,10 @@
             </objects>
             <point key="canvasLocation" x="7768" y="39"/>
         </scene>
-        <!--修改密码-->
+        <!--修 改 密 码-->
         <scene sceneID="uDw-GA-LU2">
             <objects>
-                <viewController title="修改密码" id="HRl-us-nyF" customClass="ViewSettingPwdController" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="修 改 密 码" id="HRl-us-nyF" customClass="ViewSettingPwdController" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4I0-HO-kKp"/>
                         <viewControllerLayoutGuide type="bottom" id="Vqe-tV-hB8"/>
@@ -2829,7 +2829,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="light" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uVs-5r-Iu0">
-                                                            <rect key="frame" x="10" y="12" width="30" height="18"/>
+                                                            <rect key="frame" x="10" y="12" width="218" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -2867,6 +2867,7 @@
                                                         <constraint firstAttribute="centerX" secondItem="TNX-M4-AgX" secondAttribute="centerX" id="VGn-po-s4e"/>
                                                         <constraint firstItem="uVs-5r-Iu0" firstAttribute="leading" secondItem="YFi-3M-3NP" secondAttribute="leading" constant="10" id="XTG-GP-hE8"/>
                                                         <constraint firstAttribute="bottom" secondItem="Llw-r0-6vp" secondAttribute="bottom" constant="10" id="fzh-gf-oYQ"/>
+                                                        <constraint firstItem="TNX-M4-AgX" firstAttribute="leading" secondItem="uVs-5r-Iu0" secondAttribute="trailing" constant="10" id="g9x-gm-LWV"/>
                                                         <constraint firstAttribute="trailing" secondItem="yJv-uO-scs" secondAttribute="trailing" constant="10" id="gyQ-mh-a4h"/>
                                                         <constraint firstItem="Llw-r0-6vp" firstAttribute="leading" secondItem="YFi-3M-3NP" secondAttribute="leading" constant="10" id="lkE-9I-Y3k"/>
                                                         <constraint firstItem="TNX-M4-AgX" firstAttribute="top" secondItem="YFi-3M-3NP" secondAttribute="top" constant="10" id="m2S-QC-3ma"/>
@@ -3706,41 +3707,53 @@
                                             <constraint firstItem="Ysf-oM-Gb9" firstAttribute="height" secondItem="Rni-f2-qnL" secondAttribute="height" id="voC-cY-tXm"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oTk-2a-CSS">
-                                        <rect key="frame" x="210" y="450" width="120" height="30"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3po-MY-5ro">
+                                        <rect key="frame" x="0.0" y="470" width="540" height="110"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oTk-2a-CSS">
+                                                <rect key="frame" x="210" y="40" width="120" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="120" id="1d3-pU-QFn"/>
+                                                    <constraint firstAttribute="height" constant="30" id="K6F-IR-kVB"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="STFangsong" family="STFangsong" pointSize="20"/>
+                                                <state key="normal" title="设置">
+                                                    <color key="titleColor" red="0.42745098040000001" green="0.67843137249999996" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="showPopBtn:" destination="UOX-5D-q9b" eventType="touchUpInside" id="z3F-MT-XrZ"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="120" id="1d3-pU-QFn"/>
-                                            <constraint firstAttribute="height" constant="30" id="K6F-IR-kVB"/>
+                                            <constraint firstItem="oTk-2a-CSS" firstAttribute="centerY" secondItem="3po-MY-5ro" secondAttribute="centerY" id="Th4-Ee-3gw"/>
+                                            <constraint firstItem="oTk-2a-CSS" firstAttribute="centerX" secondItem="3po-MY-5ro" secondAttribute="centerX" id="mlc-ql-L8Q"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="STFangsong" family="STFangsong" pointSize="20"/>
-                                        <state key="normal" title="设置">
-                                            <color key="titleColor" red="0.42745098040000001" green="0.67843137249999996" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="showPopBtn:" destination="UOX-5D-q9b" eventType="touchUpInside" id="z3F-MT-XrZ"/>
-                                        </connections>
-                                    </button>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="ZD2-7j-d0a" firstAttribute="width" secondItem="hxq-Pd-Uoa" secondAttribute="width" multiplier="1/3" id="5AZ-Pq-p8X"/>
-                                    <constraint firstAttribute="centerX" secondItem="oTk-2a-CSS" secondAttribute="centerX" id="5tD-Iz-9Wj"/>
                                     <constraint firstItem="ob0-l2-HgJ" firstAttribute="top" secondItem="AzA-9b-pKY" secondAttribute="bottom" id="6mg-YC-rvP"/>
                                     <constraint firstAttribute="trailing" secondItem="6cH-cr-43z" secondAttribute="trailing" id="8rn-gu-D3z"/>
                                     <constraint firstItem="6cH-cr-43z" firstAttribute="height" secondItem="hxq-Pd-Uoa" secondAttribute="height" multiplier="2/10" id="Dlu-sw-cnX"/>
+                                    <constraint firstItem="3po-MY-5ro" firstAttribute="leading" secondItem="hxq-Pd-Uoa" secondAttribute="leading" id="F8s-nY-e8x"/>
                                     <constraint firstItem="6cH-cr-43z" firstAttribute="leading" secondItem="hxq-Pd-Uoa" secondAttribute="leading" id="JTJ-2C-SYh"/>
                                     <constraint firstItem="ZD2-7j-d0a" firstAttribute="height" secondItem="hxq-Pd-Uoa" secondAttribute="width" multiplier="1/3" id="PfA-2Y-Hiz"/>
                                     <constraint firstItem="6cH-cr-43z" firstAttribute="top" secondItem="hxq-Pd-Uoa" secondAttribute="top" id="QHn-ND-sWt"/>
                                     <constraint firstAttribute="trailing" secondItem="AzA-9b-pKY" secondAttribute="trailing" id="RsR-GV-UhE"/>
                                     <constraint firstItem="AzA-9b-pKY" firstAttribute="leading" secondItem="hxq-Pd-Uoa" secondAttribute="leading" id="UHt-xz-wkl"/>
                                     <constraint firstItem="ob0-l2-HgJ" firstAttribute="leading" secondItem="hxq-Pd-Uoa" secondAttribute="leading" id="bpW-p5-LPK"/>
+                                    <constraint firstAttribute="bottom" secondItem="3po-MY-5ro" secondAttribute="bottom" id="cDt-zP-6qV"/>
                                     <constraint firstItem="ZD2-7j-d0a" firstAttribute="bottom" secondItem="AzA-9b-pKY" secondAttribute="top" id="j5N-eb-C79"/>
                                     <constraint firstItem="ob0-l2-HgJ" firstAttribute="height" secondItem="hxq-Pd-Uoa" secondAttribute="height" multiplier="1/10" id="oZl-ws-QM1"/>
-                                    <constraint firstAttribute="bottom" secondItem="oTk-2a-CSS" secondAttribute="bottom" constant="100" id="sXg-x1-II9"/>
+                                    <constraint firstItem="3po-MY-5ro" firstAttribute="top" secondItem="ob0-l2-HgJ" secondAttribute="bottom" id="tlb-XK-Yhe"/>
                                     <constraint firstItem="AzA-9b-pKY" firstAttribute="height" secondItem="hxq-Pd-Uoa" secondAttribute="height" multiplier="2/10" id="u2P-KD-Ypf"/>
                                     <constraint firstItem="ZD2-7j-d0a" firstAttribute="top" secondItem="6cH-cr-43z" secondAttribute="bottom" id="uAj-c4-39i"/>
                                     <constraint firstAttribute="centerX" secondItem="ZD2-7j-d0a" secondAttribute="centerX" id="v5X-5e-Cfm"/>
                                     <constraint firstAttribute="trailing" secondItem="ob0-l2-HgJ" secondAttribute="trailing" id="x51-Fl-ugg"/>
+                                    <constraint firstAttribute="trailing" secondItem="3po-MY-5ro" secondAttribute="trailing" id="yeJ-Pm-QCq"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -4626,10 +4639,10 @@
             </objects>
             <point key="canvasLocation" x="7228" y="2885"/>
         </scene>
-        <!--摇一摇-->
+        <!--摇 一 摇-->
         <scene sceneID="fOp-Ff-fla">
             <objects>
-                <viewController storyboardIdentifier="Shake" title="摇一摇" id="b5g-nN-Pa0" customClass="ViewShakeController" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Shake" title="摇 一 摇" id="b5g-nN-Pa0" customClass="ViewShakeController" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bee-4v-2pq"/>
                         <viewControllerLayoutGuide type="bottom" id="prR-95-IyU"/>
@@ -5021,7 +5034,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fen-B1-2TR">
                                                 <rect key="frame" x="0.0" y="0.0" width="580" height="50"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gate_03.png" translatesAutoresizingMaskIntoConstraints="NO" id="drl-Qz-cb0">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jiaquan.png" translatesAutoresizingMaskIntoConstraints="NO" id="drl-Qz-cb0">
                                                         <rect key="frame" x="20" y="0.0" width="25" height="25"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="甲醛" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KLi-Km-Pcg">
@@ -5078,7 +5091,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A36-Yy-lLY">
                                                 <rect key="frame" x="0.0" y="50" width="580" height="50"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gate_03.png" translatesAutoresizingMaskIntoConstraints="NO" id="0wy-kj-XKz">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tem_one.png" translatesAutoresizingMaskIntoConstraints="NO" id="0wy-kj-XKz">
                                                         <rect key="frame" x="20" y="0.0" width="25" height="25"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="温度" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="luR-wA-ews">
@@ -5134,7 +5147,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L0N-lq-gMO">
                                                 <rect key="frame" x="0.0" y="101" width="580" height="50"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gate_03.png" translatesAutoresizingMaskIntoConstraints="NO" id="blW-Lx-qRA">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="water_one.png" translatesAutoresizingMaskIntoConstraints="NO" id="blW-Lx-qRA">
                                                         <rect key="frame" x="20" y="0.0" width="25" height="25"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="湿度" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b2g-2U-PkZ">
@@ -5327,7 +5340,7 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="71" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="设备全开" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yjp-4Q-Xpe">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="71" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="点击添加" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yjp-4Q-Xpe">
                                                                     <rect key="frame" x="280" y="13" width="168" height="36"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5370,7 +5383,7 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="72" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="设备全开" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mhj-sO-20i">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="72" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="点击添加" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mhj-sO-20i">
                                                                     <rect key="frame" x="280" y="11" width="168" height="36"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5413,7 +5426,7 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="73" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="设备全开" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YwT-kf-Zmf">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="73" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="点击添加" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YwT-kf-Zmf">
                                                                     <rect key="frame" x="280" y="12" width="168" height="37"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5453,7 +5466,7 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="74" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="设备全开" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i1p-Jx-n8f">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="74" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="点击添加" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i1p-Jx-n8f">
                                                                     <rect key="frame" x="280" y="11" width="168" height="36"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5499,7 +5512,7 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备全开" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cri-3a-69e">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击添加" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cri-3a-69e">
                                                                     <rect key="frame" x="280" y="12" width="168" height="36"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5542,7 +5555,7 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="76" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="设备全开" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r8Z-lw-ECB">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="76" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="点击添加" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r8Z-lw-ECB">
                                                                     <rect key="frame" x="280" y="11" width="168" height="36"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -6544,10 +6557,10 @@
             </objects>
             <point key="canvasLocation" x="4021" y="1061"/>
         </scene>
-        <!--修改系统时间-->
+        <!--修 改 系 统 时 间-->
         <scene sceneID="IUs-oS-WkH">
             <objects>
-                <viewController title="修改系统时间" id="cq7-8h-9xZ" customClass="ViewSettingMTimerController" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="修 改 系 统 时 间" id="cq7-8h-9xZ" customClass="ViewSettingMTimerController" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UXf-L0-v17"/>
                         <viewControllerLayoutGuide type="bottom" id="bGD-W2-Gth"/>
@@ -6778,7 +6791,7 @@
                                             <constraint firstItem="TF5-2A-YmV" firstAttribute="leading" secondItem="Ubl-ad-neA" secondAttribute="leading" id="xHY-BS-xAf"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J4Z-mh-djU">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J4Z-mh-djU">
                                         <rect key="frame" x="0.0" y="309" width="25" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="AND-ST-lUT"/>
@@ -7086,6 +7099,7 @@
         <image name="gate_11.png" width="55" height="55"/>
         <image name="homeFame.png" width="44" height="45"/>
         <image name="ini.jpg.bak.jpg" width="480" height="800"/>
+        <image name="jiaquan.png" width="90" height="90"/>
         <image name="light_icon.png" width="60" height="111"/>
         <image name="loginpanel.jpg" width="480" height="800"/>
         <image name="main_about_normal.png" width="213" height="190"/>
@@ -7128,10 +7142,12 @@
         <image name="speech1.png" width="348" height="348"/>
         <image name="spinner_list_down.png" width="63" height="55"/>
         <image name="telphone.png" width="24" height="40"/>
+        <image name="tem_one.png" width="500" height="500"/>
         <image name="tempture.png" width="51" height="115"/>
         <image name="tv_07-03.png" width="210" height="67"/>
         <image name="tv_07.png" width="210" height="67"/>
         <image name="user.png" width="30" height="31"/>
+        <image name="water_one.png" width="524" height="524"/>
         <image name="xiangXia" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>

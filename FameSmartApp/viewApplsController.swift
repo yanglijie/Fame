@@ -331,14 +331,14 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                         if let recevied1 = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr1,timeout:90){
                             print(recevied1)
                             
-                            let dic:NSMutableDictionary = ["hvaddr":"\(self.ieee)"]
+//                            let dic:NSMutableDictionary = ["hvaddr":"\(self.ieee)"]
+//                            
+//                            FAME.delDeviceArray.removeAllObjects()
+//                            FAME.delDeviceArray.addObject(dic)
+//                            
+//                            FAME.doDeleteDev()
                             
-                            FAME.delDeviceArray.removeAllObjects()
-                            FAME.delDeviceArray.addObject(dic)
-                            
-                            FAME.doDeleteDev()
-                            
-                            //FAME.delDeviceByIeee(ieee)
+                            FAME.delDeviceByIeee(self.ieee)
                             
                             self.navigationController?.popToRootViewControllerAnimated(true)
                         }

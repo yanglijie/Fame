@@ -11,7 +11,7 @@ import UIKit
 
 class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
-    //var msgs :Array<String> = []
+    var msgs :Array<String> = []
     
     @IBOutlet weak var tableView: UITableView!
     @IBAction func NoticOn(sender: UISwitch) {
@@ -38,17 +38,14 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
         button.addTarget(self, action: Selector("deleteAll:"), forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
         
-//        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "deleteAll:")
-//        self.navigationItem.rightBarButtonItem = addButton
         
         
         if (FAME.defaults.valueForKey("\(FAME.user_name)") != nil){
-            FAME.msgs = FAME.defaults.valueForKey("\(FAME.user_name)") as! Array
-
-            
+            msgs = FAME.defaults.valueForKey("\(FAME.user_name)") as! Array
+   
         }
         
-        if FAME.msgs.count == 0{
+        if msgs.count == 0{
             let textLabel = UILabel (frame:CGRectMake(20,self.view.frame.size.height * 0.25,self.view.frame.size.width - 20,20))
             textLabel.text = "无报警信息"
             
@@ -61,7 +58,7 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "raload:", name: "msgChange", object: nil)
         
-        //print("44444444\(FAME.msgs)")
+        
         
         
     }
@@ -72,18 +69,19 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
 //    }
     
     func raload(notification:NSNotification){
-        if (FAME.defaults.valueForKey("\(FAME.user_name)") != nil){
-            FAME.msgs = FAME.defaults.valueForKey("\(FAME.user_name)") as! Array
-            
-        }
-        //FAME.msgs = notification.object as! Array
         
-        //print("222222222\(FAME.msgs)")
+        //print("123344")
+        msgs = FAME.defaults.valueForKey("\(FAME.user_name)") as! Array
+        //print("44444444\(msgs)")
         
         tableView.reloadData()
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "msgChange", object: nil)
+        //
         
+    }
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "msgChange", object: nil)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -91,6 +89,7 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
     }
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
+        
         print(FAME.defaults.valueForKey("PushState"))
         let stateOn = self.view.viewWithTag(2) as! UISwitch
         if (FAME.defaults.valueForKey("PushState") != nil){
@@ -100,24 +99,23 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
             }
         }
         
-        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return FAME.msgs.count
+        return msgs.count
 
     }
     
     func deleteAll(sender:AnyObject!){
-        FAME.msgs = []
+        msgs = []
         self.msgTabel?.reloadData()
-        FAME.defaults.setObject(FAME.msgs, forKey: "\(FAME.user_name)")
+        FAME.defaults.setObject(msgs, forKey: "\(FAME.user_name)")
         print("清空了")
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "msgCell")
-        cell.textLabel?.text = FAME.msgs[indexPath.row]
+        cell.textLabel?.text = msgs[indexPath.row]
         cell.textLabel?.textColor = UIColor.whiteColor()
         //cell.textLabel?.font = UIFont.systemFontOfSize(15)
         cell.textLabel?.adjustsFontSizeToFitWidth = true
@@ -144,7 +142,7 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         print(indexPath.row)
         //***********************
-        FAME.msgs.removeAtIndex(indexPath.row)
+        msgs.removeAtIndex(indexPath.row)
         //self.msgTabel?.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Top)
         self.msgTabel?.reloadData()
         

@@ -17,8 +17,8 @@ import AVFoundation
 
 
 let GBoard = UIStoryboard(name: "Main", bundle: nil)
-//var Surl="http://www.famesmart.com/famecloud/user_intf.php"
-var Surl="http://famesmart.com/fame_test/index.php/Home/Index/cmd"
+var Surl="http://www.famesmart.com/famecloud/user_intf.php"
+//var Surl="http://famesmart.com/fame_test/index.php/Home/Index/cmd"
 let Curl="http://219.220.215.211/weixin/fame/wx_fame.php"
 
 
@@ -110,6 +110,7 @@ class fame:NSObject{
     var tempTimerView:UITableView!
     
     var rooms:Array<String> = []
+    
     
     var models:Array<Dictionary<String,String>> = []
     var lights:Array<Dictionary<String,String>> = []
@@ -541,6 +542,8 @@ class fame:NSObject{
         FAME.linkArray = [[],[],[],[],[]]
         FAME.Links = []
         
+        idForNamesMode = [:]
+        
         FAME.deviceCount = 0
         
         var Links3:Array<Dictionary<String,AnyObject>> = []
@@ -589,6 +592,7 @@ class fame:NSObject{
                 FAME.idForNames[act_id]=["name":value,"room":"","string":value,"act_id":"\(act_id)"]
                 
                 
+                
                 //add to linkArray
                 
                 FAME.linkArray[0].append([[value],[" "],[" "],["\(act_id)"]])
@@ -597,6 +601,16 @@ class fame:NSObject{
                 Links3.append(["name":value,"act_id":act_id,"type":1])
                 act_id++
             }
+            
+            for i in 0..<Defined_MODE_NAME.count{
+                FAME.models.append(["name":Defined_MODE_NAME[i],"act_id":"\(1 + i)"])
+                
+                
+            }
+            FAME.models.insert(["name":Defined_Event_Title,"act_id":"-1"], atIndex: 0)
+            FAME.models.insert(["name":Defined_MODE_NAME1,"act_id":"0"], atIndex: 1)
+            
+            
         }else{
             self.device_table.setValue([], forKey: "modes")
         }
@@ -1428,9 +1442,9 @@ class fame:NSObject{
     
     func requestEventActionIds(dev_id : Int){
         var event_id : Int!
-        var actids = [0,0,0,0,0,0]
+        var actids = [-1,-1,-1,-1,-1,-1]
         for i in 0..<6{
-            //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            
             if i < 3{
                 event_id = (dev_id - 85) * 3 + 1 + i
             }
@@ -1446,8 +1460,7 @@ class fame:NSObject{
                     
             }
             event_id = 0
-                
-            //}
+
         }
         
         self.action_ids[dev_id] = actids

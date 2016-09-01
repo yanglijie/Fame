@@ -381,7 +381,7 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         
         let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA\(viewId)") as UIViewController!
         next.title = curtains[indexPath.row]["name"]
-        self.navigationController?.pushViewController(next, animated: true)
+        self.navigationController?.pushViewController(next, animated: false)
         
         self .performSelector("deselect", withObject: nil, afterDelay: 0.5)
         

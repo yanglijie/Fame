@@ -50,8 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
                 }
                 
             }
-        //let info:NSDictionary = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]
-        //print("4444444=\()")
         
         if !FAME.bPushEnable {
             let alert = UIAlertView()
@@ -110,22 +108,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
         }
         
         else{
-            //
+
             if (FAME.defaults.valueForKey("\(FAME.user_name)") != nil){
-                FAME.msgs.removeAll()
-                FAME.msgs = (FAME.defaults.valueForKey("\(FAME.user_name)") as! Array).reverse()
+                FAME.msgs = FAME.defaults.valueForKey("\(FAME.user_name)") as! Array
+                FAME.msgs.insert(alertDic, atIndex: 0)
+                FAME.defaults.setObject(FAME.msgs, forKey: "\(FAME.user_name)")
+                
+        NSNotificationCenter.defaultCenter().postNotificationName("msgChange", object: FAME.msgs)
+                
             }
-
-            FAME.msgs .append(alertDic)
-            FAME.defaults.setObject(FAME.msgs.reverse(), forKey: "\(FAME.user_name)")
             
-
+            
+           
 
             //判断程序现在是在前台运行还是后台
             if UIApplication.sharedApplication().applicationState == .Active{
                 let alert = UIAlertView()
                 alert.title = " 远程推送通知 "
-                alert.delegate = self
                 alert.message =  alertDic
                 alert.addButtonWithTitle(Defined_ALERT_OK)
                 alert.show()
@@ -138,18 +137,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
             }
             
             
-        NSNotificationCenter.defaultCenter().postNotificationName("msgChange", object: FAME.msgs.reverse())
         }
         
         
         
     }
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        
-        //print("555555555")
-        
-        
-    }
+    
        
     //Receive
     

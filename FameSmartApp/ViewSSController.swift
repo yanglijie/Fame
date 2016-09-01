@@ -2094,9 +2094,9 @@ class ViewControllerSS7Detail: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         self.airDetail = NSDictionary();
         let view = self.view.viewWithTag(200) as UIView!
-        view.layer.borderColor=UIColor.whiteColor().CGColor;
-        view.layer.borderWidth = 1;
-        view.layer.cornerRadius=10;
+        view.layer.borderColor=UIColor.whiteColor().CGColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius=10
         
         createUpView()
         
@@ -2137,7 +2137,7 @@ class ViewControllerSS7Detail: UIViewController {
                 self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
                 
                 self.airDetail=recevied["detail"] as! NSDictionary;
-                let detail=self.airDetail;
+                let detail=self.airDetail
                 
                 let viewpm2_5 = self.view.viewWithTag(300) as! UILabel!;
                 let index_Str:Int! = detail["pm2_5"] as! Int!
@@ -2163,12 +2163,8 @@ class ViewControllerSS7Detail: UIViewController {
                 let hcho = self.view.viewWithTag(302) as! UILabel!
                 var index_Str1:Double! = detail["hcho"] as! Double!
                 index_Str1 = round(index_Str1 * 100) / 100
-                if index_Str1 == 0{
-                    hcho.text = "0.0  mg/M³"
-                }
-                else{
-                    hcho.text="\(index_Str1)  mg/M³"
-                }
+                hcho.text="\(index_Str1)  mg/M³"
+               
                 
                 let hcho_lable = self.view.viewWithTag(303) as! UILabel!
                 if index_Str1 >= 0.08{
@@ -2180,42 +2176,33 @@ class ViewControllerSS7Detail: UIViewController {
                 
                 
                 let temperature = self.view.viewWithTag(304) as! UILabel!
-                var index_Str2:Double! = detail["temperature"] as! Double!;
+                var index_Str2:Double! = detail["temperature"] as! Double!
                 index_Str2 = round(index_Str2 * 10) / 10
-                if index_Str2 == 0{
-                    temperature.text = "0.0  ºC";
-                }
-                else{
-                    temperature.text="\(index_Str2)  ºC"
-                }
+                temperature.text="\(index_Str2)  ºC"
                 
                 let temperature_lable = self.view.viewWithTag(305) as! UILabel!;
                 if index_Str2 <= 35 && index_Str2 > 23{
-                    temperature_lable.text = "正常";
+                    temperature_lable.text = "正常"
                 }
                 else if index_Str2 <= 23 && index_Str2 > 15{
-                    temperature_lable.text = "偏低";
+                    temperature_lable.text = "偏低"
                 }
                 else if index_Str2 <= 42 && index_Str2 > 35{
-                    temperature_lable.text = "炎热";
+                    temperature_lable.text = "炎热"
                 }
                 else if index_Str2 > 42{
-                    temperature_lable.text = "酷热";
+                    temperature_lable.text = "酷热"
                 }
                 else{
-                    temperature_lable.text = "寒冷";
+                    temperature_lable.text = "寒冷"
                 }
                 
                 let humidity = self.view.viewWithTag(306) as! UILabel!;
                 var index_Str3:Double! = detail["humidity"] as! Double!
                 index_Str3 = round(index_Str3 * 10) / 10
-                if index_Str3 == 0{
-                    humidity.text = "0.0  %RH"
-                }
-                else{
-                    humidity.text="\(index_Str3)  %RH"
-                }
-                let humidity_lable = self.view.viewWithTag(307) as! UILabel!;
+                humidity.text="\(index_Str3)  %RH"
+                
+                let humidity_lable = self.view.viewWithTag(307) as! UILabel!
                 if index_Str3 >= 70{
                     humidity_lable.text = "潮湿"
                 }
@@ -2227,10 +2214,10 @@ class ViewControllerSS7Detail: UIViewController {
                 }
                 
                 let update_time = self.view.viewWithTag(308) as! UILabel!;
-                update_time.text="更新时间：\(detail["update_time"] as! String)";
+                update_time.text="更新时间：\(detail["update_time"] as! String)"
                 
                 
-                FAME.showMessage("空气质量刷新成功")
+                //FAME.showMessage("空气质量刷新成功")
 
             })
             
@@ -2623,6 +2610,9 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
     
     var view1 = UIScrollView()
     var indexCount : Array<Dictionary<String,String>> = []
+    
+    var model:Dictionary<Int,String> = [:]
+    
     var indexRoom : Int! = 1000
     var right : Bool = false
     
@@ -2702,14 +2692,13 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
             data(0)
             swipeView()
             createUpView()
-            if FAME.models.count < 7{
-                for i in 0..<Defined_MODE_NAME.count{
-                    FAME.models.append(["name":Defined_MODE_NAME[i],"act_id":"\(1 + i)"])
-                    
-                }
-                FAME.models.insert(["name":"设备全开","act_id":"0"], atIndex: 0)
+            for i in 0..<FAME.models.count{
+                let act:String = FAME.models[i]["act_id"]! as String
+                let act_id:Int = Int(act)!
+                let name:String = FAME.models[i]["name"]! as String
+                self.model[act_id] = name
             }
-            print(FAME.sensors30)
+            print(model)
             
             tableView.transform = CGAffineTransformMakeTranslation(WIDTH/3 , 0)
             
@@ -2755,7 +2744,11 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
         if cellCount > 0{
             self.tableView.mj_header.endRefreshing()
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                FAME.showMessage("刷新成功")
+                //FAME.showMessage("刷新成功")
+                let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+                myThread.start()
+
+                print(FAME.action_ids)
             })
             //UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
@@ -2766,11 +2759,9 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
             })
             //UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
-        print(FAME.action_ids)
         
-        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
-        myThread.start()
-        //self.Timerset()
+        
+                //self.Timerset()
         
     }
     
@@ -2781,35 +2772,38 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
         for subCell:AnyObject in tableView.visibleCells {
             //print(subCell)
             let cell = subCell as! UITableViewCell2
-   
+            
             dev_id = cell.dev_id
-
-            for i in 0..<FAME.action_ids[dev_id]!.count{
+            print("dev_id == \(dev_id),====\(FAME.action_ids[dev_id])")
+            if (FAME.action_ids[dev_id] != nil){
+                for i in 0..<FAME.action_ids[dev_id]!.count{
                     
-            let lable = cell.viewWithTag(i + 71) as! UILabel
+                    let lable = cell.viewWithTag(i + 71) as! UILabel
                     
-                for j in 0..<FAME.models.count{
-                    let name = FAME.models[j]["name"] as String!
-                    let id = FAME.models[j]["act_id"] as String!
-                    
-                    if FAME.action_ids[dev_id]![i] == 0{
-                        dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                            lable.text = Defined_Event_Title
-                        })
+                    for j in 0..<FAME.models.count{
+                        let name = FAME.models[j]["name"] as String!
+                        let id = FAME.models[j]["act_id"] as String!
                         
+                        if FAME.action_ids[dev_id]![i] == -1{
+                            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                                lable.text = Defined_Event_Title
+                            })
+                            
+                            
+                        }
+                        else if FAME.action_ids[dev_id]![i] == Int(id) {
+                            
+                            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                                lable.text = name
+                            })
+                        }
                         
                     }
-                    else if FAME.action_ids[dev_id]![i] == Int(id) {
-                        
-                        dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                            lable.text = name
-                        })
-                    }
-                    
                 }
+
             }
             
-                
+            
         }
  
 
@@ -2902,7 +2896,7 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
         let lable1 = self.view.viewWithTag(self.selectCount) as! UILabel!;
         if selectId == nil{
             lable1.text = Defined_Event_Title
-            FAME.action_ids[dev_id]![buttonTag] = 0
+            FAME.action_ids[dev_id]![buttonTag] = -1
         }
         else
         {
@@ -3113,8 +3107,21 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
         
         tableView.reloadData()
         
+        self.tableView.mj_header.endRefreshing()
+        print(NSThread.currentThread())
+        //NSThread.currentThread().cancel()
+        let myThread = NSThread(target: self, selector: "startAnimations", object: nil)
+        myThread.start()
+        
         indexRoom = sender.tag
         //print("11111\(sender.tag)")
+    }
+    func startAnimations(){
+        
+        if NSThread.currentThread().name == "main"{
+            //NSThread.exit()
+        }
+        
     }
 
 
@@ -3192,6 +3199,15 @@ extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
         for i in 501...506 {
             let searchButton = cell.viewWithTag(i) as! UIButton2!
             searchButton.addTarget(self, action: Selector("actAddBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
+            //let lable = cell.viewWithTag(i - 430) as! UILabel
+//            if (FAME.action_ids[dev_id] != nil){
+//                let count:Int = FAME.action_ids[dev_id]![i - 501]
+//                lable.text = model[count]
+//            }
+//            else{
+                //lable.text = Defined_Event_Title
+//            }
+
             searchButton.dev_id = Int(dev_id1)
             
         }

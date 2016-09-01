@@ -163,7 +163,8 @@ let Defined_PUSH_Title2 = "报警消息"
 let Defined_PUSH_failed = "请打开推送设置"
 //let Defined_PUSH_failed1 = "请打开信息记录的"
 
-let Defined_Event_Title = "设备全开"
+let Defined_Event_Title = "点击添加"
+let Defined_MODE_NAME1 = "设备全开"
 
 
 let Defined_LINKS_NAMES = ["情景模式","灯光","传感"]

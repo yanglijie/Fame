@@ -127,11 +127,14 @@ class ViewControllerLogin0: UIViewController {
                         UIApplication.sharedApplication().registerForRemoteNotifications()
                         
                     }
+                    else{
+                        UIApplication.sharedApplication().unregisterForRemoteNotifications()
+                    }
                     
                 }
-//                else{
-//                    UIApplication.sharedApplication().registerForRemoteNotifications()
-//                }
+                else{
+                    UIApplication.sharedApplication().unregisterForRemoteNotifications()
+                }
                 
                 FAME.user_uid = received.valueForKey("user_uid") as! UInt
                 
@@ -307,8 +310,8 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
         
         let userName = FAME.getProfile(0)
         if userName != self.userName.text{
-            FAME.msgs.removeAll()
-            FAME.defaults.setObject(FAME.msgs.reverse(), forKey: "\(FAME.user_name)")
+            FAME.msgs = []
+            FAME.defaults.setObject(FAME.msgs, forKey: "\(FAME.user_name)")
         }
 
         //save to local
@@ -335,12 +338,14 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                         UIApplication.sharedApplication().registerForRemoteNotifications()
                         
                     }
+                    else{
+                        UIApplication.sharedApplication().unregisterForRemoteNotifications()
+                    }
                     
                 }
-//                else{
-//                    UIApplication.sharedApplication().registerForRemoteNotifications()
-//                }
-                
+                else{
+                    UIApplication.sharedApplication().unregisterForRemoteNotifications()
+                }
                 FAME.user_uid = received.valueForKey("user_uid") as! UInt
             
                 if received.valueForKey("device_count") as! Int == 0 {
@@ -467,7 +472,6 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                                 
                                 //show the MainView
                                 let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
-                                //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
                                 self.presentViewController(next, animated: false, completion: {
                                         self.logo.alpha = 1
                                         self.navigationController?.popToRootViewControllerAnimated(false)
@@ -629,6 +633,8 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
         print(hvStr)
         print(hvMd5Str)
         print(md5Str)
+        
+        
         
         if md5Str == hvMd5Str {
             print("MD5 OK")
@@ -977,8 +983,8 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
         FAME.user_pwd = self.userPwd1.text
         var ani = viewAnimate()
         
-        if !isAgree{
-            FAME.showMessage("请同意遵守协议")
+        if isAgree{
+            viewAnimate().showTip(self.tip, content: "请同意遵守协议")
         }
         
         else if self.userPwd1.text == self.userPwd2.text {
