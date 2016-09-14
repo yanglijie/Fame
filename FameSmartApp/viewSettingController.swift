@@ -240,28 +240,44 @@ class ViewSettingMTimerController: UIViewController {
     }
     func Timerset(){
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 38, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": {\"cmd\": 1}}",timeout : 90)
-        
-        
-        if (received["result"] as! NSObject == 0){
-            print(received)
+        if (received != nil){
+            if (received["result"] as! NSObject == 0){
+                print(received)
+                self.viewUp.hidden = true
+                self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
+                
+                //let date = FAME.getDateFormLocal()
+                let date1 = received["detail"]!["time"] as! String
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                let date = dateFormatter.dateFromString(date1)!
+                
+                //let date = NSDate
+                self.picker.setDate(date, animated: true)
+                
+                
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    self.BtnDate.setTitle("\(Defined_Timer_Date) \(FAME.stringFromDate(date, type: 1))", forState: UIControlState.Normal)
+                    self.BtnTime.setTitle("\(Defined_Timer_Time) \(FAME.stringFromDate(date, type: 2))", forState: UIControlState.Normal)
+                })
+                
+            }
+            else{
+                self.viewUp.hidden = true
+                self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    FAME.showMessage("获取系统时间失败")
+                })
+                
+            }
+
+        }
+        else{
             self.viewUp.hidden = true
             self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
-            
-            //let date = FAME.getDateFormLocal()
-            let date1 = received["detail"]!["time"] as! String
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            let date = dateFormatter.dateFromString(date1)!
-            
-            //let date = NSDate
-            self.picker.setDate(date, animated: true)
-            
-            
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                self.BtnDate.setTitle("\(Defined_Timer_Date) \(FAME.stringFromDate(date, type: 1))", forState: UIControlState.Normal)
-                self.BtnTime.setTitle("\(Defined_Timer_Time) \(FAME.stringFromDate(date, type: 2))", forState: UIControlState.Normal)
+                FAME.showMessage("获取系统时间失败")
             })
-            
         }
     }
     func refreshModes(){
@@ -322,6 +338,11 @@ class ViewSettingMTimerController: UIViewController {
             viewUp.hidden = true
             subView.transform = CGAffineTransformMakeTranslation(0 , 0)
         }else{
+            viewUp.hidden = true
+            subView.transform = CGAffineTransformMakeTranslation(0 , 0)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                FAME.showMessage("设置系统时间失败")
+            })
             print("failed")
         }
     }

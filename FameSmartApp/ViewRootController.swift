@@ -17,7 +17,7 @@
 
 import UIKit
 
-class ViewControllerMain: RefreshView ,UIAlertViewDelegate {
+class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
     
     var showAnimate :Bool = true
 
@@ -132,12 +132,7 @@ class ViewControllerMain: RefreshView ,UIAlertViewDelegate {
         */
         self.mainInit()
     }
-    func stop1() {
-        stop()
-    }
-    func play1() {
-        play()
-    }
+    
     func mainInit(){
         print("MAIN_INIT")
         let myThreadInit = NSThread(target: self, selector: "Timerset", object: nil)
@@ -293,9 +288,6 @@ class ViewControllerMain: RefreshView ,UIAlertViewDelegate {
         }
     }
     
-    func alertViewCancel(alertView: UIAlertView){
-        
-        
-    }
+
     
 }

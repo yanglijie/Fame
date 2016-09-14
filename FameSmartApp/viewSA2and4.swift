@@ -264,25 +264,9 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
                 
                 if login.text! == "\(FAME.user_name)34637169"
                 {
-                    let cmdStr = "{\"cmd\": 30, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":[{\"ieee_addr\":\"\(self.ieee)\"}]}"
-                    if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
-                        
-                        print(recevied)
-                        let cmdStr1 = "{\"cmd\": 35, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did)}"
-                        if let recevied1 = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr1,timeout:90){
-                            print(recevied1)
-                            
-                            let dic:NSMutableDictionary = ["hvaddr":"\(self.ieee)"]
-                            
-                            FAME.delDeviceArray.removeAllObjects()
-                            FAME.delDeviceArray.addObject(dic)
-                            
-                            FAME.doDeleteDev()
-                            
-                            self.navigationController?.popToRootViewControllerAnimated(true)
-                        }
-                        
-                    }
+                    FAME.delDeviceByIeee(self.ieee)
+                    self.navigationController?.popToRootViewControllerAnimated(true)
+  
                     
                 }
                 else{
@@ -578,7 +562,7 @@ class ViewControllerMainSA3: UIViewController,UIAlertViewDelegate  {
         FAME.saActid3 = sender.tag-1
         FAME.tempApplsId = act_ids[sender.tag-1]
         
-        var viewId = sender.tag
+        //var viewId = sender.tag
         
         let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA31") as UIViewController!
         self.navigationController?.pushViewController(next, animated: true)
@@ -624,11 +608,9 @@ class ViewControllerMainSA4: UIViewController,UIAlertViewDelegate {
             
             let ieee : String! = self.ieees[self.tmp_tag - 1]
             print("del ieee:\(ieee)")
-            let dic:NSMutableDictionary = ["hvaddr":"\(ieee)"]
-            FAME.delDeviceArray.removeAllObjects()
-            FAME.delDeviceArray.addObject(dic)
-            FAME.doDeleteDev()
-            print(FAME.device_table)
+            
+            
+            FAME.delDeviceByIeee(ieee)
             self.navigationController?.popToRootViewControllerAnimated(true)
             
             
@@ -682,7 +664,7 @@ class ViewControllerMainSA4: UIViewController,UIAlertViewDelegate {
         let view0 :UIView = self.view.viewWithTag(10)!
         view0.frame.size.width = self.view.frame.size.width - 60
         
-        let viewWidth = self.view.frame.size.width - 60
+        //let viewWidth = self.view.frame.size.width - 60
         
         let divW:CGFloat = 0.27
         

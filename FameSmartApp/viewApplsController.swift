@@ -264,12 +264,12 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
         print("click at \(buttonIndex)")
         if buttonIndex == 0{
-            httpRequert().sendRequest(lockId + 2)
+            httpRequert().sendRequest(lockId + 3)
             print("设置常开")
             
         }
         else{
-            httpRequert().sendRequest(lockId + 3)
+            httpRequert().sendRequest(lockId + 2)
             print("取消常开")
         }
         
@@ -323,27 +323,10 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 
                 if login.text! == "\(FAME.user_name)34637169"
                 {
-                    let cmdStr = "{\"cmd\": 30, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":[{\"ieee_addr\":\"\(self.ieee)\"}]}"
-                    if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
-                        
-                        print(recevied)
-                        let cmdStr1 = "{\"cmd\": 35, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did)}"
-                        if let recevied1 = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr1,timeout:90){
-                            print(recevied1)
-                            
-//                            let dic:NSMutableDictionary = ["hvaddr":"\(self.ieee)"]
-//                            
-//                            FAME.delDeviceArray.removeAllObjects()
-//                            FAME.delDeviceArray.addObject(dic)
-//                            
-//                            FAME.doDeleteDev()
-                            
-                            FAME.delDeviceByIeee(self.ieee)
-                            
-                            self.navigationController?.popToRootViewControllerAnimated(true)
-                        }
-
-                    }
+                    
+                    FAME.delDeviceByIeee(self.ieee)
+                                    
+                    self.navigationController?.popToRootViewControllerAnimated(true)
 
                 }
                 else{
@@ -1438,11 +1421,6 @@ class ViewControllerCurtains: UIViewController {
         
         print(FAME.saActid2)
         
-//        let curObj = FAME.curtains[FAME.saActid2] as NSDictionary
-//        //let curName:String! = curObj["name"] as! String
-//        let curDevid:String! = curObj["dev_id"] as! String
-//        self.dev_id = Int(curDevid)!
-        
         self.dev_id = FAME.saActid2
         
     }
@@ -1501,7 +1479,7 @@ class ViewControllerCurtains: UIViewController {
         
         //Slider
         self.viewSlider = UISlider(frame: CGRect(x: 20, y: 45, width: self.pickView.frame.width - 40 , height: 50))
-        self.viewSlider.minimumValue = 1
+        self.viewSlider.minimumValue = 0
         self.viewSlider.maximumValue = 255
         self.viewSlider.value = 5
         self.viewSlider.addTarget(self, action: "sliderChanged:", forControlEvents: UIControlEvents.ValueChanged)

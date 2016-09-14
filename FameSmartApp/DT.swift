@@ -36,8 +36,8 @@ class dt:NSObject {
                 let dev_id:Int! = obj["dev_id"] as! Int!
                 var index:Int! = obj["index"] as! Int!
                 let slot:Int! = obj["slot"] as! Int!
-                var cmd:Int! = 0
-                let operatin :String! = obj["operation"] as! String!
+//                var cmd:Int! = 0
+//                let operatin :String! = obj["operation"] as! String!
                 
                 if slot != nil {
                     index = slot

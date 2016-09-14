@@ -67,7 +67,7 @@ class ViewControllerWelcome: UIViewController {
         super.viewWillAppear(animated)
    
         
-        let timmer:NSTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:"timerFunction", userInfo:nil, repeats:false)
+        NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:"timerFunction", userInfo:nil, repeats:false)
     }
 }
 
@@ -86,14 +86,23 @@ class ViewControllerLogin0: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         //self.navigationController.navigationBar.backgroundColor = UIColor.clearColor()
         //self.navigationController.navigationBar.topItem.title = "123"
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "empty.png"), forBarMetrics: UIBarMetrics.Default)
         
-        let timmer:NSTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target:self, selector:"timerFunction", userInfo:nil, repeats:false)
+        if !Reachability.isConnectedToNetwork(){
+            FAME.showMessage("请检查网络连接")
+        }
+    
+        
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "empty.png"), forBarMetrics: UIBarMetrics.Default)
+        //NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerFunction", userInfo: nil, repeats: false)
+        
  
         //self.navigationController.setNavigationBarHidden(true, animated: true)
     }
@@ -102,6 +111,9 @@ class ViewControllerLogin0: UIViewController {
         let userPass = FAME.getProfile(1)
         FAME.user_name = userName
         FAME.user_pwd = userPass
+        
+        
+        
         
         var received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 10, \"user_name\": \"\(userName)\",\"user_pwd\": \"\(userPass)\", \"client_type\": \"ios\"}",cmplx:true)
         //received = nil
@@ -184,6 +196,8 @@ class ViewControllerLogin0: UIViewController {
                 print("get DT failed")
                 //                viewAnimate().shrkInput(userName)
                 //                viewAnimate().shrkInput(userPass)
+                
+                
                 
             }
             
@@ -293,16 +307,59 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
     
     @IBAction func localLogin(sender: AnyObject){
        
-        let ip:String! = ViewControllerLogin1.getlocalIP()[0] as String!
+        let routeip:routeIP = routeIP()
+        //print(routeip.routerIp())
+        let ip:String! = routeip.routerIp()
         Surl = "http://\(ip)/cgi-bin/sm_user_intf.cgi"
-
         print(Surl)
-        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 0}",cmplx:true)
         
-        //self.showNavMain()
+        
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 0}",cmplx:true)
+        if (received != nil){
+            if received.valueForKey("version_code") as! String == "1"{
+                viewAnimate().showTip(self.tip, content: Defined_login_dt_failed2)
+            }
+            else{
+                self.showNavMain()
+                getDeviceTableData()
+            }
+        }
+        else{
+            viewAnimate().showTip(self.tip, content: Defined_login_dt_failed1)
+        }
+        
+        //
         
     }
-    
+    func getDeviceTableData(){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            let DTValue = FAME.getDeviceTable()
+            
+            if (DTValue != nil) {
+                if DTValue == 0 {
+                    print("DeviceTable is OK")
+                    
+                }else{
+                    print("DeviceTable is null")
+                    FAME.getDeviceTable()
+                    FAME.lastDTversion = FAME.DTversion
+                    let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
+                    self.navigationController?.pushViewController(next, animated: true)
+                    FAME.isAddDeviceFromSetting = false
+                    
+                }
+            }
+            else{
+                print("get DT failed")
+                
+                viewAnimate().shrkInput(self.userName)
+                viewAnimate().shrkInput(self.userPwd)
+                viewAnimate().showTip(self.tip, content: Defined_login_dt_failed)
+            }
+            
+        }
+
+    }
     @IBAction func doLogin(sender : AnyObject) {
         
         FAME.user_name = self.userName.text
@@ -362,33 +419,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                     
                     
                     //get the devicetable
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                        let DTValue = FAME.getDeviceTable()
-                        
-                        if (DTValue != nil) {
-                            if DTValue == 0 {
-                                print("DeviceTable is OK")
-                                
-                            }else{
-                                print("DeviceTable is null")
-                                FAME.getDeviceTable()
-                                FAME.lastDTversion = FAME.DTversion
-                                let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
-                                self.navigationController?.pushViewController(next, animated: true)
-                                FAME.isAddDeviceFromSetting = false
-                                
-                            }
-                        }
-                        else{
-                            print("get DT failed")
-                            
-                            viewAnimate().shrkInput(self.userName)
-                            viewAnimate().shrkInput(self.userPwd)
-                            viewAnimate().showTip(self.tip, content: Defined_login_dt_failed)
-                        }
- 
-                    }
-                    
+                    getDeviceTableData()
                 }
                 
             default:
@@ -415,6 +446,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
         var ifaddr : UnsafeMutablePointer<ifaddrs> = nil
         if getifaddrs(&ifaddr) == 0 {
             
+            
             // For each interface ...
             for (var ptr = ifaddr; ptr != nil; ptr = ptr.memory.ifa_next) {
                 let flags = Int32(ptr.memory.ifa_flags)
@@ -427,6 +459,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                         // Convert interface address to a human readable string:
                         var hostname = [CChar](count: Int(NI_MAXHOST), repeatedValue: 0)
                         if (getnameinfo(&addr, socklen_t(addr.sa_len), &hostname, socklen_t(hostname.count),nil, socklen_t(0), NI_NUMERICHOST) == 0) {
+                            
                             if let address = String.fromCString(hostname) {
                                 addresses.append(address)
                             }
@@ -634,9 +667,14 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
         print(hvMd5Str)
         print(md5Str)
         
+        if (self.inputHv.text == "") || (self.inputCK.text == ""){
+            
+            viewAnimate().shrkInput(self.inputType!)
+            viewAnimate().showTip(self.tip!, content: Defined_register_not_router1)
+        }
         
         
-        if md5Str == hvMd5Str {
+        else if md5Str == hvMd5Str {
             print("MD5 OK")
             
             
@@ -685,23 +723,32 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
         //let ieee = str.substringWithRange(5, B: 23)
         //let verify = str.substringWithRange(36, B: 32)
         
+        
         let ieee = FAME.subString(str, A: 5, B: 23)
         let verify = FAME.subString(str, A: 36, B: 32)
         
         self.inputHv.text! = ieee
         self.inputCK.text! = verify
         
+        
+        
             //get the Type
-            if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
-                
-                self.inputType.text = recevied.valueForKey("model_name") as? String
-                self.model_id = recevied.valueForKey("model_id") as! UInt
-                
-            }else{
-                self.inputType.text = Defined_Unkown_Device
-            }
+        let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}")
+        
+        
+        if recevied.valueForKey("result") as! UInt == 0{
             
+            
+            self.inputType.text = recevied.valueForKey("model_name") as? String
+ 
+            self.model_id = recevied.valueForKey("model_id") as! UInt
+            
+        }else{
+                self.inputType.text = Defined_Unkown_Device
         }
+    }
+    
+        
 }
 
 class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDelegate ,UIAlertViewDelegate{
@@ -850,15 +897,18 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
         let metadataObj:AVMetadataMachineReadableCodeObject  = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
 
         self.session.stopRunning()
-        
         print(metadataObj.stringValue)
         //tmpInput.text = metadataObj.stringValue
-        if metadataObj.stringValue != nil{
+        if metadataObj.stringValue != nil && metadataObj.stringValue.componentsSeparatedByString("TYPE").count > 1{
             self.session.stopRunning()
             self.timer.fire()
+            self.pView.deQRcode(metadataObj.stringValue)
+        }
+        else{
+            FAME.showMessage("不是设备的二维码")
+            self.pView.deQRcode("")
         }
         
-        self.pView.deQRcode(metadataObj.stringValue)
         self.dismissViewControllerAnimated(true, completion: nil)
         
         
@@ -981,9 +1031,11 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
     @IBAction func doRegist(sender : AnyObject) {
         FAME.user_name = self.userName.text
         FAME.user_pwd = self.userPwd1.text
-        var ani = viewAnimate()
-        
-        if isAgree{
+        //var ani = viewAnimate()
+        if self.userName.text == "" || self.userPwd1.text == "" || self.userPwd2.text == ""{
+            viewAnimate().showTip(self.tip, content: "请填写完整")
+        }
+        else if isAgree{
             viewAnimate().showTip(self.tip, content: "请同意遵守协议")
         }
         
@@ -1049,7 +1101,8 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
                                 //show the MainView
                                 let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
                                 self.presentViewController(next, animated: false, completion: {
-                                    var Objs = self.navigationController?.popToRootViewControllerAnimated(false)
+                                    
+                                    self.navigationController?.popToRootViewControllerAnimated(false)
                                     })
                             }else{
                                 print("DeviceTable is null")
@@ -1140,8 +1193,30 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
         let returnButtonItem = UIBarButtonItem()
         returnButtonItem.title = Defined_navigation_back_title
         self.navigationItem.backBarButtonItem = returnButtonItem
+        
+//        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+//        myThread.start()
+        
     }
-    
+    func Timerset(){
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 7, \"user_name\": \"\(FAME.user_name )\"}",cmplx:true)
+        print(received)
+        if( received != nil){
+            if received.valueForKey("result") as! UInt == 0{
+
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    self.inputTel.text = received.valueForKey("phone") as? String
+                })
+                
+            }
+            else{
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    FAME.showMessage("你未绑定手机号")
+                })
+            }
+        }
+
+    }
     var remainingSeconds: Int = 0 {
         willSet {
             self.getVer.setTitle("\(newValue)秒", forState: .Normal)
@@ -1211,6 +1286,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
             self.btnSkip.hidden = false
         }
     }
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool{
         
         print(textField.tag)
@@ -1227,6 +1303,10 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
         
         
         if (!self.inputTel.text!.isEmpty) && (!self.inputVcode.text!.isEmpty){
+            
+            self.getVer.setTitle("获取验证码", forState: .Normal)
+            isCounting = false
+            
             let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
             myThread.start()
         }
@@ -1239,7 +1319,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
     }
     func Timerset2(){
         let cmdStr = "{\"cmd\": 5, \"user_phone\": \"\(self.inputTel.text! )\",\"user_smscode\": \"\(self.inputVcode.text!)\"}"
-        if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
             
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
                 let alert = UIAlertView()
@@ -1345,7 +1425,7 @@ class ViewControllerLogin7: UIViewController , UITextFieldDelegate,UIAlertViewDe
     }
     func Timerset2(){
         let cmdStr = "{\"cmd\": 8, \"user_name\": \"\(FAME.user_name )\",\"user_smscode\": \"\(self.verityText.text!)\"}"
-        if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
             
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
                 let next = GBoard.instantiateViewControllerWithIdentifier("Login8") as UIViewController
@@ -1556,7 +1636,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
         self.createPop()
         
         
-        FAME.getDeviceTable()
+        //FAME.getDeviceTable()
         FAME.lastDTversion = FAME.DTversion
         print("lastDTversion \(FAME.lastDTversion)")
         
@@ -1583,9 +1663,10 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
     
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
-        print(FAME.device_table)
+        //print(FAME.device_table)
         if (FAME.device_table != nil) {
             //device_table existed
+            
             
         }else{
             //nodevice_table
@@ -1594,7 +1675,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
             let jsonData = NSData(contentsOfFile: "\(jsonPath)/orgDT.txt")
             do{
             let json :NSMutableDictionary! = try NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.MutableContainers) as! NSMutableDictionary as NSMutableDictionary!
-            print(json)
+                print(json)
                 FAME.device_table = json
                 FAME.updateDeviceTable()
             }catch{
@@ -1746,8 +1827,9 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
     override func deQRcode(str: String){
         print("ViewControllerLogin5 get:\(str)")
         
-        //let ieee = str.substringWithRange(5, B: 23)
-        //let verify = str.substringWithRange(36, B: 32)
+        if str == ""{
+            return
+        }
         
         let ieee = FAME.subString(str, A: 5, B: 23)
         let verify = FAME.subString(str, A: 36, B: 32)
@@ -1788,6 +1870,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
                 if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
                     
                     self.model_id = received.valueForKey("model_id") as! UInt
+                    
                     self.inputType.text = received.valueForKey("model_name") as? String
                     
                 }else{
@@ -1807,6 +1890,14 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
         print(hvStr)
         print(hvMd5Str)
         print(md5Str)
+        
+        if self.model_id == 2 || self.model_id == 3{
+            viewAnimate().showTip(self.tip, content: Defined_add_existed1)
+            viewAnimate().shrkInput(self.inputCK)
+            viewAnimate().shrkInput(self.inputHv)
+            viewAnimate().shrkInput(self.inputType)
+            return
+        }
         
         if md5Str == hvMd5Str {
             print("MD5 OK")
@@ -1959,6 +2050,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
 
 
 class ViewControllerForgetPass: UIViewController , UITextFieldDelegate,UIAlertViewDelegate{
+    var timer :NSTimer!
     
     
     @IBOutlet weak var userText: UITextField!
@@ -2024,6 +2116,8 @@ class ViewControllerForgetPass: UIViewController , UITextFieldDelegate,UIAlertVi
     @IBAction func sureClick(sender: AnyObject) {
         
         
+        verityButton.setTitle("获取验证码", forState: .Normal)
+        isCounting = false
         
         let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
         myThread.start()
@@ -2031,7 +2125,7 @@ class ViewControllerForgetPass: UIViewController , UITextFieldDelegate,UIAlertVi
     }
     func Timerset2(){
         let cmdStr = "{\"cmd\": 8, \"user_name\": \"\(userText.text! )\",\"user_smscode\": \"\(self.verityText.text!)\"}"
-        if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
             
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
                 let next = GBoard.instantiateViewControllerWithIdentifier("Login8") as UIViewController
@@ -2055,8 +2149,9 @@ class ViewControllerForgetPass: UIViewController , UITextFieldDelegate,UIAlertVi
     }
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         verityText.resignFirstResponder()
+        userText.resignFirstResponder()
     }
-    var timer :NSTimer!
+    
     var remainingSeconds: Int = 0 {
         willSet {
             verityButton.setTitle("\(newValue)秒", forState: .Normal)

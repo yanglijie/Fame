@@ -93,6 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
     
     //当应用运行在后台时
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]){
+        
         print("PUSH register userInfo: \(userInfo)")
         
         
@@ -103,11 +104,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
         let alertDic = apsDic.objectForKey ( "alert" ) as! String
         
         
-        if alertDic.componentsSeparatedByString("解除").count > 1{
-            
-        }
-        
-        else{
+//        if alertDic.componentsSeparatedByString("解除").count > 1{
+//            
+//        }
+//        
+//        else{
 
             if (FAME.defaults.valueForKey("\(FAME.user_name)") != nil){
                 FAME.msgs = FAME.defaults.valueForKey("\(FAME.user_name)") as! Array
@@ -137,7 +138,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
             }
             
             
-        }
+        //}
         
         
         

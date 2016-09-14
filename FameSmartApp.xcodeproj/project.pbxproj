@@ -330,6 +330,8 @@
 		95C3E3A91D70EAA10026ABEF /* checkbox_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 95C3E3A71D70EAA10026ABEF /* checkbox_selected.png */; };
 		95C3E3AA1D70EAA10026ABEF /* checkbox_unselect.png in Resources */ = {isa = PBXBuildFile; fileRef = 95C3E3A81D70EAA10026ABEF /* checkbox_unselect.png */; };
 		95C8104E1D42A924000BC78B /* myloginbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 95C8104D1D42A924000BC78B /* myloginbg.png */; };
+		95D714681D89F98500354711 /* getgateway.c in Sources */ = {isa = PBXBuildFile; fileRef = 95D714651D89F98500354711 /* getgateway.c */; };
+		95D7146B1D89FB2D00354711 /* routeIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D7146A1D89FB2D00354711 /* routeIP.m */; };
 		95E7EF9E1D650DC00019F7B8 /* yuba_spinner_press.png in Resources */ = {isa = PBXBuildFile; fileRef = 95E7EF9D1D650DC00019F7B8 /* yuba_spinner_press.png */; };
 		95E7EFA01D6510A30019F7B8 /* about_us_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 95E7EF9F1D6510A30019F7B8 /* about_us_icon.png */; };
 		FD24394D19C1480300200750 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD24394C19C1480300200750 /* extension.swift */; };
@@ -718,6 +720,11 @@
 		95C3E3A71D70EAA10026ABEF /* checkbox_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_selected.png; sourceTree = "<group>"; };
 		95C3E3A81D70EAA10026ABEF /* checkbox_unselect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_unselect.png; sourceTree = "<group>"; };
 		95C8104D1D42A924000BC78B /* myloginbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myloginbg.png; sourceTree = "<group>"; };
+		95D714651D89F98500354711 /* getgateway.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getgateway.c; sourceTree = "<group>"; };
+		95D714661D89F98500354711 /* getgateway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getgateway.h; sourceTree = "<group>"; };
+		95D714671D89F98500354711 /* route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = route.h; sourceTree = "<group>"; };
+		95D714691D89FB2D00354711 /* routeIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = routeIP.h; sourceTree = "<group>"; };
+		95D7146A1D89FB2D00354711 /* routeIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = routeIP.m; sourceTree = "<group>"; };
 		95E7EF9D1D650DC00019F7B8 /* yuba_spinner_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yuba_spinner_press.png; sourceTree = "<group>"; };
 		95E7EF9F1D6510A30019F7B8 /* about_us_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about_us_icon.png; sourceTree = "<group>"; };
 		FD0A248C1A2EDC5A00ED1C43 /* FameSmartAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FameSmartAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -787,6 +794,7 @@
 		077882E1198B254B003E2390 /* FameSmartApp */ = {
 			isa = PBXGroup;
 			children = (
+				95D714641D89F98500354711 /* rouce */,
 				077882E4198B254B003E2390 /* AppDelegate.swift */,
 				079B56CC1A2C55B700957A43 /* FAME.swift */,
 				956F11F91D271458006D1197 /* FameSmartApp-Bridging-Header.h */,
@@ -1324,6 +1332,18 @@
 			path = Header;
 			sourceTree = "<group>";
 		};
+		95D714641D89F98500354711 /* rouce */ = {
+			isa = PBXGroup;
+			children = (
+				95D714651D89F98500354711 /* getgateway.c */,
+				95D714661D89F98500354711 /* getgateway.h */,
+				95D714671D89F98500354711 /* route.h */,
+				95D714691D89FB2D00354711 /* routeIP.h */,
+				95D7146A1D89FB2D00354711 /* routeIP.m */,
+			);
+			path = rouce;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1734,6 +1754,7 @@
 				FD427EFB19B433F9007094CF /* viewModesSetting.swift in Sources */,
 				076932651BC378FE00A3EAC5 /* ViewMsgController.swift in Sources */,
 				07984C50198BE83C00AA4BD5 /* MD5.swift in Sources */,
+				95D7146B1D89FB2D00354711 /* routeIP.m in Sources */,
 				956F11F61D2710F5006D1197 /* UIScrollView+MJRefresh.m in Sources */,
 				073B07201999D4A40013E78A /* viewApplsController.swift in Sources */,
 				07CBA7591990934600484BBC /* ViewRootController.swift in Sources */,
@@ -1757,6 +1778,7 @@
 				0776018E19C299B2002A8F50 /* viewAboutUsController.swift in Sources */,
 				07E0D2881999EFB300CE752F /* ViewSSController.swift in Sources */,
 				956F11E51D2710F5006D1197 /* MJRefreshBackFooter.m in Sources */,
+				95D714681D89F98500354711 /* getgateway.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

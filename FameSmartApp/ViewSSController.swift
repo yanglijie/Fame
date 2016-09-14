@@ -566,10 +566,10 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         self.showVIew2()
         
     }
-    //恢复联动
+    //恢复后的联动
     func btns74Fun(sender:UIButton){
-        self.showId = 0
-        FAME.link_id = 0
+        self.showId = 1
+        FAME.link_id = 1
         self.showVIew2()
     }
     //设置延时联动
@@ -612,40 +612,18 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                 //也可以用下标的形式获取textField let login = alertController.textFields![0]
                 let login = alertController.textFields!.first! as UITextField
                 print("用户名：\(login.text)")
-                
-                
-                
+
                 if login.text! == "\(FAME.user_name)34637169"
                 {
-                    let cmdStr = "{\"cmd\": 30, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":[{\"ieee_addr\":\"\(self.ieee)\"}]}"
-                    if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
-                        
-                        print(recevied)
-                        let cmdStr1 = "{\"cmd\": 35, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did)}"
-                        if let recevied1 = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr1,timeout:90){
-                            print(recevied1)
-                            
-                            let dic:NSMutableDictionary = ["hvaddr":"\(self.ieee)"]
-                            
-                            
-                            
-                            FAME.delDeviceArray.removeAllObjects()
-                            FAME.delDeviceArray.addObject(dic)
-                            
-                            FAME.doDeleteDev()
-                            //self.view.endEditing(false)
-                            self.navigationController?.popToRootViewControllerAnimated(true)
-                            //NSNotificationCenter.defaultCenter().postNotificationName("play", object: nil)
-                            
-                        }
-                    }
+                    
+                    FAME.delDeviceByIeee(self.ieee)
+                    
+                    self.navigationController?.popToRootViewControllerAnimated(true)
                     
                 }
                 else{
                     FAME.showMessage("输入的密码不正确")
                 }
-                
-            
         })
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
@@ -790,12 +768,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
 
         self.ieee = self.sensors[index]["ieee"] as String!
         FAME.dev_id = sender.dev_id
-        
-        
-        let subCell:AnyObject = self.tabelVeiw.visibleCells[index]
-        //print(subCell)
-        let cell = subCell as! UITableViewCell2
-        
+
         
         FAME.dev_ss_name = self.sensors[index]["name1"] as String!
         FAME.dev_ss_Rname = self.sensors[index]["roomName"] as String!
@@ -920,7 +893,8 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                         self.Links3 = [["name":"打开","act_id":0],["name":"停止","act_id":1],["name":"暂停","act_id":2]]
                     }else{
                         self.Links3 = [["name":Defined_mode_on,"act_id":1],["name":Defined_mode_off,"act_id":0]]
-                    }                }
+                    }
+                }
                 
             }else{
                 
@@ -2374,9 +2348,7 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
         
 
         FAME.dev_ss_name = name
-        
-        let cmdStr:String!
-        
+
         if FAME.tempSensorId == 1{
             let subname1 = self.view.viewWithTag(17) as! UITextField!
             let subname:String = subname1.text as String!
@@ -2395,13 +2367,12 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
             }
             //subName = FAME.subNames[FAME.dev_id]!
             print(subName)
-            cmdStr = "{\"cmd\": 47,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"name\": \"\(name)\",\"room\":\(count), \"variation\": \(subName)}"
+            
         }
         else{
-            
-            cmdStr = "{\"cmd\": 47,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"name\": \"\(name)\",\"room\":\(count)}"
+            subName = []
         }
-
+        let cmdStr = "{\"cmd\": 47,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"dev_id\":\(FAME.dev_id), \"name\": \"\(name)\",\"room\":\(count), \"variation\": \(subName)}"
   
         if let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90){
             
@@ -2414,7 +2385,9 @@ class ViewControllerSS_name: UIViewController,UITableViewDataSource,UITableViewD
                 self.navigationController?.popViewControllerAnimated(true);
             }
         }
-        
+        else{
+            FAME.showMessage("设备名修改失败")
+        }
         
         
     }
@@ -2544,7 +2517,7 @@ class ViewControllerSS7air6: UIViewController,UITextFieldDelegate {
             
             if recevied["result"] as! NSObject == 0
             {
-                self.delegate?.showMessage() ;
+                self.delegate?.showMessage()
                 self.navigationController?.popViewControllerAnimated(true);
             }
         }
@@ -2632,7 +2605,7 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
             let point:CGPoint = sender.locationInView(self.tableView)
             let indexPath:NSIndexPath! = self.tableView.indexPathForRowAtPoint(point)
             if(indexPath != nil){
-                let cell:UITableViewCell2! = self.tableView.cellForRowAtIndexPath(indexPath) as! UITableViewCell2
+                //let cell:UITableViewCell2! = self.tableView.cellForRowAtIndexPath(indexPath) as! UITableViewCell2
 
                 ieee = indexCount[indexPath.row]["ieee"] as String!
                 let alert :UIAlertView = UIAlertView()
@@ -2761,7 +2734,7 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
         }
         
         
-                //self.Timerset()
+        
         
     }
     
@@ -2783,21 +2756,19 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
                     for j in 0..<FAME.models.count{
                         let name = FAME.models[j]["name"] as String!
                         let id = FAME.models[j]["act_id"] as String!
-                        
-                        if FAME.action_ids[dev_id]![i] == -1{
-                            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                                lable.text = Defined_Event_Title
-                            })
-                            
-                            
-                        }
-                        else if FAME.action_ids[dev_id]![i] == Int(id) {
+
+                        if FAME.action_ids[dev_id]![i] == Int(id) {
                             
                             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
                                 lable.text = name
                             })
                         }
-                        
+//                        else{
+//                            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+//                                lable.text = Defined_Event_Title
+//                            })
+//
+//                        }
                     }
                 }
 
@@ -2817,6 +2788,10 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
     func actSetBtn(sender:UIButton2!){
         
         print("点击了设定按钮")
+        
+        if (tableView.mj_header != nil){
+            tableView.mj_header.endRefreshing()
+        }
         
         viewUp.hidden = false
         tableView.transform = CGAffineTransformMakeTranslation(0 , 80)
@@ -3199,14 +3174,14 @@ extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
         for i in 501...506 {
             let searchButton = cell.viewWithTag(i) as! UIButton2!
             searchButton.addTarget(self, action: Selector("actAddBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
-            //let lable = cell.viewWithTag(i - 430) as! UILabel
-//            if (FAME.action_ids[dev_id] != nil){
-//                let count:Int = FAME.action_ids[dev_id]![i - 501]
-//                lable.text = model[count]
-//            }
-//            else{
-                //lable.text = Defined_Event_Title
-//            }
+            let lable = cell.viewWithTag(i - 430) as! UILabel
+            if (FAME.action_ids[setButton.dev_id] != nil){
+                let count:Int = FAME.action_ids[setButton.dev_id]![i - 501]
+                lable.text = model[count]
+            }
+            else{
+                lable.text = Defined_Event_Title
+            }
 
             searchButton.dev_id = Int(dev_id1)
             

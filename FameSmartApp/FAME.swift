@@ -148,6 +148,7 @@ class fame:NSObject{
     var appls:Array<Dictionary<String,String>> = []
     var airs:Array<Dictionary<String,String>> = []
     
+    //只存的有灯光和插座的联动id和名字
     var linkMoled:Array<Dictionary<String,String>> = []
     var linkYB:Array<Dictionary<String,String>> = []
     
@@ -224,7 +225,7 @@ class fame:NSObject{
     
     func subString(str:String,A:Int,B:Int) -> String! {
         print((str as NSString).length)
-        if (str as NSString).length <= 23 {
+        if (str as NSString).length <= 32 {
             return nil
         }else{
             let str1 = (str as NSString).substringFromIndex(A)
@@ -486,7 +487,7 @@ class fame:NSObject{
         let str = NSString(data: nsdata!, encoding: 4)!
         print("DeviceTable Str: \(str)")
         
-        if var received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 17, \"user_name\": \"\(self.user_name )\",\"user_pwd\": \"\(self.user_pwd)\", \"did\": \"\(self.user_did)\", \"device_table\": \(str)}"){
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 17, \"user_name\": \"\(self.user_name )\",\"user_pwd\": \"\(self.user_pwd)\", \"did\": \"\(self.user_did)\", \"device_table\": \(str)}") != nil){
             
             print("updateDeviceTable successed")
             
@@ -543,15 +544,16 @@ class fame:NSObject{
         FAME.Links = []
         
         idForNamesMode = [:]
+        idForNames = [:]
         
         FAME.deviceCount = 0
         
         var Links3:Array<Dictionary<String,AnyObject>> = []
-        var acrArr = [];
+        var acrArr = []
         //version
         let TS:AnyObject! = FAME.device_table.valueForKey("table_version")
         if (TS != nil) {
-            var tsNum :Int = TS as! Int
+            let tsNum :Int = TS as! Int
             print("the table_version is:\(tsNum)")
             FAME.DTversion = tsNum
         }else{
@@ -1190,6 +1192,7 @@ class fame:NSObject{
                                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                                 
                                 
+                                
                             }else{
                                 //failed
                                 let alert = UIAlertView()
@@ -1205,10 +1208,9 @@ class fame:NSObject{
             }
             //self.deCodeDeviceTable()
         }
-        
+        FAME.getDeviceTable()
         FAME.addDeviceArray = []
         FAME.isAddingDevice = false
-        FAME.getDeviceTable()
         
     }
     func timerFunction(){
@@ -1232,7 +1234,7 @@ class fame:NSObject{
     func checkDelDevice(){
         //self.addDeviceArray = self.defaults.objectForKey("addDeviceArray") as NSMutableArray
         let received :NSDictionary! = httpRequert().checkDelDevice()
-        print(received)
+        //print(received)
         
         if  (received != nil){
             //check the list
@@ -1245,16 +1247,27 @@ class fame:NSObject{
                     alert.message =  Defined_unAdd_Title_success
                     alert.addButtonWithTitle(Defined_ALERT_OK)
                     alert.show()
+                FAME.isAddingDevice = false
+                FAME.getDeviceTable()
+                
             }else{
                 print("ROUTER BUSY")
                 let alert = UIAlertView()
                 alert.title = Defined_unAdd_Title1
                 alert.message =  "\(Defined_unAdd_Title_failed2)"
                 alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
             }
         }
-        FAME.isAddingDevice = false
-        FAME.getDeviceTable()
+        else{
+            print("ROUTER BUSY")
+            let alert = UIAlertView()
+            alert.title = Defined_unAdd_Title1
+            alert.message =  "\(Defined_unAdd_Title_failed2)"
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.show()
+        }
+        
     }
     
     func refreshLightState() -> Bool{
@@ -1286,7 +1299,7 @@ class fame:NSObject{
         
         let param = paramArray.componentsJoinedByString(",")
         
-        var received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 90)
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 90)
             if (received != nil){
             //got the state
             for values:AnyObject in received.valueForKey("states") as! NSArray {
@@ -1467,13 +1480,35 @@ class fame:NSObject{
         
     }
     
+
+
+}
+import Foundation
+import SystemConfiguration
+
+public class Reachability {
     
-    
-    
-    
-    
-    
-    
+    class func isConnectedToNetwork() -> Bool {
+        
+        var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
+        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        let defaultRouteReachability = withUnsafePointer(&zeroAddress) {
+            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+        }
+        
+        var flags: SCNetworkReachabilityFlags = []
+        if SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) == false {
+            return false
+        }
+        
+        let isReachable = flags.contains(.Reachable)
+        let needsConnection = flags.contains(.ConnectionRequired)
+        
+        return isReachable && !needsConnection
+    }
     
 }
+
 

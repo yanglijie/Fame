@@ -38,21 +38,18 @@ class httpRequert : NSObject{
     
     
     func downloadFromPostUrlSync(url:String,cmd:String, cmplx:Bool=false ,timeout :NSTimeInterval = 8 ) -> NSDictionary!{
-        var nilDic:Dictionary = ["result":9]
+        //var nilDic:Dictionary = ["result":9]
         print("CMD TO POST\n \(cmd)")
         let nsUrl=NSURL(string: url)
         let request = NSMutableURLRequest(URL: nsUrl!)
         //request.encodeWithCoder(<#T##aCoder: NSCoder##NSCoder#>)
         request.timeoutInterval = timeout
         request.HTTPMethod = "POST"
+        
         let bodyString = cmd as NSString
         request.HTTPBody=bodyString.dataUsingEncoding(NSUTF8StringEncoding)
         
-        if NSThread.currentThread().cancelled{
-            NSThread .exit()
-            print("222222")
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        }
+        
  
             do{
                 let received = try NSURLConnection.sendSynchronousRequest(request, returningResponse: nil)
@@ -89,7 +86,7 @@ class httpRequert : NSObject{
     
     
     func downloadFromPostUrlSync(url:String,dic:NSDictionary, cmplx:Bool=false ) -> NSDictionary!{
-        var nilDic:Dictionary = ["result":9]
+        //var nilDic:Dictionary = ["result":9]
         
         let nsUrl=NSURL(string: url)
         let request = NSMutableURLRequest(URL: nsUrl!)
@@ -163,7 +160,7 @@ class httpRequert : NSObject{
         let cmd = FAME.tempCmd
         print("send request:\(cmd)")
         let cmdStr = "{\"cmd\": 18, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did), \"param\": \(cmd)}"
-        if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr){
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr) != nil){
             print("SEND REQUEST SUCCESSED")
         }else{
             print("SEND REQUEST FAILED!")
@@ -189,7 +186,7 @@ class httpRequert : NSObject{
         //    \(FAME.user_did)
         print("send request:\(cmd)")
         let cmdStr = "{\"cmd\": 40, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"push_enable\": 1, \"devicetoken\": \"\(cmd)\"}"
-        if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr){
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr) != nil){
             print("SEND devicetoken SUCCESSED")
             
         }else{
@@ -304,7 +301,7 @@ class httpRequert : NSObject{
         
         let paramArray1 = NSMutableArray()
         for value : AnyObject in FAME.addDeviceArray {
-            let AmodelId:NSNumber! = value.valueForKey("modelId") as! NSNumber
+            //let AmodelId:NSNumber! = value.valueForKey("modelId") as! NSNumber
             let Aname:String! = value.valueForKey("name") as! String
             let AroomId:NSNumber! = value.valueForKey("roomId") as! NSNumber
             let hvaddr:String = value.valueForKey("hvaddr") as! String
@@ -325,7 +322,14 @@ class httpRequert : NSObject{
            for value:AnyObject in recevied.valueForKey("dev_detail") as! NSArray {
                 let ieee_addr:String! = value.valueForKey("ieee_addr") as! String
                 let dev_id:NSNumber! = value.valueForKey("dev_id") as! NSNumber
-                
+                if dev_id == -1{
+                    let alert = UIAlertView()
+                    alert.title = Defined_Add_Title1
+                    alert.message =  Defined_Add_Title_failed5
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    return false
+                }
                 let str = "{\"ieee_addr\":\"\(ieee_addr)\",\"dev_id\":\(dev_id)}"
                 paramArray2.addObject(str)
             }
@@ -334,7 +338,7 @@ class httpRequert : NSObject{
             let param = paramArray2.componentsJoinedByString(",")
             let cmdStr2 = "{\"cmd\": 28, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":[\(param)]}"
             
-            if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr2){
+            if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr2) != nil){
                 print("add device successed")
                 return true
             }else{
@@ -380,11 +384,12 @@ class httpRequert : NSObject{
         let cmdStr = "{\"cmd\": 30, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\",\"param\":[\(param)]}"
         
         
-        if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr){
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr) != nil){
             
             print("del device successed")
             return true
         }else{
+            FAME.showMessage("中控忙，设备删除失败")
             print("del device failed")
             return false
         }
@@ -421,7 +426,7 @@ class httpRequert : NSObject{
     func PrivateDeleteDev() {
         FAME.isAddingDevice = true
         let cmdStr = "{\"cmd\": 30, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd )\", \"did\": \(FAME.user_did),\"param\":[{\"ieee_addr\":\"\(FAME.tempIEEE)\"}]}"
-        if var recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr){
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr) != nil){
             print("delete device successed!!!!!!")
             FAME.isAddingDevice = false
             

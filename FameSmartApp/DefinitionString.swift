@@ -55,6 +55,7 @@ let Defined_Add_Title_failed = "添加失败"
 let Defined_Add_Title_failed2 = "部分设备未能获取到设备类型，请检查网络状态后重新添加"
 let Defined_Add_Title_failed3 = "添加设备指令未能成功发送，请检查网络状态后重新添加"
 let Defined_Add_Title_failed4 = "设备表已被其他终端更新，请重新添加设备"
+let Defined_Add_Title_failed5 = "设备已经达到上限值"
 let Defined_Add_Title_success = "添加成功"
 
 let Defined_Add_failed = "个设备添加失败"
@@ -67,15 +68,20 @@ let Defined_register_userName_less = "用户名少于3个字符"
 let Defined_register_userPwd_less = "密码少于6个字符"
 let Defined_register_userPwd_diff = "两次密码不同"
 let Defined_register_not_router = "不是凡米智能中控"
+let Defined_register_not_router1 = "请填写完整，或者扫一扫"
 let Defined_register_failed = "注册失败"
 
 let Defined_login_dt_failed = "网络错误"
+let Defined_login_dt_failed1 = "未连接到凡米路由器，无法使用本地功能"
+let Defined_login_dt_failed2 = "本地功能尚未配置"
 
 let Defined_login_failed = "登录失败"
+
 let Defined_network_failed = "网络错误"
 
 let Defined_add_successed = "设备添加成功"
 let Defined_add_existed = "该设备已存在"
+let Defined_add_existed1 = "不能添加中控"
 let Defined_add_md5_failed = "校验码有误"
 
 let Defined_mode_link = "点击添加事件"
@@ -127,7 +133,7 @@ let Defined_device_begin = "设备自动删除中，请稍后"
 let Defined_unAdd_Title1 = "退网设置"
 let Defined_unAdd_Title2 = "退网设置"
 let Defined_unAdd_Title_failed = "设备退网失败"
-let Defined_unAdd_Title_failed2 = "中控忙,请稍后重试"
+let Defined_unAdd_Title_failed2 = "中控不在线,请稍后重试"
 
 let Defined_unAdd_Title_success = "设备退网成功，请刷新界面"
 
