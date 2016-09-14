@@ -56,16 +56,16 @@ class ViewControllerWelcome: UIViewController {
     {
         
         
-            //network error
-            //viewAnimate().showTip(self.tip, content: Defined_network_failed)
-            let next = GBoard.instantiateViewControllerWithIdentifier("navLogin") as UIViewController
-            self.presentViewController(next, animated: true, completion: nil)
-            
+        //network error
+        //viewAnimate().showTip(self.tip, content: Defined_network_failed)
+        let next = GBoard.instantiateViewControllerWithIdentifier("navLogin") as UIViewController
+        self.presentViewController(next, animated: true, completion: nil)
+        
         
     }
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
-   
+        
         
         NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:"timerFunction", userInfo:nil, repeats:false)
     }
@@ -97,13 +97,13 @@ class ViewControllerLogin0: UIViewController {
         if !Reachability.isConnectedToNetwork(){
             FAME.showMessage("请检查网络连接")
         }
-    
+        
         
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "empty.png"), forBarMetrics: UIBarMetrics.Default)
         //NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerFunction", userInfo: nil, repeats: false)
         
- 
+        
         //self.navigationController.setNavigationBarHidden(true, animated: true)
     }
     func timerFunction(){
@@ -184,9 +184,9 @@ class ViewControllerLogin0: UIViewController {
                             }
                         }else{
                             print("get DT failed")
-
+                            
                         }
-
+                        
                     }
                     
                 }
@@ -204,12 +204,12 @@ class ViewControllerLogin0: UIViewController {
             
             
         }else{
-           
+            
             print("get DT failed")
             
         }
         
-
+        
     }
 }
 
@@ -224,21 +224,21 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
             self.view.frame.origin.y = CGFloat(self.orgY)
             }, completion:nil)
     }
-
+    
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool{
         
-    
+        
         UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
-                self.view.frame.origin.y = CGFloat(self.orgY - 100)
+            self.view.frame.origin.y = CGFloat(self.orgY - 100)
             }, completion:{(finished:Bool) -> Void in })
         return true
     }
     func textFieldShouldEndEditing(textField: UITextField) -> Bool{
-
+        
         return true
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool{
-            print(textField.tag)
+        print(textField.tag)
         if textField.tag == 1 {
             self.userPwd.becomeFirstResponder()
         }else if textField.tag == 2{
@@ -256,7 +256,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
         self.orgY = Float(self.view.frame.origin.y)
         self.userName.delegate = self
         self.userPwd.delegate = self
-       
+        
         self.userName.returnKeyType = UIReturnKeyType.Next
         self.userPwd.returnKeyType = UIReturnKeyType.Done
         
@@ -292,7 +292,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
     @IBOutlet var userPwd : UITextField!
     
     @IBOutlet var tip : UILabel!
-
+    
     @IBOutlet var logo : UIView!
     
     @IBOutlet var loginBtn : UIView!
@@ -306,7 +306,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var localBtn: UIButton!
     
     @IBAction func localLogin(sender: AnyObject){
-       
+        
         let routeip:routeIP = routeIP()
         //print(routeip.routerIp())
         let ip:String! = routeip.routerIp()
@@ -358,7 +358,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
             }
             
         }
-
+        
     }
     @IBAction func doLogin(sender : AnyObject) {
         
@@ -370,16 +370,16 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
             FAME.msgs = []
             FAME.defaults.setObject(FAME.msgs, forKey: "\(FAME.user_name)")
         }
-
+        
         //save to local
         
         FAME.saveProfile(FAME.user_name, pwd: FAME.user_pwd)
         
-
-        //var dl=HttpClient()
         
+        //var dl=HttpClient()
+        Surl="http://www.famesmart.com/famecloud/user_intf.php"
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 10, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"client_type\": \"ios\"}",cmplx:true)
-
+        
         
         if (received != nil) {
             switch received.valueForKey("result") as! NSNumber {
@@ -404,7 +404,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                     UIApplication.sharedApplication().unregisterForRemoteNotifications()
                 }
                 FAME.user_uid = received.valueForKey("user_uid") as! UInt
-            
+                
                 if received.valueForKey("device_count") as! Int == 0 {
                     print("no devices linked")
                     
@@ -480,7 +480,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         var Frame = self.logo.frame
         var destFrame = CGRect(x: Frame.origin.x, y: Frame.origin.y+130, width: Frame.width, height: Frame.height)
-
+        
         
         UIView.animateWithDuration(0.3, delay: 0.3, options: UIViewAnimationOptions.CurveEaseOut, animations: {
             self.logo.frame = destFrame
@@ -506,14 +506,14 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                                 //show the MainView
                                 let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
                                 self.presentViewController(next, animated: false, completion: {
-                                        self.logo.alpha = 1
-                                        self.navigationController?.popToRootViewControllerAnimated(false)
-                                    })
+                                    self.logo.alpha = 1
+                                    self.navigationController?.popToRootViewControllerAnimated(false)
+                                })
                                 
                             }
-                        })
+                    })
                 }
-            })
+        })
         
         
         //loginBtn
@@ -585,13 +585,13 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool{
-
+        
         print(textField.tag)
         if textField.tag == 1 {
             self.inputHv.becomeFirstResponder()
         }else if textField.tag == 2{
             self.inputCK.becomeFirstResponder()
-
+            
         }else{
             self.view.endEditing(false)
         }
@@ -611,7 +611,7 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
         
     }
     @IBAction func showQRcode(sender : AnyObject) {
-
+        
         let next :ViewControllerQRcode = GBoard.instantiateViewControllerWithIdentifier("viewQR") as! ViewControllerQRcode
         next.pView = self
         next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
@@ -629,7 +629,7 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
     
     
     @IBAction func getTheType(sender : AnyObject) {
-    
+        
         let hvStr = "FameSmart:\(self.inputHv.text!)"
         let hvMd5Str:String = hvStr.md5().uppercaseString as String
         let md5Str:String! = self.inputCK.text
@@ -637,26 +637,26 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
         print(hvMd5Str)
         print(md5Str)
         
-//        if md5Str == hvMd5Str {
-//            print("MD5 OK")
-//            if (self.inputType.text == ""){
-//                //get the Type
-//                let dl = httpRequert()
-//                if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
-//                    
-//                    self.model_id = received.valueForKey("model_id") as! UInt
-//                    self.inputType.text = received.valueForKey("model_name") as? String
-//                    
-//                }else{
-//                    self.inputType.text = Defined_Unkown_Device
-//                }
-//                
-//                
-//            }
-//            
-//        }
+        //        if md5Str == hvMd5Str {
+        //            print("MD5 OK")
+        //            if (self.inputType.text == ""){
+        //                //get the Type
+        //                let dl = httpRequert()
+        //                if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
+        //
+        //                    self.model_id = received.valueForKey("model_id") as! UInt
+        //                    self.inputType.text = received.valueForKey("model_name") as? String
+        //
+        //                }else{
+        //                    self.inputType.text = Defined_Unkown_Device
+        //                }
+        //
+        //
+        //            }
+        //
+        //        }
         
-
+        
     }
     
     @IBAction func ckMd5(sender : AnyObject) {
@@ -672,8 +672,8 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
             viewAnimate().shrkInput(self.inputType!)
             viewAnimate().showTip(self.tip!, content: Defined_register_not_router1)
         }
-        
-        
+            
+            
         else if md5Str == hvMd5Str {
             print("MD5 OK")
             
@@ -694,11 +694,11 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
                     viewAnimate().showTip(self.tip!, content: Defined_register_not_router)
                     
                 }
-
+                
                 
             }
-
-            
+                
+                
             else{
                 print("MD5 error")
                 self.inputCK.textColor = UIColor.redColor()
@@ -706,8 +706,8 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
                 viewAnimate().shrkInput(self.inputCK)
                 viewAnimate().shrkInput(self.inputHv)
             }
- 
-
+            
+            
         }else{
             print("MD5 error")
             self.inputCK.textColor = UIColor.redColor()
@@ -732,7 +732,7 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
         
         
         
-            //get the Type
+        //get the Type
         let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}")
         
         
@@ -740,15 +740,15 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
             
             
             self.inputType.text = recevied.valueForKey("model_name") as? String
- 
+            
             self.model_id = recevied.valueForKey("model_id") as! UInt
             
         }else{
-                self.inputType.text = Defined_Unkown_Device
+            self.inputType.text = Defined_Unkown_Device
         }
     }
     
-        
+    
 }
 
 class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDelegate ,UIAlertViewDelegate{
@@ -790,97 +790,97 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
     
     func setupCamera(){
         //do{
-            
+        
         //Device
         self.device=AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         //input
         do{
-
+            
             self.input = try AVCaptureDeviceInput(device: self.device) as AVCaptureDeviceInput
-
+            
             self.timer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "moveScannerLayer:", userInfo: nil, repeats: true)
-        //output
-        self.output=AVCaptureMetadataOutput()
-        self.output.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
-        //self.output.setMetadataObjectsDelegate(self, queue: dispatch_get_current_queue()!)
-        //Session
-        self.session = AVCaptureSession()
-        
-        if UIScreen.mainScreen().bounds.size.height<500 {
-            self.session.sessionPreset = AVCaptureSessionPreset640x480
-        }else{
-            self.session.sessionPreset = AVCaptureSessionPresetHigh
-        }
-        
-        self.session.addInput(self.input)
-        self.session.addOutput(self.output)
+            //output
+            self.output=AVCaptureMetadataOutput()
+            self.output.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
+            //self.output.setMetadataObjectsDelegate(self, queue: dispatch_get_current_queue()!)
+            //Session
+            self.session = AVCaptureSession()
             
-        
+            if UIScreen.mainScreen().bounds.size.height<500 {
+                self.session.sessionPreset = AVCaptureSessionPreset640x480
+            }else{
+                self.session.sessionPreset = AVCaptureSessionPresetHigh
+            }
             
-        let arr:NSArray = NSArray(array: [AVMetadataObjectTypeQRCode,AVMetadataObjectTypeEAN13Code,AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode128Code])
-        self.output.metadataObjectTypes = arr as [AnyObject]
-        //self.output.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
-        
-        
-        //计算中间可探测区域
-        let windowSize:CGSize = UIScreen.mainScreen().bounds.size;
-        let scanSize:CGSize = CGSizeMake(windowSize.width*3/4,
-        windowSize.width*3/4);
-        var scanRect:CGRect = CGRectMake((windowSize.width-scanSize.width)/2,
-        (windowSize.height-scanSize.height)/2, scanSize.width, scanSize.height);
-        //计算rectOfInterest 注意x,y交换位置
-        scanRect = CGRectMake(scanRect.origin.y/windowSize.height,
-        scanRect.origin.x/windowSize.width,
-        scanRect.size.height/windowSize.height,
-        scanRect.size.width/windowSize.width);
-        
-        //设置可探测区域
-        self.output.rectOfInterest = scanRect
+            self.session.addInput(self.input)
+            self.session.addOutput(self.output)
             
-        //preview
-        self.preview = AVCaptureVideoPreviewLayer(session: self.session)
-        self.preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        self.preview.frame = UIScreen.mainScreen().bounds
-        
-        
-        self.view.layer.insertSublayer(self.preview, atIndex: 0)
-        
-        //设置扫描范围
-        output.rectOfInterest = CGRect(x: 0.2, y: 0.2, width: 0.6, height: 0.6)
-        
-        //添加中间的探测区域绿框
-        self.scanRectView = UIView();
-        
-        
-        self.view.addSubview(self.scanRectView)
-        self.scanRectView.frame = CGRectMake(0, 0, scanSize.width, scanSize.height);
-        self.scanRectView.center = CGPointMake(
-            CGRectGetMidX(UIScreen.mainScreen().bounds),
-            CGRectGetMidY(UIScreen.mainScreen().bounds));
-        self.scanRectView.layer.borderColor = UIColor.whiteColor().CGColor
-        self.scanRectView.layer.borderWidth = 1;
-        
-        //设置扫描线
-        scanLine.frame = CGRect(x: 0, y: 0, width: scanRectView.frame.size.width, height: 10)
-        scanLine.image = UIImage(named: "QRCodeScanLine")
-        //scanLine.backgroundColor = UIColor.redColor()
-        self.scanRectView .addSubview(scanLine)
-        createBackGroundView()
-
-        //开始捕获
-        self.session.startRunning()
-           
-        
+            
+            
+            let arr:NSArray = NSArray(array: [AVMetadataObjectTypeQRCode,AVMetadataObjectTypeEAN13Code,AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode128Code])
+            self.output.metadataObjectTypes = arr as [AnyObject]
+            //self.output.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+            
+            
+            //计算中间可探测区域
+            let windowSize:CGSize = UIScreen.mainScreen().bounds.size;
+            let scanSize:CGSize = CGSizeMake(windowSize.width*3/4,
+                windowSize.width*3/4);
+            var scanRect:CGRect = CGRectMake((windowSize.width-scanSize.width)/2,
+                (windowSize.height-scanSize.height)/2, scanSize.width, scanSize.height);
+            //计算rectOfInterest 注意x,y交换位置
+            scanRect = CGRectMake(scanRect.origin.y/windowSize.height,
+                scanRect.origin.x/windowSize.width,
+                scanRect.size.height/windowSize.height,
+                scanRect.size.width/windowSize.width);
+            
+            //设置可探测区域
+            self.output.rectOfInterest = scanRect
+            
+            //preview
+            self.preview = AVCaptureVideoPreviewLayer(session: self.session)
+            self.preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
+            self.preview.frame = UIScreen.mainScreen().bounds
+            
+            
+            self.view.layer.insertSublayer(self.preview, atIndex: 0)
+            
+            //设置扫描范围
+            output.rectOfInterest = CGRect(x: 0.2, y: 0.2, width: 0.6, height: 0.6)
+            
+            //添加中间的探测区域绿框
+            self.scanRectView = UIView();
+            
+            
+            self.view.addSubview(self.scanRectView)
+            self.scanRectView.frame = CGRectMake(0, 0, scanSize.width, scanSize.height);
+            self.scanRectView.center = CGPointMake(
+                CGRectGetMidX(UIScreen.mainScreen().bounds),
+                CGRectGetMidY(UIScreen.mainScreen().bounds));
+            self.scanRectView.layer.borderColor = UIColor.whiteColor().CGColor
+            self.scanRectView.layer.borderWidth = 1;
+            
+            //设置扫描线
+            scanLine.frame = CGRect(x: 0, y: 0, width: scanRectView.frame.size.width, height: 10)
+            scanLine.image = UIImage(named: "QRCodeScanLine")
+            //scanLine.backgroundColor = UIColor.redColor()
+            self.scanRectView .addSubview(scanLine)
+            createBackGroundView()
+            
+            //开始捕获
+            self.session.startRunning()
+            
+            
         }
         catch{
             
             
             let errorAlert = UIAlertView(title: "提醒",
-                    message: "请在iPhone的\"设置-隐私-相机\"选项中,允许本程序访问您的相机",
-                    delegate: self,
-                    cancelButtonTitle: "确定")
+                message: "请在iPhone的\"设置-隐私-相机\"选项中,允许本程序访问您的相机",
+                delegate: self,
+                cancelButtonTitle: "确定")
             errorAlert.show()
-           
+            
             //
         }
         
@@ -892,10 +892,10 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!){
-
+        
         
         let metadataObj:AVMetadataMachineReadableCodeObject  = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
-
+        
         self.session.stopRunning()
         print(metadataObj.stringValue)
         //tmpInput.text = metadataObj.stringValue
@@ -955,12 +955,12 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
     }
     //让扫描线滚动
     func moveScannerLayer(_timer : NSTimer) {
-//        let windowSize:CGSize = UIScreen.mainScreen().bounds.size;
-//        let top = windowSize.height - (windowSize.width * 0.75) 
-//        scanLine.frame = CGRect(x: 0, y: 0, width: windowSize.width*0.75, height: 10)
-//        UIView.animateWithDuration(2) { () -> Void in
-//            self.scanLine.frame = CGRect(x: self.scanLine.frame.origin.x, y: self.scanLine.frame.origin.y + top - 4, width: self.scanLine.frame.size.width, height: self.scanLine.frame.size.height)
-//        }
+        //        let windowSize:CGSize = UIScreen.mainScreen().bounds.size;
+        //        let top = windowSize.height - (windowSize.width * 0.75)
+        //        scanLine.frame = CGRect(x: 0, y: 0, width: windowSize.width*0.75, height: 10)
+        //        UIView.animateWithDuration(2) { () -> Void in
+        //            self.scanLine.frame = CGRect(x: self.scanLine.frame.origin.x, y: self.scanLine.frame.origin.y + top - 4, width: self.scanLine.frame.size.width, height: self.scanLine.frame.size.height)
+        //        }
         
         scanLine.frame = CGRect(x: 0, y: 0, width: self.scanRectView.frame.size.width, height: 12)
         UIView.animateWithDuration(2) { () -> Void in
@@ -969,22 +969,22 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
         }
         
     }
-
+    
     
     
     override func viewWillDisappear(animated: Bool){
         super.viewWillDisappear(animated)
-
+        
     }
 }
 
 
 class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
- 
+    
     @IBOutlet var userName : UITextField!
     @IBOutlet var userPwd1 : UITextField!
     @IBOutlet var userPwd2 : UITextField!
-
+    
     @IBOutlet var tip : UILabel!
     @IBAction func didTapped(sender : AnyObject) {
         self.view.endEditing(false)
@@ -1038,14 +1038,14 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
         else if isAgree{
             viewAnimate().showTip(self.tip, content: "请同意遵守协议")
         }
-        
+            
         else if self.userPwd1.text == self.userPwd2.text {
             //do regist
             let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 3, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\",\"user_pwd1\": \"\(FAME.user_pwd)\", \"user_email\": \"web@lyzic.com\"}",cmplx:true)
             print(received)
             
             if (received != nil){
-            
+                
                 switch received.valueForKey("result") as! UInt {
                 case 1:
                     viewAnimate().showTip(self.tip, content: Defined_register_SQL_failed)
@@ -1103,7 +1103,7 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
                                 self.presentViewController(next, animated: false, completion: {
                                     
                                     self.navigationController?.popToRootViewControllerAnimated(false)
-                                    })
+                                })
                             }else{
                                 print("DeviceTable is null")
                                 FAME.getDeviceTable()
@@ -1134,7 +1134,7 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
             }else{
                 //network error
                 viewAnimate().showTip(self.tip, content: Defined_network_failed)
-
+                
             }
         }else{
             
@@ -1146,7 +1146,7 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
     
     
     func textFieldShouldReturn(textField: UITextField) -> Bool{
-
+        
         print(textField.tag)
         if textField.tag == 1 {
             self.userPwd1.becomeFirstResponder()
@@ -1166,7 +1166,7 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
 
 
 class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDelegate{
-
+    
     
     var timer :NSTimer!
     //var remainingSeconds = 0
@@ -1179,7 +1179,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
         self.view.endEditing(false)
     }
     @IBOutlet var inputTel : UITextField!
-   
+    
     @IBOutlet var inputVcode : UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1194,8 +1194,8 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
         returnButtonItem.title = Defined_navigation_back_title
         self.navigationItem.backBarButtonItem = returnButtonItem
         
-//        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
-//        myThread.start()
+        //        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        //        myThread.start()
         
     }
     func Timerset(){
@@ -1203,7 +1203,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
         print(received)
         if( received != nil){
             if received.valueForKey("result") as! UInt == 0{
-
+                
                 dispatch_sync(dispatch_get_main_queue(), { () -> Void in
                     self.inputTel.text = received.valueForKey("phone") as? String
                 })
@@ -1215,7 +1215,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
                 })
             }
         }
-
+        
     }
     var remainingSeconds: Int = 0 {
         willSet {
@@ -1252,8 +1252,8 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
         isCounting = true
         let myThread = NSThread(target: self, selector: "Timerset1", object: nil)
         myThread.start()
- 
-    
+        
+        
     }
     func Timerset1(){
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 4, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\",\"user_phone\": \"\(self.inputTel.text!)\"}",cmplx:true)
@@ -1261,7 +1261,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
         if( received != nil){
             if received.valueForKey("result") as! UInt == 0{
                 
-               
+                
                 
             }
             else{
@@ -1277,7 +1277,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
     }
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
-      //  self.navigationController.setNavigationBarHidden(true, animated: true)
+        //  self.navigationController.setNavigationBarHidden(true, animated: true)
         if FAME.isLinkPhoneFromSetting {
             self.btnNext.setTitle("绑定", forState: UIControlState.Normal)
             self.btnSkip.hidden = true
@@ -1291,15 +1291,15 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
         
         print(textField.tag)
         //if textField.tag == 1 {
-            //self.inputVcode.becomeFirstResponder()
+        //self.inputVcode.becomeFirstResponder()
         //}else{
-            self.view.endEditing(false)
+        self.view.endEditing(false)
         //}
         return true
     }
-
+    
     @IBAction func didShowLogin5(sender : AnyObject) {
-
+        
         
         
         if (!self.inputTel.text!.isEmpty) && (!self.inputVcode.text!.isEmpty){
@@ -1311,7 +1311,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
             myThread.start()
         }
         else{
-        
+            
             FAME.showMessage("填写的不完整")
         }
         
@@ -1339,7 +1339,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
                 alert.addButtonWithTitle(Defined_ALERT_OK)
                 alert.show()
             })
-
+            
         }
     }
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
@@ -1349,7 +1349,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
         
     }
     @IBAction func showLogin5(sender : AnyObject) {
-
+        
         let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
         self.navigationController?.pushViewController(next, animated: true)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -1365,23 +1365,23 @@ class ViewControllerLogin7: UIViewController , UITextFieldDelegate,UIAlertViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-//        inputTel.delegate = self
+        //        inputTel.delegate = self
         self.verityText.returnKeyType = UIReturnKeyType.Done
         self.verityText.delegate = self
-       
+        
         let returnButtonItem = UIBarButtonItem()
         returnButtonItem.title = Defined_navigation_back_title
         self.navigationItem.backBarButtonItem = returnButtonItem
     }
     
-  
+    
     @IBAction func verityActive(sender: UIButton) {
         
-   
         
-            let myThread = NSThread(target: self, selector: "Timerset1", object: nil)
-            myThread.start()
-   
+        
+        let myThread = NSThread(target: self, selector: "Timerset1", object: nil)
+        myThread.start()
+        
         
         
     }
@@ -1399,14 +1399,14 @@ class ViewControllerLogin7: UIViewController , UITextFieldDelegate,UIAlertViewDe
             }
             else{
                 dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                   
+                    
                     let alert = UIAlertView()
                     alert.title = Defined_setting_title
                     alert.delegate = self
                     alert.message =  Defined_telphone_success1
                     alert.addButtonWithTitle(Defined_ALERT_OK)
                     alert.show()
-
+                    
                 })
             }
         }
@@ -1414,7 +1414,7 @@ class ViewControllerLogin7: UIViewController , UITextFieldDelegate,UIAlertViewDe
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         self.navigationController?.popViewControllerAnimated(true)
     }
-   
+    
     @IBAction func sureClick(sender: AnyObject) {
         
         
@@ -1442,7 +1442,7 @@ class ViewControllerLogin7: UIViewController , UITextFieldDelegate,UIAlertViewDe
             
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -1481,7 +1481,7 @@ class ViewControllerLogin7: UIViewController , UITextFieldDelegate,UIAlertViewDe
         // 计时开始时，逐秒减少remainingSeconds的值
         remainingSeconds -= 1
     }
-
+    
     
 }
 
@@ -1489,10 +1489,10 @@ class ViewControllerLogin8: UIViewController , UITextFieldDelegate,UIAlertViewDe
     
     
     @IBOutlet weak var newPass: UITextField!
-
+    
     @IBOutlet weak var surePass: UITextField!
     
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -1509,7 +1509,7 @@ class ViewControllerLogin8: UIViewController , UITextFieldDelegate,UIAlertViewDe
         returnButtonItem.title = Defined_navigation_back_title
         self.navigationItem.backBarButtonItem = returnButtonItem
     }
-
+    
     
     @IBAction func sureClick(sender: AnyObject) {
         
@@ -1572,14 +1572,14 @@ class ViewControllerLogin8: UIViewController , UITextFieldDelegate,UIAlertViewDe
                     self.surePass.text = ""
                     
                 }
-
+                
             })
             
         }
-
         
-}
-
+        
+    }
+    
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         FAME.outTag = 1
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -1613,7 +1613,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
     @IBOutlet var btnRoom : UIButton!
     @IBOutlet var tip : UILabel!
     
-
+    
     @IBAction func didTapped(sender : AnyObject) {
         self.view.endEditing(false)
     }
@@ -1674,7 +1674,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
             let jsonPath = NSBundle.mainBundle().bundlePath
             let jsonData = NSData(contentsOfFile: "\(jsonPath)/orgDT.txt")
             do{
-            let json :NSMutableDictionary! = try NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.MutableContainers) as! NSMutableDictionary as NSMutableDictionary!
+                let json :NSMutableDictionary! = try NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.MutableContainers) as! NSMutableDictionary as NSMutableDictionary!
                 print(json)
                 FAME.device_table = json
                 FAME.updateDeviceTable()
@@ -1682,11 +1682,11 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
                 print("failed to create the device_tabel from file")
             }
         }
-
+        
     }
     func willPresentActionSheet(actionSheet: UIActionSheet) // before animation and showing view
     {
-
+        
     }
     
     func createPop(){
@@ -1722,7 +1722,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
     }
     
     func showPop(){
-
+        
         self.pickView.hidden = false
         self.BGView.hidden = false
         let newFrame = CGRect(x: 0, y: self.view.frame.height - 240 , width: self.view.frame.width, height: 240)
@@ -1746,17 +1746,17 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
     
     
     @IBAction func selectRoom(sender : AnyObject) {
-     //   roomSheet.showInView(self.view)
+        //   roomSheet.showInView(self.view)
         //roomSheet.bounds.origin.y += 100
-     //   roomSheet.bounds.size.height = 240
-     //   roomSheet.frame.size.height = 240
-     self.showPop()
+        //   roomSheet.bounds.size.height = 240
+        //   roomSheet.frame.size.height = 240
+        self.showPop()
         
-     //   var next :UIViewController = GBoard.instantiateViewControllerWithIdentifier("viewPicker") as UIViewController
-     //   next.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
-     //   next.view.backgroundColor = UIColor.clearColor()
+        //   var next :UIViewController = GBoard.instantiateViewControllerWithIdentifier("viewPicker") as UIViewController
+        //   next.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        //   next.view.backgroundColor = UIColor.clearColor()
         
-     //   self.presentViewController(next, animated: true, completion: nil)
+        //   self.presentViewController(next, animated: true, completion: nil)
         
         
         
@@ -1764,7 +1764,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
     
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int){
         print("aSheet:\(actionSheet) Index:\(buttonIndex)")
-         let objRooms :NSArray = FAME.device_table.valueForKey("rooms") as! NSArray
+        let objRooms :NSArray = FAME.device_table.valueForKey("rooms") as! NSArray
         if buttonIndex < objRooms.count {
             self.selectRoom = buttonIndex
             self.btnRoom.setTitle(objRooms[buttonIndex] as? String, forState: UIControlState.Normal)
@@ -1777,13 +1777,13 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
     func actionSheetCancel(actionSheet: UIActionSheet){
         // println("aSheet:\(actionSheet) ")
     }
-
+    
     @IBAction func selectedRoomBtn( sender : AnyObject){
         
         print("selectedRoomBtn")
         
         let objRooms :NSArray = FAME.device_table.valueForKey("rooms") as! NSArray
-    
+        
         self.btnRoom.setTitle(String(objRooms[self.selectRoom] as! NSString), forState: UIControlState.Normal)
         
         self.hidePop()
@@ -1833,25 +1833,25 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
         
         let ieee = FAME.subString(str, A: 5, B: 23)
         let verify = FAME.subString(str, A: 36, B: 32)
-
+        
         print("111111\(ieee)")
         self.inputHv.text = ieee as String
         self.inputCK.text = verify
-//        FAME.fameIeee = ieee
-//        FAME.verify = verify
-            //get the Type
-            let dl = httpRequert()
-            print("222222\(self.inputHv.text!)")
-            if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
-                
-                self.model_id = received.valueForKey("model_id") as! UInt
-                self.inputType.text = received.valueForKey("model_name") as? String
-                
-            }else{
-                self.inputType.text = Defined_Unkown_Device
-            }
+        //        FAME.fameIeee = ieee
+        //        FAME.verify = verify
+        //get the Type
+        let dl = httpRequert()
+        print("222222\(self.inputHv.text!)")
+        if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
+            
+            self.model_id = received.valueForKey("model_id") as! UInt
+            self.inputType.text = received.valueForKey("model_name") as? String
+            
+        }else{
+            self.inputType.text = Defined_Unkown_Device
+        }
         
-
+        
     }
     
     @IBAction func getTheType(sender : AnyObject) {
@@ -1876,9 +1876,9 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
                 }else{
                     self.inputType.text = Defined_Unkown_Device
                 }
-
+                
             }
-        
+            
         }
         
     }
@@ -1928,7 +1928,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
                     flag = DTValue.valueForKey("flag") as! NSNumber!
                     if(flag == 1){
                     }else{
-                         ckBool = false
+                        ckBool = false
                     }
                 }
             }
@@ -1968,14 +1968,14 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
                 }
             }
             
-
+            
             
             
             
             
             if ckBool {
                 FAME.addDeviceArray.addObject(dic)
-            
+                
                 let width = self.view.frame.width
                 
                 UIView.animateWithDuration(0.5, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
@@ -1984,7 +1984,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
                         (finished:Bool) -> Void in
                         self.inputType.text = nil
                         self.inputType.frame.origin.x -= width
-                    })
+                })
                 
                 UIView.animateWithDuration(0.5, delay: 0.1, options: UIViewAnimationOptions.CurveEaseOut, animations: {
                     self.inputHv.frame.origin.x += width
@@ -1992,7 +1992,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
                         (finished:Bool) -> Void in
                         self.inputHv.text = nil
                         self.inputHv.frame.origin.x -= width
-                    })
+                })
                 
                 UIView.animateWithDuration(0.5, delay: 0.2, options: UIViewAnimationOptions.CurveEaseOut, animations: {
                     self.inputCK.frame.origin.x += width
@@ -2000,7 +2000,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
                         (finished:Bool) -> Void in
                         self.inputCK.text = nil
                         self.inputCK.frame.origin.x -= width
-                    })
+                })
                 
                 viewAnimate().showTip(self.tip, content: Defined_add_successed,color:UIColor.greenColor())
                 
@@ -2040,7 +2040,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
     func delay(time:Double,closure:() -> ()){
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
     }
-
+    
     @IBAction func showLogin6(sender : AnyObject) {
         let next :UIViewController = GBoard.instantiateViewControllerWithIdentifier("viewLogin6") as UIViewController
         self.navigationController?.pushViewController(next, animated: true)
@@ -2064,8 +2064,8 @@ class ViewControllerForgetPass: UIViewController , UITextFieldDelegate,UIAlertVi
         self.verityText.returnKeyType = UIReturnKeyType.Done
         self.verityText.delegate = self
         
-//        self.userText.returnKeyType = UIReturnKeyType.Done
-//        self.userText.delegate = self
+        //        self.userText.returnKeyType = UIReturnKeyType.Done
+        //        self.userText.delegate = self
         
         let returnButtonItem = UIBarButtonItem()
         returnButtonItem.title = Defined_navigation_back_title
@@ -2200,7 +2200,7 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
     }
     @IBAction func doAddDeviceBtn(sender : AnyObject) {
         //send to server
-
+        
         if FAME.addDeviceArray.count == 0{
             let alert :UIAlertView = UIAlertView()
             alert.title = Defined_VC6_AlertTitle
@@ -2236,7 +2236,7 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
                 }
                 
             }
-
+            
         }
         
     }
@@ -2253,14 +2253,14 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
     func alertViewCancel(alertView: UIAlertView){
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
-
+        
         
     }
     
@@ -2271,7 +2271,7 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         
-
+        
         return FAME.addDeviceArray.count
     }
     
@@ -2284,11 +2284,11 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
         cell.backgroundColor = UIColor.clearColor()
         
         
-
+        
         let dic:NSDictionary = FAME.addDeviceArray[indexPath.row] as! NSDictionary
         let cellTableName:UILabel = cell.viewWithTag(1) as! UILabel
         cellTableName.text = (dic.valueForKey("name") as! String)
-
+        
         let cellTableRoom:UILabel = cell.viewWithTag(2) as! UILabel
         cellTableRoom.text = (dic.valueForKey("room") as! String)
         
