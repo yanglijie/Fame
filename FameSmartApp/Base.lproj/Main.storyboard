@@ -697,9 +697,9 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="账号：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzZ-a4-DEQ">
-                                                <rect key="frame" x="32" y="8" width="48" height="20"/>
+                                                <rect key="frame" x="32" y="8" width="50" height="20"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="48" id="Tzx-ix-HqJ"/>
+                                                    <constraint firstAttribute="width" constant="50" id="Tzx-ix-HqJ"/>
                                                     <constraint firstAttribute="height" constant="20" id="zSZ-Ts-21S"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -707,7 +707,7 @@
                                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             </label>
                                             <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入用账号或手机号" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="KVc-1l-rrt">
-                                                <rect key="frame" x="85" y="9" width="335" height="19"/>
+                                                <rect key="frame" x="87" y="9" width="333" height="19"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -749,7 +749,7 @@
                                                 </constraints>
                                             </imageView>
                                             <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入1到6位字符的密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XhQ-cz-9HZ">
-                                                <rect key="frame" x="85" y="10" width="335" height="17"/>
+                                                <rect key="frame" x="87" y="10" width="333" height="17"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
@@ -770,9 +770,9 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密码：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="unL-QD-EvI">
-                                                <rect key="frame" x="32" y="8" width="48" height="20"/>
+                                                <rect key="frame" x="32" y="8" width="50" height="20"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="48" id="Dzx-zy-hKp"/>
+                                                    <constraint firstAttribute="width" constant="50" id="Dzx-zy-hKp"/>
                                                     <constraint firstAttribute="height" constant="20" id="iZo-E0-OO6"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>

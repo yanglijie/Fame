@@ -84,7 +84,7 @@ class fame:NSObject{
     var user_name:String!
     var user_uid:UInt!
     var user_pwd:String!
-    var user_did:UInt!
+    var user_did:UInt! = 0
     var user_ieee_addr:String!
     var user_ieee_ck:String!
     var device_table :NSMutableDictionary!
@@ -593,6 +593,7 @@ class fame:NSObject{
                 //add to idForName
                 FAME.idForNames[act_id]=["name":value,"room":"","string":value,"act_id":"\(act_id)"]
                 
+                self.idForNamesMode[act_id] = "\(value)"
                 
                 
                 //add to linkArray
@@ -618,6 +619,7 @@ class fame:NSObject{
         }
         
         self.Links.append(["name":Defined_LINKS_NAMES[0],"show":0,"room":0,"sub":Links3])
+        
         
         
         //lights

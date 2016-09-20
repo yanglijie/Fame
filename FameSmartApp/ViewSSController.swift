@@ -453,9 +453,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         btn2.addTarget(self, action: Selector("cancleActBtn:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         let lable = UILabel(frame: CGRect(x: 60, y: 20, width: pickView.frame.width - 120, height: 20))
-//        if (self.linkString != nil){
-//            lable.text = self.linkString
-//        }
+
         lable.text = ""
         //lable.hidden = true
         lable.textAlignment = .Center
@@ -522,8 +520,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     }
     
     func showVIew2(){
-//        let lable1 = self.view.viewWithTag(400) as! UILabel!
-//        lable1.text = self.linkString
+
         
         if self.showId == 2 {
             self.picker.hidden = true
@@ -888,10 +885,16 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                     
                     
                 }else{
+                    
                     let cur = self.Links1[row]["curtains"] as! Int!
+                    let mode = self.Links1[row]["name"] as! String!
                     if(cur != nil){
                         self.Links3 = [["name":"打开","act_id":0],["name":"停止","act_id":1],["name":"暂停","act_id":2]]
-                    }else{
+                    }
+                    if(mode == "情景模式"){
+                        self.Links3 = [["name":"","act_id":0]]
+                    }
+                    else{
                         self.Links3 = [["name":Defined_mode_on,"act_id":1],["name":Defined_mode_off,"act_id":0]]
                     }
                 }

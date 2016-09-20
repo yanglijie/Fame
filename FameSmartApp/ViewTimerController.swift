@@ -401,6 +401,7 @@ class ViewControllerSUTimerCell: UIViewController,UIPickerViewDataSource,UIPicke
         }
         
         self.ids.removeAll(keepCapacity: false)
+        print("44444444======\(FAME.idForNames)")
         for (i,cellObj) in FAME.idForNames {
             let cell = cellObj as Dictionary<String,String>
             let cname = cell["name"]!
