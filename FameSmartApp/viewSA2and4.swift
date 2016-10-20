@@ -81,14 +81,9 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
                 
                 //index = cell.index
                 FAME.dev_id = cell.dev_id
-                let name = cell.viewWithTag(1) as! UILabel
-                //name.text = FAME.dev_ss_Rname + FAME.dev_ss_name
                 
-                let name_Str:String! = name.text as String!
-                
-                
-                FAME.dev_ss_Rname = name_Str.substringWithRange(0, end: 2)
-                FAME.dev_ss_name = (name_Str as NSString).substringFromIndex(2)
+                FAME.dev_ss_Rname = curtains[indexPath.row]["roomName"] as String!
+                FAME.dev_ss_name = curtains[indexPath.row]["name1"] as String!
                 self.ieee = curtains[indexPath.row]["ieee"] as String!
                 
                 self.BGView.hidden = false
@@ -258,7 +253,7 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
                 action in
                 //也可以用下标的形式获取textField let login = alertController.textFields![0]
                 let login = alertController.textFields!.first! as UITextField
-                print("用户名：\(login.text)")
+                print("用户名：\(login.text)=======\(FAME.user_name)34637169")
                 
                 self.presentedViewController?.dismissViewControllerAnimated(false, completion: nil)
                 
@@ -362,12 +357,12 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
             FAME.saActid4 = dev_type
         }
         
+        self .performSelector("deselect", withObject: nil, afterDelay: 0.3)
         
         let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA\(viewId)") as UIViewController!
         next.title = curtains[indexPath.row]["name"]
-        self.navigationController?.pushViewController(next, animated: false)
-        
-        self .performSelector("deselect", withObject: nil, afterDelay: 0.5)
+        self.navigationController?.pushViewController(next, animated: true)
+        //
         
         
     }
@@ -768,3 +763,372 @@ class ViewControllerMainSA4: UIViewController,UIAlertViewDelegate {
     }
     
 }
+
+
+class ViewControllerWind: UIViewController {
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    
+    var onButton : UIButton2?
+    var offButton : UIButton2?
+    var isOn : Bool = true
+    var dev_id : Int?
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        print(FAME.socket34)
+        
+//        onButton = self.view.viewWithTag(68) as! UIButton2!
+//        offButton = self.view.viewWithTag(69) as! UIButton2!
+        
+        if FAME.socket34.count == 0 {
+            
+            let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,view.frame.size.height/10,self.view.frame.size.width*3/4,view.frame.size.height*4/5))
+            textLabel.text = Defined_Tips_none
+            
+            //textLabel.backgroundColor = UIColor.blackColor()
+            textLabel.textColor = UIColor.whiteColor()
+            textLabel.textAlignment = NSTextAlignment.Center
+            textLabel.numberOfLines = 0;
+            textLabel.font = UIFont.systemFontOfSize(25)
+            self.view.addSubview(textLabel)
+            
+            
+        }
+        else {
+            tableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "refreshLights")
+            tableView.mj_header.beginRefreshing()
+        }
+        
+        
+    }
+    func refreshLights(){
+        print("refreshLights")
+        //self.TableView!.reloadData()
+        
+
+        let thread = NSThread(target: self, selector: "Timerset", object: nil)
+        thread.start()
+  
+        
+    }
+    func Timerset(){
+        let paramArray = NSMutableArray()
+        var lastId = "0"
+        
+        for value in FAME.socket34 {
+            let AddedObj = value as NSDictionary
+            let dev_id:NSString! = AddedObj["dev_id"] as! NSString
+            if lastId != dev_id {
+                paramArray.addObject(dev_id)
+                lastId = dev_id as String
+            }
+        }
+        
+        
+        let param = paramArray.componentsJoinedByString(",")
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 60)
+        
+        
+        if (received != nil){
+            print("333333")
+            self.tableView.mj_header.endRefreshing()
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                //FAME.showMessage("刷新成功")
+            })
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            let view = self.view.viewWithTag(60)! as UIView
+            
+            //got the state
+            for values:AnyObject in received.valueForKey("states") as! NSArray {
+                print(values)
+                let AddedObj = values as! NSDictionary
+                let ADDieee_addr :Int!  = AddedObj.valueForKey("id") as! Int
+                var ADDflag :Int!  = AddedObj.valueForKey("state") as! Int
+                var id = ADDieee_addr * 10
+                if ADDflag >= 1 {
+                    id = ADDieee_addr * 10 + 1
+                    FAME.lightsCellState["\(id)"] = 1
+                    ADDflag = ADDflag - 2
+                    isOn = true
+                    view.hidden = false
+                }
+                else{
+                    id = ADDieee_addr * 10 + 1
+                    FAME.lightsCellState["\(id)"] = 0
+                    ADDflag = ADDflag - 3
+                    isOn = false
+                    view.hidden = true
+                }
+                if ADDflag >= 0 {
+                    id = ADDieee_addr * 10
+                    FAME.lightsCellState["\(id)"] = 1
+                }
+                else{
+                    id = ADDieee_addr * 10
+                    FAME.lightsCellState["\(id)"] = 0
+                }
+                
+            }
+            
+            for subCell:AnyObject in self.tableView!.visibleCells {
+                //print(subCell)
+                let cell = subCell as! UITableViewCell2
+                let view = cell.viewWithTag(2) as! UIImageView
+                let view1 = cell.viewWithTag(21) as! UIImageView
+                
+                //print(FAME.lightsCellState)
+                let state :Int! = FAME.lightsCellState["\(cell.id)"]
+                let state1 :Int! = FAME.lightsCellState["\(cell.id + 1)"]
+                
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    if (state != nil) {
+                        if state == 1 {
+                            view1.image = UIImage(named: "socket_10.png")
+                            
+                        }else {
+                            view1.image = UIImage(named: "socket_06.png")
+                            
+                        }
+                    }
+                    if (state1 != nil) {
+
+                        if state1 == 1 {
+                            view.image = UIImage(named: "socket_10.png")
+                            
+                        }else {
+                            view.image = UIImage(named: "socket_06.png")
+                            
+                        }
+                    }
+
+                })
+                
+                
+            }
+            
+        }
+
+    }
+
+    func Timerset1(){
+        let paramArray = NSMutableArray()
+        
+        paramArray.addObject(dev_id!)
+
+        let param = paramArray.componentsJoinedByString(",")
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 19, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": [\(param)]}",timeout : 60)
+        
+        
+        if (received != nil){
+            
+            
+            print("333333")
+            
+            
+            let view1 = self.view.viewWithTag(60)! as UIView
+            view1.hidden = false
+            
+            
+            //got the state
+            for values:AnyObject in received.valueForKey("states") as! NSArray {
+                print(values)
+                let AddedObj = values as! NSDictionary
+                let ADDieee_addr :Int!  = AddedObj.valueForKey("id") as! Int
+                var ADDflag :Int!  = AddedObj.valueForKey("state") as! Int
+                var id = ADDieee_addr * 10
+                if ADDflag >= 1 {
+                    id = ADDieee_addr * 10 + 1
+                    FAME.lightsCellState["\(id)"] = 1
+                    ADDflag = ADDflag - 2
+                }
+                else{
+                    id = ADDieee_addr * 10 + 1
+                    FAME.lightsCellState["\(id)"] = 0
+                    ADDflag = ADDflag - 3
+                    
+                }
+                if ADDflag >= 0 {
+                    id = ADDieee_addr * 10
+                    FAME.lightsCellState["\(id)"] = 1
+                }
+                else{
+                    id = ADDieee_addr * 10
+                    FAME.lightsCellState["\(id)"] = 0
+                }
+                
+            }
+            
+            for subCell:AnyObject in self.tableView!.visibleCells {
+                //print(subCell)
+                let cell = subCell as! UITableViewCell2
+                let view1 = cell.viewWithTag(21) as! UIImageView
+                
+                //print(FAME.lightsCellState)
+                let state :Int! = FAME.lightsCellState["\(cell.id)"]
+                
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    if (state != nil) {
+                        if state == 1 {
+                            view1.image = UIImage(named: "socket_10.png")
+                            
+                        }else {
+                            view1.image = UIImage(named: "socket_06.png")
+                            
+                        }
+                    }
+                    
+                })
+                
+                
+            }
+            
+        }
+        
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func onAllClick(sender: UIButton2) {
+        let view = sender.superview!.viewWithTag(2) as! UIImageView
+        view.image = UIImage(named: "socket_10.png")
+        
+        FAME.lightsCellState["\(sender.id + 1)"] = 1
+        
+        httpRequert().sendRequest(sender.act_id)
+        dev_id = sender.dev_id
+        print("devid=====\(dev_id)")
+        
+        isOn = true
+        
+        let thread = NSThread(target: self, selector: "Timerset1", object: nil)
+        thread.start()
+        print("sender.act_id开2\(sender.act_id)")
+    }
+    @IBAction func onClick(sender: UIButton2) {
+        if isOn{
+            let view = sender.superview!.viewWithTag(21) as! UIImageView
+            view.image = UIImage(named: "socket_10.png")
+            
+            FAME.lightsCellState["\(sender.id)"] = 1
+            
+            httpRequert().sendRequest(sender.act_id)
+            print("sender.act_id开1\(sender.act_id)")
+        }
+    }
+    
+    @IBAction func offClick(sender: UIButton2) {
+        
+        if isOn{
+            let view = sender.superview?.viewWithTag(21) as! UIImageView
+            view.image = UIImage(named: "socket_06.png")
+            
+            FAME.lightsCellState["\(sender.id)"] = 0
+            
+            httpRequert().sendRequest(sender.act_id)
+            print("sender.act_id关\(sender.act_id)")
+        }
+    }
+    
+    @IBAction func offAllClick(sender: UIButton2) {
+        let view = sender.superview?.viewWithTag(2) as! UIImageView
+        view.image = UIImage(named: "socket_06.png")
+        
+        FAME.lightsCellState["\(sender.id + 1)"] = 0
+        
+        isOn = false
+        let view1 = self.view.viewWithTag(60)! as UIView
+        view1.hidden = true
+        
+        httpRequert().sendRequest(sender.act_id)
+        
+        print("sender.act_id开zong\(sender.act_id)")
+    }
+    
+    func handleLongpressGesture(sender: UILongPressGestureRecognizer) {
+        
+        
+        if sender.state == UIGestureRecognizerState.Began {
+            let point:CGPoint = sender.locationInView(self.tableView)
+            let indexPath:NSIndexPath! = self.tableView.indexPathForRowAtPoint(point)
+            if(indexPath != nil){
+                let cell:UITableViewCell2! = self.tableView.cellForRowAtIndexPath(indexPath) as! UITableViewCell2
+                
+                FAME.dev_id = cell.dev_id
+                
+                print(FAME.dev_id)
+            }
+        }
+    }
+    
+}
+
+extension ViewControllerWind:UITableViewDataSource,UITableViewDelegate{
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return FAME.socket34.count
+    }
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
+        
+        return 200
+        
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell2
+        
+        let dev_Str:String! = FAME.socket34[indexPath.row]["dev_id"] as String!
+        let dev_id:Int! = Int(dev_Str)
+
+        let SwithView = cell.viewWithTag(5) as UIView!
+        //SwithView.backgroundColor = UIColor.grayColor()
+        
+        //长按手势
+        let longpressGesutre = UILongPressGestureRecognizer(target:self
+            , action: "handleLongpressGesture:")
+        longpressGesutre.minimumPressDuration = 1.0
+        
+        SwithView .addGestureRecognizer(longpressGesutre)
+        
+        
+        
+        cell.dev_id = dev_id
+        
+        cell.id = dev_id * 10
+        
+        
+        let tagOn = cell.viewWithTag(3) as! UIButton2!
+        let tagOff = cell.viewWithTag(4) as! UIButton2!
+        let tagOn1 = cell.viewWithTag(68) as! UIButton2!
+        let tagOff1 = cell.viewWithTag(69) as! UIButton2!
+        let act_Str:String! = FAME.socket34[indexPath.row]["act_id"] as String!
+        
+        let act_id:Int = Int(act_Str)!
+        tagOff.dev_id = dev_id
+        
+        //print("2222222\(act_id)")
+        tagOn.act_id = act_id
+        tagOff.act_id = act_id + 1
+        tagOn1.act_id = act_id + 2
+        tagOff1.act_id = act_id + 3
+        
+        return cell
+    }
+    
+    
+    
+    
+}
+
+
+
+

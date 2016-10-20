@@ -19,7 +19,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
     var BGView:UIView!
     var pickView:UIView!
     
-    var ids = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    var ids = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     var id1 = -2
     var id2 = 0
     
@@ -62,7 +62,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
             btn.addTarget(self, action: "showSelectAct:", forControlEvents: UIControlEvents.TouchUpInside)
             btn.setTitle(Defined_mode_link, forState: UIControlState.Normal)
             btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            btn.tag = index
+            btn.tag = index + 100
             self.subView.addSubview(btn)
         }
         
@@ -116,6 +116,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         
         let myThread = NSThread(target: self, selector: "Timerset2", object: nil)
         myThread.start()
+        
     }
     func Timerset2(){
         let cmdStr = "{\"cmd\": 32, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"action_id\":\(FAME.tempMode)}}"
@@ -129,7 +130,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             })
             let detail:NSDictionary = received.valueForKey("detail") as! NSDictionary
-            var index = 0
+            var index = 100
             for values:AnyObject in detail.valueForKey("sub_actions") as! NSArray {
                 let idObj = values as! Int
                 
@@ -144,8 +145,10 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
                     })
                     
                     
-                    self.ids[index] = idObj
+                    self.ids[index - 100] = idObj
+                    
                 }
+                
                 index++
             }
             
@@ -158,15 +161,25 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
             })
             
         }
+        
+        print(ids)
     }
     func Timerset(){
         let paramArray=NSMutableArray()
+        print(ids)
         for value : Int in self.ids {
             if value > 10 {
                 paramArray.addObject(value)
             }
+            
+            
+            
         }
+       
         
+        
+        
+        print(paramArray)
         let param = paramArray.componentsJoinedByString(",")
         
         let cmdStr = "{\"cmd\": 31, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"action_id\":\(FAME.tempMode),\"sub_actions\":[\(param)]}}"
@@ -210,14 +223,14 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
         
         if self.id1 < 0 {
             self.seletedBtn.setTitle(Defined_mode_link, forState: UIControlState.Normal)
-            self.ids[self.seletedBtn.tag] = 0
+            self.ids[self.seletedBtn.tag - 100] = 0
         }else{
             
             print("1111111\(self.seletedStr1) \(self.seletedStr2) \(self.seletedStr3)")
             
             self.seletedBtn.setTitle("\(self.seletedStr1) \(self.seletedStr2) \(self.seletedStr3)", forState: UIControlState.Normal)
             //FAME.idForNamesMode.updateValue(<#T##value: Value##Value#>, forKey: "\(self.seletedStr1) \(self.seletedStr2) \(self.seletedStr3)")
-            self.ids[self.seletedBtn.tag] = self.id1 + self.id2
+            self.ids[self.seletedBtn.tag - 100] = self.id1 + self.id2
             print(self.ids)
         }
         print("selectedActBtn")
@@ -262,6 +275,7 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
             if links != nil {
                 self.Links2 = links
                 
+            
                 
                 //if appls
                 let dev_type = self.Links1[row]["dev_type"] as! Int!
@@ -288,20 +302,28 @@ class viewModesSettingController: UIViewController,UIActionSheetDelegate,UIPicke
                     }
                     var inid = 0
                     for(btn_str) in btns_str{
-                        self.Links3.append(["name":btn_str,"act_id":inid * 2])
+                        self.Links3.append(["name":btn_str,"act_id":inid * 2 + 1])
                         inid++
                     }
-                    print(self.Links3)
                     
-                }else{
-                    let cur = self.Links1[row]["curtains"] as! Int!
-                    if(cur != nil){
-                        self.Links3 = [["name":"打开","act_id":0],["name":"停止","act_id":1],["name":"暂停","act_id":2]]
-                    }else{
-                        self.Links3 = [["name":Defined_mode_on,"act_id":1],["name":Defined_mode_off,"act_id":0]]
-                    }
+                    
                 }
-            }else{
+                else{
+                    let show = self.Links1[row]["show"] as! Int!
+                    //let cur = self.Links1[row]["curtains"] as! Int!
+                    
+                    if(show == 4){
+                        self.Links3 = [["name":"打开","act_id":0],["name":"停止","act_id":1],["name":"暂停","act_id":2]]
+                        }
+                    else if(show == 2){
+                        self.Links3 = [["name":"布防","act_id":0],["name":"撒防","act_id":1]]
+                        }
+                    else{
+                        self.Links3 = [["name":Defined_mode_on,"act_id":1],["name":Defined_mode_off,"act_id":0]]
+                        }
+                    }
+            }
+            else{
                 
                 self.Links2 = [["name":"","act_id":-2]]
             }

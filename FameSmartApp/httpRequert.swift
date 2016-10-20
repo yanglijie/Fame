@@ -48,8 +48,7 @@ class httpRequert : NSObject{
         
         let bodyString = cmd as NSString
         request.HTTPBody=bodyString.dataUsingEncoding(NSUTF8StringEncoding)
-        
-        
+
  
             do{
                 let received = try NSURLConnection.sendSynchronousRequest(request, returningResponse: nil)
@@ -58,7 +57,7 @@ class httpRequert : NSObject{
                 print("DATA RECEIVED\n \(str)")
                 
                 let resObj:NSDictionary! = try NSJSONSerialization.JSONObjectWithData(received, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                
+
                 if !(resObj != nil){
                     return nil
                 }
@@ -305,8 +304,9 @@ class httpRequert : NSObject{
             let Aname:String! = value.valueForKey("name") as! String
             let AroomId:NSNumber! = value.valueForKey("roomId") as! NSNumber
             let hvaddr:String = value.valueForKey("hvaddr") as! String
+            let dev_type:NSNumber! = value.valueForKey("dev_type") as! NSNumber
             
-            let str = "{\"ieee_addr\":\"\(hvaddr)\",\"name\":\"\(Aname)\",\"room\":\(AroomId)}"
+            let str = "{\"ieee_addr\":\"\(hvaddr)\",\"name\":\"\(Aname)\",\"room\":\(AroomId),\"dev_type\":\"\(dev_type)\"}"
             paramArray1.addObject(str)
         }
         
@@ -472,6 +472,22 @@ class httpRequert : NSObject{
                 return recevied
             }
             else{
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    let alert :UIAlertView = UIAlertView()
+                    
+                    alert.title = "入网失败"
+                    alert.message = "中控正在忙，请稍后再试"
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                })
+                
+                return nil
+            }
+            
+        }else{
+            //println("ckeck added device failed")
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 let alert :UIAlertView = UIAlertView()
                 
                 alert.title = "入网失败"
@@ -479,18 +495,7 @@ class httpRequert : NSObject{
                 alert.addButtonWithTitle(Defined_ALERT_OK)
                 alert.show()
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                return nil
-            }
-            
-        }else{
-            //println("ckeck added device failed")
-            let alert :UIAlertView = UIAlertView()
-            
-            alert.title = "入网失败"
-            alert.message = "中控正在忙，请稍后再试"
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.show()
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            })
             return nil
         }
     }

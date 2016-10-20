@@ -492,7 +492,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         self.timeLabel2 = UILabel(frame:CGRect(x: self.pickView.frame.width / 2, y: 100, width: self.pickView.frame.width / 2 - 20, height: 50))
         self.timeLabel2.textAlignment = NSTextAlignment.Left
-        self.timeLabel2.text = "sec"
+        self.timeLabel2.text = "min"
         
         
         
@@ -879,19 +879,23 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                     }
                     var inid = 0
                     for(btn_str) in btns_str{
-                        self.Links3.append(["name":btn_str,"act_id":inid * 2])
+                        self.Links3.append(["name":btn_str,"act_id":inid * 2 + 1])
                         inid++
                     }
                     
                     
                 }else{
                     
-                    let cur = self.Links1[row]["curtains"] as! Int!
-                    let mode = self.Links1[row]["name"] as! String!
-                    if(cur != nil){
+                    let show = self.Links1[row]["show"] as! Int!
+                    //let cur = self.Links1[row]["curtains"] as! Int!
+                    
+                    if(show == 4){
                         self.Links3 = [["name":"打开","act_id":0],["name":"停止","act_id":1],["name":"暂停","act_id":2]]
                     }
-                    if(mode == "情景模式"){
+                    else if(show == 2){
+                        self.Links3 = [["name":"布防","act_id":0],["name":"撒防","act_id":1]]
+                    }
+                    else if(show == 0){
                         self.Links3 = [["name":"","act_id":0]]
                     }
                     else{
@@ -1067,13 +1071,14 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                     
                     var linkid:Int!
                     linkid = received.valueForKey("detail")?.valueForKey("action_id") as! Int
-                    if linkid <= 0{
-                        dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                            let lable = self.view.viewWithTag(400) as! UILabel
-                            lable.text = ""
-                        })
-                    }
-                    else if (FAME.idForNamesMode[linkid] != nil) {
+//                    if linkid <= 0{
+//                        dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+//                            let lable = self.view.viewWithTag(400) as! UILabel
+//                            lable.text = ""
+//                        })
+//                    }
+                
+                    if (FAME.idForNamesMode[linkid] != nil) {
                         self.linkString = FAME.idForNamesMode[linkid]
                         print(self.linkString)
                         dispatch_sync(dispatch_get_main_queue(), { () -> Void in
@@ -1081,7 +1086,12 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
                             lable.text = FAME.idForNamesMode[linkid]
                          })
                     }
-                    
+                    else {
+                        dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                            let lable = self.view.viewWithTag(400) as! UILabel
+                            lable.text = ""
+                        })
+                    }
                     
                 //}
                 

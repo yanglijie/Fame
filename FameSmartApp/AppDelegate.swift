@@ -78,6 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
         }
         
         print("111111\(str2)")
+        //FAME.deviceToken = str2
         //if str2 != nil {
             httpRequert().sendToken(str2 as String)
         //}
@@ -112,15 +113,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
 
             if (FAME.defaults.valueForKey("\(FAME.user_name)") != nil){
                 FAME.msgs = FAME.defaults.valueForKey("\(FAME.user_name)") as! Array
-                FAME.msgs.insert(alertDic, atIndex: 0)
-                FAME.defaults.setObject(FAME.msgs, forKey: "\(FAME.user_name)")
                 
-        NSNotificationCenter.defaultCenter().postNotificationName("msgChange", object: FAME.msgs)
                 
             }
-            
-            
-           
+            FAME.msgs.insert(alertDic, atIndex: 0)
+            FAME.defaults.setObject(FAME.msgs, forKey: "\(FAME.user_name)")
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("msgChange", object: FAME.msgs)
+        
+        
 
             //判断程序现在是在前台运行还是后台
             if UIApplication.sharedApplication().applicationState == .Active{

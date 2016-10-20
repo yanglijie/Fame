@@ -377,7 +377,8 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
         
 
         //var dl=HttpClient()
-        Surl="http://www.famesmart.com/famecloud/user_intf.php"
+        //Surl="http://www.famesmart.com/famecloud/user_intf.php"
+        print(Surl)
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 10, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"client_type\": \"ios\"}",cmplx:true)
 
         
@@ -723,29 +724,41 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
         //let ieee = str.substringWithRange(5, B: 23)
         //let verify = str.substringWithRange(36, B: 32)
         
+        if str == ""{
+            return
+        }
         
         let ieee = FAME.subString(str, A: 5, B: 23)
         let verify = FAME.subString(str, A: 36, B: 32)
+        let type = FAME.subString(str, A: 74, B: 2)
+        
         
         self.inputHv.text! = ieee
         self.inputCK.text! = verify
         
-        
+       
         
             //get the Type
         let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}")
         
         
-        if recevied.valueForKey("result") as! UInt == 0{
-            
-            
-            self.inputType.text = recevied.valueForKey("model_name") as? String
- 
-            self.model_id = recevied.valueForKey("model_id") as! UInt
-            
-        }else{
-                self.inputType.text = Defined_Unkown_Device
+        if (recevied != nil){
+            if recevied.valueForKey("result") as! UInt == 0{
+                
+                
+                self.inputType.text = recevied.valueForKey("model_name") as? String
+                
+                self.model_id = recevied.valueForKey("model_id") as! UInt
+                
+            }else{
+                
+                let i : Int = String.changeToInt(type)
+                self.inputType.text = device_type[i]
+                FAME.dev_type = i
+                //self.inputType.text = Defined_Unkown_Device
+            }
         }
+        
     }
     
         
@@ -897,7 +910,7 @@ class ViewControllerQRcode: UIViewController , AVCaptureMetadataOutputObjectsDel
         let metadataObj:AVMetadataMachineReadableCodeObject  = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
 
         self.session.stopRunning()
-        print(metadataObj.stringValue)
+        print("判断是否是===\(metadataObj.stringValue)")
         //tmpInput.text = metadataObj.stringValue
         if metadataObj.stringValue != nil && metadataObj.stringValue.componentsSeparatedByString("TYPE").count > 1{
             self.session.stopRunning()
@@ -1833,23 +1846,28 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
         
         let ieee = FAME.subString(str, A: 5, B: 23)
         let verify = FAME.subString(str, A: 36, B: 32)
-
-        print("111111\(ieee)")
+        let type = FAME.subString(str, A: 74, B: 2)
+        print("111111\(type)")
         self.inputHv.text = ieee as String
         self.inputCK.text = verify
 //        FAME.fameIeee = ieee
 //        FAME.verify = verify
-            //get the Type
-            let dl = httpRequert()
-            print("222222\(self.inputHv.text!)")
-            if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
+        //get the Type
+        let dl = httpRequert()
+        print("222222\(self.inputHv.text!)")
+        let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}")
+        if (received != nil){
                 
-                self.model_id = received.valueForKey("model_id") as! UInt
-                self.inputType.text = received.valueForKey("model_name") as? String
+            self.model_id = received.valueForKey("model_id") as! UInt
+            self.inputType.text = received.valueForKey("model_name") as? String
                 
-            }else{
-                self.inputType.text = Defined_Unkown_Device
-            }
+        }else{
+            //self.inputType.text = Defined_Unkown_Device
+            //本地
+            let i : Int = String.changeToInt(type)
+            self.inputType.text = device_type[i]
+            FAME.dev_type = Int(i)
+        }
         
 
     }
@@ -1904,10 +1922,11 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
             
             
             
-            let dic:NSMutableDictionary = ["name":"\(self.inputType.text!)","hvaddr":"\(self.inputHv.text!)","ckId":"\(self.inputCK.text!)","modelId":self.model_id,"room":"\(self.btnRoom.currentTitle!)","roomId":self.selectRoom]
+            let dic:NSMutableDictionary = ["name":"\(self.inputType.text!)","hvaddr":"\(self.inputHv.text!)","ckId":"\(self.inputCK.text!)","modelId":self.model_id,"room":"\(self.btnRoom.currentTitle!)","roomId":self.selectRoom,"dev_type":FAME.dev_type]
             
             
-            print(FAME.addDeviceArray)
+            
+            
             var ckBool = true
             for value : AnyObject in FAME.addDeviceArray {
                 let hvaddr:String = value.valueForKey("hvaddr") as! String
@@ -2036,6 +2055,11 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
             viewAnimate().shrkInput(self.inputCK)
             viewAnimate().shrkInput(self.inputHv)
         }
+        
+        
+        print(FAME.addDeviceArray)
+        
+        
     }
     func delay(time:Double,closure:() -> ()){
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
@@ -2045,6 +2069,20 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
         let next :UIViewController = GBoard.instantiateViewControllerWithIdentifier("viewLogin6") as UIViewController
         self.navigationController?.pushViewController(next, animated: true)
         
+    }
+}
+
+extension String{
+    static func changeToInt(num:String) -> Int {
+        let str = num.uppercaseString
+        var sum = 0
+        for i in str.utf8 {
+            sum = sum * 16 + Int(i) - 48 // 0-9 从48开始
+            if i >= 65 {                 // A-Z 从65开始，但有初始值10，所以应该是减去55
+                sum -= 7
+            }
+        }
+        return sum
     }
 }
 

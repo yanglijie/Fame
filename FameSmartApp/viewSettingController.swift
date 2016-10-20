@@ -54,11 +54,41 @@ class ViewSettingController: UIViewController {
     func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
         print("click at \(buttonIndex)")
         if buttonIndex == 0 {
-            FAME.outTag = 1
+            //self.dismissViewControllerAnimated(true, completion: nil)
+            
+            //self.navigationController?.popToRootViewControllerAnimated(false)
+            
+            print("FAME.devicetoken====\(FAME.devicetoken)")
+            
+            if FAME.devicetoken != "" {
+                let myThread = NSThread(target: self, selector: "Timerset1", object: nil)
+                myThread.start()
+            }
+            else{
+                FAME.user_name = ""
+                FAME.outTag = 1
+            }
+            
             self.dismissViewControllerAnimated(true, completion: nil)
-            self.navigationController?.popToRootViewControllerAnimated(false)
         }
     }
+    
+    func Timerset1(){
+        
+        
+        let cmdStr = "{\"cmd\":51, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"push_enable\": 0, \"devicetoken\": \"\(FAME.devicetoken)\"}"
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr) != nil){
+            print("SEND REQUEST SUCCESSED")
+            FAME.user_name = ""
+            FAME.outTag = 1
+            
+        }else{
+            print("SEND REQUEST FAILED!")
+            
+        }
+        
+    }
+
 }
 
 
@@ -253,10 +283,13 @@ class ViewSettingMTimerController: UIViewController {
                 let date = dateFormatter.dateFromString(date1)!
                 
                 //let date = NSDate
-                self.picker.setDate(date, animated: true)
+                
                 
                 
                 dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    
+                    self.picker.setDate(date, animated: true)
+                    
                     self.BtnDate.setTitle("\(Defined_Timer_Date) \(FAME.stringFromDate(date, type: 1))", forState: UIControlState.Normal)
                     self.BtnTime.setTitle("\(Defined_Timer_Time) \(FAME.stringFromDate(date, type: 2))", forState: UIControlState.Normal)
                 })

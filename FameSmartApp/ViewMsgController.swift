@@ -20,6 +20,7 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
         FAME.defaults.setObject(sender.on, forKey: "PushState")
         if !sender.on{
             FAME.showMessage("推送已经关闭")
+            FAME.devicetoken = ""
             UIApplication.sharedApplication().unregisterForRemoteNotifications()
         }
         else{

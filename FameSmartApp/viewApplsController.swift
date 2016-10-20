@@ -112,10 +112,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             let indexPath:NSIndexPath! = self.TableView.indexPathForRowAtPoint(point)
             if(indexPath != nil){
                 let cell:UITableViewCell2! = self.TableView.cellForRowAtIndexPath(indexPath) as! UITableViewCell2
-                
-                
-                
-                
+
                 FAME.dev_id = cell.dev_id
                 
                 let type_Str:String! = indexCount[indexPath.row]["dev_type"] as String!
@@ -317,7 +314,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 action in
                 //也可以用下标的形式获取textField let login = alertController.textFields![0]
                 let login = alertController.textFields!.first! as UITextField
-                print("用户名：\(login.text)")
+                print("用户名：\(login.text!)===\(FAME.user_name)34637169")
                 
                 self.presentedViewController?.dismissViewControllerAnimated(false, completion: nil)
                 
@@ -385,7 +382,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         }
         httpRequert().sendRequest(sender.act_id)
 //        print("sender.act_id开\(sender.id)")
-//        print("sender.act_id开\(sender.act_id)")
+        print("sender.act_id开\(sender.act_id)")
         //print(FAME.lightsCellState)
 
     }
@@ -403,7 +400,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         }
         httpRequert().sendRequest(sender.act_id)
 //        print("sender.act_id关\(sender.id)")
-//        print("sender.act_id关\(sender.act_id)")
+        print("sender.act_id关\(sender.act_id)")
         //print(FAME.lightsCellState)
         
     }
@@ -510,7 +507,6 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             
         }
         
-
         
         
     }
@@ -625,15 +621,15 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                     let ADDflag :Int!  = AddedObj.valueForKey("state") as! Int
                     var id = ADDieee_addr * 10
                     if FAME.tempSensorId == 9{
-                        FAME.socketsCellState["\(id)"] = ADDflag
+                        FAME.lightsCellState["\(id)"] = ADDflag
                     }
                     else{
                         if ADDflag >= 1 {
                             id = ADDieee_addr * 10
-                            FAME.socketsCellState["\(id)"] = 1
+                            FAME.lightsCellState["\(id)"] = 1
                         }else{
                             id = ADDieee_addr * 10
-                            FAME.socketsCellState["\(id)"] = 0
+                            FAME.lightsCellState["\(id)"] = 0
                         }
 
                     }
@@ -647,7 +643,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                     let imgObj = cell.viewWithTag(99) as! UIImageView
                     let view1 = cell.viewWithTag(86) as! UIImageView
                     //print(FAME.lightsCellState)
-                    let state :Int! = FAME.socketsCellState["\(cell.id)"]
+                    let state :Int! = FAME.lightsCellState["\(cell.id)"]
                     
                     print("id == \(cell.id)")
                     
@@ -741,7 +737,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
         //长按手势
         let longpressGesutre = UILongPressGestureRecognizer(target:self
             , action: "handleLongpressGesture:")
-        longpressGesutre.minimumPressDuration = 1.0;
+        longpressGesutre.minimumPressDuration = 1.0
         
         cell .addGestureRecognizer(longpressGesutre)
         
@@ -907,6 +903,12 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         //self .performSelector("deselect", withObject: nil, afterDelay: 0.5)
+        
+        TableView.transform = CGAffineTransformMakeTranslation(0 , 0)
+        
+        view1.hidden = true
+        self.right = true
+        
     }
     func deselect(){
         
@@ -1405,33 +1407,27 @@ class ViewControllerCurtains: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         setButton.layer.borderColor=UIColor(red: 102, green: 153, blue: 153, alpha: 0.4).CGColor
         setButton.layer.borderWidth = 1
         setButton.layer.cornerRadius = 2
         
-        self.createPop()
+        self.dev_id = FAME.saActid2
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func viewWillAppear(animated: Bool){
-        super.viewWillAppear(animated)
-        
-        print(FAME.saActid2)
-        
-        self.dev_id = FAME.saActid2
-        
-    }
+    
     
     @IBAction func downApplay(sender : UIButton) {
 
         print("OKOKOK")
         
         let act_id = sender.tag  + FAME.tempApplsId - 1
-        print("555555555=\(act_id)")
-   
         httpRequert().sendRequest(act_id)
     }
     
@@ -1525,6 +1521,7 @@ class ViewControllerCurtains: UIViewController {
     }
     
     @IBAction func showPopBtn(sender: AnyObject) {
+        self.createPop()
         self.showPop()
     }
     

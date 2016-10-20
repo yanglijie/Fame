@@ -71,6 +71,9 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
     }
 
     @IBOutlet var ViewBtns : UIView!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -98,6 +101,12 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
         self.homeName.hidden = true
         self.userImg.hidden = true
         self.homeImg.hidden = true
+        
+        
+        
+        
+        
+        
         
         
         
@@ -282,12 +291,69 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
         //FAME.saveProfile("", pwd: "")
         if buttonIndex == 0 {
             //self.dismissViewControllerAnimated(true, completion: nil)
-            FAME.outTag = 1
-            self.dismissViewControllerAnimated(true, completion: nil)
+            
             //self.navigationController?.popToRootViewControllerAnimated(false)
+            
+            print("FAME.devicetoken====\(FAME.devicetoken)")
+            
+            if FAME.devicetoken != "" {
+                let myThread = NSThread(target: self, selector: "Timerset1", object: nil)
+                myThread.start()
+            }
+            else{
+                FAME.user_name = ""
+                FAME.outTag = 1
+            }
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
     
-
+    func Timerset1(){
+     
+        
+        let cmdStr = "{\"cmd\":51, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"push_enable\": 0, \"devicetoken\": \"\(FAME.devicetoken)\"}"
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr) != nil){
+            print("SEND REQUEST SUCCESSED")
+            FAME.user_name = ""
+            FAME.outTag = 1
+            
+        }else{
+            print("SEND REQUEST FAILED!")
+            
+        }
+        
+    }
     
 }
+
+class ViewControllerBase: UIViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        let btnShake = UIButton(frame: CGRect(x: self.view.frame.width - 70 , y: self.view.frame.height - 70  , width: 50, height: 50))
+        
+        
+        //let btnShake = UIButton(frame: CGRect(x: view0.frame.size.width - top/3 * 2 , y: 0  , width: 50, height: 50))
+        btnShake.setBackgroundImage(UIImage(named: "sub_tag.png"), forState: UIControlState.Normal)
+        btnShake.addTarget(self, action: "tapShake:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(btnShake)
+        
+    }
+    
+    func tapShake(sender : AnyObject!){
+        
+        
+        print("345666")
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+}
+
+

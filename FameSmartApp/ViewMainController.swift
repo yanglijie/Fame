@@ -107,6 +107,11 @@ class ViewControllerMainSA: UIViewController {
         
         //self.refreshLights()
         
+        
+        
+        
+        
+        
     }
     
     func refreshLights(){
@@ -160,6 +165,9 @@ class ViewControllerMainSA: UIViewController {
         if viewId == 2 || viewId == 3 || viewId == 4 {
             viewId = 2
             FAME.showLights = true
+        }
+        else if viewId == 8{
+            viewId = 8
         }
         else{
             viewId = 1
