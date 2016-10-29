@@ -322,6 +322,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
             else{
                 self.showNavMain()
                 getDeviceTableData()
+                FAME.user_name = "本地用户"
             }
         }
         else{
@@ -341,10 +342,14 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                     
                 }else{
                     print("DeviceTable is null")
-                    FAME.getDeviceTable()
+                    //FAME.getDeviceTable()
                     FAME.lastDTversion = FAME.DTversion
                     let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
                     self.navigationController?.pushViewController(next, animated: true)
+                    
+                    
+                    
+                    
                     FAME.isAddDeviceFromSetting = false
                     
                 }
@@ -377,7 +382,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
         
 
         //var dl=HttpClient()
-        //Surl="http://www.famesmart.com/famecloud/user_intf.php"
+        Surl="http://www.famesmart.com/famecloud/user_intf.php"
         print(Surl)
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 10, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"client_type\": \"ios\"}",cmplx:true)
 
@@ -416,18 +421,27 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                     FAME.user_ieee_addr = devicesObj.valueForKey("ieee_addr") as! String
                     FAME.user_dname = devicesObj.valueForKey("dname") as! String
                     
+                    
+                    for i in 0..<devices.count{
+                        let devicesObj : NSDictionary = devices[i] as! NSDictionary
+                        let did = devicesObj.valueForKey("did") as! UInt
+                        FAME.didArray.addObject(did)
+                    }
+                    
                     //UIApplication.sharedApplication().registerForRemoteNotifications()
                     
                     
                     //get the devicetable
                     getDeviceTableData()
                 }
+            
                 
             default:
                 
+                let info = received.valueForKey("info") as! String
                 viewAnimate().shrkInput(self.userName)
                 viewAnimate().shrkInput(self.userPwd)
-                viewAnimate().showTip(self.tip, content: Defined_login_failed)
+                viewAnimate().showTip(self.tip, content:  info)
             }
             
             
@@ -660,7 +674,13 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
 
     }
     
+    
+    
+    
     @IBAction func ckMd5(sender : AnyObject) {
+        
+        print("fame_name====\(FAME.didArray)")
+        
         let hvStr = "FameSmart:\(self.inputHv.text!)"
         let hvMd5Str:String = hvStr.md5().uppercaseString as String
         let md5Str:String! = self.inputCK.text
@@ -679,35 +699,41 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
             print("MD5 OK")
             
             
-            if let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 1, \"ieee_addr\": \"\(self.inputHv.text!)\", \"verify_code\": \"\(self.inputCK.text!)\"}"){
-                
-                self.model_id = received.valueForKey("model_id") as! UInt
-                //check the type
-                if (self.model_id == 2 )||(self.model_id == 3 ) {
-                    FAME.user_ieee_addr = self.inputHv.text!
-                    FAME.user_ieee_ck = self.inputCK.text!
-                    let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin3") as UIViewController
-                    self.navigationController?.pushViewController(next, animated: true)
+            if (FAME.user_name != nil){
+                if let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 1, \"ieee_addr\": \"\(self.inputHv.text!)\", \"verify_code\": \"\(self.inputCK.text!)\"}"){
                     
-                }else{
-                    
-                    viewAnimate().shrkInput(self.inputType!)
-                    viewAnimate().showTip(self.tip!, content: Defined_register_not_router)
+                    self.model_id = received.valueForKey("model_id") as! UInt
+                    //check the type
+                    if (self.model_id == 2 )||(self.model_id == 3 ) {
+                        FAME.user_ieee_addr = self.inputHv.text!
+                        FAME.user_ieee_ck = self.inputCK.text!
+                        let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin3") as UIViewController
+                        self.navigationController?.pushViewController(next, animated: true)
+                        
+                    }else{
+                        
+                        viewAnimate().shrkInput(self.inputType!)
+                        viewAnimate().showTip(self.tip!, content: Defined_register_not_router)
+                        
+                    }
                     
                 }
+                else{
+                    print("MD5 error")
+                    self.inputCK.textColor = UIColor.redColor()
+                    self.inputHv.textColor = UIColor.redColor()
+                    viewAnimate().shrkInput(self.inputCK)
+                    viewAnimate().shrkInput(self.inputHv)
+                }
 
+            }
+            else{
+                //绑定另外一个中控
+                
+                let thread = NSThread(target: self, selector: "Timerset", object: nil)
+                thread.start()
                 
             }
-
-            
-            else{
-                print("MD5 error")
-                self.inputCK.textColor = UIColor.redColor()
-                self.inputHv.textColor = UIColor.redColor()
-                viewAnimate().shrkInput(self.inputCK)
-                viewAnimate().shrkInput(self.inputHv)
-            }
- 
 
         }else{
             print("MD5 error")
@@ -717,6 +743,72 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
             viewAnimate().shrkInput(self.inputHv)
         }
     }
+    
+    func Timerset(){
+        
+        if let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 13,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"ieee_addr\": \"\(self.inputHv.text!)\", \"verify_code\": \"\(self.inputCK.text!)\",\"dname\": \"My SmartHome\"}"){
+            
+
+            let info = received.valueForKey("info") as! String
+            let alert = UIAlertView()
+            alert.title = Defined_VC6_AlertTitle
+            alert.message =  info
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.show()
+            
+            if received.valueForKey("result") as! UInt == 0{
+                self.model_id = received.valueForKey("did") as! UInt
+                
+                FAME.user_did = model_id
+                
+                FAME.didArray.addObject(model_id)
+                
+                getDeviceTableData()
+            }
+            
+            
+            
+        }
+        else{
+            print("MD5 error")
+            let alert = UIAlertView()
+            alert.title = Defined_VC6_AlertTitle
+            alert.message =  "绑定失败"
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.show()
+        }
+
+        
+    }
+    
+    func getDeviceTableData(){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            let DTValue = FAME.getDeviceTable()
+            
+            if (DTValue != nil) {
+                if DTValue == 0 {
+                    print("DeviceTable is OK")
+                    
+                }else{
+                    print("DeviceTable is null")
+                    //FAME.getDeviceTable()
+                    FAME.lastDTversion = FAME.DTversion
+                    let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
+                    self.navigationController?.pushViewController(next, animated: true)
+                    
+                    FAME.isAddDeviceFromSetting = false
+                    
+                }
+            }
+            else{
+                print("get DT failed")
+
+            }
+            
+        }
+        
+    }
+
     
     override func deQRcode(str: String){
         print("get QRCode:\(str)")
@@ -1052,39 +1144,42 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
             viewAnimate().showTip(self.tip, content: "请同意遵守协议")
         }
         
-        else if self.userPwd1.text == self.userPwd2.text {
+        else {
             //do regist
-            let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 3, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\",\"user_pwd1\": \"\(FAME.user_pwd)\", \"user_email\": \"web@lyzic.com\"}",cmplx:true)
+            let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 3, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\",\"user_pwd1\": \"\(self.userPwd2.text!)\", \"user_email\": \"web@lyzic.com\"}",cmplx:true)
             print(received)
             
             if (received != nil){
+                let info = received.valueForKey("info") as! String
             
                 switch received.valueForKey("result") as! UInt {
                 case 1:
-                    viewAnimate().showTip(self.tip, content: Defined_register_SQL_failed)
+                    viewAnimate().showTip(self.tip, content: info)
+                    break
                 case 2:
-                    viewAnimate().showTip(self.tip, content: Defined_register_User_existed)
+                    viewAnimate().showTip(self.tip, content: info)
                     viewAnimate().shrkInput(self.userName, notChangeColoer: false)
-                    
+                    break
                 case 3:
                     
-                    viewAnimate().showTip(self.tip, content: Defined_register_userName_less)
+                    viewAnimate().showTip(self.tip, content: info)
                     viewAnimate().shrkInput(self.userName, notChangeColoer: false)
-                    
+                    break
                     
                 case 4:
                     
-                    viewAnimate().showTip(self.tip, content: Defined_register_userPwd_less)
+                    viewAnimate().showTip(self.tip, content: info)
                     viewAnimate().shrkInput(self.userPwd1, notChangeColoer: false)
                     viewAnimate().shrkInput(self.userPwd2, notChangeColoer: false)
+                    break
                 case 5:
-                    viewAnimate().showTip(self.tip, content: Defined_register_userPwd_diff)
+                    viewAnimate().showTip(self.tip, content: info)
                     viewAnimate().shrkInput(self.userPwd2, notChangeColoer: false)
-                    
+                    break
                     
                 case 6:
                     viewAnimate().showTip(self.tip, content: "E-mail is wrong")
-                    
+                    break
                     
                 case 0:
                     print("regist successed")
@@ -1149,12 +1244,13 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
                 viewAnimate().showTip(self.tip, content: Defined_network_failed)
 
             }
-        }else{
-            
-            viewAnimate().showTip(self.tip, content: Defined_register_userPwd_diff)
-            viewAnimate().shrkInput(self.userPwd2, notChangeColoer: false)
-            
         }
+//        else{
+//            
+//            viewAnimate().showTip(self.tip, content: Defined_register_userPwd_diff)
+//            viewAnimate().shrkInput(self.userPwd2, notChangeColoer: false)
+//            
+//        }
     }
     
     
@@ -1207,28 +1303,8 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
         returnButtonItem.title = Defined_navigation_back_title
         self.navigationItem.backBarButtonItem = returnButtonItem
         
-//        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
-//        myThread.start()
+
         
-    }
-    func Timerset(){
-        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 7, \"user_name\": \"\(FAME.user_name )\"}",cmplx:true)
-        print(received)
-        if( received != nil){
-            if received.valueForKey("result") as! UInt == 0{
-
-                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                    self.inputTel.text = received.valueForKey("phone") as? String
-                })
-                
-            }
-            else{
-                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                    FAME.showMessage("你未绑定手机号")
-                })
-            }
-        }
-
     }
     var remainingSeconds: Int = 0 {
         willSet {
@@ -1272,6 +1348,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 4, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\",\"user_phone\": \"\(self.inputTel.text!)\"}",cmplx:true)
         print(received)
         if( received != nil){
+            let info = received.valueForKey("info") as! String
             if received.valueForKey("result") as! UInt == 0{
                 
                
@@ -1279,7 +1356,14 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
             }
             else{
                 dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                    FAME.showMessage("输入的手机号不正确")
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.message =  info
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    
+                    self.getVer.setTitle("获取验证码", forState: .Normal)
+                    self.isCounting = false
                 })
             }
         }
@@ -1332,28 +1416,33 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
     }
     func Timerset2(){
         let cmdStr = "{\"cmd\": 5, \"user_phone\": \"\(self.inputTel.text! )\",\"user_smscode\": \"\(self.inputVcode.text!)\"}"
-        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
-            
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                let alert = UIAlertView()
-                alert.title = Defined_setting_title
-                alert.delegate = self
-                alert.message =  Defined_telphone_success
-                alert.addButtonWithTitle(Defined_ALERT_OK)
-                alert.show()
-            })
-            
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,cmplx:true)
+ 
+        if( received != nil){
+            let info = received.valueForKey("info") as! String
+            if received.valueForKey("result") as! UInt == 0{
+                
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.delegate = self
+                    alert.message =  info
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                })
+                
+            }
+            else{
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.message =  info
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                })
+            }
         }
-        else{
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                let alert = UIAlertView()
-                alert.title = Defined_setting_title
-                alert.message =  Defined_telphone_error
-                alert.addButtonWithTitle(Defined_ALERT_OK)
-                alert.show()
-            })
-
-        }
+        
     }
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         
@@ -1402,6 +1491,8 @@ class ViewControllerLogin7: UIViewController , UITextFieldDelegate,UIAlertViewDe
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 7, \"user_name\": \"\(FAME.user_name )\"}",cmplx:true)
         print(received)
         if( received != nil){
+            let info = received.valueForKey("info") as! String
+            
             if received.valueForKey("result") as! UInt == 0{
                 
                 print("phone\(received.valueForKey("phone"))")
@@ -1416,7 +1507,7 @@ class ViewControllerLogin7: UIViewController , UITextFieldDelegate,UIAlertViewDe
                     let alert = UIAlertView()
                     alert.title = Defined_setting_title
                     alert.delegate = self
-                    alert.message =  Defined_telphone_success1
+                    alert.message =  info
                     alert.addButtonWithTitle(Defined_ALERT_OK)
                     alert.show()
 
@@ -1438,21 +1529,33 @@ class ViewControllerLogin7: UIViewController , UITextFieldDelegate,UIAlertViewDe
     }
     func Timerset2(){
         let cmdStr = "{\"cmd\": 8, \"user_name\": \"\(FAME.user_name )\",\"user_smscode\": \"\(self.verityText.text!)\"}"
-        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90) != nil){
-            
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                let next = GBoard.instantiateViewControllerWithIdentifier("Login8") as UIViewController
-                self.navigationController?.pushViewController(next, animated: true)
-                self.navigationController?.setNavigationBarHidden(false, animated: true)
-            })
+        
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,cmplx:true)
+        
+        if( received != nil){
+            let info = received.valueForKey("info") as! String
+            if received.valueForKey("result") as! UInt == 0{
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    let next = GBoard.instantiateViewControllerWithIdentifier("Login8") as UIViewController
+                    self.navigationController?.pushViewController(next, animated: true)
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                })
+            }
+            else{
+                
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.message =  info
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                })
+                
+            }
             
         }
         else{
-            
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                FAME.showMessage("输入的验证码不正确")
-            })
-            
+            FAME.showMessage("网络错误")
         }
     }
 
@@ -1535,13 +1638,14 @@ class ViewControllerLogin8: UIViewController , UITextFieldDelegate,UIAlertViewDe
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 9, \"user_newpwd\": \"\(self.newPass.text! )\",\"user_newpwd1\": \"\(self.surePass.text!)\"}",cmplx:true)
         print(received)
         if( received != nil){
+            let info = received.valueForKey("info") as! String
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
                 switch received.valueForKey("result") as! UInt {
                 case 0:
                     let alert = UIAlertView()
                     alert.title = Defined_setting_title
                     alert.delegate = self
-                    alert.message =  Defined_setting_success
+                    alert.message =  info
                     alert.addButtonWithTitle(Defined_ALERT_OK)
                     alert.show()
                     FAME.saveProfile(FAME.user_name, pwd: "")
@@ -1549,7 +1653,7 @@ class ViewControllerLogin8: UIViewController , UITextFieldDelegate,UIAlertViewDe
                 case 2:
                     let alert = UIAlertView()
                     alert.title = Defined_setting_title
-                    alert.message =  Defined_setting_error6
+                    alert.message =  info
                     alert.addButtonWithTitle(Defined_ALERT_OK)
                     alert.show()
                     self.navigationController?.popViewControllerAnimated(true)
@@ -1557,7 +1661,7 @@ class ViewControllerLogin8: UIViewController , UITextFieldDelegate,UIAlertViewDe
                 case 3:
                     let alert = UIAlertView()
                     alert.title = Defined_setting_title
-                    alert.message =  Defined_setting_error4
+                    alert.message =  info
                     alert.addButtonWithTitle(Defined_ALERT_OK)
                     alert.show()
                     
@@ -1567,7 +1671,7 @@ class ViewControllerLogin8: UIViewController , UITextFieldDelegate,UIAlertViewDe
                 case 4:
                     let alert = UIAlertView()
                     alert.title = Defined_setting_title
-                    alert.message =  Defined_setting_error5
+                    alert.message =  info
                     alert.addButtonWithTitle(Defined_ALERT_OK)
                     alert.show()
                     
@@ -1578,7 +1682,7 @@ class ViewControllerLogin8: UIViewController , UITextFieldDelegate,UIAlertViewDe
                 default:
                     let alert = UIAlertView()
                     alert.title = Defined_setting_title
-                    alert.message =  Defined_setting_error2
+                    alert.message =  info
                     alert.addButtonWithTitle(Defined_ALERT_OK)
                     alert.show()
                     self.newPass.text = ""
@@ -1589,7 +1693,9 @@ class ViewControllerLogin8: UIViewController , UITextFieldDelegate,UIAlertViewDe
             })
             
         }
-
+        else{
+            FAME.showMessage("网络错误")
+        }
         
 }
 

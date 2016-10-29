@@ -87,6 +87,8 @@ class fame:NSObject{
     var user_ieee_ck:String!
     var device_table :NSMutableDictionary!
     
+    var didArray:NSMutableArray = []
+    
     var detail :Array<Dictionary<String,AnyObject>>!
     
     var user_dname:String!
@@ -448,15 +450,16 @@ class fame:NSObject{
         
         if let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 16, \"user_name\": \"\(self.user_name )\",\"user_pwd\": \"\(self.user_pwd)\", \"did\": \"\(self.user_did)\"}"){
             let DT :AnyObject! = received.valueForKey("device_table")
-            if DT as! NSObject! == NSNull() {
-                print("DT is null")
-                return 1
-            }else{
+            if (DT != nil){
                 print("DT is OK")
                 self.device_table = DT as! NSMutableDictionary!
                 //println(self.device_table)
                 self.deCodeDeviceTable()
                 return 0
+            }
+            else{
+                print("DT is null")
+                return 1
             }
         }else{
             return nil
@@ -1164,7 +1167,8 @@ class fame:NSObject{
 
                 FAME.isAddingDevice = true
                 return true
-            }else{
+            }
+            else{
                 FAME.isAddingDevice = false
                 return false
             }
@@ -1180,7 +1184,7 @@ class fame:NSObject{
             //check the list
             print("checkAddedDevice")
             print(received)
-            
+            var i = 0
             for values:AnyObject in received!.valueForKey("detail") as! NSArray {
                 //print(values)
                 let AddedObj = values as! NSDictionary
@@ -1190,9 +1194,9 @@ class fame:NSObject{
                 
                 print("check:\(ADDieee_addr) addflag:\(ADDflag)")
                 //var isA = false
-                print("11111\(FAME.addDeviceArray)")
-                for value : AnyObject in FAME.addDeviceArray {
-                    
+                print("11111\(FAME.addDeviceArray[i])")
+                //for value : AnyObject in FAME.addDeviceArray {
+                    let value = FAME.addDeviceArray[i]
                     let Ahvaddr:String! = value.valueForKey("hvaddr") as! String
                     let Aname:String! = value.valueForKey("name") as! String
                     if (Ahvaddr != nil){
@@ -1206,8 +1210,10 @@ class fame:NSObject{
                                     alert.message =  "\(Aname) \(Defined_Add_Title_success)"
                                     alert.addButtonWithTitle(Defined_ALERT_OK)
                                     alert.show()
+                                    print("成功")
                                 })
                                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                                
                                 
                             }else{
                                 //failed
@@ -1217,14 +1223,33 @@ class fame:NSObject{
                                     alert.message =  "\(Aname) \(Defined_Add_failed)"
                                     alert.addButtonWithTitle(Defined_ALERT_OK)
                                     alert.show()
+                                    print("成功1")
                                 })
                                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                                
                             }
                         }
-                        
+                        else{
+                            //failed
+                            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                                FAME.showMessage("入网失败")
+                                print("成功2")
+                            })
+                            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                            
+                        }
                     }
+                    else{
+                        //failed
+                        dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                            FAME.showMessage("入网失败")
+                        })
+                        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                    }
+                i++
                 }
-            }
+            //}
+            
             //self.deCodeDeviceTable()
         }
         FAME.getDeviceTable()

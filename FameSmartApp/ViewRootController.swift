@@ -11,7 +11,7 @@
 
 //*********************
 //
-//      ViewController of the main view 
+//      ViewController of the main view
 //
 //*********************
 
@@ -20,7 +20,7 @@ import UIKit
 class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
     
     var showAnimate :Bool = true
-
+    
     var isFameWork = false
     @IBOutlet var btnP : UIButton!
     @IBOutlet var btnVM : UIButton!
@@ -67,9 +67,9 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
     
     @IBAction func swipedUp(sender : AnyObject) {
         print("swiped Up")
-       // self.showSpeechV()
+        // self.showSpeechV()
     }
-
+    
     @IBOutlet var ViewBtns : UIView!
     
     
@@ -133,7 +133,7 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
         self.iFlySpeechSynthesizerInstance.setParameter("8000", forKey: IFlySpeechConstant.SAMPLE_RATE())
         
         self.iFlySpeechSynthesizerInstance.setParameter(nil, forKey: IFlySpeechConstant.TTS_AUDIO_PATH())
-
+        
         self.ttsHasError = false
         NSThread.sleepForTimeInterval(0.05)
         println("buffering")
@@ -152,7 +152,7 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
         print("ok")
         //FAME.refreshLightState()
     }
-
+    
     
     
     
@@ -192,14 +192,12 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
         
     }
     
-
+    
     
     override func viewDidAppear(animated: Bool){
         super.viewDidAppear(animated)
         
         self.userName.setTitle(FAME.user_name, forState: UIControlState.Normal)
-        
-        
         
         
         if showAnimate {
@@ -310,12 +308,12 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
     }
     
     func Timerset1(){
-     
+        
         
         let cmdStr = "{\"cmd\":51, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"push_enable\": 0, \"devicetoken\": \"\(FAME.devicetoken)\"}"
         if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr) != nil){
             print("SEND REQUEST SUCCESSED")
-            FAME.user_name = ""
+            
             FAME.outTag = 1
             
         }else{
@@ -329,17 +327,30 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
 
 class ViewControllerBase: UIViewController {
     
+    var popView : UIView = UIView()
+    var isShow = false
+    
+    //保存背景图数据
+    var backgrounds:Array<UIView>!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let btnShake = UIButton(frame: CGRect(x: self.view.frame.width - 70 , y: self.view.frame.height - 70  , width: 50, height: 50))
+        //self.view.backgroundColor = UIColor.grayColor()
         
+        createPopView()
         
-        //let btnShake = UIButton(frame: CGRect(x: view0.frame.size.width - top/3 * 2 , y: 0  , width: 50, height: 50))
+        let btnShake = UIButton(frame: CGRect(x: self.view.frame.width - 65 , y: self.view.frame.height - 65  , width: 50, height: 50))
         btnShake.setBackgroundImage(UIImage(named: "sub_tag.png"), forState: UIControlState.Normal)
+        btnShake.tag = 20
         btnShake.addTarget(self, action: "tapShake:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(btnShake)
+        
+        
+        
         
     }
     
@@ -348,8 +359,90 @@ class ViewControllerBase: UIViewController {
         
         print("345666")
         
+        menuStateChange()
+
     }
     
+    func menuStateChange(){
+
+        //一个单位的延迟时间
+        let diff = 0.05
+
+        if !isShow{
+            popView.hidden = false
+            for i in 0..<3{
+                let cell = self.view.viewWithTag(1000 + i)
+                //cell?.hidden = false
+                UIView.animateWithDuration(0.3, delay: Double(i + 1) * diff, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                    cell!.frame.origin = CGPoint(x: 0, y:  180-(60 * (i + 1)) )
+                    
+                    }, completion: nil)
+            }
+        }
+        else{
+            
+            animatePoPView()
+
+        }
+        isShow = !isShow
+    }
+    func tapClick(sender : AnyObject!){
+        
+        
+        print("点击了\(sender.tag - 1000)")
+        
+        //切换中控
+        if sender.tag == 0{
+            
+            
+            
+        }
+        
+    }
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        animatePoPView()
+        isShow = false
+        
+    }
+    func animatePoPView(){
+        let diff = 0.05
+        
+        for i in 0..<3{
+            let cell = self.view.viewWithTag(1000 + i)
+            
+            UIView.animateWithDuration(0.3, delay: Double(i + 1) * diff, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                
+                cell!.frame.origin = CGPoint(x: 0, y: 180)
+                
+                }, completion: { (finished:Bool) -> Void in
+                    self.popView.hidden = true
+            })
+        }
+    }
+    func createPopView(){
+        
+        
+        //popView.frame = CGRect(x: self.view.frame.width - 65 , y: self.view.frame.height - 65  , width: 50, height: 100)
+        popView.frame = CGRect(x: self.view.frame.width - 65 , y: self.view.frame.height - 245 , width: 50, height: 230)
+        //popView.backgroundColor = UIColor.grayColor()
+        popView.hidden = true
+        self.view.addSubview(popView)
+
+        for i in 0..<3{
+            
+            let btn = UIButton(frame: CGRect(x: 0 , y: 180 , width: 50, height: 50 ))
+            btn.tag = i + 1000
+            //btn.hidden = true
+            btn.setBackgroundImage(UIImage(named: "sub_tag.png"), forState: UIControlState.Normal)
+            btn.addTarget(self, action: "tapClick:", forControlEvents: UIControlEvents.TouchUpInside)
+            self.popView.addSubview(btn)
+            
+        }
+        
+        
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

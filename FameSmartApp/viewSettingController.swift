@@ -79,7 +79,7 @@ class ViewSettingController: UIViewController {
         let cmdStr = "{\"cmd\":51, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"push_enable\": 0, \"devicetoken\": \"\(FAME.devicetoken)\"}"
         if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr) != nil){
             print("SEND REQUEST SUCCESSED")
-            FAME.user_name = ""
+            
             FAME.outTag = 1
             
         }else{
@@ -159,71 +159,83 @@ class ViewSettingPwdController: UIViewController ,UITextFieldDelegate,UIAlertVie
             }, completion:nil)
     }
     @IBAction func editPwd(sender : AnyObject) {
-        if self.userPwd1.text == FAME.user_pwd {
-            if self.userPwd2.text == "" {
-                let alert = UIAlertView()
-                alert.title = Defined_setting_title
-                alert.message =  Defined_setting_error3
-                alert.addButtonWithTitle(Defined_ALERT_OK)
-                alert.show()
-            }else{
-                //POST
-                
-                
-                let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 6, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(self.userPwd1.text!)\",\"user_newpwd\": \"\(self.userPwd2.text!)\",\"user_newpwd1\": \"\(self.userPwd3.text!)\"}",cmplx:true)
-                print(received)
-                if( received != nil){
-                    
-                    switch received.valueForKey("result") as! UInt {
-                    case 0:
-                        let alert = UIAlertView()
-                        alert.title = Defined_setting_title
-                        alert.delegate = self
-                        alert.message =  Defined_setting_success
-                        alert.addButtonWithTitle(Defined_ALERT_OK)
-                        alert.show()
-                        FAME.saveProfile(FAME.user_name, pwd: "")
-  
-                    case 3:
-                        let alert = UIAlertView()
-                        alert.title = Defined_setting_title
-                        alert.message =  Defined_setting_error4
-                        alert.addButtonWithTitle(Defined_ALERT_OK)
-                        alert.show()
-                        
-                        self.userPwd2.text = ""
-                        self.userPwd3.text = ""
-                        
-                    case 4:
-                        let alert = UIAlertView()
-                        alert.title = Defined_setting_title
-                        alert.message =  Defined_setting_error5
-                        alert.addButtonWithTitle(Defined_ALERT_OK)
-                        alert.show()
-                        
-                        self.userPwd2.text = ""
-                        self.userPwd3.text = ""
-                        
-                    default:
-                        let alert = UIAlertView()
-                        alert.title = Defined_setting_title
-                        alert.message =  Defined_setting_error2
-                        alert.addButtonWithTitle(Defined_ALERT_OK)
-                        alert.show()
-                        self.userPwd1.text = ""
-                        self.userPwd2.text = ""
-                        self.userPwd3.text = ""
-                    }
-                }
-                //end POST
-                
-            }
-        }else{
+        if self.userPwd3.text == "" || self.userPwd1.text == "" || self.userPwd2.text == "" {
+            
             let alert = UIAlertView()
             alert.title = Defined_setting_title
-            alert.message =  Defined_setting_error1
+            alert.message =  "请填写完整"
             alert.addButtonWithTitle(Defined_ALERT_OK)
             alert.show()
+    
+            
+        }
+        else{
+            let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 6, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(self.userPwd1.text!)\",\"user_newpwd\": \"\(self.userPwd2.text!)\",\"user_newpwd1\": \"\(self.userPwd3.text!)\"}",cmplx:true)
+            print(received)
+            if( received != nil){
+                let info = received.valueForKey("info") as! String
+                
+                switch received.valueForKey("result") as! UInt {
+                   
+                case 7:
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.message =  info
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    break
+                case 6:
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.message =  info
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    break
+                case 4:
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    
+                    alert.message =  info
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    
+                    self.userPwd2.text = ""
+                    self.userPwd3.text = ""
+                    break
+                    
+                    
+                case 3:
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.message =  info
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    self.userPwd2.text = ""
+                    self.userPwd3.text = ""
+                    break
+                    
+                    
+                case 0:
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.delegate = self
+                    alert.message =  info
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    
+                    FAME.saveProfile(FAME.user_name, pwd: "")
+                    
+                default:
+                    let alert = UIAlertView()
+                    alert.title = Defined_setting_title
+                    alert.message =  info
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    self.userPwd1.text = ""
+                    self.userPwd2.text = ""
+                    self.userPwd3.text = ""
+                }
+            }
         }
     }
 

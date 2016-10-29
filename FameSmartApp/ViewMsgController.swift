@@ -12,6 +12,7 @@ import UIKit
 class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     var msgs :Array<String> = []
+    var dataMsgs :Array<String> = []
     
     @IBOutlet weak var tableView: UITableView!
     @IBAction func NoticOn(sender: UISwitch) {
@@ -27,6 +28,16 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
             FAME.showMessage("推送打开")
             UIApplication.sharedApplication().registerForRemoteNotifications()
         }
+    }
+    func deleteAll(sender:AnyObject!){
+        msgs = []
+        self.msgTabel?.reloadData()
+        FAME.defaults.setObject(msgs, forKey: "\(FAME.user_name)")
+        print("清空了")
+    }
+    func Data(){
+        
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,14 +117,19 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
         return msgs.count
 
     }
-    
-    func deleteAll(sender:AnyObject!){
-        msgs = []
-        self.msgTabel?.reloadData()
-        FAME.defaults.setObject(msgs, forKey: "\(FAME.user_name)")
-        print("清空了")
+//    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+//        return 2
+//    }
+//    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let lable = UILabel(frame: CGRectMake(0,0,CGRectGetWidth(self.tableView.frame),40))
+//        lable.text = "今天"
+//        lable.textColor = UIColor.blackColor()
+//        return lable
+//        
+//    }
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
     }
-    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "msgCell")
         cell.textLabel?.text = msgs[indexPath.row]
@@ -123,6 +139,7 @@ class ViewControllerMsg: UIViewController,UITableViewDelegate,UITableViewDataSou
         cell.backgroundColor = UIColor.clearColor()
         
         return cell
+        
     }
     
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle{

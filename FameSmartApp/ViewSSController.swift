@@ -318,7 +318,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         let btnHeight:CGFloat = 30
         let btnY:CGFloat = 25
         
-        if FAME.tempSensorId == 4{
+        if FAME.tempSensorId == 4 || FAME.tempSensorId == 3{
             
             let btnS1 = UIButton(frame: CGRect(x: btnX, y: btnY + 25, width: btnWidth, height: btnHeight))
             btnS1.setTitle(Defined_SS_air_Title1, forState: UIControlState.Normal)
