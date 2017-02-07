@@ -200,9 +200,14 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
 
         btnS3.tag = 3
 
-        btnS3.setTitle("更改设备名", forState: UIControlState.Normal)
-        btnS3.addTarget(self, action: Selector("btns3Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
-
+        if FAME.tempSensorId == 2{
+            btnS3.setTitle(Defined_SS_Title4, forState: UIControlState.Normal)
+            btnS3.addTarget(self, action: Selector("btns31Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        }
+        else{
+            btnS3.setTitle("更改设备名", forState: UIControlState.Normal)
+            btnS3.addTarget(self, action: Selector("btns3Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        }
         
         
         self.pickView.addSubview(btnS1)
@@ -212,6 +217,11 @@ class ViewControllerMainSA2: UIViewController ,UIAlertViewDelegate {
         
         self.BGView.addSubview(self.pickView)
         self.view.addSubview(self.BGView)
+        self.BGView.hidden = true
+        
+    }
+    //取消
+    func btns31Fun(sender:UIButton){
         self.BGView.hidden = true
         
     }
@@ -319,10 +329,15 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
 
         //image      2015-05-21
         let imgObj = cell.viewWithTag(99) as! UIImageView
-        
+        //幕布
         if (self.dev_types[indexPath.row] == 15){     //  2015-05-18
             imgObj.image = UIImage(named: "screen_icon.png")      //  2015-05-18
         }
+            //推窗机
+        else if (self.dev_types[indexPath.row] == 35){     //  2015-05-18
+            imgObj.image = UIImage(named: "curtain35_icon.png")      //  2015-05-18
+        }
+        //投影仪、电视机
         else if (self.dev_types[indexPath.row] == 16 || self.dev_types[indexPath.row] == 17){
             imgObj
             imgObj.image = UIImage(named: "appl_17_icon.png")
@@ -337,20 +352,30 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         let dev_Str:String! = curtains[indexPath.row]["dev_id"] as String!
         let dev_id:Int! = Int(dev_Str)
         
+        let ieee:String! = curtains[indexPath.row]["ieee"] as String!
         let dev_Type:String! = curtains[indexPath.row]["dev_type"] as String!
         let dev_type:Int! = Int(dev_Type)
+        print(curtains[indexPath.row])
         
         FAME.dev_id = dev_id
+        //FAME.dev_type = dev_type
         
         FAME.tempApplsId = act_ids[indexPath.row]
-
+        FAME.dev_ieee = ieee
+        
         var viewId:Int = 0
         if FAME.tempSensorId == 2{
             viewId = 2 * 10 + 1
             FAME.saActid2 = dev_id
+            FAME.saActid4 = dev_type
         }
         else if FAME.tempSensorId == 3{
-            viewId = 3 * 10 + 1
+            if dev_type == 45{
+                viewId = 3 * 10 + 2
+                
+            }else{
+                viewId = 3 * 10 + 1
+            }
         }
         else{
             viewId = 4 * 10 + 1
@@ -377,195 +402,278 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
 }
 
 
+class ViewControllerMainSA3: UIViewController,UIAlertViewDelegate {
 
-class ViewControllerMainSA3: UIViewController,UIAlertViewDelegate  {
-    var btns:[String]=[]
-    var act_ids:[Int]=[]
-    var ieees:[String]=[]
-    var tmp_tag = 0
-    var is_alert = false
-    func longPress(sender : UIButton!) {
+    
+    @IBOutlet weak var switchOn: UIButton!
+    var act_ids:Array<Int> = []
+    
+    var switchStr : String = ""
+    var windStr : String = ""
+    var modeStr : String = ""
+    
+    var tempInt = 0
+    
+    @IBOutlet weak var setTemp: UILabel!
+    
+    @IBAction func tempChange(sender: AnyObject) {
         
-        print("longpress")
-        print(sender)
-        //self.tmp_tag = sender.tag
-        if (!self.is_alert){
-            self.is_alert = true
-            let alert :UIAlertView = UIAlertView()
-            alert.delegate = self
-            alert.title = Defined_ALERT_del
-            alert.message = Defined_ALERT_del2
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.addButtonWithTitle(Defined_ALERT_CANCEL)
-            alert.show()
-            
+        if sender.tag == 18{
+            if tempInt > 29{
+                tempInt = 30
+            }
+            else{
+                tempInt = tempInt + 1
+            }
+            self.setTemp.text = String(tempInt)
         }
-    }
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        print("click at \(buttonIndex)")
-        self.is_alert = false
-        if buttonIndex == 0 {
-            print("del")
+        else{
+            if tempInt < 17{
+                tempInt = 16
+            }
+            else{
+                tempInt = tempInt - 1
+            }
             
-            let ieee : String! = self.ieees[self.tmp_tag - 1]
-            print("del ieee:\(ieee)")
-            let dic:NSMutableDictionary = ["hvaddr":"\(ieee)"]
-            FAME.delDeviceArray.removeAllObjects()
-            FAME.delDeviceArray.addObject(dic)
-            FAME.doDeleteDev()
-            print(FAME.device_table)
-            self.navigationController?.popToRootViewControllerAnimated(true)
-            
-            
+            self.setTemp.text = String(tempInt)
         }
     }
     
-    func tapDown(sender : AnyObject!){
-        print("btn down \(sender.tag)")
-        self.tmp_tag = sender.tag
+    @IBAction func setTempClick(sender: AnyObject) {
+        var act_id = 0
+        if modeStr == "0"{
+            print("0")
+          print("tempInt====>\(tempInt)")
+            act_id = act_ids[10 + 30 - tempInt]
+            
+            
+        }
+        else{
+            print("1")
+            act_id = act_ids[10 + 30 - tempInt + 15]
+        }
         
+        print("7777777act=\(act_id)")
+        httpRequert().sendRequest(act_id)
     }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        btns=[]
-        act_ids=[]
-        for value in FAME.airs {
-            let airObj = value as NSDictionary
-            let airName:String! = airObj["name"] as! String
-            let airActid:String! = airObj["act_id"] as! String
-            let airIeee:String! = airObj["ieee"] as! String
-            btns.append(airName)
-            act_ids.append(Int(airActid)!)
-            self.ieees.append(airIeee)
-        }
+        let button = UIButton(frame: CGRectMake(0,0,80,35))
+//        button.setBackgroundImage(UIImage(named: "yuba_spinner_press.png"), forState: UIControlState.Normal)
+//        button.setBackgroundImage(UIImage(named: "curtain_04_10.png"), forState: UIControlState.Highlighted)
+        button.setTitle("刷新", forState: UIControlState.Normal)
+        button.addTarget(self, action: Selector("RefaClick:"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
         
-        //btns = Defined_SA_btns
-        
-        let btnImgs = ["sa1.png","sa2.png","sa3.png","sa4.png","sa5.png","sa6.png"]
-        
-        print("......")
-        
-        //fix position
-        
-        let view0 :UIView = self.view.viewWithTag(10)!
-        view0.frame.size.width = self.view.frame.size.width - 60
-        
-        //let viewWidth = self.view.frame.size.width - 60
-        
-        let divW:CGFloat = 0.27
-        
-        let top:CGFloat =  80
-        let btnWidth  = view0.frame.size.width * divW
-        print(btnWidth)
-        let btnHeight = btnWidth * 1.1
-        
-        let disX:CGFloat = ((1 - divW * 3) / 2 + divW) * view0.frame.width
-        let disY:CGFloat = view0.frame.height * 0.25
-        
-        let diffi:CGFloat = CGFloat(btns.count % 3)
-        
-        var diffX:CGFloat = diffi == 0 ? 0 : (view0.frame.width - diffi * btnWidth ) / 2
-        diffX = diffi == 2 ? diffX - (1 - divW * 3) / 4  * view0.frame.width : diffX
-        
-        
-        var btnX:CGFloat = 0
-        var btnY:CGFloat = btns.count <= 3 ? top + 90 : top
-        btnX = btns.count <= 3 ? diffX + btnX : btnX
-        for idx in 0..<btns.count {
-            
-            let btn = UIButton(frame: CGRect(x: CGFloat(btnX), y: CGFloat(btnY), width: CGFloat(btnWidth), height: CGFloat(btnHeight)))
-            btn.setBackgroundImage(UIImage(named: btnImgs[2]), forState: UIControlState.Normal)
-            
-            let btnLable = UILabel(frame: CGRect(x: CGFloat(btnX - 20), y: CGFloat(btnY + btnHeight + 10), width: CGFloat(btnWidth + 40), height: 20))
-            
-            
-            //gesture
-            
-            let longPressRec = UILongPressGestureRecognizer()
-            longPressRec.addTarget(self, action: "longPress:")
-            btn.addGestureRecognizer(longPressRec)
-            //btn.userInteractionEnabled = true
-            
-            btnLable.text = btns[idx]
-            btnLable.textColor = UIColor.whiteColor()
-            btnLable.textAlignment = NSTextAlignment.Center
-            
-            btnX = idx == 2 ? diffX : btnX + disX
-            btnY = idx == 2 ? btnY + disY : btnY
-            
-            btn.addTarget(self, action: "tap:", forControlEvents: UIControlEvents.TouchUpInside)
-            
-            btn.addTarget(self, action: "tapDown:", forControlEvents: UIControlEvents.TouchDown)
-            
-            btn.tag = idx + 1
-            
-            view0.addSubview(btn)
-            view0.addSubview(btnLable)
-            
-            if animationSA {
-                var nsTime : NSTimeInterval!
-                nsTime = NSTimeInterval(idx) * 0.05 + 0.1
-                viewAnimate().popOut(btn, timeInterval: 0.3, delay: nsTime)
-                
-                nsTime = NSTimeInterval(idx) * 0.05 + 0.3
-                viewAnimate().popOut(btnLable, timeInterval: 0.3, delay: nsTime)
-            }
-        }
-        
-        
-        if (btns.count < 1) {
-            print("no aircs")
-            
-            let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,view.frame.size.height/10,self.view.frame.size.width*3/4,view.frame.size.height*4/5))
-            textLabel.text = Defined_Tips_none
-            
-            //textLabel.backgroundColor = UIColor.blackColor()
-            textLabel.textColor = UIColor.whiteColor()
-            textLabel.textAlignment = NSTextAlignment.Center
-            textLabel.numberOfLines = 0;
-            textLabel.font = UIFont.systemFontOfSize(25)
-            self.view.addSubview(textLabel)
-            
-            
-           }
-        // animationSA = false
-        
-        
-        let returnButtonItem = UIBarButtonItem()
-        returnButtonItem.title = Defined_navigation_back_title
-        self.navigationItem.backBarButtonItem = returnButtonItem
         
     }
+    
+   
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    override func viewWillAppear(animated: Bool){
-        super.viewWillAppear(animated)
-        self.navigationController?.title = "modes"
-        FAME.tempTableView = nil
+    func Timerset(){
+        let cmdStr = "{\"cmd\": 53, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"param\":{\"ieee_addr\":\"\(FAME.dev_ieee)\",\"dev_id\":\"\(FAME.dev_id)\"}}"
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            for i in 0..<9{
+                let Butt : UIButton = self.view.viewWithTag(12 + i) as! UIButton
+                Butt.setBackgroundImage(UIImage(named: "tv_07-03.png"), forState: UIControlState.Normal)
+            }
+        }
+        let result = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90)
+        if (result != nil){
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            if result["error_code"] as! Int == 0{
+                let str :String = result["detail"]![0]["status"] as! String
+                print(str)
+                
+                for i in 0..<10{
+                    let Butt : UIButton = self.view.viewWithTag(11 + i) as! UIButton
+                    Butt.userInteractionEnabled = true
+                }
+                
+                let arr = FAME.WIFIsepStr(str)
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
+                    let tempLable : UILabel = self.view.viewWithTag(10) as! UILabel
+                    tempLable.text = arr[0] as? String
+                    let temp = ((arr[0] as? NSString)! as NSString).substringWithRange(NSMakeRange(0, 2))
+                    self.tempInt = Int(temp)!
+                    self.setTemp.text = temp
+                    
+                    
+                    self.switchStr = arr[1] as! String
+                    if self.switchStr == "0"{
+                        self.switchOn.setBackgroundImage(UIImage(named: "appl_switch_off.png"), forState: UIControlState.Normal)
+                        for i in 0..<9{
+                            let Butt : UIButton = self.view.viewWithTag(12 + i) as! UIButton
+                            Butt.userInteractionEnabled = false
+                        }
+                    }
+                    else{
+                        self.switchOn.setBackgroundImage(UIImage(named: "appl_switch_on.png"), forState: UIControlState.Normal)
+                    }
+                    self.windStr = arr[2] as! String
+                    let windButt : UIButton = self.view.viewWithTag(12 + Int(self.windStr)!) as! UIButton
+                    windButt.setBackgroundImage(UIImage(named: "tv_07.png"), forState: UIControlState.Normal)
+                    
+                    self.modeStr = arr[3] as! String
+                    let modeButt : UIButton = self.view.viewWithTag(16 + Int(self.modeStr)!) as! UIButton
+                    modeButt.setBackgroundImage(UIImage(named: "tv_07.png"), forState: UIControlState.Normal)
+                    
+                    
+                })
+                
+
+            }
+            else{
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    let info:String = result["error_info"] as! String
+                    let alert :UIAlertView = UIAlertView()
+                    alert.title = "刷新失败"
+                    alert.message = info
+                    alert.addButtonWithTitle(Defined_ALERT_OK)
+                    alert.show()
+                    
+                    
+                    for i in 0..<10{
+                        let Butt : UIButton = self.view.viewWithTag(11 + i) as! UIButton
+                        Butt.userInteractionEnabled = false
+                    }
+                    
+                })
+            }
+            
+        }else{
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                FAME.showMessage("网络错误")
+                
+                
+                for i in 0..<10{
+                    let Butt : UIButton = self.view.viewWithTag(11 + i) as! UIButton
+                    Butt.userInteractionEnabled = false
+                }
+                
+            })
+        }
+        
     }
     
-    func tap(sender : AnyObject!){
-        print("btn tapped \(sender.tag)")
-        FAME.saActid3 = sender.tag-1
-        FAME.tempApplsId = act_ids[sender.tag-1]
+    func RefaClick(sender:AnyObject!){
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
         
-        //var viewId = sender.tag
         
-        let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA31") as UIViewController!
-        self.navigationController?.pushViewController(next, animated: true)
+    }
+    func toJSONString(dict:NSDictionary!)->String{
+        let data = try? NSJSONSerialization.dataWithJSONObject(dict, options: [])
+       
+        let strJson = String(data:data!, encoding: NSUTF8StringEncoding)
+        
+        return strJson!
+        
+
+        
+        
+    }
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
+        
+        for i in 0..<50{
+            act_ids.append(FAME.tempApplsId + i)
+        }
+        
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
+        
+    }
+    
+    @IBAction func downApplay(sender : UIButton) {
+        print("OKOKOK")
+        print(FAME.tempApplsId)
+        
+        var act_id = 0
+        
+        if sender.tag == 11{
+            if switchStr == "0"
+            {
+                act_id = act_ids[sender.tag - 11]
+                self.switchOn.setBackgroundImage(UIImage(named: "appl_switch_on.png"), forState: UIControlState.Normal)
+                for i in 0..<9{
+                    let Butt : UIButton = self.view.viewWithTag(12 + i) as! UIButton
+                    Butt.userInteractionEnabled = true
+                }
+                switchStr = "1"
+                
+            }
+            else{
+                act_id = act_ids[sender.tag - 10]
+                self.switchOn.setBackgroundImage(UIImage(named: "appl_switch_off.png"), forState: UIControlState.Normal)
+                for i in 0..<9{
+                    let Butt : UIButton = self.view.viewWithTag(12 + i) as! UIButton
+                    Butt.userInteractionEnabled = false
+                }
+                switchStr = "0"
+            }
+            
+            print("7777777act=\(act_id)")
+            httpRequert().sendRequest(act_id)
+
+        }
+        else if sender.tag > 11 && sender.tag < 16{
+            
+            act_id = act_ids[sender.tag - 12 + 2]
+            let windInt = Int(windStr)
+            let windButt : UIButton = self.view.viewWithTag(12 + windInt!) as! UIButton
+            if windButt.tag != sender.tag{
+                windButt.setBackgroundImage(UIImage(named: "tv_07-03.png"), forState: UIControlState.Normal)
+                sender.setBackgroundImage(UIImage(named: "tv_07.png"), forState: UIControlState.Normal)
+                print("7777777act=\(act_id)")
+                httpRequert().sendRequest(act_id)
+                windStr = String(sender.tag - 12)
+            }
+        }
+        
+        else{
+            act_id = act_ids[sender.tag - 16 + 6]
+            let modeInt = Int(modeStr)
+            let modeButt : UIButton = self.view.viewWithTag(16 + modeInt!) as! UIButton
+            if modeButt.tag != sender.tag{
+                modeButt.setBackgroundImage(UIImage(named: "tv_07-03.png"), forState: UIControlState.Normal)
+                sender.setBackgroundImage(UIImage(named: "tv_07.png"), forState: UIControlState.Normal)
+                print("7777777act=\(act_id)")
+                httpRequert().sendRequest(act_id)
+                modeStr = String(sender.tag - 16)
+            }
+        }
         
     }
     
 }
 
+
+extension String{
+    static func changeToInt(num:String) -> Int {
+        let str = num.uppercaseString
+        var sum = 0
+        for i in str.utf8 {
+            sum = sum * 16 + Int(i) - 48 // 0-9 从48开始
+            if i >= 65 {                 // A-Z 从65开始，但有初始值10，所以应该是减去55
+                sum -= 7
+            }
+        }
+        return sum
+    }
+}
 
 
 class ViewControllerMainSA4: UIViewController,UIAlertViewDelegate {

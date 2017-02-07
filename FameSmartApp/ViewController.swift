@@ -133,8 +133,8 @@ class ViewControllerLogin0: UIViewController {
                 })
                 
                 
-                if (FAME.defaults.valueForKey("PushState") != nil){
-                    let pushState = FAME.defaults.valueForKey("PushState") as! Bool
+                if (FAME.defaults.valueForKey("\(FAME.user_name)1") != nil){
+                    let pushState = FAME.defaults.valueForKey("\(FAME.user_name)1") as! Bool
                     if pushState{
                         UIApplication.sharedApplication().registerForRemoteNotifications()
                         
@@ -311,6 +311,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
         //print(routeip.routerIp())
         let ip:String! = routeip.routerIp()
         Surl = "http://\(ip)/cgi-bin/sm_user_intf.cgi"
+        //Surl = "http://192.168.5.189/cgi-bin/sm_user_intf.cgi"
         print(Surl)
         
         
@@ -376,13 +377,15 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
             FAME.defaults.setObject(FAME.msgs, forKey: "\(FAME.user_name)")
         }
 
+        
+        
         //save to local
         
         FAME.saveProfile(FAME.user_name, pwd: FAME.user_pwd)
         
 
         //var dl=HttpClient()
-        Surl="http://www.famesmart.com/famecloud/user_intf.php"
+        //Surl="http://www.famesmart.com/famecloud/user_intf.php"
         print(Surl)
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 10, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"client_type\": \"ios\"}",cmplx:true)
 
@@ -395,20 +398,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                 
                 self.showNavMain()
                 
-                if (FAME.defaults.valueForKey("PushState") != nil){
-                    let pushState = FAME.defaults.valueForKey("PushState") as! Bool
-                    if pushState{
-                        UIApplication.sharedApplication().registerForRemoteNotifications()
-                        
-                    }
-                    else{
-                        UIApplication.sharedApplication().unregisterForRemoteNotifications()
-                    }
-                    
-                }
-                else{
-                    UIApplication.sharedApplication().unregisterForRemoteNotifications()
-                }
+                isPushOn()
                 FAME.user_uid = received.valueForKey("user_uid") as! UInt
             
                 if received.valueForKey("device_count") as! Int == 0 {
@@ -421,11 +411,15 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                     FAME.user_ieee_addr = devicesObj.valueForKey("ieee_addr") as! String
                     FAME.user_dname = devicesObj.valueForKey("dname") as! String
                     
+                    // Could not cast value of type 'NSNull' (0x110827378) to 'NSString' (0x10fc6cb20)
+                    //错误
                     
                     for i in 0..<devices.count{
                         let devicesObj : NSDictionary = devices[i] as! NSDictionary
                         let did = devicesObj.valueForKey("did") as! UInt
+                        //let didInt = Int(did)
                         FAME.didArray.addObject(did)
+                        
                     }
                     
                     //UIApplication.sharedApplication().registerForRemoteNotifications()
@@ -452,7 +446,24 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
             
         }
     }
-    
+    func isPushOn(){
+        print("PushStatr\(FAME.defaults.valueForKey(FAME.user_name + "1"))")
+        
+        if (FAME.defaults.valueForKey("\(FAME.user_name)1") != nil){
+            let pushState = FAME.defaults.valueForKey("\(FAME.user_name)1") as! Bool
+            if pushState{
+                UIApplication.sharedApplication().registerForRemoteNotifications()
+                
+            }
+            else{
+                UIApplication.sharedApplication().unregisterForRemoteNotifications()
+            }
+            
+        }
+        else{
+            UIApplication.sharedApplication().registerForRemoteNotifications()
+        }
+    }
     static func getlocalIP() -> [String]{
         
         var addresses = [String]()
@@ -519,7 +530,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                                 
                                 
                                 //show the MainView
-                                let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
+                                let next = GBoard.instantiateViewControllerWithIdentifier("navMai") as UIViewController
                                 self.presentViewController(next, animated: false, completion: {
                                         self.logo.alpha = 1
                                         self.navigationController?.popToRootViewControllerAnimated(false)
@@ -698,41 +709,47 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
         else if md5Str == hvMd5Str {
             print("MD5 OK")
             
-            
-            if (FAME.user_name != nil){
-                if let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 1, \"ieee_addr\": \"\(self.inputHv.text!)\", \"verify_code\": \"\(self.inputCK.text!)\"}"){
+            if let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 1, \"ieee_addr\": \"\(self.inputHv.text!)\", \"verify_code\": \"\(self.inputCK.text!)\"}"){
+                
+                self.model_id = received.valueForKey("model_id") as! UInt
+                //check the type
+                if (self.model_id == 2 )||(self.model_id == 3 ) {
+                    FAME.user_ieee_addr = self.inputHv.text!
+                    FAME.user_ieee_ck = self.inputCK.text!
                     
-                    self.model_id = received.valueForKey("model_id") as! UInt
-                    //check the type
-                    if (self.model_id == 2 )||(self.model_id == 3 ) {
-                        FAME.user_ieee_addr = self.inputHv.text!
-                        FAME.user_ieee_ck = self.inputCK.text!
+                    print("FAME.user_name====\(FAME.user_name)")
+                    //if (FAME.user_name == ""){
+                        
                         let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin3") as UIViewController
                         self.navigationController?.pushViewController(next, animated: true)
                         
-                    }else{
-                        
-                        viewAnimate().shrkInput(self.inputType!)
-                        viewAnimate().showTip(self.tip!, content: Defined_register_not_router)
-                        
-                    }
+//                    }
+//                    else{
+//                        
+//                        //绑定另外一个中控
+//                        
+//                        let thread = NSThread(target: self, selector: "Timerset", object: nil)
+//                        thread.start()
+//                    }
+                    
+                    
+                }else{
+                    
+                    viewAnimate().shrkInput(self.inputType!)
+                    viewAnimate().showTip(self.tip!, content: Defined_register_not_router)
                     
                 }
-                else{
-                    print("MD5 error")
-                    self.inputCK.textColor = UIColor.redColor()
-                    self.inputHv.textColor = UIColor.redColor()
-                    viewAnimate().shrkInput(self.inputCK)
-                    viewAnimate().shrkInput(self.inputHv)
-                }
+
+            
 
             }
             else{
-                //绑定另外一个中控
                 
-                let thread = NSThread(target: self, selector: "Timerset", object: nil)
-                thread.start()
-                
+                print("MD5 error")
+                self.inputCK.textColor = UIColor.redColor()
+                self.inputHv.textColor = UIColor.redColor()
+                viewAnimate().shrkInput(self.inputCK)
+                viewAnimate().shrkInput(self.inputHv)
             }
 
         }else{
@@ -749,66 +766,43 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
         if let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 13,\"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"ieee_addr\": \"\(self.inputHv.text!)\", \"verify_code\": \"\(self.inputCK.text!)\",\"dname\": \"My SmartHome\"}"){
             
 
-            let info = received.valueForKey("info") as! String
-            let alert = UIAlertView()
-            alert.title = Defined_VC6_AlertTitle
-            alert.message =  info
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.show()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let info = received.valueForKey("info") as! String
+                let alert = UIAlertView()
+                alert.title = Defined_VC6_AlertTitle
+                alert.message =  info
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            })
             
             if received.valueForKey("result") as! UInt == 0{
                 self.model_id = received.valueForKey("did") as! UInt
                 
-                FAME.user_did = model_id
-                
                 FAME.didArray.addObject(model_id)
                 
-                getDeviceTableData()
+                
+                //FAME.user_did = model_id
+                
             }
             
             
             
         }
         else{
-            print("MD5 error")
-            let alert = UIAlertView()
-            alert.title = Defined_VC6_AlertTitle
-            alert.message =  "绑定失败"
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.show()
+            //print("MD5 error")
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertView()
+                alert.title = Defined_VC6_AlertTitle
+                alert.message =  "绑定失败"
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            })
         }
 
         
     }
     
-    func getDeviceTableData(){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-            let DTValue = FAME.getDeviceTable()
-            
-            if (DTValue != nil) {
-                if DTValue == 0 {
-                    print("DeviceTable is OK")
-                    
-                }else{
-                    print("DeviceTable is null")
-                    //FAME.getDeviceTable()
-                    FAME.lastDTversion = FAME.DTversion
-                    let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
-                    self.navigationController?.pushViewController(next, animated: true)
-                    
-                    FAME.isAddDeviceFromSetting = false
-                    
-                }
-            }
-            else{
-                print("get DT failed")
-
-            }
-            
-        }
-        
-    }
-
+    
     
     override func deQRcode(str: String){
         print("get QRCode:\(str)")
@@ -845,9 +839,10 @@ class ViewControllerLogin2: UIViewControllerQRcode, UITextFieldDelegate {
             }else{
                 
                 let i : Int = String.changeToInt(type)
+                print("lijh---->\(i)")
                 self.inputType.text = device_type[i]
                 FAME.dev_type = i
-                //self.inputType.text = Defined_Unkown_Device
+                self.inputType.text = Defined_Unkown_Device
             }
         }
         
@@ -1411,7 +1406,7 @@ class ViewControllerLogin4: UIViewController , UITextFieldDelegate,UIAlertViewDe
         
             FAME.showMessage("填写的不完整")
         }
-        
+    
         
     }
     func Timerset2(){
@@ -1732,6 +1727,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
     @IBOutlet var btnRoom : UIButton!
     @IBOutlet var tip : UILabel!
     
+    var info : String = ""
 
     @IBAction func didTapped(sender : AnyObject) {
         self.view.endEditing(false)
@@ -1759,6 +1755,9 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
         FAME.lastDTversion = FAME.DTversion
         print("lastDTversion \(FAME.lastDTversion)")
         
+        
+        
+        
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool{
@@ -1782,6 +1781,15 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
     
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
+        
+        if inputType.text == "0"{
+            viewAnimate().showTip(self.tip, content: info)
+            self.inputType.text = ""
+            self.inputCK.text = ""
+            self.inputHv.text = ""
+            
+        }
+        
         //print(FAME.device_table)
         if (FAME.device_table != nil) {
             //device_table existed
@@ -1959,53 +1967,44 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
 //        FAME.fameIeee = ieee
 //        FAME.verify = verify
         //get the Type
-        let dl = httpRequert()
         print("222222\(self.inputHv.text!)")
-        let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}")
-        if (received != nil){
+        
+        
+        let recevied = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}",cmplx:true)
+        
+        if (recevied != nil){
+
+            if recevied.valueForKey("result") as! UInt == 0{
                 
-            self.model_id = received.valueForKey("model_id") as! UInt
-            self.inputType.text = received.valueForKey("model_name") as? String
+                
+                self.inputType.text = recevied.valueForKey("model_name") as? String
+                
+                self.model_id = recevied.valueForKey("model_id") as! UInt
+                
+            }else{
+                let info = recevied.valueForKey("info") as? String
+                self.info = info!
+                self.inputType.text = "0"
+
+            }
                 
         }else{
-            //self.inputType.text = Defined_Unkown_Device
-            //本地
-            let i : Int = String.changeToInt(type)
-            self.inputType.text = device_type[i]
-            FAME.dev_type = Int(i)
+            if FAME.user_name == "本地用户"{
+                //本地
+                let i : Int = String.changeToInt(type)
+                self.inputType.text = device_type[i]
+                FAME.dev_type = Int(i)
+            }
+            else{
+                
+                
+            }
+
         }
         
 
     }
     
-    @IBAction func getTheType(sender : AnyObject) {
-        let hvStr = "FameSmart:\(self.inputHv.text!)"
-        let hvMd5Str:String = hvStr.md5().uppercaseString as String
-        let md5Str:String = self.inputCK.text!
-        print(hvStr)
-        print(hvMd5Str)
-        print(md5Str)
-        
-        if md5Str == hvMd5Str {
-            print("MD5 OK")
-            if (self.inputType.text == ""){
-                //get the Type
-                let dl = httpRequert()
-                if let received = dl.downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 23, \"ieee_addr\": \"\(self.inputHv.text!)\"}"){
-                    
-                    self.model_id = received.valueForKey("model_id") as! UInt
-                    
-                    self.inputType.text = received.valueForKey("model_name") as? String
-                    
-                }else{
-                    self.inputType.text = Defined_Unkown_Device
-                }
-
-            }
-        
-        }
-        
-    }
     @IBAction func plusToDT(sender : AnyObject) {
         let hvStr = "FameSmart:\(self.inputHv.text!)"
         let hvMd5Str:String = hvStr.md5().uppercaseString as String
@@ -2024,15 +2023,15 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
         }
         
         if md5Str == hvMd5Str {
+            
+            
             print("MD5 OK")
             
             
             
             let dic:NSMutableDictionary = ["name":"\(self.inputType.text!)","hvaddr":"\(self.inputHv.text!)","ckId":"\(self.inputCK.text!)","modelId":self.model_id,"room":"\(self.btnRoom.currentTitle!)","roomId":self.selectRoom,"dev_type":FAME.dev_type]
             
-            
-            
-            
+
             var ckBool = true
             for value : AnyObject in FAME.addDeviceArray {
                 let hvaddr:String = value.valueForKey("hvaddr") as! String
@@ -2178,19 +2177,7 @@ class ViewControllerLogin5: UIViewControllerQRcode,UIActionSheetDelegate,UITextF
     }
 }
 
-extension String{
-    static func changeToInt(num:String) -> Int {
-        let str = num.uppercaseString
-        var sum = 0
-        for i in str.utf8 {
-            sum = sum * 16 + Int(i) - 48 // 0-9 从48开始
-            if i >= 65 {                 // A-Z 从65开始，但有初始值10，所以应该是减去55
-                sum -= 7
-            }
-        }
-        return sum
-    }
-}
+
 
 
 class ViewControllerForgetPass: UIViewController , UITextFieldDelegate,UIAlertViewDelegate{
@@ -2337,50 +2324,74 @@ class ViewControllerForgetPass: UIViewController , UITextFieldDelegate,UIAlertVi
 
 class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
     
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        //print("2222222\(FAME.addDeviceArray)")
+        print("2222222\(FAME.addDeviceArray)")
     }
     @IBAction func doAddDeviceBtn(sender : AnyObject) {
         //send to server
 
-        if FAME.addDeviceArray.count == 0{
-            let alert :UIAlertView = UIAlertView()
-            alert.title = Defined_VC6_AlertTitle
-            alert.message = Defined_VC6_AlertMessage2
-            alert.addButtonWithTitle(Defined_ALERT_OK)
-            alert.show()
+        let arr1 = NSMutableArray()
+        let arr2 = NSMutableArray()
+        for i in 0..<FAME.addDeviceArray.count{
+            let devType:Int = FAME.addDeviceArray[i]["modelId"] as! Int
+            if devType == 47{
+                print("1111")
+                arr1.addObject(FAME.addDeviceArray[i])
+            }
+            else{
+                arr2.addObject(FAME.addDeviceArray[i])
+            }
+            print(devType)
         }
+        FAME.addDeviceArray = arr2
+        
+        if arr1.count > 0{
+            FAME.doAddSenDevice(arr1)
+        }
+        
         else{
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            
-            if FAME.doAddDevice() {
-                
-                if FAME.addDeviceArray.count > 0 {
-                    let alert :UIAlertView = UIAlertView()
-                    alert.delegate = self
-                    alert.title = Defined_VC6_AlertTitle
-                    alert.message = Defined_VC6_AlertMessage
-                    alert.addButtonWithTitle(Defined_ALERT_OK)
-                    alert.show()
+            if FAME.addDeviceArray.count == 0{
+                let alert :UIAlertView = UIAlertView()
+                alert.title = Defined_VC6_AlertTitle
+                alert.message = Defined_VC6_AlertMessage2
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            }
+            else{
+                if FAME.doAddDevice() {
                     
+                    if FAME.addDeviceArray.count > 0 {
+                        let alert :UIAlertView = UIAlertView()
+                        alert.delegate = self
+                        alert.title = Defined_VC6_AlertTitle
+                        alert.message = Defined_VC6_AlertMessage
+                        alert.addButtonWithTitle(Defined_ALERT_OK)
+                        alert.show()
+                        
+                    }
                     
-                }
-                
-                if FAME.isAddDeviceFromSetting {
-                    self.navigationController?.popToRootViewControllerAnimated(true)
-                    
-                }else{
-                    
-                    let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
-                    //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
-                    self.presentViewController(next, animated: false, completion:nil)
-                    self.navigationController?.popToRootViewControllerAnimated(true)
                 }
                 
             }
 
+        }
+        
+        if FAME.isAddDeviceFromSetting {
+            //self.navigationController?.popToRootViewControllerAnimated(true)
+            FAME.addDeviceArray.removeAllObjects()
+            
+            
+        }else{
+            
+//            let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
+//            //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
+//            self.presentViewController(next, animated: false, completion:nil)
+//            self.navigationController?.popToRootViewControllerAnimated(true)
         }
         
     }
@@ -2440,4 +2451,27 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
         return cell
         
     }
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle{
+        
+        return UITableViewCellEditingStyle.Delete
+    }
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
+    }
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        print(indexPath.row)
+        
+        FAME.addDeviceArray.removeObjectAtIndex(indexPath.row)
+        tableView.reloadData()
+        
+    }
+
+    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+        
+        return Defined_Delete
+        
+    }
+
 }

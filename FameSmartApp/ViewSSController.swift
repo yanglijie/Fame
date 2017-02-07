@@ -94,20 +94,17 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
     }
     @IBAction func tap(sender : UISwitch2) {
         print(sender.on)
+        
         //var act_id = sender.act_id
         let id = sender.dev_id * 10 + FAME.tempSensorId
-        let subCell:AnyObject = self.tabelVeiw.visibleCells[index]
-        //print(subCell)
-        let cell = subCell as! UITableViewCell2
-        let view = cell.viewWithTag(1) as! UIImageView
-        
+//        let subCell:AnyObject = self.tabelVeiw.visibleCells[sender.index])
+//        let cell = subCell as! UITableViewCell2
+//        let view = cell.viewWithTag(1) as! UIImageView
+        let view = sender.superview?.viewWithTag(1) as! UIImageView
         if sender.on {
             FAME.sensorsCellState["\(id)"] = 1
             view.image = UIImage(named: Defined_SS_icons1[FAME.tempSensorId])
             httpRequert().sendRequest(sender.act_id)
-            
-            
-
             
         }else{
             FAME.sensorsCellState["\(id)"] = 0
@@ -133,6 +130,10 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             self.sensors = FAME.sensors26
         case 4:
             self.sensors = FAME.sensors25
+        case 5:
+            self.sensors = FAME.sensors28
+        case 8:
+            self.sensors = FAME.sensors47
         case 7:
             self.sensors = FAME.sensors32
         default:
@@ -154,6 +155,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         
         
         self.refreshData()
+
         if self.sensors.count == 0 {
             
             let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,view.frame.size.height/10,self.view.frame.size.width*3/4,view.frame.size.height*4/5))
@@ -318,7 +320,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         let btnHeight:CGFloat = 30
         let btnY:CGFloat = 25
         
-        if FAME.tempSensorId == 4 || FAME.tempSensorId == 3{
+        if FAME.tempSensorId == 4 || FAME.tempSensorId == 3 || FAME.tempSensorId == 5 || FAME.tempSensorId == 8{
             
             let btnS1 = UIButton(frame: CGRect(x: btnX, y: btnY + 25, width: btnWidth, height: btnHeight))
             btnS1.setTitle(Defined_SS_air_Title1, forState: UIControlState.Normal)
@@ -1273,9 +1275,6 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         //Switch
         let tag = cell.viewWithTag(3) as! UISwitch2!
         let act_Str:String! = self.sensors[indexPath.row]["act_id"] as String!
-        
-        
-        
         let state :Int! = FAME.sensorsCellState["\(cell.id)"]
         if (state != nil) {
             print("id:\(cell.id) state:\(state)")
@@ -1290,9 +1289,6 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         else{
             view.image = UIImage(named: Defined_SS_icons[FAME.tempSensorId])
         }
-        
-        
-        
         let act_id:Int! = Int(act_Str)
         tag.act_id = act_id
         tag.dev_id = dev_id
@@ -1301,7 +1297,7 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
         //button
         
         let linkBtn = cell.viewWithTag(4) as! UIButtonIndex2!
-        linkBtn.index = indexPath.row ;
+        linkBtn.index = indexPath.row
         linkBtn.act_id = act_id
         linkBtn.dev_id = dev_id
         print("linkBtn.Dev_id:\(linkBtn.dev_id)")
@@ -2154,7 +2150,7 @@ class ViewControllerSS7Detail: UIViewController {
                
                 
                 let hcho_lable = self.view.viewWithTag(303) as! UILabel!
-                if index_Str1 >= 0.08{
+                if index_Str1 > 0.08{
                     hcho_lable.text = "偏高"
                 }
                 else{
@@ -2665,7 +2661,8 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
             let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,self.view.frame.size.height/10,self.view.frame.size.width*3/4,self.view.frame.size.height*4/5))
             textLabel.text = Defined_Tips_none
             
-            //textLabel.backgroundColor = UIColor.blackColor()
+            //textLabel.backgroundColor =
+            UIColor.blackColor()
             textLabel.textColor = UIColor.whiteColor()
             textLabel.textAlignment = NSTextAlignment.Center
             textLabel.numberOfLines = 0;
@@ -2674,6 +2671,7 @@ class ViewControllerSS_mode: UIViewController,UIAlertViewDelegate {
             return
             
         }
+  
         else{
             data(0)
             swipeView()
@@ -3239,4 +3237,479 @@ extension ViewControllerSS_mode: UITableViewDataSource,UITableViewDelegate{
 //        myThread.start()
 //    }
 }
+
+
+
+class ViewControllerFBG: UIViewController ,UIAlertViewDelegate {
+    
+    var is_alert = false
+    
+    var BGView:UIView!
+    var pickView:UIView!
+    var ieee:String! = ""
+    
+    @IBOutlet weak var tableView: UITableView!
+    var curtains:Array<Dictionary<String,String>> = []
+    
+    func refreshData(){
+        switch FAME.tempSensorId {
+        case 10:
+            self.curtains = FAME.sensors49
+        default:
+            break
+        }
+    }
+    func handleLongpressGesture(sender: UILongPressGestureRecognizer) {
+        
+        
+        if sender.state == UIGestureRecognizerState.Began {
+            let point:CGPoint = sender.locationInView(self.tableView)
+            let indexPath:NSIndexPath! = self.tableView.indexPathForRowAtPoint(point)
+            if(indexPath != nil){
+                let cell:UITableViewCell2! = self.tableView.cellForRowAtIndexPath(indexPath) as! UITableViewCell2
+                
+                //index = cell.index
+                FAME.dev_id = cell.dev_id
+                
+                FAME.dev_ss_Rname = curtains[indexPath.row]["roomName"] as String!
+                FAME.dev_ss_name = curtains[indexPath.row]["name1"] as String!
+                self.ieee = curtains[indexPath.row]["ieee"] as String!
+                
+                self.BGView.hidden = false
+                
+            }
+        }
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        self.curtains = FAME.sensors49
+        print("12344\(FAME.sensors49)")
+        if curtains.count == 0 {
+            
+            let textLabel = UILabel (frame:CGRectMake(self.view.frame.size.width/8,view.frame.size.height/10,self.view.frame.size.width*3/4,view.frame.size.height*4/5))
+            textLabel.text = Defined_Tips_none
+            
+            //textLabel.backgroundColor = UIColor.blackColor()
+            textLabel.textColor = UIColor.whiteColor()
+            textLabel.textAlignment = NSTextAlignment.Center
+            textLabel.numberOfLines = 0;
+            textLabel.font = UIFont.systemFontOfSize(25)
+            self.view.addSubview(textLabel)
+            
+            //break
+            
+        }
+            
+        else{
+            
+            
+            createPop()
+            
+            
+        }
+        
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
+        
+        
+    }
+    
+    func tapPress( sender : AnyObject){
+        
+        self.BGView.hidden = true
+    }
+    
+    func createPop(){
+        
+        self.BGView = UIView(frame: CGRect(x: 0, y: 0 , width: self.view.frame.width, height: self.view.frame.height))
+        self.BGView.backgroundColor = UIColor.clearColor()
+        self.BGView.tag = 500
+        
+        
+        //cancel
+        
+        let longPressRec = UITapGestureRecognizer()
+        longPressRec.addTarget(self, action: "tapPress:")
+        
+        self.BGView.addGestureRecognizer(longPressRec)
+        
+        self.BGView.userInteractionEnabled = true
+        
+        
+        
+        
+        self.pickView = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 200 , width: self.view.frame.width, height: 200))
+        self.pickView.backgroundColor = UIColor.whiteColor()
+        
+        
+        
+        
+        //btns
+        let btnX:CGFloat = 30
+        let btnWidth:CGFloat = self.view.frame.width - btnX * 2
+        let btnHeight:CGFloat = 30
+        let btnY:CGFloat = 25
+        
+        let btnS1 = UIButton(frame: CGRect(x: btnX, y: btnY, width: btnWidth, height: btnHeight))
+        btnS1.setTitle(Defined_SS_air_Title1, forState: UIControlState.Normal)
+        btnS1.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        //btnS1.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+        btnS1.tag = 1
+        btnS1.addTarget(self, action: Selector("btns1Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        let btnS2 = UIButton(frame: CGRect(x: btnX, y: btnY + 50, width: btnWidth, height: btnHeight))
+        btnS2.setTitle(Defined_SS_air_Title2, forState: UIControlState.Normal)
+        btnS2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        btnS2.tag = 2
+        //btnS2.setBackgroundImage(UIImage(named: "airBtn.png"), forState: UIControlState.Normal)
+        btnS2.addTarget(self, action: Selector("btns2Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        let btnS3 = UIButton(frame: CGRect(x: btnX, y: btnY + 100, width: btnWidth, height: btnHeight))
+        
+        btnS3.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        
+        btnS3.tag = 3
+        
+        if FAME.tempSensorId == 2{
+            btnS3.setTitle(Defined_SS_Title4, forState: UIControlState.Normal)
+            btnS3.addTarget(self, action: Selector("btns31Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        }
+        else{
+            btnS3.setTitle("更改设备名", forState: UIControlState.Normal)
+            btnS3.addTarget(self, action: Selector("btns3Fun:"), forControlEvents: UIControlEvents.TouchUpInside)
+        }
+        
+        
+        self.pickView.addSubview(btnS1)
+        self.pickView.addSubview(btnS2)
+        self.pickView.addSubview(btnS3)
+        //self.pickView.addSubview(btnS4)
+        
+        self.BGView.addSubview(self.pickView)
+        self.view.addSubview(self.BGView)
+        self.BGView.hidden = true
+        
+    }
+    //取消
+    func btns31Fun(sender:UIButton){
+        self.BGView.hidden = true
+        
+    }
+    //更改设备名
+    func btns3Fun(sender:UIButton){
+        self.BGView.hidden = true
+        print("更改设备名")
+        let next = GBoard.instantiateViewControllerWithIdentifier("music")
+        
+        self.navigationController?.pushViewController(next, animated: true)
+        let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = item;
+        
+        
+        
+    }
+    
+    //修改名字
+    func btns1Fun(sender:UIButton){
+        self.BGView.hidden = true
+        let next = GBoard.instantiateViewControllerWithIdentifier("viewSS_name") as! ViewControllerSS_name
+        next.delegate = self ;
+        
+        self.navigationController?.pushViewController(next, animated: true)
+        let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = item;
+    }
+    //删除设备
+    func btns2Fun(sender:UIButton){
+        self.BGView.hidden = true
+        let alertController = UIAlertController(title: "友情提示", message: "请输入密码删除该设备", preferredStyle: UIAlertControllerStyle.Alert);
+        alertController.addTextFieldWithConfigurationHandler {
+            (textField: UITextField!) -> Void in
+            
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
+        let okAction = UIAlertAction(title: "好的", style: .Default,
+            handler: {
+                action in
+                //也可以用下标的形式获取textField let login = alertController.textFields![0]
+                let login = alertController.textFields!.first! as UITextField
+                print("用户名：\(login.text)=======\(FAME.user_name)34637169")
+                
+                self.presentedViewController?.dismissViewControllerAnimated(false, completion: nil)
+                
+                if login.text! == "\(FAME.user_name)34637169"
+                {
+                    FAME.delDeviceByIeee(self.ieee)
+                    self.navigationController?.popToRootViewControllerAnimated(true)
+                    
+                    
+                }
+                else{
+                    FAME.showMessage("输入的密码不正确")
+                }
+                
+                
+        })
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+        
+    }
+    
+}
+extension ViewControllerFBG:ViewControllerSS_nameDelegate{
+    func reloadName() {
+        FAME.showMessage("名字修改成功");
+        
+        tableView.reloadData()
+        
+        
+    }
+}
+extension ViewControllerFBG:UITableViewDataSource,UITableViewDelegate{
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return curtains.count
+    }
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
+        
+        return 100
+        
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell2
+        //长按手势
+        let longpressGesutre = UILongPressGestureRecognizer(target:self
+            , action: "handleLongpressGesture:")
+        longpressGesutre.minimumPressDuration = 1.0;
+        
+        cell .addGestureRecognizer(longpressGesutre)
+        
+        cell.selectionStyle = .Gray
+        let dev_Str:String! = curtains[indexPath.row]["dev_id"] as String!
+        let dev_id:Int! = Int(dev_Str)
+        cell.dev_id = dev_id
+        
+        
+        //name
+        let name = cell.viewWithTag(1) as! UILabel
+        name.text = curtains[indexPath.row]["name"]
+        
+        //image      2015-05-21
+        let imgObj = cell.viewWithTag(99) as! UIImageView
+        
+        //if (self.dev_types[indexPath.row] == 15){     //  2015-05-18
+            imgObj.image = UIImage(named: "skin_icon.png")      //  2015-05-18
+//        }
+//        else{
+//            imgObj.image = UIImage(named: Defined_SA_icons[FAME.tempSensorId])
+//        }
+        return cell
+    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        
+        
+        self .performSelector("deselect", withObject: nil, afterDelay: 0.3)
+        
+        let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewWeb") as UIViewController!
+        FAME.dev_ieee = curtains[indexPath.row]["ieee"]
+        next.title = curtains[indexPath.row]["name"]
+        self.navigationController?.pushViewController(next, animated: true)
+        //
+        
+        
+    }
+    func deselect(){
+        
+        if (tableView.indexPathForSelectedRow != nil){
+            tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow!, animated: true)
+        }
+    }
+    
+    
+}
+
+import JavaScriptCore
+
+// 定义协议SwiftJavaScriptDelegate 该协议必须遵守JSExport协议
+@objc protocol SwiftJavaScriptDelegate: JSExport {
+    
+    // js调用App的微信支付功能 演示最基本的用法
+    func wxPay(orderNo: String)
+    
+    // js调用App的微信分享功能 演示字典参数的使用
+    func wxShare(dict: [String: AnyObject])
+    
+    // js调用App方法时传递多个参数 并弹出对话框 注意js调用时的函数名
+    func showDialog(title: String, message: String)
+    
+    // js调用App的功能后 App再调用js函数执行回调
+    func callHandler(handleFuncName: String)
+    
+}
+
+// 定义一个模型 该模型实现SwiftJavaScriptDelegate协议
+@objc class SwiftJavaScriptModel: NSObject, SwiftJavaScriptDelegate {
+    
+    weak var controller: UIViewController?
+    weak var jsContext: JSContext?
+    
+    func wxPay(orderNo: String) {
+        
+        print("订单号：", orderNo)
+        
+        // 调起微信支付逻辑
+    }
+    
+    func wxShare(dict: [String: AnyObject]) {
+        
+        print("分享信息：", dict)
+        
+        // 调起微信分享逻辑
+    }
+    
+    func showDialog(title: String, message: String) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "确定", style: .Default, handler: nil))
+        self.controller?.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func callHandler(handleFuncName: String) {
+        
+        let jsHandlerFunc = self.jsContext?.objectForKeyedSubscript("\(handleFuncName)")
+        let dict = ["name": "sean", "age": 18]
+        jsHandlerFunc?.callWithArguments([dict])
+    }
+}
+
+
+class ViewControllerFBGWeb: UIViewController , UIWebViewDelegate
+{
+    
+    @IBOutlet weak var webView: UIWebView!
+    
+    var jsContext: JSContext!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let button : UIButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
+        button.setImage(UIImage(named: "return_white.png"), forState: UIControlState.Normal)
+        button.setTitle("返回", forState: UIControlState.Normal)
+        button.addTarget(self, action: Selector("backClick:"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
+        //self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Bookmarks, target: self, action: Selector("backClick:"))
+        testJSContext()
+        
+        addWebView()
+        
+    }
+    func backClick(sender:AnyObject!){
+        
+        if self.webView.canGoBack{
+            print("1234")
+            self.webView.goBack()
+        }
+        else{
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+
+    }
+    func testJSContext() {
+        
+        // 通过JSContext执行js代码
+        let context: JSContext = JSContext()
+        let result1: JSValue = context.evaluateScript("1 + 3")
+        print(result1)  // 输出4
+        
+        // 定义js变量和函数
+        context.evaluateScript("var num1 = 10; var num2 = 20;")
+        context.evaluateScript("function sum(param1, param2) { return param1 + param2; }")
+        
+        // 通过js方法名调用方法
+        let result2 = context.evaluateScript("sum(num1, num2)")
+        print(result2)  // 输出30
+        
+        // 通过下标来获取js方法并调用方法
+        let squareFunc = context.objectForKeyedSubscript("sum")
+        let result3 = squareFunc.callWithArguments([10, 20]).toString()
+        print(result3)  // 输出30
+        
+    }
+    
+    func addWebView() {
+        
+        
+        self.webView.delegate = self
+        self.webView.scalesPageToFit = true
+
+        
+         //加载网络Html页面 请设置允许Http请求
+        let url = NSURL(string: "http://www.famesmart.com/famecloud/re_intf.php?ieee=\(FAME.dev_ieee)")
+        let request = NSURLRequest(URL: url!)
+        
+        self.webView.loadRequest(request)
+    }
+    
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        
+//        self.jsContext = webView.valueForKeyPath("documentView.webView.mainFrame.javaScriptContext") as! JSContext
+//        let model = SwiftJavaScriptModel()
+//        model.controller = self
+//        model.jsContext = self.jsContext
+//        
+//        // 这一步是将SwiftJavaScriptModel模型注入到JS中，在JS就可以通过WebViewJavascriptBridge调用我们暴露的方法了。
+//        self.jsContext.setObject(model, forKeyedSubscript: "WebViewJavascriptBridge")
+//        
+//        
+//         //注册到网络Html页面 请设置允许Http请求
+//        let url = NSURL(string: "http://www.famesmart.com/famecloud/re_intf.php?ieee=\(FAME.dev_ieee)")
+//        //let curUrl = self.webView.request?.URL?.absoluteString
+//        //WebView当前访问页面的链接 可动态注册
+//        self.jsContext.evaluateScript(try? String(contentsOfURL: url!, encoding: NSUTF8StringEncoding))
+//        
+//        self.jsContext.exceptionHandler = { (context, exception) in
+//            print("exception：", exception)
+//        }
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
+        
+        
+        print(FAME.dev_ieee)
+//        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+//        myThread.start()
+    }
+    func Timerset(){
+        let url = NSURL(string: "http://www.famesmart.com/famecloud/re_intf.php?ieee=\(FAME.dev_ieee)")
+        let request = NSURLRequest(URL: url!)
+        webView.loadRequest(request)
+    }
+}
+
+
+
 

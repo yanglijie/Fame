@@ -16,6 +16,9 @@
 //*********************
 
 import UIKit
+import AVFoundation
+import Starscream
+
 
 class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
     
@@ -87,6 +90,10 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
         let returnButtonItem = UIBarButtonItem()
         returnButtonItem.title = Defined_navigation_back_title
         self.navigationItem.backBarButtonItem = returnButtonItem
+        
+        
+        
+        print("UUID----->\(getUUID.getUUID())")
         
         
         self.btnP.hidden = true
@@ -314,7 +321,7 @@ class ViewControllerMain: UIViewController ,UIAlertViewDelegate {
         if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr) != nil){
             print("SEND REQUEST SUCCESSED")
             
-            FAME.outTag = 1
+            //FAME.outTag = 1
             
         }else{
             print("SEND REQUEST FAILED!")
@@ -392,10 +399,25 @@ class ViewControllerBase: UIViewController {
         print("点击了\(sender.tag - 1000)")
         
         //切换中控
-        if sender.tag == 0{
+        if sender.tag == 1000{
             
-            
-            
+            print("FAME.didArray====\(FAME.didArray)")
+            if FAME.didArray.count == 1{
+                FAME.showMessage("你只绑定了一个中控，没有中控可以切块")
+            }
+            else{
+                let i = FAME.didArray[0] as! UInt
+                let j = FAME.didArray[1] as! UInt
+                if FAME.user_did == i{
+                    FAME.user_did = j
+                }
+                    
+                else{
+                    FAME.user_did = i
+                }
+                
+                getDeviceTableData()
+            }
         }
         
     }
@@ -443,10 +465,796 @@ class ViewControllerBase: UIViewController {
         
         
     }
+    
+    
+    func getDeviceTableData(){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            let DTValue = FAME.getDeviceTable()
+            
+            if (DTValue != nil) {
+                if DTValue == 0 {
+                    print("DeviceTable is OK")
+                    
+                }else{
+                    print("DeviceTable is null")
+                    //FAME.getDeviceTable()
+                    FAME.lastDTversion = FAME.DTversion
+                    let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
+                    self.navigationController?.pushViewController(next, animated: true)
+                    
+                    FAME.isAddDeviceFromSetting = false
+                    
+                }
+            }
+            else{
+                print("get DT failed")
+                
+            }
+            
+        }
+        
+    }
+
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 }
+
+
+
+class RootTabBarController: UITabBarController {
+    
+    @IBOutlet weak var tabbar: UITabBar!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let imageArray1 = ["main_nor@2x.png","device_nor.png","water_nor.png","sun_nor.png"]
+        let imageArray = ["main_pre@2x.png","device_pre.png","water_pre.png","sun_pre.png"]
+        
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState:.Normal)
+        
+        tabbar.backgroundColor = UIColor.clearColor()
+        tabbar.backgroundImage = UIImage(named: "bottom_bg.png")
+        tabbar.tintColor = UIColor.whiteColor()
+        
+        print(tabbar.items)
+        let array : NSArray = tabbar.items!
+        for i in 0..<array.count{
+            let item : UITabBarItem = array[i] as! UITabBarItem
+            item.image = UIImage(named: imageArray1[i])!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+            item.selectedImage = UIImage(named: imageArray[i])!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+            
+            
+        }
+    }
+    
+    
+}
+
+
+
+class MainViewController: UIViewController,UIAlertViewDelegate,EditViewController_nameDelegate,WebSocketDelegate{
+    
+    var scrollView = UIScrollView()
+    var funcArr = ["12","13","8","9"]
+    var modeDis:Dictionary<String,Dictionary<String,String>> = [:]
+    
+    func reloadMode() {
+        print(FAME.modeArr)
+        let view : UIView = self.view.viewWithTag(2)! as UIView
+        view.removeFromSuperview()
+        let view2 : UIView = self.view.viewWithTag(101)! as UIView
+        view2.removeFromSuperview()
+        self.refreshView()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "首 页"
+        dataModeDis()
+        createView()
+        let myThread = NSThread(target: self, selector: "Timerset", object: nil)
+        myThread.start()
+         
+        socket.delegate = self
+        socket.connect()
+        
+    }
+    //延迟方法
+    func delay(time:Double,closure:() -> ()){
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
+    }
+    // MARK: Websocket Delegate Methods.
+    
+    func websocketDidConnect(ws: WebSocket) {
+        print("websocket is connected")
+        
+        print(FAME.user_did)
+        socket.writeString("{\"type\":\"login\",\"did\":\(FAME.user_did)}")
+        
+    }
+    
+    func websocketDidDisconnect(ws: WebSocket, error: NSError?) {
+        if let e = error {
+            print("websocket is disconnected: \(e.localizedDescription)")
+            self.delay(2) { () -> () in
+                socket.connect()
+            }
+            
+        } else {
+            print("websocket disconnected")
+        }
+    }
+    
+    func websocketDidReceiveMessage(ws: WebSocket, text: String) {
+        print("Received text: \(text)")
+        let data = text.dataUsingEncoding(NSUTF8StringEncoding)
+        let dic = try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! NSDictionary
+        print(dic)
+        let type = dic!["type"] as! String
+        //let statrDic = dic!["content"] as! NSDictionary
+        //print(type)
+        if type == "msg"{
+            NSNotificationCenter.defaultCenter().postNotificationName("socketLight", object: nil)
+        }
+        
+    }
+    
+    func websocketDidReceiveData(ws: WebSocket, data: NSData) {
+        print("Received data: \(data.length)")
+        
+    }
+    
+
+    func Timerset(){
+        let cmdStr = "{\"cmd\": 57, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"name\": \"p_mode\"}"
+        
+        let result = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr,timeout:90)
+        if (result != nil){
+            let strDic = result["value"] as! NSDictionary
+            //print(strDic)
+            
+            let modearr = strDic["mode"] as! NSArray
+            let arr:NSMutableArray = []
+            for j in 0..<modearr.count{
+                
+                arr.addObject("\(modearr[j])")
+                
+            }
+            FAME.modeArr = arr
+            
+            
+            let deviceArr = strDic["name"] as! NSMutableArray
+            FAME.devicDis = deviceArr
+            //print(FAME.devicDis)
+        }
+        else{
+            
+        }
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.refreshView()
+        })
+        
+    }
+    func dataModeDis(){
+        let btnImgs = ["model1.png","model2.png","model3.png","model4.png","model5.png","model6.png","model7.png","model8.png","model9.png"]
+        let btnImgs_press = ["mode1_icon_press.png","mode2_icon_press.png","mode3_icon_press.png","mode4_icon_press.png","mode5_icon_press.png","mode6_icon_press.png","mode7_icon_press.png","mode8_icon_press.png","mode9_icon_press.png"]
+        var btns = Defined_MODE_NAMEB
+        for i in 0..<btnImgs.count{
+            if i < 6{
+                modeDis["\(i + 8)"] = ["name":"\(btns[i])","pngName":"\(btnImgs[i])","pngName_press":"\(btnImgs_press[i])","act_id":"\(i + 8)"]
+            }
+            else{
+                modeDis["\(i - 5)"] = ["name":"\(btns[i])","pngName":"\(btnImgs[i])","pngName_press":"\(btnImgs_press[i])","act_id":"\(i - 5)"]
+            }
+        }
+        //print(modeDis)
+        for i in 0..<funcArr.count{
+            FAME.modeArr.addObject(funcArr[i])
+        }
+        
+        FAME.devicDis.addObject(["name":"灯光","act_id":0,"type":7])
+        FAME.devicDis.addObject(["name":"窗帘","act_id":0,"type":10])
+        FAME.devicDis.addObject(["name":"灯光","act_id":0,"type":7])
+        
+    }
+    func refreshView(){
+        createModeView(scrollView,height: HEIGHT * 0.32,lableName: "喜欢的场景",tag: 1,modeArr: FAME.modeArr,modeDis:modeDis)
+        
+        let btnWidthE = (WIDTH-100)/4
+        let countM = (FAME.modeArr.count - 1)/4 + 1
+        let btnHeight = CGFloat(countM) * (btnWidthE * 1.1 + 40)
+        
+        //print(FAME.devicDis)
+        createModeView(scrollView,height: HEIGHT * 0.4 + btnHeight,lableName: "常用的功能",tag: 100,modeArr:FAME.devicDis,modeDis:modeDis)
+        
+        scrollView.contentSize=CGSizeMake(self.view.frame.size.width,HEIGHT * 0.5 + btnHeight + CGFloat((FAME.devicDis.count - 1)/4 + 1) * (btnWidthE * 1.1 + 40))
+    }
+    func createView(){
+        
+        scrollView.frame = CGRect(x: 0, y: 64, width: WIDTH, height: HEIGHT - 49 - 64)
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        //scrollView.backgroundColor = UIColor.grayColor()
+        self.view.addSubview(scrollView)
+        if let mainView = MainView.newInstance(){
+            mainView.frame = CGRect(x: 10, y: 30, width: WIDTH - 20, height: HEIGHT * 0.3)
+            mainView.backgroundColor = UIColor.clearColor()
+            scrollView.addSubview(mainView)
+
+            mainView.M_data.text = FAME.getNowDate(1)
+            
+        }
+        
+        
+    }
+
+    func createModeView(superView:UIView,height:CGFloat,lableName:String,tag:Int,modeArr:NSMutableArray,modeDis:Dictionary<String,Dictionary<String,String>>){
+        
+        let btnWidthE = (WIDTH-100)/4
+        let countM = (modeArr.count - 1)/4 + 1
+        let btnHeight = CGFloat(countM) * (btnWidthE * 1.1 + 40)
+        
+        let sView = UIView(frame: CGRect(x: 10, y: height , width: WIDTH - 20, height: HEIGHT * 0.1 + btnHeight))
+        sView.tag = tag + 1
+        superView.addSubview(sView)
+        let view1 = UIView(frame: CGRect(x: 0, y: 0 , width: WIDTH - 20, height: HEIGHT * 0.1))
+        let lable1 = UILabel(frame: CGRect(x: 0, y: 0, width: (WIDTH - 20) * 0.5, height: HEIGHT * 0.1))
+        lable1.text = lableName
+        lable1.textColor = UIColor.whiteColor()
+        lable1.font = UIFont(name:"Zapfino", size:20)
+        view1.addSubview(lable1)
+        let button1 = UIButton(frame: CGRect(x: (WIDTH - 20) * 0.75, y: HEIGHT * 0.03, width: (WIDTH - 20) * 0.25, height: HEIGHT * 0.04))
+        button1.tag = tag
+        button1.setBackgroundImage(UIImage(named: "editbtn_bg2.png"), forState: UIControlState.Normal)
+        button1.addTarget(self, action: Selector("editClick:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        view1.addSubview(button1)
+        sView.addSubview(view1)
+        
+        
+        
+        let view2 = UIView(frame: CGRect(x: 0, y: HEIGHT * 0.08, width: WIDTH - 20, height: btnHeight))
+        
+        //view2.backgroundColor = UIColor.grayColor()
+        if tag == 1{
+            let image = UIImageView(frame: CGRect(x: 0, y: 0, width: WIDTH - 20, height: btnHeight))
+            image.image = UIImage(named: "bottom_bg.png")
+            image.layer.cornerRadius = 10
+            image.layer.masksToBounds = true
+            view2.addSubview(image)
+            
+            
+        }
+        for i in 0..<modeArr.count{
+            
+            let button1 = UIButton(frame: CGRect(x: 10 + (btnWidthE + 20) * CGFloat(i % 4), y: 10 + (btnWidthE * 1.1 + 40) * CGFloat(i / 4) , width: btnWidthE, height: btnWidthE * 1.1))
+            var png:String = "sa1.png"
+            var text:String = "灯光"
+            if tag == 1{
+                png = modeDis[modeArr[i] as! String]!["pngName"]!
+                text = modeDis[modeArr[i] as! String]!["name"]!
+            }
+            else{
+                text = modeArr[i]["name"] as! String
+            
+                let type = modeArr[i]["type"] as? Int
+            
+                if (type != nil){
+                    png = FAME.deviceImage(type!)
+                    //print(modeArr[i]["name"])
+                }
+                //png = FAME.deviceImage(Int(type)!)
+                
+            }
+            button1.setBackgroundImage(UIImage(named: png), forState: .Normal)
+            button1.tag = i + tag
+            button1.addTarget(self, action: Selector("modeClick:"), forControlEvents: UIControlEvents.TouchUpInside)
+            let lable1 = CHWMarqueeView(frame: CGRect(x: 10 + (btnWidthE + 20) * CGFloat(i % 4), y: btnWidthE * 1.1 + 15 + (btnWidthE * 1.1 + 40) * CGFloat(i / 4), width: btnWidthE, height: 20), title: text)
+            
+//            let lable1 = UILabel(frame: CGRect(x: 10 + (btnWidthE + 20) * CGFloat(i % 4), y: btnWidthE * 1.1 + 15 + (btnWidthE * 1.1 + 40) * CGFloat(i / 4), width: btnWidthE, height: 20))
+//            lable1.lineBreakMode = .ByTruncatingTail
+//            lable1.contentMode = .Top
+//            lable1.text = text
+//            
+//            lable1.textAlignment = .Center
+//            lable1.textColor = UIColor.whiteColor()
+//            lable1.font = UIFont(name:"Zapfino", size:15)
+            view2.addSubview(lable1)
+            view2.addSubview(button1)
+            
+        }
+
+        sView.addSubview(view2)
+        
+        
+    }
+    func modeClick(sender:UIButton){
+        //print(sender.tag)
+        if sender.tag < 100{
+            print(sender.tag)
+            let name = modeDis[FAME.modeArr[sender.tag - 1] as! String]!["name"]!
+            print(name)
+            FAME.showMessage("\(name)启动")
+        }
+        else{
+            print("123--->\(sender.tag)")
+            print(FAME.devicDis[sender.tag - 100]["name"])
+        }
+        
+        
+        
+    }
+    
+    //编辑按钮
+    func editClick(sender:UIButton){
+        
+        let next = GBoard.instantiateViewControllerWithIdentifier("edit") as! EditViewController
+        next.delegate = self
+        FAME.editTag = sender.tag
+        self.navigationController?.pushViewController(next, animated: true)
+        let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = item;
+        
+    }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //状态栏变黑底白字
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.BlackTranslucent
+        
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "empty.png"), forBarMetrics: UIBarMetrics.Default)
+      
+        //self.navigationController?.navigationBarHidden = true
+//        let view:UIView = UIView(frame: CGRectMake(0, 0, WIDTH, 64))
+//        view.backgroundColor = UIColor(red: 105/255, green: 139/255, blue: 105/255, alpha: 0.3)
+//        self.view.addSubview(view)
+//    UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
+        
+    }
+    
+    override func viewWillDisappear(animated: Bool){
+        
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        
+    }
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+}
+
+
+class DeviceViewController: UIViewController {
+    
+    
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "设 备"
+        self.view.backgroundColor = UIColor.whiteColor()
+        
+        createView()
+        
+        
+        
+    }
+    func createView(){
+        
+        let returnButtonItem = UIBarButtonItem()
+        returnButtonItem.title = Defined_navigation_back_title
+        self.navigationItem.backBarButtonItem = returnButtonItem
+        
+        let btns = Defined_SA_btns
+        let btnImgs = ["sa1.png","sa2.png","sa3.png","sa4.png","sa5.png","sa6.png","model8.png","sa8.png","sa8.png"]
+        
+        let scrollView:UIScrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height - 49))
+        self.view.addSubview(scrollView)
+        let view0:UIView = UIView(frame: CGRect(x: 30, y: 0, width: self.view.frame.size.width - 60, height: self.view.frame.size.height - 49 - 64))
+        scrollView.addSubview(view0)
+        
+        //fix position
+        
+        //let view0 = self.view.viewWithTag(10)!
+        view0.frame.size.width = self.view.frame.size.width - 60
+        let divW:CGFloat = 0.27
+        //let top:CGFloat =  80
+        let btnWidth = view0.frame.width * divW
+        let btnHeight = btnWidth * 1.1
+        
+        let disX:CGFloat = ((1 - divW * 3) / 2 + divW) * view0.frame.width
+        //let disY:CGFloat = view0.frame.height * 0.25
+        
+        let disY:CGFloat = btnHeight + 30 + self.view.frame.height * 0.02
+        // diffj 改了加1
+        let diffj:CGFloat = CGFloat(btns.count / 3)
+        let top:CGFloat =  (self.view.frame.height - disY * diffj - 69) * 0.5
+        
+        
+        let diffi:CGFloat = CGFloat(btns.count % 3)
+        
+        var diffX: CGFloat = diffi == 0 ? 0 : (view0.frame.width - diffi * btnWidth ) / 2
+        diffX = diffi == 2 ? diffX - (1 - divW * 3) / 4  * view0.frame.width : diffX
+        
+        
+        var btnX: CGFloat = 0
+        var btnY: CGFloat = btns.count < 3 ? top : top + view0.frame.height * 0.1
+        btnX = btns.count <= 3 ? diffX + btnX : btnX
+        
+        
+        for idx in 0..<btns.count {
+            
+            let btn = UIButton(frame: CGRect(x: btnX, y: btnY, width: btnWidth, height: btnHeight))
+            btn.setBackgroundImage(UIImage(named: btnImgs[idx]), forState: UIControlState.Normal)
+            
+            let btnLable = UILabel(frame: CGRect(x: CGFloat(btnX - 20), y: CGFloat(btnY + btnHeight + 10), width: CGFloat(btnWidth + 40), height: 20))
+            btnLable.text = btns[idx]
+            btnLable.textColor = UIColor.whiteColor()
+            btnLable.textAlignment = NSTextAlignment.Center
+            
+            if idx % 3 == 2 {
+                btnX = 0
+                btnY = btnY + disY
+            }else{
+                btnX = btnX + disX
+            }
+            
+            
+            btn.addTarget(self, action: "tap:", forControlEvents: UIControlEvents.TouchUpInside)
+            btn.tag = idx + 1
+            
+            
+            view0.addSubview(btn)
+            view0.addSubview(btnLable)
+            
+            if animationSS {
+                var nsTime : NSTimeInterval!
+                nsTime = NSTimeInterval(idx) * 0.05 + 0.1
+                viewAnimate().popOut(btn, timeInterval: 0.3, delay: nsTime)
+                
+                nsTime = NSTimeInterval(idx) * 0.05 + 0.3
+                viewAnimate().popOut(btnLable, timeInterval: 0.3, delay: nsTime)
+            }
+        }
+        scrollView.contentSize=CGSizeMake(self.view.frame.size.width,btnHeight)
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.BlackTranslucent
+        
+        
+        
+    }
+    func tap(sender : AnyObject!){
+        print("btn tapped \(sender.tag)")
+        FAME.tempSensorId = sender.tag
+        
+        var viewId = sender.tag
+        if viewId == 2 || viewId == 3 || viewId == 4 {
+            viewId = 2
+            FAME.showLights = true
+        }
+        else if viewId == 8{
+            viewId = 8
+        }
+        else{
+            viewId = 1
+            FAME.showLights = false
+            
+        }
+        
+        let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA\(viewId)") as UIViewController!
+        next.title = "\(Defined_SA_btns1[sender.tag - 1])"
+        self.navigationController?.pushViewController(next, animated: true)
+        
+    }
+
+    override func viewWillDisappear(animated: Bool){
+        
+        
+        super.viewWillDisappear(animated)
+        //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: ""), forBarMetrics: UIBarMetrics.Default)
+        //self.navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        
+    }
+    
+    
+}
+
+
+class SensorsViewController: UIViewController,UIAlertViewDelegate {
+    
+    var animationSS :Bool = true
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor.whiteColor()
+        self.title = "传 感"
+        
+        createView()
+        
+    }
+    func createView(){
+        
+        let returnButtonItem = UIBarButtonItem()
+        returnButtonItem.title = Defined_navigation_back_title
+        self.navigationItem.backBarButtonItem = returnButtonItem
+        
+        let btns = Defined_SS_btns
+        let btnImgs = ["ss1.png","ss2.png","ss3.png","ss4.png","ss5.png","ss6.png","ss7.png","ss8.png","ss9.png","ss10.png"]
+        
+        let scrollView:UIScrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height - 49))
+        self.view.addSubview(scrollView)
+        let view0:UIView = UIView(frame: CGRect(x: 30, y: 0, width: self.view.frame.size.width - 60, height: self.view.frame.size.height))
+        scrollView.addSubview(view0)
+        
+        //fix position
+        
+        //let view0 = self.view.viewWithTag(10)!
+        view0.frame.size.width = self.view.frame.size.width - 60
+        let divW:CGFloat = 0.27
+        //let top:CGFloat =  80
+        let btnWidth = view0.frame.width * divW
+        let btnHeight = btnWidth * 1.1
+        
+        let disX:CGFloat = ((1 - divW * 3) / 2 + divW) * view0.frame.width
+        //let disY:CGFloat = view0.frame.height * 0.25
+        
+        let disY:CGFloat = btnHeight + 30 + self.view.frame.height * 0.02
+        // diffj 改了加1
+        let diffj:CGFloat = CGFloat(btns.count / 3)
+        let top:CGFloat =  (self.view.frame.height - disY * diffj - 69) * 0.5
+        
+        
+        let diffi:CGFloat = CGFloat(btns.count % 3)
+        
+        var diffX: CGFloat = diffi == 0 ? 0 : (view0.frame.width - diffi * btnWidth ) / 2
+        diffX = diffi == 2 ? diffX - (1 - divW * 3) / 4  * view0.frame.width : diffX
+        
+        
+        var btnX: CGFloat = 0
+        var btnY: CGFloat = btns.count < 3 ? top : top + view0.frame.height * 0.1
+        btnX = btns.count <= 3 ? diffX + btnX : btnX
+        
+        
+        for idx in 0..<btns.count {
+            
+            let btn = UIButton(frame: CGRect(x: btnX, y: btnY, width: btnWidth, height: btnHeight))
+            btn.setBackgroundImage(UIImage(named: btnImgs[idx]), forState: UIControlState.Normal)
+            
+            let btnLable = UILabel(frame: CGRect(x: CGFloat(btnX - 20), y: CGFloat(btnY + btnHeight + 10), width: CGFloat(btnWidth + 40), height: 20))
+            btnLable.text = btns[idx]
+            btnLable.textColor = UIColor.whiteColor()
+            btnLable.textAlignment = NSTextAlignment.Center
+            
+            if idx % 3 == 2 {
+                btnX = 0
+                btnY = btnY + disY
+            }else{
+                btnX = btnX + disX
+            }
+            
+            
+            btn.addTarget(self, action: "tap:", forControlEvents: UIControlEvents.TouchUpInside)
+            btn.tag = idx
+            
+            
+            view0.addSubview(btn)
+            view0.addSubview(btnLable)
+            
+            if animationSS {
+                var nsTime : NSTimeInterval!
+                nsTime = NSTimeInterval(idx) * 0.05 + 0.1
+                viewAnimate().popOut(btn, timeInterval: 0.3, delay: nsTime)
+                
+                nsTime = NSTimeInterval(idx) * 0.05 + 0.3
+                viewAnimate().popOut(btnLable, timeInterval: 0.3, delay: nsTime)
+            }
+        }
+        scrollView.contentSize=CGSizeMake(self.view.frame.size.width,btnHeight + btnY + 49)
+
+    }
+    
+    func tap(sender : AnyObject!){
+        print("btn tapped \(sender.tag)")
+        var next :UIViewController!
+        
+        if sender.tag == 0 {
+            next = GBoard.instantiateViewControllerWithIdentifier("viewSS1") as UIViewController
+        }
+            
+            //情景模式面板
+        else if sender.tag == 6 {
+            next = GBoard.instantiateViewControllerWithIdentifier("viewSS6") as UIViewController
+            
+        }
+            //光纤
+        else if sender.tag == 9 {
+            next = GBoard.instantiateViewControllerWithIdentifier("viewSS9") as UIViewController
+            
+        }
+        else{
+            next = GBoard.instantiateViewControllerWithIdentifier("viewSS") as UIViewController
+        }
+        
+        next.title = "\(Defined_SS_btns1[sender.tag])"
+        
+        
+        FAME.tempSensorId = sender.tag
+        self.navigationController?.pushViewController(next, animated: true)
+        
+        //self.navigationController.navigationBar.topItem.title = "Back"
+    }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.BlackTranslucent
+        
+        
+    }
+    
+    override func viewWillDisappear(animated: Bool){
+        
+        
+        super.viewWillDisappear(animated)
+        
+        
+    }
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+}
+
+
+
+class MineViewController: UIViewController,UIAlertViewDelegate {
+    
+    @IBOutlet weak var bgImage: UIImageView!
+    
+    
+    @IBAction func outUserClick(sender: UIButton) {
+        
+        
+        let alert :UIAlertView = UIAlertView()
+        alert.delegate = self
+        alert.title = Defined_ALERT_loginOut
+        alert.message = Defined_ALERT_loginOut2
+        alert.addButtonWithTitle(Defined_ALERT_OK)
+        alert.addButtonWithTitle(Defined_ALERT_CANCEL)
+        alert.show()
+        
+        
+        //self.dismissViewControllerAnimated(true, completion: nil)
+        
+        
+        
+    }
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
+        print("click at \(buttonIndex)")
+        //FAME.saveProfile("", pwd: "")
+        if buttonIndex == 0 {
+            print("FAME.devicetoken====\(FAME.devicetoken)")
+            
+            if FAME.devicetoken != "" {
+                let myThread = NSThread(target: self, selector: "Timerset1", object: nil)
+                myThread.start()
+            }
+            else{
+                FAME.user_name = ""
+            }
+            
+            let next = GBoard.instantiateViewControllerWithIdentifier("navLogin") as UIViewController
+            self.presentViewController(next, animated: false, completion: nil)
+            
+            
+            
+            //self.dismissViewControllerAnimated(true, completion: nil)
+            
+        }
+    }
+    func Timerset1(){
+        
+        
+        let cmdStr = "{\"cmd\":51, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"push_enable\": 0, \"devicetoken\": \"\(FAME.devicetoken)\"}"
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr) != nil){
+            print("SEND REQUEST SUCCESSED")
+            
+        }else{
+            print("SEND REQUEST FAILED!")
+            
+        }
+        
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor.whiteColor()
+        self.title = "我 的"
+        
+        createNav()
+        
+        
+    }
+    func createNav(){
+        let button = UIButton(frame: CGRectMake(0,0,60,35))
+        button.setTitle("设置", forState: UIControlState.Normal)
+        button.addTarget(self, action: Selector("setClick:"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+    }
+    func setClick(sender:AnyObject!){
+        
+        
+    }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+        
+        //        let image = UIImage()
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        //        self.navigationController?.navigationBar.setBackgroundImage(image, forBarMetrics: UIBarMetrics.Default)
+        //        self.navigationController?.navigationBar.shadowImage = UIImage()
+        //        self.navigationController?.navigationBar.translucent = true
+        
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.BlackTranslucent
+        
+        
+        
+    }
+    
+    override func viewWillDisappear(animated: Bool){
+        
+        
+        super.viewWillDisappear(animated)
+        //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: ""), forBarMetrics: UIBarMetrics.Default)
+        //self.navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        
+    }
+    
+    @IBAction func changePass(sender: UIButton) {
+        
+        let next = GBoard.instantiateViewControllerWithIdentifier("Pwd1") as UIViewController
+        next.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(next, animated: true)
+        next.hidesBottomBarWhenPushed = false
+        
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+}
+
 
 

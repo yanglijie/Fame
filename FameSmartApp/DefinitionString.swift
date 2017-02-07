@@ -19,6 +19,9 @@ import Foundation
 let WIDTH = UIScreen.mainScreen().bounds.size.width
 let HEIGHT = UIScreen.mainScreen().bounds.size.height
 
+
+let defaultDuration = 0.3
+
 let Defined_navigation_back_title = "返回"
 
 let Defined_Unkown_Device = "未知设备"
@@ -34,15 +37,18 @@ let Defined_ALERT_del2 = "确定要删除此设备？"
 
 let Defined_SA_btns1 = ["灯 光","窗 帘","空 调","影 音","移 动 智 能","智 能 浴 霸","智 能 门 锁","风 机 控 制","中 央 空 调"]
 let Defined_SA_btns = ["灯光","智能电机","空调","影音","移动智能","智能浴霸","智能门锁","风机控制","中央空调"]
-let Defined_SS_btns = ["温湿监测","门窗磁","运动感应","烟雾报警","燃气报警","漏水检测","情景模式面板","空气质量"]
-let Defined_SS_btns1 = ["温 湿 监 测","门 窗 磁","运 动 感 应","烟 雾 报 警","燃 气 报 警","漏 水 检 测","情 景 模 式 面 板","空 气 质 量"]
+let Defined_SS_btns = ["温湿监测","门窗磁","运动感应","烟雾报警","燃气报警","漏水检测","情景模式面板","空气质量","紧急按钮","光纤皮肤"]
+let Defined_SS_btns1 = ["温 湿 监 测","门 窗 磁","运 动 感 应","烟 雾 报 警","燃 气 报 警","漏 水 检 测","情 景 模 式 面 板","空 气 质 量","紧 急 按 钮","光 纤 皮 肤"]
 
 let Defined_SS_icons =
-    ["0","ss2_2.png","move_03.png","smork_03.png","gas_03.png","ss6_6","0","ss8_8.png"]
-let Defined_SS_icons1 = ["0","ss2_21.png","move_031.png","gas_031.png","smork_031.png","ss6_61","0","ss8_81.png"]
+    ["0","ss2_2.png","move_03.png","smork_03.png","gas_03.png","ss6_6","0","ss8_8.png","ss9_9.png"]
+let Defined_SS_icons1 = ["0","ss2_21.png","move_031.png","gas_031.png","smork_031.png","ss6_61","0","ss8_81.png","ss9_91.png"]
 
 let Defined_SA_icons = ["0","light_icon.png","curtain_03.png","appl_19_icon.png","sound_icon.png","socket_03.png","light_icon3.png","lock_icon.png","0","cta_stop.png"]
 let Defined_SA_icons1 = ["0","light_icon2.png","0","0","0","socket61.png","SA61.png","lock_icon2.png","0","cta_open.png"]
+let Defined_SA_icons2 = ["0","light_icon2.png","0","0","0","socket_lockicon.png","SA61.png","lock_icon2.png","0","cta_open.png"]
+let Defined_SA_icons3 = ["0","light_icon2.png","0","0","0","socket_lockicon2.png","SA61.png","lock_icon2.png","0","cta_open.png"]
+
 
 
 let Defined_VC6_AlertTitle="提示"
@@ -177,8 +183,10 @@ let Defined_LINKS_NAMES = ["情景模式","灯光","传感"]
 let Defined_NULL = "清空"
 
 let Defined_MODE_NAME = ["灯 全 关","全 布 防","全 撤 防"]
+let Defined_MODE_NAMEB = ["影音娱乐","迎宾会客","休闲模式","家庭办公","睡眠模式","我的模式","灯 全 关","全 布 防","全 撤 防"]
 
 let Defined_Tips_none = "亲，您还未购买此设备哦！"
+
 
 let Defined_btn_return = "返回"
 

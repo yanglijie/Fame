@@ -1,4 +1,7 @@
 
+
+
+
 //  AppDelegate.swift
 //  FameSmartApp
 //
@@ -85,9 +88,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
         
     }
     
-
-    
-    
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError){
         print("PUSH register failed: \(error)")
     }
@@ -118,31 +118,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
             }
             FAME.msgs.insert(alertDic, atIndex: 0)
             FAME.defaults.setObject(FAME.msgs, forKey: "\(FAME.user_name)")
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("msgChange", object: FAME.msgs)
-        
-        
-
+        let arr = alertDic.componentsSeparatedByString("_")
+        var str:String = ""
+        print(arr)
+        if arr.count == 1{
+            str = alertDic
+        }
+        else{
+            if arr[1] == "1"{
+                str = "紧急按钮"
+            }
+            else if arr[1] == "2"{
+                str = "漏水报警"
+            }
+            else if arr[1] == "3"{
+                str = "烟雾报警"
+            }
+            else{
+                str = alertDic
+            }
+        }
             //判断程序现在是在前台运行还是后台
             if UIApplication.sharedApplication().applicationState == .Active{
                 let alert = UIAlertView()
                 alert.title = " 远程推送通知 "
-                alert.message =  alertDic
+                alert.message =  str
+                alert.delegate = self
                 alert.addButtonWithTitle(Defined_ALERT_OK)
                 alert.show()
             }
             else{
                 print("刚刚在后台")
-                let next :UIViewController = GBoard.instantiateViewControllerWithIdentifier("msg") as UIViewController
-                self.window?.rootViewController?.presentViewController(next, animated: true, completion: nil)
-                
-            }
+                NSNotificationCenter.defaultCenter().postNotificationName("msgChange", object: FAME.msgs)
+        }
+        //定义一个SystemSoundID
+        //具体参数详情下面贴出来
+        let soundID : SystemSoundID = 1005
+        //播放声音
+        AudioServicesPlaySystemSound(soundID)
+        
+        
+    }
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex == 0{
+            print("推送点击了确认")
+            NSNotificationCenter.defaultCenter().postNotificationName("msgChange", object: FAME.msgs)
             
-            
-        //}
-        
-        
-        
+        }
     }
     
        

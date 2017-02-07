@@ -14,13 +14,15 @@
 
 import UIKit
 import AVFoundation
-
+import Starscream
 
 let GBoard = UIStoryboard(name: "Main", bundle: nil)
-var Surl="http://www.famesmart.com/famecloud/user_intf.php"
-//var Surl="http://famesmart.com/test_famecloud/user_intf.php"
+//var Surl="http://www.famesmart.com/famecloud/user_intf.php"
+var Surl="http://famesmart.com/test_famecloud/user_intf.php"
 
-let Curl="http://219.220.215.211/weixin/fame/wx_fame.php"
+//let Curl="http://219.220.215.211/weixin/fame/wx_fame.php"
+
+var socket = WebSocket(url: NSURL(string: "ws://famesmart.com:8080/")!)
 
 
 enum LINKARRAYID:Int{
@@ -49,20 +51,29 @@ class fame:NSObject{
     var outTag :Int! = 0
     //联动标记
     var link_id :Int! = 0
+    
+    var delete_id:Int! = 0
+    
     //修改设备名称
     var dev_ss_name :String!
     var dev_ss_Rname :String!
     var variation_index :Int!
-    
+    var dev_ieee :String!
     
     var loading :UILabel!
     
     var fameIeee:String!
     var verify:String!
     
+    //编辑的变量
+    var modeArr : NSMutableArray = []
+    var devicDis : NSMutableArray = []
+    
+    var editTag :Int! = 0
     
     var dev_id :Int! = 0
     var dev_type :Int! = 0
+
     
     var msgs :Array<String>= []
     var IS_IOS8:Bool = false
@@ -123,6 +134,12 @@ class fame:NSObject{
     var socket34:Array<Dictionary<String,String>> = []
     var sensors:Array<Dictionary<String,String>> = []
     
+    
+    var lightsT = NSMutableArray()
+    var socket13T = NSMutableArray()
+    var lights11T = NSMutableArray()
+    
+    
     //timer
     var timers:Array<Dictionary<String,String>> = []
     
@@ -140,8 +157,14 @@ class fame:NSObject{
     var sensors24:Array<Dictionary<String,String>> = []
     var sensors25:Array<Dictionary<String,String>> = []
     var sensors26:Array<Dictionary<String,String>> = []
+    var sensors28:Array<Dictionary<String,String>> = []
     var sensors30:Array<Dictionary<String,String>> = []
     var sensors32:Array<Dictionary<String,String>> = []
+    var sensors47:Array<Dictionary<String,String>> = []
+    var sensors48:Array<Dictionary<String,String>> = []
+    var sensors49:Array<Dictionary<String,String>> = []
+    
+    var appls45:Array<Dictionary<String,String>> = []
     
     
     var curtains:Array<Dictionary<String,String>> = []
@@ -170,6 +193,7 @@ class fame:NSObject{
     // level first for model  level 2nd for timer
     
     var idForNames:Dictionary<Int,Dictionary<String,String>> = [:]
+    var editForDevice : Array<Dictionary<String,String>> = []
     
     var idForNamesMode:Dictionary<Int,String> = [:]
     
@@ -538,7 +562,7 @@ class fame:NSObject{
         
     }
     
-    
+  // MARK: device表
     func deCodeDeviceTable(){
         
         
@@ -547,7 +571,7 @@ class fame:NSObject{
         
         idForNamesMode = [:]
         idForNames = [:]
-        
+        editForDevice = []
         FAME.deviceCount = 0
         
         var Links3:Array<Dictionary<String,AnyObject>> = []
@@ -638,6 +662,11 @@ class fame:NSObject{
         self.showLight1Arr = []
         self.showLight2Arr = []
         self.subNames = [:]
+        
+        self.lightsT = []
+        self.socket13T = []
+        self.lights11T = []
+        
         Links3 = []
         var  lightId:Int = 0
         var isShow:Bool = true
@@ -657,23 +686,28 @@ class fame:NSObject{
                 
                 let roomName = self.rooms[room]
                 
-                
-                flag = DTlight.valueForKey("flag") as! NSNumber!
-                isShow = true
-                if(flag == 1){
-                    isShow = false
-                }else{
+                if ((DTlight.valueForKey("flag") as! NSNumber!) != nil){
+                    flag = DTlight.valueForKey("flag") as! NSNumber!
+                    isShow = true
+                    if(flag == 1){
+                        isShow = false
+                    }else{
+                        isShow = true
+                    }
+
+                }
+                else{
                     isShow = true
                 }
                 
                 if (isShow){
                 
                 //ids
-                    if dev_id <= 22 {
-                        act_id = (dev_id -  1) * 6 + 20
-                    }else{
-                        act_id = (dev_id -  23) * 12 + 152
-                    }
+//                    if dev_id <= 22 {
+//                        act_id = (dev_id -  1) * 6 + 20
+//                    }else{
+//                        act_id = (dev_id -  23) * 12 + 152
+//                    }
                 
                     if(value.valueForKey("action_ids") != nil ) {
                         acrArr = value.valueForKey("action_ids") as! NSArray
@@ -682,7 +716,7 @@ class fame:NSObject{
                             //print("action_ids \(act_id)")
                         }
                     }
-                
+                //如果是新风的，直接跳过去了，没有subValue
                     if (dev_type == 7)||(dev_type == 8)||(dev_type == 9)||(dev_type == 11)||(dev_type == 12){
                         //light
                         var index = 0
@@ -710,17 +744,14 @@ class fame:NSObject{
                                 subValue = variation[i]
                             }
                             sub.append("\(subValue)")
-                            //self.lights.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
-                        
-                        
-                        
-                        
-                        
+
                             self.linkMoled.append(["name":"\(roomName) \(name) \(subValue)","id":"\(act_id + index * 2)"])
                         
+                            
                             FAME.idForNames[act_id + index * 2 + 1 ]=["name":"\(name)\(subValue)开","room":"\(roomName)","string":"\(roomName) \(name) \(subValue) 开","act_id":"\(act_id + index * 2 + 1)"]
                             FAME.idForNames[act_id + index * 2]=["name":"\(name)\(subValue)关","room":"\(roomName)","string":"\(roomName) \(name) \(subValue) 关","act_id":"\(act_id + index * 2)"]
-                        
+                            self.editForDevice.append(["name":"\(roomName)\(name)\(subValue)开","act_id":"\(act_id + index * 2 + 1)","type":"\(dev_type)"])
+                            self.editForDevice.append(["name":"\(roomName)\(name)\(subValue)关","act_id":"\(act_id + index * 2)","type":"\(dev_type)"])
                         
                         
                             //add to Links
@@ -736,22 +767,16 @@ class fame:NSObject{
                             self.idForNamesMode[act_id+index*2 + 1] = "\(roomName) \(name) \(subValue) 开"
                             self.idForNamesMode[act_id+index*2] = "\(roomName) \(name) \(subValue) 关"
                         
-                        
-                        
-                            
-                        
-                        
-                        
-                        
-                        
                             //Lights?
                             if (dev_type == 11)||(dev_type == 12) {
                                 //FAME.showLight2Arr.append(lightId)
                                 self.lights11.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                                lights11T.addObject(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                             
                             }else{
                                 //FAME.showLight1Arr.append(lightId)
                                 self.lights7.append(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                                lightsT.addObject(["name":"\(roomName)\(name)\(subValue)","roomName":"\(roomName)","name1":"\(name)","subValue":"\(subValue)","act_id":"\(act_id + index * 2)","dev_id":"\(dev_id)","room":"\(room)","index":"\(index)","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)","child":"0"])
                             }
                         
                             index++
@@ -787,6 +812,7 @@ class fame:NSObject{
                         switch dev_type {
                         case 13 :
                             self.socket13.append(["name":"\(roomName)\(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                            socket13T.addObject(["name":"\(roomName)\(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)","child":"0"])
                         case 31 :
                             self.socket31.append(["name":"\(roomName)\(name)","roomName":"\(roomName)","name1":"\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                         case 33 :
@@ -805,7 +831,10 @@ class fame:NSObject{
                     
                         FAME.idForNames[act_id + 1 ]=["name":"\(name)开","room":"\(roomName)","string":"\(roomName) \(name) 开","act_id":"\(act_id + 1 )"]
                         FAME.idForNames[act_id ]=["name":"\(name)关","room":"\(roomName)","string":"\(roomName) \(name) 关","act_id":"\(act_id )"]
-                    
+                        
+                        self.editForDevice.append(["name":"\(roomName)\(name)开","act_id":"\(act_id + 1)","type":"\(dev_type)"])
+                        self.editForDevice.append(["name":"\(roomName)\(name)关","act_id":"\(act_id)","type":"\(dev_type)"])
+                        
                         self.idForNamesMode[act_id + 1] = "\(roomName)\(name) 开"
                         self.idForNamesMode[act_id] = "\(roomName)\(name) 关"
                     
@@ -837,24 +866,36 @@ class fame:NSObject{
         self.sensors24 = []
         self.sensors25 = []
         self.sensors26 = []
+        self.sensors28 = []
         self.sensors30 = []
         self.sensors32 = []
+        self.sensors47 = []
+        self.sensors48 = []
+        self.sensors49 = []
         act_id = 460
         
         Links3 = []
         
+        //FF-47-00-09-F6-06-92-D5
         if (self.device_table.valueForKey("sensors") != nil) {
             for value : AnyObject in self.device_table.valueForKey("sensors") as! NSArray {
                 let DTsensor = value as! NSDictionary
                 
                 
-                flag = DTsensor.valueForKey("flag") as! NSNumber!
-                isShow = true
-                if(flag == 1){
-                    isShow = false
-                }else{
+                if ((DTsensor.valueForKey("flag") as! NSNumber!) != nil){
+                    flag = DTsensor.valueForKey("flag") as! NSNumber!
+                    isShow = true
+                    if(flag == 1){
+                        isShow = false
+                    }else{
+                        isShow = true
+                    }
+                    
+                }
+                else{
                     isShow = true
                 }
+
                 if(isShow){
                 
                 
@@ -886,10 +927,18 @@ class fame:NSObject{
                     self.sensors25.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 26 :
                     self.sensors26.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
+                case 28 :
+                    self.sensors28.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 30 :
                     self.sensors30.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 case 32 :
                     self.sensors32.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                case 47 :
+                    self.sensors47.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                case 48 :
+                    self.sensors47.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
+                case 49 :
+                    self.sensors49.append(["name1":"\(name)","roomName":"\(roomName)","name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
 //                    self.sensors32.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","index":"0","state":"0","ieee":"\(ieee)"])
                 default:
                     
@@ -903,6 +952,10 @@ class fame:NSObject{
                 //if dev_type == 24{
                     FAME.idForNames[act_id ]=["name":"\(name)布防","room":"\(roomName)","string":"\(roomName) \(name) 布防","act_id":"\(act_id  )"]
                     FAME.idForNames[act_id + 1]=["name":"\(name)撒防","room":"\(roomName)","string":"\(roomName) \(name) 撒防","act_id":"\(act_id + 1 )"]
+                    
+                    self.editForDevice.append(["name":"\(roomName)\(name)布防","act_id":"\(act_id)","type":"\(dev_type)"])
+                    self.editForDevice.append(["name":"\(roomName)\(name)撒防","act_id":"\(act_id + 1)","type":"\(dev_type)"])
+                    
                     
                     self.idForNamesMode[act_id + 1] = "\(roomName) \(name) 撒防"
                     self.idForNamesMode[act_id] = "\(roomName) \(name) 布防"
@@ -944,11 +997,17 @@ class fame:NSObject{
             for value : AnyObject in self.device_table.valueForKey("curtains") as! NSArray {
                 let DTcurtain = value as! NSDictionary
                 
-                flag = DTcurtain.valueForKey("flag") as! NSNumber!
-                isShow = true
-                if(flag == 1){
-                    isShow = false
-                }else{
+                if ((DTcurtain.valueForKey("flag") as! NSNumber!) != nil){
+                    flag = DTcurtain.valueForKey("flag") as! NSNumber!
+                    isShow = true
+                    if(flag == 1){
+                        isShow = false
+                    }else{
+                        isShow = true
+                    }
+                    
+                }
+                else{
                     isShow = true
                 }
                 if(isShow){
@@ -984,9 +1043,13 @@ class fame:NSObject{
                 
                 FAME.deviceCount++
                 
-                    FAME.idForNames[act_id + 1]=["name":"\(name)打开","room":"\(roomName)","string":"\(roomName) \(name) 打开","act_id":"\(act_id  + 1 )"]
+                FAME.idForNames[act_id + 1]=["name":"\(name)打开","room":"\(roomName)","string":"\(roomName) \(name) 打开","act_id":"\(act_id  + 1 )"]
                 FAME.idForNames[act_id + 2]=["name":"\(name)暂停","room":"\(roomName)","string":"\(roomName) \(name) 暂停","act_id":"\(act_id  + 2 )"]
                 FAME.idForNames[act_id ]=["name":"\(name)停止","room":"\(roomName)","string":"\(roomName) \(name) 停止","act_id":"\(act_id)"]
+                    
+                self.editForDevice.append(["name":"\(roomName)\(name)打开","act_id":"\(act_id + 1)","type":"\(dev_type)"])
+                self.editForDevice.append(["name":"\(roomName)\(name)暂停","act_id":"\(act_id + 2)","type":"\(dev_type)"])
+                self.editForDevice.append(["name":"\(roomName)\(name)停止","act_id":"\(act_id)","type":"\(dev_type)"])
                 
                 //add to linkArray
                 //  FAME.linkArray[2].append(["name":[name],"room":[roomName],"subName":[" "],"subId":["\(act_id )"]])
@@ -1024,11 +1087,17 @@ class fame:NSObject{
             for value : AnyObject in self.device_table.valueForKey("appls") as! NSArray {
                 let DTappl = value as! NSDictionary
                 
-                flag = DTappl.valueForKey("flag") as! NSNumber!
-                isShow = true
-                if(flag == 1){
-                    isShow = false
-                }else{
+                if ((DTappl.valueForKey("flag") as! NSNumber!) != nil){
+                    flag = DTappl.valueForKey("flag") as! NSNumber!
+                    isShow = true
+                    if(flag == 1){
+                        isShow = false
+                    }else{
+                        isShow = true
+                    }
+                    
+                }
+                else{
                     isShow = true
                 }
                 if(isShow){
@@ -1043,12 +1112,18 @@ class fame:NSObject{
                 sub = DTappl.valueForKey("button_name") as! Array
                 
                 let roomName = self.rooms[room]
+                    
+                var act_ids : Array<Int>= []
                 
                 //act_id = (dev_id -  35) * 26 + 189
                 if(value.valueForKey("action_ids") != nil ) {
                     acrArr = value.valueForKey("action_ids") as! NSArray
                     if(acrArr.count > 0){
                         act_id = acrArr[0] as! Int
+                    }
+                    for i in 0..<acrArr.count{
+                        let act_id1 = acrArr[i] as! Int
+                        act_ids.append(act_id1)
                     }
                 }
                 /*
@@ -1059,7 +1134,8 @@ class fame:NSObject{
                 break
                 }
                 */
-                if (dev_type == 19){
+                //19 空调  
+                if (dev_type == 19 || dev_type == 45){
                     self.airs.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","roomName":"\(roomName)","name1":"\(name)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
                 }else{
                     self.appls.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","dev_id":"\(dev_id)","room":"\(room)","roomName":"\(roomName)","name1":"\(name)","index":"0","state":"0","ieee":"\(ieee)","dev_type":"\(dev_type)"])
@@ -1149,7 +1225,27 @@ class fame:NSObject{
             return true
         }
     }
-    
+    func doAddSenDevice(arr:NSArray){
+        if httpRequert().addDevieS(arr) {
+            for i in 0..<arr.count{
+                let name:String = arr[i]["name"] as! String
+                let alert = UIAlertView()
+                alert.title = Defined_Add_Title1
+                alert.message =  "\(name) \(Defined_Add_Title_success)"
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.show()
+            }
+            
+            FAME.getDeviceTable()
+            FAME.addDeviceArray = []
+            FAME.isAddingDevice = false
+        }
+        
+        
+        
+        
+        
+    }
     func doAddDevice() -> Bool{
         
         if (FAME.isNotAdding()) {
@@ -1186,10 +1282,10 @@ class fame:NSObject{
             print(received)
             var i = 0
             for values:AnyObject in received!.valueForKey("detail") as! NSArray {
-                //print(values)
+                print(values)
                 let AddedObj = values as! NSDictionary
                 let ADDieee_addr :String!  = AddedObj.valueForKey("ieee_addr") as! String
-                let ADDflag :NSNumber  = AddedObj.valueForKey("flag") as! NSNumber
+                let ADDflag :NSNumber = AddedObj.valueForKey("flag") as! NSNumber
                 //let Adddev_id:NSNumber = AddedObj.valueForKey("dev_id") as! NSNumber
                 
                 print("check:\(ADDieee_addr) addflag:\(ADDflag)")
@@ -1526,6 +1622,207 @@ class fame:NSObject{
         
     }
     
+    func changeToInt(num:String) -> Int {
+        let str = num.uppercaseString
+        var sum = 0
+        for i in str.utf8 {
+            sum = sum * 16 + Int(i) - 48 // 0-9 从48开始
+            if i >= 65 {                 // A-Z 从65开始，但有初始值10，所以应该是减去55
+                sum -= 7
+            }
+        }
+        return sum
+    }
+    func WIFIsepStr(str:String) -> NSArray{
+        let arr = NSMutableArray()
+        
+        let string1 = str.stringByReplacingOccurrencesOfString("ffffff", withString: "")
+        print(string1)
+        
+        //温度
+        let temperStr = (string1 as NSString).substringWithRange(NSMakeRange(8, 2))
+        let temperInt = FAME.changeToInt(temperStr)
+        let temperDou = Double(temperInt)/10
+        print("temperInt====\(temperStr)")
+        print("temperInt====\(temperDou)")
+        
+        arr.addObject(String(temperDou))
+        
+        //开关
+        let switchStr : String = (string1 as NSString).substringWithRange(NSMakeRange(13, 1)) as String
+        print("switchStr====\(switchStr)")
+        arr.addObject(String(switchStr))
+        
+        //风速
+        let windStr:String = (string1 as NSString).substringWithRange(NSMakeRange(17, 1)) as String
+        print("windStr====\(windStr)")
+        arr.addObject(String(windStr))
+        
+        //模式
+        let coldStr:String = (string1 as NSString).substringWithRange(NSMakeRange(19, 1)) as String
+        print("coldStr====\(coldStr)")
+        
+        arr.addObject(String(coldStr))
+        
+        return arr
+    }
+    
+    func getMonthRecord(sdate : String,edate : String) -> NSArray?{
+        let arr = NSMutableArray()
+        
+        let cmdStr = "{\"cmd\":49, \"did\": \(FAME.user_did),\"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\",\"sdate\":\"\(sdate)\",\"edate\":\"\(edate)\"}"
+        
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr)
+        if received != nil{
+            print("SEND REQUEST SUCCESSED")
+            
+            if received.valueForKey("result") as! NSNumber == 0{
+                
+                let array : NSArray = received.valueForKey("alarm_detail") as! NSArray
+                
+                if array.count == 0{
+                    return nil
+                }
+                else{
+                    
+                    for j in 0..<array.count{
+                        
+                        let alarm_info = array[j]["message"] as? String
+                        if (alarm_info != nil){
+                            let str : String = alarm_info!
+                            
+                            let id = array[j]["id"] as! Int
+                            
+                            let dic :Dictionary = ["id":String(id),"info":str]
+                            
+                            arr.addObject(dic)
+                        }
+                        
+                    }
+                    if arr.count > 0{
+                        return arr
+                    }
+                    else{
+                        return nil
+                    }
+                }
+                
+            }
+        }else{
+            print("SEND REQUEST FAILED!")
+            
+            
+        }
+        return nil
+        
+    }
+    
+    func getMonthDate(day : Int) -> String!{
+        
+        let nowDate = NSDate()
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let dateString = formatter.stringFromDate(nowDate)
+        
+        let dfmatter = NSDateFormatter()
+        dfmatter.dateFormat="yyyy-MM-dd HH:mm:ss"
+        let date = dfmatter.dateFromString(dateString)
+        let dateStamp:NSTimeInterval = date!.timeIntervalSince1970
+        
+        let dateSt:Int = Int(dateStamp)
+        let dateSt1 = dateSt - 24 * 60 * 60 * day
+        print("data =\(dateSt1)")
+        
+        let string = NSString(string: String(dateSt1))
+        
+        let timeSta:NSTimeInterval = string.doubleValue
+        let dfmatter1 = NSDateFormatter()
+        dfmatter1.dateFormat="yyyy-MM-dd"
+        
+        let date1 = NSDate(timeIntervalSince1970: timeSta)
+        
+        print(dfmatter.stringFromDate(date1))
+        return dfmatter.stringFromDate(date1)
+        
+    }
+    func getNowDate(type:Int) -> String!{
+        
+        let nowDate = NSDate()
+        let formatter = NSDateFormatter()
+        if type == 1{
+            formatter.dateFormat = "yyyy/MM/dd"
+        }
+        else{
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        }
+        let dateString = formatter.stringFromDate(nowDate)
+        
+        return dateString
+        
+    }
+
+    
+    
+    func deviceImage(type:Int) -> String{
+        var btnImage : String
+        switch type{
+        case 7,8,9:
+            btnImage = "sa1.png"
+            break
+        case 10:
+            btnImage = "sa2.png"
+            break
+        case 19:
+            btnImage = "sa3.png"
+            break
+        case 16,17,18:
+            btnImage = "sa4.png"
+            break
+        case 13:
+            btnImage = "sa5.png"
+            break
+        case 11,12:
+            btnImage = "sa6.png"
+            break
+        case 31:
+            btnImage = "sa7.png"
+            break
+        case 33:
+            btnImage = "sa9.png"
+            break
+        case 23:
+            btnImage = "ss2.png"
+            break
+        case 24:
+            btnImage = "ss3.png"
+            break
+        case 26:
+            btnImage = "ss4.png"
+            break
+        case 25:
+            btnImage = "ss5.png"
+            break
+        case 28:
+            btnImage = "ss6.png"
+            break
+        case 30:
+            btnImage = "ss7.png"
+            break
+        case 32:
+            btnImage = "ss8.png"
+            break
+        case 48:
+            btnImage = "ss9.png"
+            break
+        case 49:
+            btnImage = "ss10.png"
+            break
+        default:
+            btnImage = "sa1.png"
+            
+        }
+        return btnImage
+    }
 
 
 }
@@ -1556,5 +1853,13 @@ public class Reachability {
     }
     
 }
+
+
+
+
+
+
+
+
 
 

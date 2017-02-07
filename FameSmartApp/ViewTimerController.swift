@@ -654,6 +654,7 @@ class ViewControllerSUTimerCell: UIViewController,UIPickerViewDataSource,UIPicke
         }
         else{
             //self.btnAdd.enabled = false
+            //修改定时器
             let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 38, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": {\"cmd\": 9, \"param\": {\"index\": \(index), \"action_id\": \(action_id), \"enable\": \(enable), \"repeat_type\": \(repeat_type), \"time\": \"\(time)\", \"repeat_day\":\(self.repeat_dayArr)}}}",timeout : 90)
             
             
@@ -698,6 +699,7 @@ class ViewControllerSUTimerCell: UIViewController,UIPickerViewDataSource,UIPicke
             })
         }
         else if ( Int(action_id)! > 0){
+            //添加定时器
             //self.btnAdd.enabled = false
             let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 38, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": {\"cmd\": 8, \"param\": {\"action_id\": \(action_id), \"enable\": \(enable), \"repeat_type\": \(repeat_type), \"time\": \"\(time)\", \"repeat_day\":\(self.repeat_dayArr)}}}",timeout : 90)
             

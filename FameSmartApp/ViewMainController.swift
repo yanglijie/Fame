@@ -412,11 +412,16 @@ class ViewControllerMainSS: UIViewController {
         self.navigationItem.backBarButtonItem = returnButtonItem
         
         let btns = Defined_SS_btns
-        let btnImgs = ["ss1.png","ss2.png","ss3.png","ss4.png","ss5.png","ss6.png","ss7.png","ss8.png"]
+        let btnImgs = ["ss1.png","ss2.png","ss3.png","ss4.png","ss5.png","ss6.png","ss7.png","ss8.png","ss9.png","ss10.png"]
+        
+        let scrollView:UIScrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
+        self.view.addSubview(scrollView)
+        let view0:UIView = UIView(frame: CGRect(x: 30, y: 0, width: self.view.frame.size.width - 60, height: self.view.frame.size.height))
+        scrollView.addSubview(view0)
         
         //fix position
         
-        let view0 = self.view.viewWithTag(10)!
+        //let view0 = self.view.viewWithTag(10)!
         view0.frame.size.width = self.view.frame.size.width - 60
         let divW:CGFloat = 0.27
         //let top:CGFloat =  80
@@ -427,7 +432,8 @@ class ViewControllerMainSS: UIViewController {
         //let disY:CGFloat = view0.frame.height * 0.25
         
         let disY:CGFloat = btnHeight + 30 + self.view.frame.height * 0.02
-        let diffj:CGFloat = CGFloat(btns.count / 3) + 1
+        // diffj 改了加1
+        let diffj:CGFloat = CGFloat(btns.count / 3)
         let top:CGFloat =  (self.view.frame.height - disY * diffj - 69) * 0.5
         
         
@@ -438,8 +444,10 @@ class ViewControllerMainSS: UIViewController {
         
         
         var btnX: CGFloat = 0
-        var btnY: CGFloat = btns.count <= 3 ? top + 90 : top
+        var btnY: CGFloat = btns.count < 3 ? top : top + 90
         btnX = btns.count <= 3 ? diffX + btnX : btnX
+        
+        
         for idx in 0..<btns.count {
             
             let btn = UIButton(frame: CGRect(x: btnX, y: btnY, width: btnWidth, height: btnHeight))
@@ -474,6 +482,7 @@ class ViewControllerMainSS: UIViewController {
                 viewAnimate().popOut(btnLable, timeInterval: 0.3, delay: nsTime)
             }
         }
+        scrollView.contentSize=CGSizeMake(self.view.frame.size.width,btnHeight + btnY + 60)
         
       //  animationSS = false
         
@@ -497,6 +506,11 @@ class ViewControllerMainSS: UIViewController {
         //情景模式面板
         else if sender.tag == 6 {
             next = GBoard.instantiateViewControllerWithIdentifier("viewSS6") as UIViewController
+            
+        }
+            //光纤
+        else if sender.tag == 9 {
+            next = GBoard.instantiateViewControllerWithIdentifier("viewSS9") as UIViewController
             
         }
         else{
@@ -555,9 +569,6 @@ class ViewControllerMainUM: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let returnButtonItem = UIBarButtonItem()
-        returnButtonItem.title = Defined_navigation_back_title
-        self.navigationItem.backBarButtonItem = returnButtonItem
         
     }
     override func didReceiveMemoryWarning() {

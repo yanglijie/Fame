@@ -181,10 +181,11 @@ class httpRequert : NSObject{
         let userPass = FAME.getProfile(1)
         FAME.user_name = userName
         FAME.user_pwd = userPass
-        
+        let uuid : String = getUUID.getUUID()
+        print("UUID----->\(getUUID.getUUID())")
         //    \(FAME.user_did)
         print("send request:\(cmd)")
-        let cmdStr = "{\"cmd\": 40, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"push_enable\": 1, \"devicetoken\": \"\(cmd)\"}"
+        let cmdStr = "{\"cmd\": 40, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"push_enable\": 1, \"devicetoken\": \"\(cmd)\", \"uuid\": \"\(uuid)\", \"app_name\": \"miju\"}"
         if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr) != nil){
             print("SEND devicetoken SUCCESSED")
             
@@ -292,6 +293,46 @@ class httpRequert : NSObject{
             return nil
         }
     }
+    
+    //addDevice
+    func addDevieS(arr:NSArray) -> Bool{
+        //get the ids
+        
+        
+        let paramArray1 = NSMutableArray()
+        for value : AnyObject in arr {
+            //let AmodelId:NSNumber! = value.valueForKey("modelId") as! NSNumber
+            let Aname:String! = value.valueForKey("name") as! String
+            let AroomId:NSNumber! = value.valueForKey("roomId") as! NSNumber
+            let hvaddr:String = value.valueForKey("hvaddr") as! String
+            //let dev_type:NSNumber! = value.valueForKey("dev_type") as! NSNumber
+            
+            let str = "{\"ieee_addr\":\"\(hvaddr)\",\"room\":\(AroomId),\"name\":\"\(Aname)\"}"
+            paramArray1.addObject(str)
+        }
+        
+        let devices = paramArray1.componentsJoinedByString(",")
+        
+        let cmdStr = "{\"cmd\": 45, \"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"devices\":[\(devices)]}"
+        if (httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr) != nil){
+            //get the ids SUCCESSED
+            print("get the ids SUCCESSED")
+            //for values:AnyObject in recevied.valueForKey("dev_detail") as NSArray {
+            return true
+        }else{
+            print("get the ids FAILED")
+            let alert = UIAlertView()
+            alert.title = Defined_Add_Title1
+            alert.message =  "get the ids FAILED"
+            alert.addButtonWithTitle(Defined_ALERT_OK)
+            alert.show()
+            
+            return false
+        }
+        //post to server
+        
+    }
+
     
     //addDevice
     func addDevie() -> Bool{

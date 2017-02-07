@@ -25,6 +25,8 @@ class UIButton2:UIButton {
     var act_id:Int = 0
     var dev_id:Int = 0
     var id:Int = 0
+    var tagC:Int = 0
+    
 }
 class UIButtonIndex2:UIButton {
     var act_id:Int = 0

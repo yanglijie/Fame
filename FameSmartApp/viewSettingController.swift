@@ -273,14 +273,18 @@ class ViewSettingMTimerController: UIViewController {
         swipeLeftGesture.direction = UISwipeGestureRecognizerDirection.Down //不设置是右
         subView.addGestureRecognizer(swipeLeftGesture)
         
-        
-        
-        
+
     }
     func handleSwipeGesture(sender: UISwipeGestureRecognizer){
         refreshModes()
     }
     func Timerset(){
+        dispatch_sync(dispatch_get_main_queue()) { () -> Void in
+            let date = FAME.getDateFormLocal()
+            
+            self.BtnDate.setTitle("\(Defined_Timer_Date) \(FAME.stringFromDate(date, type: 1))", forState: UIControlState.Normal)
+            self.BtnTime.setTitle("\(Defined_Timer_Time) \(FAME.stringFromDate(date, type: 2))", forState: UIControlState.Normal)
+        }
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 38, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": {\"cmd\": 1}}",timeout : 90)
         if (received != nil){
             if (received["result"] as! NSObject == 0){
@@ -312,6 +316,9 @@ class ViewSettingMTimerController: UIViewController {
                 self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
                 dispatch_sync(dispatch_get_main_queue(), { () -> Void in
                     FAME.showMessage("获取系统时间失败")
+                    
+                    
+                    
                 })
                 
             }
@@ -337,9 +344,11 @@ class ViewSettingMTimerController: UIViewController {
         super.viewWillAppear(animated)
         
         
+        
         self.refreshModes()
         
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
