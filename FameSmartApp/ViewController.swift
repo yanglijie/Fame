@@ -58,11 +58,136 @@ class ViewControllerWelcome: UIViewController {
         
             //network error
             //viewAnimate().showTip(self.tip, content: Defined_network_failed)
+        let userName = FAME.getProfile(0)
+        let userPass = FAME.getProfile(1)
+        FAME.user_name = userName
+        FAME.user_pwd = userPass
+        
+        if FAME.user_name != "" && FAME.user_pwd != ""{
+            NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerLogin", userInfo: nil, repeats: false)
+        }
+        else{
             let next = GBoard.instantiateViewControllerWithIdentifier("navLogin") as UIViewController
             self.presentViewController(next, animated: true, completion: nil)
+        }
+        
             
         
     }
+    func timerLogin(){
+        
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 10, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"client_type\": \"ios\"}",cmplx:true)
+        
+        
+        if (received != nil) {
+            switch received.valueForKey("result") as! NSNumber {
+                
+            case 0 :
+                print("login successed")
+                let next = GBoard.instantiateViewControllerWithIdentifier("navMai") as UIViewController
+               
+                next.modalTransitionStyle = .CrossDissolve
+                self.presentViewController(next, animated: true, completion: nil)
+                
+                isPushOn()
+                FAME.user_uid = received.valueForKey("user_uid") as! UInt
+                
+                if received.valueForKey("device_count") as! Int == 0 {
+                    print("no devices linked")
+                    
+                }else{
+                    let devices : NSArray = received.valueForKey("devices") as! NSArray
+                    let devicesObj : NSDictionary = devices[0] as! NSDictionary
+                    FAME.user_did = devicesObj.valueForKey("did") as! UInt
+                    FAME.user_ieee_addr = devicesObj.valueForKey("ieee_addr") as! String
+                    FAME.user_dname = devicesObj.valueForKey("dname") as! String
+                    
+                    // Could not cast value of type 'NSNull' (0x110827378) to 'NSString' (0x10fc6cb20)
+                    //错误
+                    
+                    for i in 0..<devices.count{
+                        let devicesObj : NSDictionary = devices[i] as! NSDictionary
+                        let did = devicesObj.valueForKey("did") as! UInt
+                        //let didInt = Int(did)
+                        FAME.didArray.addObject(did)
+                        
+                    }
+                    
+                    //UIApplication.sharedApplication().registerForRemoteNotifications()
+                    
+                    
+                    //get the devicetable
+                    getDeviceTableData()
+                }
+                
+                
+            default:
+                
+                let info = received.valueForKey("info") as! String
+                FAME.showMessage(info)
+                let next = GBoard.instantiateViewControllerWithIdentifier("navLogin") as UIViewController
+                self.presentViewController(next, animated: true, completion: nil)
+            }
+            
+            
+            
+        }else{
+            //network error
+            FAME.showMessage("登录失败，请检查网络")
+            let next = GBoard.instantiateViewControllerWithIdentifier("navLogin") as UIViewController
+            self.presentViewController(next, animated: true, completion: nil)
+        }
+
+        
+    }
+    func isPushOn(){
+        print("PushStatr\(FAME.defaults.valueForKey(FAME.user_name + "1"))")
+        
+        if (FAME.defaults.valueForKey("\(FAME.user_name)1") != nil){
+            let pushState = FAME.defaults.valueForKey("\(FAME.user_name)1") as! Bool
+            if pushState{
+                UIApplication.sharedApplication().registerForRemoteNotifications()
+                
+            }
+            else{
+                UIApplication.sharedApplication().unregisterForRemoteNotifications()
+            }
+            
+        }
+        else{
+            UIApplication.sharedApplication().registerForRemoteNotifications()
+        }
+    }
+    func getDeviceTableData(){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            let DTValue = FAME.getDeviceTable()
+            
+            if (DTValue != nil) {
+                if DTValue == 0 {
+                    print("DeviceTable is OK")
+                    
+                }else{
+                    print("DeviceTable is null")
+                    //FAME.getDeviceTable()
+                    FAME.lastDTversion = FAME.DTversion
+                    let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as UIViewController
+                    self.navigationController?.pushViewController(next, animated: true)
+                    FAME.isAddDeviceFromSetting = false
+                    
+                }
+            }
+            else{
+                print("get DT failed")
+                FAME.showMessage("获取表失败")
+                let next = GBoard.instantiateViewControllerWithIdentifier("navLogin") as UIViewController
+                self.presentViewController(next, animated: true, completion: nil)
+                
+            }
+            
+        }
+        
+    }
+
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
    
@@ -276,16 +401,25 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
     }
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        if !Reachability.isConnectedToNetwork(){
+            FAME.showMessage("请检查网络连接")
+        }
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "empty.png"), forBarMetrics: UIBarMetrics.Default)
+        
         
     }
     
     override func viewWillDisappear(animated: Bool){
         super.viewWillDisappear(animated)
         
-        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         
     }
+    
     
     @IBOutlet var userName : UITextField!
     
@@ -332,6 +466,24 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
         
         //
         
+    }
+    func isPushOn(){
+        print("PushStatr\(FAME.defaults.valueForKey(FAME.user_name + "1"))")
+        
+        if (FAME.defaults.valueForKey("\(FAME.user_name)1") != nil){
+            let pushState = FAME.defaults.valueForKey("\(FAME.user_name)1") as! Bool
+            if pushState{
+                UIApplication.sharedApplication().registerForRemoteNotifications()
+                
+            }
+            else{
+                UIApplication.sharedApplication().unregisterForRemoteNotifications()
+            }
+            
+        }
+        else{
+            UIApplication.sharedApplication().registerForRemoteNotifications()
+        }
     }
     func getDeviceTableData(){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
@@ -387,8 +539,13 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
         //var dl=HttpClient()
         //Surl="http://www.famesmart.com/famecloud/user_intf.php"
         print(Surl)
+        
+        timerFunction()
+        
+    }
+    func timerFunction(){
         let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 10, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"client_type\": \"ios\"}",cmplx:true)
-
+        
         
         if (received != nil) {
             switch received.valueForKey("result") as! NSNumber {
@@ -400,7 +557,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                 
                 isPushOn()
                 FAME.user_uid = received.valueForKey("user_uid") as! UInt
-            
+                
                 if received.valueForKey("device_count") as! Int == 0 {
                     print("no devices linked")
                     
@@ -428,7 +585,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                     //get the devicetable
                     getDeviceTableData()
                 }
-            
+                
                 
             default:
                 
@@ -445,25 +602,9 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
             viewAnimate().showTip(self.tip, content: Defined_network_failed)
             
         }
+
     }
-    func isPushOn(){
-        print("PushStatr\(FAME.defaults.valueForKey(FAME.user_name + "1"))")
-        
-        if (FAME.defaults.valueForKey("\(FAME.user_name)1") != nil){
-            let pushState = FAME.defaults.valueForKey("\(FAME.user_name)1") as! Bool
-            if pushState{
-                UIApplication.sharedApplication().registerForRemoteNotifications()
-                
-            }
-            else{
-                UIApplication.sharedApplication().unregisterForRemoteNotifications()
-            }
-            
-        }
-        else{
-            UIApplication.sharedApplication().registerForRemoteNotifications()
-        }
-    }
+    
     static func getlocalIP() -> [String]{
         
         var addresses = [String]()
@@ -503,9 +644,19 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
         
         let screenHeight = self.view.bounds.height
         
+        let oldlogFrame = self.logo.frame
+        let oldloginBtnFrame = self.loginBtn.frame
+        let oldlocalBtnFrame = self.localBtn.frame
+        let oldviewInput2Frame = self.viewInput2.frame
+        let oldviewInput1Frame = self.viewInput1.frame
+        let oldview3Frame = self.view3.frame
+        
+        
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         var Frame = self.logo.frame
-        var destFrame = CGRect(x: Frame.origin.x, y: Frame.origin.y+130, width: Frame.width, height: Frame.height)
+        
+        //print("\(HEIGHT)=======\(Frame.height)======\((HEIGHT - Frame.height)/2)")
+        var destFrame = CGRect(x: Frame.origin.x, y: (HEIGHT - Frame.height)/2 - 64, width: Frame.width, height: Frame.height)
 
         
         UIView.animateWithDuration(0.3, delay: 0.3, options: UIViewAnimationOptions.CurveEaseOut, animations: {
@@ -514,7 +665,7 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                 (finished:Bool) -> Void in
                 if finished {
                     let Frame = self.view.frame
-                    destFrame = CGRect(x: Frame.origin.x, y: Frame.origin.y+130, width: Frame.width * 2, height: Frame.height * 2)
+                    destFrame = CGRect(x: Frame.origin.x, y: (HEIGHT - Frame.height)/2 - 64, width: Frame.width * 2, height: Frame.height * 2)
                     
                     UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
                         self.logo.frame = self.view.bounds
@@ -532,8 +683,16 @@ class ViewControllerLogin1: UIViewController, UITextFieldDelegate {
                                 //show the MainView
                                 let next = GBoard.instantiateViewControllerWithIdentifier("navMai") as UIViewController
                                 self.presentViewController(next, animated: false, completion: {
+                                    
                                         self.logo.alpha = 1
-                                        self.navigationController?.popToRootViewControllerAnimated(false)
+                                        self.logo.frame = oldlogFrame
+                                        self.loginBtn.frame = oldloginBtnFrame
+                                        self.localBtn.frame = oldlocalBtnFrame
+                                        self.viewInput2.frame = oldviewInput2Frame
+                                        self.viewInput1.frame = oldviewInput1Frame
+                                        self.view3.frame = oldview3Frame
+                                        //self.navigationController?.popToRootViewControllerAnimated(false)
+                                    
                                     })
                                 
                             }
@@ -1201,12 +1360,13 @@ class ViewControllerLogin3: UIViewController,UITextFieldDelegate {
                         if (DTValue != nil) {
                             if DTValue == 0 {
                                 print("DeviceTable is OK")
+                                
                                 //show the MainView
-                                let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
-                                self.presentViewController(next, animated: false, completion: {
-                                    
-                                    self.navigationController?.popToRootViewControllerAnimated(false)
-                                    })
+                                
+                                let next = GBoard.instantiateViewControllerWithIdentifier("navMai") as UIViewController
+                                self.presentViewController(next, animated: true, completion: nil)
+                                
+                                
                             }else{
                                 print("DeviceTable is null")
                                 FAME.getDeviceTable()
@@ -2334,6 +2494,8 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
     @IBAction func doAddDeviceBtn(sender : AnyObject) {
         //send to server
 
+        
+        
         let arr1 = NSMutableArray()
         let arr2 = NSMutableArray()
         for i in 0..<FAME.addDeviceArray.count{
@@ -2354,6 +2516,7 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
         }
         
         else{
+            print("1111111")
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             if FAME.addDeviceArray.count == 0{
                 let alert :UIAlertView = UIAlertView()
@@ -2363,8 +2526,9 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
                 alert.show()
             }
             else{
+                print("222222")
                 if FAME.doAddDevice() {
-                    
+                    print("3333333")
                     if FAME.addDeviceArray.count > 0 {
                         let alert :UIAlertView = UIAlertView()
                         alert.delegate = self
@@ -2382,12 +2546,14 @@ class ViewControllerLogin6: UIViewController,UITableViewDataSource  {
         }
         
         if FAME.isAddDeviceFromSetting {
-            //self.navigationController?.popToRootViewControllerAnimated(true)
+            print("44444444")
+            self.navigationController?.popToRootViewControllerAnimated(true)
             FAME.addDeviceArray.removeAllObjects()
             
             
         }else{
-            
+        print("55555555")
+        self.navigationController?.popToRootViewControllerAnimated(true)
 //            let next = GBoard.instantiateViewControllerWithIdentifier("navMain") as UIViewController
 //            //next.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
 //            self.presentViewController(next, animated: false, completion:nil)

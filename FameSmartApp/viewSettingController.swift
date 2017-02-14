@@ -289,8 +289,7 @@ class ViewSettingMTimerController: UIViewController {
         if (received != nil){
             if (received["result"] as! NSObject == 0){
                 print(received)
-                self.viewUp.hidden = true
-                self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
+                
                 
                 //let date = FAME.getDateFormLocal()
                 let date1 = received["detail"]!["time"] as! String
@@ -303,6 +302,9 @@ class ViewSettingMTimerController: UIViewController {
                 
                 
                 dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    
+                    self.viewUp.hidden = true
+                    self.subView.transform = CGAffineTransformMakeTranslation(0 , 0)
                     
                     self.picker.setDate(date, animated: true)
                     

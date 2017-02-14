@@ -754,6 +754,7 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
             button1.addTarget(self, action: Selector("modeClick:"), forControlEvents: UIControlEvents.TouchUpInside)
             let lable1 = CHWMarqueeView(frame: CGRect(x: 10 + (btnWidthE + 20) * CGFloat(i % 4), y: btnWidthE * 1.1 + 15 + (btnWidthE * 1.1 + 40) * CGFloat(i / 4), width: btnWidthE, height: 20), title: text)
             
+            
 //            let lable1 = UILabel(frame: CGRect(x: 10 + (btnWidthE + 20) * CGFloat(i % 4), y: btnWidthE * 1.1 + 15 + (btnWidthE * 1.1 + 40) * CGFloat(i / 4), width: btnWidthE, height: 20))
 //            lable1.lineBreakMode = .ByTruncatingTail
 //            lable1.contentMode = .Top
@@ -781,7 +782,11 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
         }
         else{
             print("123--->\(sender.tag)")
-            print(FAME.devicDis[sender.tag - 100]["name"])
+            let type : Int = FAME.devicDis[sender.tag - 100]["type"] as! Int
+            if type == 8{
+                print(type)
+            }
+            
         }
         
         
@@ -1167,9 +1172,9 @@ class MineViewController: UIViewController,UIAlertViewDelegate {
                 let myThread = NSThread(target: self, selector: "Timerset1", object: nil)
                 myThread.start()
             }
-            else{
-                FAME.user_name = ""
-            }
+
+            FAME.user_name = ""
+
             
             let next = GBoard.instantiateViewControllerWithIdentifier("navLogin") as UIViewController
             self.presentViewController(next, animated: false, completion: nil)
@@ -1199,10 +1204,25 @@ class MineViewController: UIViewController,UIAlertViewDelegate {
         self.view.backgroundColor = UIColor.whiteColor()
         self.title = "我 的"
         
-        createNav()
+        //createNav()
+        createView()
+        
         
         
     }
+    func createView(){
+        let scrollView = UIScrollView(frame: CGRect(x: 20, y: 64, width: WIDTH - 40, height: HEIGHT - 64 - 49))
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        
+        self.view.addSubview(scrollView)
+        let arr = ["定时","视频监控","关于凡米","使用手册","信息记录"]
+        let arr2 = ["添加设备","修改密码","找回密码","绑定手机","修改系统时间","退出账号"]
+        createLableAndButton(scrollView, arr: arr, title: "设备管理", fram: CGRect(x: 0, y: 0, width: WIDTH - 60, height: HEIGHT/14 ), tag: 20)
+        createLableAndButton(scrollView, arr: arr2, title: "设备管理", fram: CGRect(x: 0, y: HEIGHT/14 * 6 + 56, width: WIDTH - 60, height: HEIGHT/14), tag: 30)
+        scrollView.contentSize=CGSizeMake(WIDTH - 60,HEIGHT/14 * 13 + 112)
+    }
+    
     func createNav(){
         let button = UIButton(frame: CGRectMake(0,0,60,35))
         button.setTitle("设置", forState: UIControlState.Normal)
@@ -1211,6 +1231,89 @@ class MineViewController: UIViewController,UIAlertViewDelegate {
     }
     func setClick(sender:AnyObject!){
         
+        
+        
+    }
+    func ButtonClick(sender: UIButton) {
+        print(sender.tag)
+        
+        
+
+        switch(sender.tag){
+            case 20:
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine20") as! ViewControllerSUTimer
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            case 21:
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine21") as! ViewControllerVideo
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            case 22:
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine22") as! ViewAboutUs2Controller
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            case 23:
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine23") as! ViewControllerMainUM
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            case 24:
+                let next = GBoard.instantiateViewControllerWithIdentifier("msg") as! ViewControllerMsg
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            case 30:
+                let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin5") as! ViewControllerLogin5
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            case 31:
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine31") as! ViewSettingPwdController
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            case 32:
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine32") as! ViewControllerLogin7
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            case 33:
+                let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin4") as! ViewControllerLogin4
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            case 34:
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine34") as! ViewSettingMTimerController
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            case 35:
+                let alert :UIAlertView = UIAlertView()
+                alert.delegate = self
+                alert.title = Defined_ALERT_loginOut
+                alert.message = Defined_ALERT_loginOut2
+                alert.addButtonWithTitle(Defined_ALERT_OK)
+                alert.addButtonWithTitle(Defined_ALERT_CANCEL)
+                alert.show()
+                break;
+            default:
+                break;
+        }
+        
+        
+
+        
+    }
+    func createLableAndButton(superView:UIView,arr:NSArray,title:String,fram:CGRect,tag:Int){
+        
+        let lable = UILabel(frame: fram)
+        lable.text = title
+        lable.textColor = UIColor.whiteColor()
+        superView.addSubview(lable)
+        
+        for i in 0..<arr.count{
+            let button = UIButton(frame: CGRectMake(0,lable.frame.origin.y + CGFloat(i + 1) * (8 + HEIGHT/14),WIDTH - 40,HEIGHT/14))
+            button.tag = i + tag
+            button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            button.setTitle(arr[i] as? String, forState: UIControlState.Normal)
+            button.titleLabel?.font = UIFont(name: "", size: 15)
+            button.setBackgroundImage(UIImage(named: "btn_select.png"), forState: UIControlState.Normal)
+            button.addTarget(self, action: Selector("ButtonClick:"), forControlEvents: UIControlEvents.TouchUpInside)
+            superView.addSubview(button)
+        }
         
     }
     override func viewWillAppear(animated: Bool) {

@@ -622,6 +622,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             
             let detail = received["detail"] as! NSArray
+            print(detail)
             for value in detail{
                 let AddedObj = value as! NSDictionary
                 //let type = AddedObj["model_id"] as! String
@@ -632,7 +633,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                     
                     let addIdArr = fun!["state"] as! NSArray
                     let funArr = fun!["func"] as! NSArray
-                    print(funArr)
+                    //print(funArr)
                     for i in 0..<indexCount.count{
                         
                         let dic = NSMutableDictionary(dictionary: indexCount[i] as! [NSObject : AnyObject])
@@ -659,7 +660,7 @@ class ViewControllerLight: UIViewController,UITableViewDataSource,UITableViewDel
                 
             }
             
-            print(indexCount)
+            //print(indexCount)
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.TableView.reloadData()
             })

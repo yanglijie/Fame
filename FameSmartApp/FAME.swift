@@ -750,8 +750,7 @@ class fame:NSObject{
                             
                             FAME.idForNames[act_id + index * 2 + 1 ]=["name":"\(name)\(subValue)开","room":"\(roomName)","string":"\(roomName) \(name) \(subValue) 开","act_id":"\(act_id + index * 2 + 1)"]
                             FAME.idForNames[act_id + index * 2]=["name":"\(name)\(subValue)关","room":"\(roomName)","string":"\(roomName) \(name) \(subValue) 关","act_id":"\(act_id + index * 2)"]
-                            self.editForDevice.append(["name":"\(roomName)\(name)\(subValue)开","act_id":"\(act_id + index * 2 + 1)","type":"\(dev_type)"])
-                            self.editForDevice.append(["name":"\(roomName)\(name)\(subValue)关","act_id":"\(act_id + index * 2)","type":"\(dev_type)"])
+                            self.editForDevice.append(["name":"\(roomName)\(name)\(subValue)","act_id":"\(act_id + index * 2 + 1)","type":"\(dev_type)"])
                         
                         
                             //add to Links
@@ -832,8 +831,7 @@ class fame:NSObject{
                         FAME.idForNames[act_id + 1 ]=["name":"\(name)开","room":"\(roomName)","string":"\(roomName) \(name) 开","act_id":"\(act_id + 1 )"]
                         FAME.idForNames[act_id ]=["name":"\(name)关","room":"\(roomName)","string":"\(roomName) \(name) 关","act_id":"\(act_id )"]
                         
-                        self.editForDevice.append(["name":"\(roomName)\(name)开","act_id":"\(act_id + 1)","type":"\(dev_type)"])
-                        self.editForDevice.append(["name":"\(roomName)\(name)关","act_id":"\(act_id)","type":"\(dev_type)"])
+                        self.editForDevice.append(["name":"\(roomName)\(name)","act_id":"\(act_id + 1)","type":"\(dev_type)"])
                         
                         self.idForNamesMode[act_id + 1] = "\(roomName)\(name) 开"
                         self.idForNamesMode[act_id] = "\(roomName)\(name) 关"
@@ -953,8 +951,7 @@ class fame:NSObject{
                     FAME.idForNames[act_id ]=["name":"\(name)布防","room":"\(roomName)","string":"\(roomName) \(name) 布防","act_id":"\(act_id  )"]
                     FAME.idForNames[act_id + 1]=["name":"\(name)撒防","room":"\(roomName)","string":"\(roomName) \(name) 撒防","act_id":"\(act_id + 1 )"]
                     
-                    self.editForDevice.append(["name":"\(roomName)\(name)布防","act_id":"\(act_id)","type":"\(dev_type)"])
-                    self.editForDevice.append(["name":"\(roomName)\(name)撒防","act_id":"\(act_id + 1)","type":"\(dev_type)"])
+                    self.editForDevice.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","type":"\(dev_type)"])
                     
                     
                     self.idForNamesMode[act_id + 1] = "\(roomName) \(name) 撒防"
@@ -1047,9 +1044,7 @@ class fame:NSObject{
                 FAME.idForNames[act_id + 2]=["name":"\(name)暂停","room":"\(roomName)","string":"\(roomName) \(name) 暂停","act_id":"\(act_id  + 2 )"]
                 FAME.idForNames[act_id ]=["name":"\(name)停止","room":"\(roomName)","string":"\(roomName) \(name) 停止","act_id":"\(act_id)"]
                     
-                self.editForDevice.append(["name":"\(roomName)\(name)打开","act_id":"\(act_id + 1)","type":"\(dev_type)"])
-                self.editForDevice.append(["name":"\(roomName)\(name)暂停","act_id":"\(act_id + 2)","type":"\(dev_type)"])
-                self.editForDevice.append(["name":"\(roomName)\(name)停止","act_id":"\(act_id)","type":"\(dev_type)"])
+                self.editForDevice.append(["name":"\(roomName)\(name)","act_id":"\(act_id + 1)","type":"\(dev_type)"])
                 
                 //add to linkArray
                 //  FAME.linkArray[2].append(["name":[name],"room":[roomName],"subName":[" "],"subId":["\(act_id )"]])

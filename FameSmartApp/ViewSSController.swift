@@ -2075,6 +2075,8 @@ class ViewControllerSS7Detail: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        createNav()
+        
         self.airDetail = NSDictionary();
         let view = self.view.viewWithTag(200) as UIView!
         view.layer.borderColor=UIColor.whiteColor().CGColor
@@ -2087,6 +2089,17 @@ class ViewControllerSS7Detail: UIViewController {
         swipeLeftGesture.direction = UISwipeGestureRecognizerDirection.Down //不设置是右
         subView.addGestureRecognizer(swipeLeftGesture)
 
+        
+        
+        
+    }
+    func createNav(){
+        let button = UIButton(frame: CGRectMake(0,0,60,35))
+        button.setTitle("设置", forState: UIControlState.Normal)
+        button.addTarget(self, action: Selector("setClick:"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+    }
+    func setClick(sender:AnyObject!){
         
         
         

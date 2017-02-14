@@ -31,6 +31,7 @@ class CHWMarqueeView: UIView {
         let lab = UILabel()
         lab.frame = CGRectZero
         lab.textColor = UIColor.whiteColor()
+        lab.textAlignment = .Center
         lab.font = UIFont.boldSystemFontOfSize(14.0)
         lab.text = marqueeTitle
         
