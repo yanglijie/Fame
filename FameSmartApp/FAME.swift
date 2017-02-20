@@ -493,8 +493,6 @@ class fame:NSObject{
         
         print("updateDeviceTable !!!!!!!!")
         
-
-
         var tsNum :Int = 0 as Int
         
         let TS:AnyObject! = FAME.device_table.valueForKey("table_version")
@@ -750,7 +748,7 @@ class fame:NSObject{
                             
                             FAME.idForNames[act_id + index * 2 + 1 ]=["name":"\(name)\(subValue)开","room":"\(roomName)","string":"\(roomName) \(name) \(subValue) 开","act_id":"\(act_id + index * 2 + 1)"]
                             FAME.idForNames[act_id + index * 2]=["name":"\(name)\(subValue)关","room":"\(roomName)","string":"\(roomName) \(name) \(subValue) 关","act_id":"\(act_id + index * 2)"]
-                            self.editForDevice.append(["name":"\(roomName)\(name)\(subValue)","act_id":"\(act_id + index * 2 + 1)","type":"\(dev_type)"])
+                            self.editForDevice.append(["name":"\(roomName)\(name)\(subValue)","act_id":"\(act_id + index * 2 + 1)","type":"\(dev_type)","state":"0","ieee":"\(ieee)","index":"\(index)","dev_id":"\(dev_id)"])
                         
                         
                             //add to Links
@@ -831,7 +829,7 @@ class fame:NSObject{
                         FAME.idForNames[act_id + 1 ]=["name":"\(name)开","room":"\(roomName)","string":"\(roomName) \(name) 开","act_id":"\(act_id + 1 )"]
                         FAME.idForNames[act_id ]=["name":"\(name)关","room":"\(roomName)","string":"\(roomName) \(name) 关","act_id":"\(act_id )"]
                         
-                        self.editForDevice.append(["name":"\(roomName)\(name)","act_id":"\(act_id + 1)","type":"\(dev_type)"])
+                        self.editForDevice.append(["name":"\(roomName)\(name)","act_id":"\(act_id + 1)","type":"\(dev_type)","state":"0","ieee":"\(ieee)","index":"0","dev_id":"\(dev_id)"])
                         
                         self.idForNamesMode[act_id + 1] = "\(roomName)\(name) 开"
                         self.idForNamesMode[act_id] = "\(roomName)\(name) 关"
@@ -951,7 +949,7 @@ class fame:NSObject{
                     FAME.idForNames[act_id ]=["name":"\(name)布防","room":"\(roomName)","string":"\(roomName) \(name) 布防","act_id":"\(act_id  )"]
                     FAME.idForNames[act_id + 1]=["name":"\(name)撒防","room":"\(roomName)","string":"\(roomName) \(name) 撒防","act_id":"\(act_id + 1 )"]
                     
-                    self.editForDevice.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","type":"\(dev_type)"])
+                    self.editForDevice.append(["name":"\(roomName)\(name)","act_id":"\(act_id)","type":"\(dev_type)","state":"0","ieee":"\(ieee)","index":"0","dev_id":"\(dev_id)"])
                     
                     
                     self.idForNamesMode[act_id + 1] = "\(roomName) \(name) 撒防"
@@ -1044,7 +1042,7 @@ class fame:NSObject{
                 FAME.idForNames[act_id + 2]=["name":"\(name)暂停","room":"\(roomName)","string":"\(roomName) \(name) 暂停","act_id":"\(act_id  + 2 )"]
                 FAME.idForNames[act_id ]=["name":"\(name)停止","room":"\(roomName)","string":"\(roomName) \(name) 停止","act_id":"\(act_id)"]
                     
-                self.editForDevice.append(["name":"\(roomName)\(name)","act_id":"\(act_id + 1)","type":"\(dev_type)"])
+                self.editForDevice.append(["name":"\(roomName)\(name)","act_id":"\(act_id + 1)","type":"\(dev_type)","state":"0","ieee":"\(ieee)","index":"0","dev_id":"\(dev_id)"])
                 
                 //add to linkArray
                 //  FAME.linkArray[2].append(["name":[name],"room":[roomName],"subName":[" "],"subId":["\(act_id )"]])
@@ -1758,63 +1756,77 @@ class fame:NSObject{
 
     
     
-    func deviceImage(type:Int) -> String{
+    func deviceImage(type:Int,state:Int) -> String{
         var btnImage : String
-        switch type{
-        case 7,8,9:
-            btnImage = "sa1.png"
-            break
-        case 10:
-            btnImage = "sa2.png"
-            break
-        case 19:
-            btnImage = "sa3.png"
-            break
-        case 16,17,18:
-            btnImage = "sa4.png"
-            break
-        case 13:
-            btnImage = "sa5.png"
-            break
-        case 11,12:
-            btnImage = "sa6.png"
-            break
-        case 31:
-            btnImage = "sa7.png"
-            break
-        case 33:
-            btnImage = "sa9.png"
-            break
-        case 23:
-            btnImage = "ss2.png"
-            break
-        case 24:
-            btnImage = "ss3.png"
-            break
-        case 26:
-            btnImage = "ss4.png"
-            break
-        case 25:
-            btnImage = "ss5.png"
-            break
-        case 28:
-            btnImage = "ss6.png"
-            break
-        case 30:
-            btnImage = "ss7.png"
-            break
-        case 32:
-            btnImage = "ss8.png"
-            break
-        case 48:
-            btnImage = "ss9.png"
-            break
-        case 49:
-            btnImage = "ss10.png"
-            break
-        default:
-            btnImage = "sa1.png"
-            
+        
+        if state == 0{
+            switch type{
+            case 7,8,9:
+                btnImage = "sa1.png"
+                break
+            case 10:
+                btnImage = "sa2.png"
+                break
+            case 19:
+                btnImage = "sa3.png"
+                break
+            case 16,17,18:
+                btnImage = "sa4.png"
+                break
+            case 13:
+                btnImage = "sa5.png"
+                break
+            case 11,12:
+                btnImage = "sa6.png"
+                break
+            case 31:
+                btnImage = "sa7.png"
+                break
+            case 33:
+                btnImage = "sa9.png"
+                break
+            case 23:
+                btnImage = "ss2.png"
+                break
+            case 24:
+                btnImage = "ss3.png"
+                break
+            case 26:
+                btnImage = "ss4.png"
+                break
+            case 25:
+                btnImage = "ss5.png"
+                break
+            case 28:
+                btnImage = "ss6.png"
+                break
+            case 30:
+                btnImage = "ss7.png"
+                break
+            case 32:
+                btnImage = "ss8.png"
+                break
+            case 48:
+                btnImage = "ss9.png"
+                break
+            case 49:
+                btnImage = "ss10.png"
+                break
+            default:
+                btnImage = "sa1.png"
+                
+            }
+
+        }
+        else{
+            switch type{
+            case 7,8,9:
+                btnImage = "sa1_1.png"
+                break
+            default:
+                btnImage = "sa1_1.png"
+                
+            }
         }
         return btnImage
     }

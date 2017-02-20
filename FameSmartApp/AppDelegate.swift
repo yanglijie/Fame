@@ -227,6 +227,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UIAlertViewDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         print("应用进入前台并处于活动状态时调用")
+        if !socket.isConnected{
+            socket.connect()
+        }
+        
     }
     
     func applicationWillTerminate(application: UIApplication) {

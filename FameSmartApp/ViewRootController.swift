@@ -541,6 +541,8 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
     var funcArr = ["12","13","8","9"]
     var modeDis:Dictionary<String,Dictionary<String,String>> = [:]
     
+    var stateDis = NSDictionary()
+    
     func reloadMode() {
         print(FAME.modeArr)
         let view : UIView = self.view.viewWithTag(2)! as UIView
@@ -592,12 +594,17 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
         print("Received text: \(text)")
         let data = text.dataUsingEncoding(NSUTF8StringEncoding)
         let dic = try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! NSDictionary
-        print(dic)
+        //print(dic)
         let type = dic!["type"] as! String
         //let statrDic = dic!["content"] as! NSDictionary
         //print(type)
         if type == "msg"{
-            NSNotificationCenter.defaultCenter().postNotificationName("socketLight", object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("socketLight", object: nil)
+            print("msgmsgmsgmsg---------")
+            stateDis = dic!
+            print(stateDis)
+            
+            refreshLightState()
         }
         
     }
@@ -607,7 +614,33 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
         
     }
     
+    func refreshLightState(){
+        
+        let ieee_addr = stateDis["ieee_addr"] as! String
+        let dic = stateDis["content"] as! NSDictionary
+        let stateArr = dic["state"] as! NSArray
+        for i in 0..<FAME.devicDis.count{
+            let dic1 = NSMutableDictionary(dictionary: FAME.devicDis[i] as! [NSObject : AnyObject])
+            let ieee = dic1["ieee"] as! String
+            
+            if ieee_addr == ieee{
+                FAME.devicDis.removeObjectAtIndex(i)
+                
+                let index = dic1["index"] as! Int
+                dic1["state"] = stateArr[index]
+                print("123333---->\(dic1)")
+                let type = dic1["type"] as! Int
+                let state = stateArr[index] as! Int
+                let button : UIButton = self.view.viewWithTag(102 + i)! as! UIButton
+                let png = FAME.deviceImage(type, state: state)
+                button.setBackgroundImage(UIImage(named: png), forState: .Normal)
+                
+                FAME.devicDis.insertObject(dic1, atIndex: i)
+            }
+        }
+        
 
+    }
     func Timerset(){
         let cmdStr = "{\"cmd\": 57, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \(FAME.user_did),\"name\": \"p_mode\"}"
         
@@ -628,14 +661,57 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
             
             let deviceArr = strDic["name"] as! NSMutableArray
             FAME.devicDis = deviceArr
-            //print(FAME.devicDis)
-        }
-        else{
+            print(FAME.devicDis)
+            
+            let myThread = NSThread(target: self, selector: "TimersetRefresh", object: nil)
+            myThread.start()
             
         }
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.refreshView()
-        })
+        else{
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.refreshView()
+            })
+        }
+        
+        
+    }
+    func TimersetRefresh(){
+        var paramArray : Array<String> = []
+        
+        for value in FAME.devicDis {
+            let ieee:String! = value["ieee"] as! String
+            paramArray.append(ieee)
+        }
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 61, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\": \(paramArray)}",timeout : 60)
+        
+        if (received != nil){
+            let detail = received["detail"] as! NSArray
+            //print(detail)
+            for value in detail{
+                let AddedObj = value as! NSDictionary
+                let iee = AddedObj["ieee_addr"] as! String
+                let fun = AddedObj["state_json"] as? NSDictionary
+                if (fun != nil){
+                    let addIdArr = fun!["state"] as! NSArray
+                    //print(addIdArr)
+                    for i in 0..<FAME.devicDis.count{
+                        let dic1 = NSMutableDictionary(dictionary: FAME.devicDis[i] as! [NSObject : AnyObject])
+                        let ieee = dic1["ieee"] as! String
+                        
+                        if iee == ieee{
+                            FAME.devicDis.removeObjectAtIndex(i)
+                            let index = dic1["index"] as! Int
+                            dic1["state"] = addIdArr[index]
+                            FAME.devicDis.insertObject(dic1, atIndex: i)
+                        }
+                    }
+
+                }
+            }
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.refreshView()
+            })
+        }
         
     }
     func dataModeDis(){
@@ -674,13 +750,13 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
     }
     func createView(){
         
-        scrollView.frame = CGRect(x: 0, y: 64, width: WIDTH, height: HEIGHT - 49 - 64)
+        scrollView.frame = CGRect(x: 0, y: 20, width: WIDTH, height: HEIGHT - 49 - 20)
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         //scrollView.backgroundColor = UIColor.grayColor()
         self.view.addSubview(scrollView)
         if let mainView = MainView.newInstance(){
-            mainView.frame = CGRect(x: 10, y: 30, width: WIDTH - 20, height: HEIGHT * 0.3)
+            mainView.frame = CGRect(x: 10, y: 10, width: WIDTH - 20, height: HEIGHT * 0.3)
             mainView.backgroundColor = UIColor.clearColor()
             scrollView.addSubview(mainView)
 
@@ -719,15 +795,15 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
         let view2 = UIView(frame: CGRect(x: 0, y: HEIGHT * 0.08, width: WIDTH - 20, height: btnHeight))
         
         //view2.backgroundColor = UIColor.grayColor()
-        if tag == 1{
-            let image = UIImageView(frame: CGRect(x: 0, y: 0, width: WIDTH - 20, height: btnHeight))
-            image.image = UIImage(named: "bottom_bg.png")
-            image.layer.cornerRadius = 10
-            image.layer.masksToBounds = true
-            view2.addSubview(image)
-            
-            
-        }
+//        if tag == 1{
+//            let image = UIImageView(frame: CGRect(x: 0, y: 0, width: WIDTH - 20, height: btnHeight))
+//            image.image = UIImage(named: "bottom_bg.png")
+//            image.layer.cornerRadius = 10
+//            image.layer.masksToBounds = true
+//            view2.addSubview(image)
+//            
+//            
+//        }
         for i in 0..<modeArr.count{
             
             let button1 = UIButton(frame: CGRect(x: 10 + (btnWidthE + 20) * CGFloat(i % 4), y: 10 + (btnWidthE * 1.1 + 40) * CGFloat(i / 4) , width: btnWidthE, height: btnWidthE * 1.1))
@@ -741,16 +817,19 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
                 text = modeArr[i]["name"] as! String
             
                 let type = modeArr[i]["type"] as? Int
-            
+                var state = modeArr[i]["state"] as? Int
+                if state == nil{
+                    state = 0
+                }
                 if (type != nil){
-                    png = FAME.deviceImage(type!)
+                    png = FAME.deviceImage(type!, state: state!)
                     //print(modeArr[i]["name"])
                 }
                 //png = FAME.deviceImage(Int(type)!)
                 
             }
             button1.setBackgroundImage(UIImage(named: png), forState: .Normal)
-            button1.tag = i + tag
+            button1.tag = i + tag + 2
             button1.addTarget(self, action: Selector("modeClick:"), forControlEvents: UIControlEvents.TouchUpInside)
             let lable1 = CHWMarqueeView(frame: CGRect(x: 10 + (btnWidthE + 20) * CGFloat(i % 4), y: btnWidthE * 1.1 + 15 + (btnWidthE * 1.1 + 40) * CGFloat(i / 4), width: btnWidthE, height: 20), title: text)
             
@@ -776,21 +855,55 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
         //print(sender.tag)
         if sender.tag < 100{
             print(sender.tag)
-            let name = modeDis[FAME.modeArr[sender.tag - 1] as! String]!["name"]!
+            let name = modeDis[FAME.modeArr[sender.tag - 3] as! String]!["name"]!
             print(name)
             FAME.showMessage("\(name)启动")
         }
         else{
             print("123--->\(sender.tag)")
-            let type : Int = FAME.devicDis[sender.tag - 100]["type"] as! Int
-            if type == 8{
-                print(type)
+            print(FAME.devicDis[sender.tag - 102])
+            let type : Int = FAME.devicDis[sender.tag - 102]["type"] as! Int
+            let ieee = FAME.devicDis[sender.tag - 102]["ieee"] as! String
+            if type == 10{
+                
+                FAME.dev_ieee = ieee
+                FAME.saActid4 = type
+                let next :UIViewController! = GBoard.instantiateViewControllerWithIdentifier("viewSA21") as UIViewController!
+                next.title = FAME.devicDis[sender.tag - 102]["type"] as? String
+                self.navigationController?.pushViewController(next, animated: true)
             }
-            
+            else {
+                
+                let dev = FAME.devicDis[sender.tag - 102]["dev_id"] as! Int
+                let index = FAME.devicDis[sender.tag - 102]["index"] as! Int
+                let state = FAME.devicDis[sender.tag - 102]["state"] as! Int
+                var act_id = 0
+                if state == 0{
+                    act_id = 1
+                }
+                else{
+                    act_id = 0
+                }
+                var type_t : String = "light"
+                if type == 24 || type == 25 || type == 26 || type == 28{
+                    type_t = "sensor"
+                }
+                
+                let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 60, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\":{\"type\":\"\(type_t)\",\"dev_id\":\(dev),\"act_id\":\(act_id),\"idx\":\(index + 1)}}",timeout : 60)
+                
+                if (received != nil){
+                    let png = FAME.deviceImage(type, state: act_id)
+                    sender.setBackgroundImage(UIImage(named: png), forState: .Normal)
+                    
+                }
+                else{
+                    
+                }
+
+                
+            }
         }
-        
-        
-        
+ 
     }
     
     //编辑按钮
@@ -813,7 +926,7 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "empty.png"), forBarMetrics: UIBarMetrics.Default)
       
-        //self.navigationController?.navigationBarHidden = true
+        self.navigationController?.navigationBarHidden = true
 //        let view:UIView = UIView(frame: CGRectMake(0, 0, WIDTH, 64))
 //        view.backgroundColor = UIColor(red: 105/255, green: 139/255, blue: 105/255, alpha: 0.3)
 //        self.view.addSubview(view)
@@ -847,7 +960,13 @@ class DeviceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "设 备"
-        self.view.backgroundColor = UIColor.whiteColor()
+        
+        let lable:UILabel = UILabel(frame: CGRect(x: 0, y: 50, width: self.view.frame.size.width , height: 44))
+        lable.text = "智 能 电 机"
+        lable.textAlignment = .Center
+        lable.textColor = UIColor.whiteColor()
+        lable.font = UIFont.systemFontOfSize(20)
+        self.view.addSubview(lable)
         
         createView()
         
@@ -941,9 +1060,11 @@ class DeviceViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        //状态栏变黑底白字
         self.navigationController?.navigationBar.barStyle = UIBarStyle.BlackTranslucent
         
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBarHidden = true
         
         
     }
@@ -975,6 +1096,7 @@ class DeviceViewController: UIViewController {
         
         
         super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: ""), forBarMetrics: UIBarMetrics.Default)
         //self.navigationController?.setNavigationBarHidden(false, animated: true)
         
@@ -992,8 +1114,9 @@ class SensorsViewController: UIViewController,UIAlertViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.whiteColor()
         self.title = "传 感"
+        
+        
         
         createView()
         
@@ -1007,10 +1130,20 @@ class SensorsViewController: UIViewController,UIAlertViewDelegate {
         let btns = Defined_SS_btns
         let btnImgs = ["ss1.png","ss2.png","ss3.png","ss4.png","ss5.png","ss6.png","ss7.png","ss8.png","ss9.png","ss10.png"]
         
-        let scrollView:UIScrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height - 49))
+        let scrollView:UIScrollView = UIScrollView(frame: CGRect(x: 0, y: 20, width: self.view.frame.size.width, height: self.view.frame.size.height - 49 - 20))
         self.view.addSubview(scrollView)
+        
+        
+        let lable:UILabel = UILabel(frame: CGRect(x: 0, y: 20, width: self.view.frame.size.width , height: 44))
+        lable.text = "智 能 传 感"
+        lable.textAlignment = .Center
+        lable.textColor = UIColor.whiteColor()
+        lable.font = UIFont.systemFontOfSize(20)
+        scrollView.addSubview(lable)
+        
         let view0:UIView = UIView(frame: CGRect(x: 30, y: 0, width: self.view.frame.size.width - 60, height: self.view.frame.size.height))
         scrollView.addSubview(view0)
+        
         
         //fix position
         
@@ -1027,7 +1160,7 @@ class SensorsViewController: UIViewController,UIAlertViewDelegate {
         let disY:CGFloat = btnHeight + 30 + self.view.frame.height * 0.02
         // diffj 改了加1
         let diffj:CGFloat = CGFloat(btns.count / 3)
-        let top:CGFloat =  (self.view.frame.height - disY * diffj - 69) * 0.5
+        let top:CGFloat =  (self.view.frame.height - disY * diffj - 69) * 0.3
         
         
         let diffi:CGFloat = CGFloat(btns.count % 3)
@@ -1115,8 +1248,11 @@ class SensorsViewController: UIViewController,UIAlertViewDelegate {
         super.viewWillAppear(animated)
         
         
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        //状态栏变黑底白字
         self.navigationController?.navigationBar.barStyle = UIBarStyle.BlackTranslucent
+        
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBarHidden = true
         
         
     }
@@ -1125,7 +1261,7 @@ class SensorsViewController: UIViewController,UIAlertViewDelegate {
         
         
         super.viewWillDisappear(animated)
-        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         
     }
     

@@ -51,9 +51,12 @@ class EditViewController: UIViewController {
                     let name = dataSource[j]["name"]! as String
                     let act_id = dataSource[j]["act_id"]! as String
                     let type = dataSource[j]["type"]! as String
+                    let ieee = dataSource[j]["ieee"]! as String
+                    let index = dataSource[j]["index"]! as String
+                    let dev_id = dataSource[j]["dev_id"]! as String
                     let typeI = Int(type)!
                     let act_idI = Int(act_id)!
-                    arr.addObject(["name":name,"act_id":act_idI,"type":typeI])
+                    arr.addObject(["name":name,"act_id":act_idI,"type":typeI,"state":"0","ieee":"\(ieee)","index":"\(index)","dev_id":"\(dev_id)"])
                     //arr.addObject("\(dataSource[j]["act_id"]!)")
                     
                 }

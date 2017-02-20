@@ -141,6 +141,7 @@
 		953306B71DE8C0B600F66B85 /* curtain35.png in Resources */ = {isa = PBXBuildFile; fileRef = 953306B51DE8C0B600F66B85 /* curtain35.png */; };
 		953306BA1DE8E9C700F66B85 /* getUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 953306B91DE8E9C700F66B85 /* getUUID.m */; };
 		953306BD1DE8EA6300F66B85 /* KeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 953306BC1DE8EA6300F66B85 /* KeyChainStore.m */; };
+		95408CA71E54ED2300B9A943 /* sa1_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 95408CA61E54ED2300B9A943 /* sa1_1.png */; };
 		955D56D41E3294A900247E0E /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 955D56C91E32949300247E0E /* Starscream.framework */; };
 		955D56D61E32958600247E0E /* Starscream.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 955D56C91E32949300247E0E /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		955D56DC1E32C2F200247E0E /* curtain_icon3.png in Resources */ = {isa = PBXBuildFile; fileRef = 955D56D81E32C2F200247E0E /* curtain_icon3.png */; };
@@ -390,6 +391,7 @@
 		95B61A4A1D510AD000D3B77A /* loading_login10.png in Resources */ = {isa = PBXBuildFile; fileRef = 95B61A3E1D510AD000D3B77A /* loading_login10.png */; };
 		95B61A4B1D510AD000D3B77A /* loading_login11.png in Resources */ = {isa = PBXBuildFile; fileRef = 95B61A3F1D510AD000D3B77A /* loading_login11.png */; };
 		95B61A4C1D510AD000D3B77A /* loading_login12.png in Resources */ = {isa = PBXBuildFile; fileRef = 95B61A401D510AD000D3B77A /* loading_login12.png */; };
+		95B6A7B01E53D1D600B08F1F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B6A7AF1E53D1D600B08F1F /* CoreLocation.framework */; };
 		95C3E3A91D70EAA10026ABEF /* checkbox_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 95C3E3A71D70EAA10026ABEF /* checkbox_selected.png */; };
 		95C3E3AA1D70EAA10026ABEF /* checkbox_unselect.png in Resources */ = {isa = PBXBuildFile; fileRef = 95C3E3A81D70EAA10026ABEF /* checkbox_unselect.png */; };
 		95C8104E1D42A924000BC78B /* myloginbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 95C8104D1D42A924000BC78B /* myloginbg.png */; };
@@ -647,6 +649,7 @@
 		953306BB1DE8EA6300F66B85 /* KeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyChainStore.h; sourceTree = "<group>"; };
 		953306BC1DE8EA6300F66B85 /* KeyChainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyChainStore.m; sourceTree = "<group>"; };
 		953306BE1DE8EDE500F66B85 /* 米居.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "米居.entitlements"; sourceTree = "<group>"; };
+		95408CA61E54ED2300B9A943 /* sa1_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sa1_1.png; sourceTree = "<group>"; };
 		955D56BF1E32949300247E0E /* Starscream.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Starscream.xcodeproj; path = "Starscream-swift-23/Starscream.xcodeproj"; sourceTree = "<group>"; };
 		955D56D81E32C2F200247E0E /* curtain_icon3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = curtain_icon3.png; path = curtain/curtain_icon3.png; sourceTree = "<group>"; };
 		955D56D91E32C2F200247E0E /* curtain_icon4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = curtain_icon4.png; path = curtain/curtain_icon4.png; sourceTree = "<group>"; };
@@ -916,6 +919,7 @@
 		95B61A3E1D510AD000D3B77A /* loading_login10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading_login10.png; path = ../loading_login10.png; sourceTree = "<group>"; };
 		95B61A3F1D510AD000D3B77A /* loading_login11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading_login11.png; path = ../loading_login11.png; sourceTree = "<group>"; };
 		95B61A401D510AD000D3B77A /* loading_login12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading_login12.png; path = ../loading_login12.png; sourceTree = "<group>"; };
+		95B6A7AF1E53D1D600B08F1F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		95C3E3A71D70EAA10026ABEF /* checkbox_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_selected.png; sourceTree = "<group>"; };
 		95C3E3A81D70EAA10026ABEF /* checkbox_unselect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_unselect.png; sourceTree = "<group>"; };
 		95C8104D1D42A924000BC78B /* myloginbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myloginbg.png; sourceTree = "<group>"; };
@@ -960,6 +964,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95B6A7B01E53D1D600B08F1F /* CoreLocation.framework in Frameworks */,
 				955D56D41E3294A900247E0E /* Starscream.framework in Frameworks */,
 				07675C74198BDECF00BCBB28 /* AVFoundation.framework in Frameworks */,
 				0710E90919907C0D008548F4 /* libz.dylib in Frameworks */,
@@ -990,6 +995,7 @@
 				956F11B51D2710F5006D1197 /* MJRefresh */,
 				01DD0F7F1C90237300B86162 /* Default-568h@2x.png */,
 				0710E90819907C0D008548F4 /* libz.dylib */,
+				95B6A7AF1E53D1D600B08F1F /* CoreLocation.framework */,
 				0710E90619907C07008548F4 /* AddressBook.framework */,
 				0710E90419907C02008548F4 /* AudioToolbox.framework */,
 				0710E90219907BFC008548F4 /* SystemConfiguration.framework */,
@@ -1131,6 +1137,7 @@
 		9522ECAF1E1DAA7500295180 /* MainImage */ = {
 			isa = PBXGroup;
 			children = (
+				95408CA61E54ED2300B9A943 /* sa1_1.png */,
 				9522ED041E1DADB200295180 /* main_nor@2x.png */,
 				9522ED051E1DADB200295180 /* main_pre@2x.png */,
 				9522ED081E1DB25300295180 /* water_nor@2x.png */,
@@ -1979,6 +1986,7 @@
 				95B61A411D510AD000D3B77A /* loading_login1.png in Resources */,
 				956902D41D306A2E0098422C /* launchImage.png in Resources */,
 				956902331D306A2E0098422C /* radio_03.png in Resources */,
+				95408CA71E54ED2300B9A943 /* sa1_1.png in Resources */,
 				9518D23E1D6618A40083067F /* main_setting_press.png in Resources */,
 				9522ECEE1E1DAA7500295180 /* mode9_icon_normal.png in Resources */,
 				956902B81D306A2E0098422C /* clock_16.png in Resources */,

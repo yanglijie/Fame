@@ -349,15 +349,11 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let dev_Str:String! = curtains[indexPath.row]["dev_id"] as String!
-        let dev_id:Int! = Int(dev_Str)
-        
         let ieee:String! = curtains[indexPath.row]["ieee"] as String!
         let dev_Type:String! = curtains[indexPath.row]["dev_type"] as String!
         let dev_type:Int! = Int(dev_Type)
         print(curtains[indexPath.row])
-        
-        FAME.dev_id = dev_id
+
         //FAME.dev_type = dev_type
         
         FAME.tempApplsId = act_ids[indexPath.row]
@@ -366,7 +362,6 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         var viewId:Int = 0
         if FAME.tempSensorId == 2{
             viewId = 2 * 10 + 1
-            FAME.saActid2 = dev_id
             FAME.saActid4 = dev_type
         }
         else if FAME.tempSensorId == 3{

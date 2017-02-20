@@ -1386,8 +1386,6 @@ class ViewControllerCurtains: UIViewController {
         setButton.layer.borderWidth = 1
         setButton.layer.cornerRadius = 2
         
-        self.dev_id = FAME.saActid2
-        
         refreshCurtain()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "raloadCurtain:", name: "socketLight", object: nil)
