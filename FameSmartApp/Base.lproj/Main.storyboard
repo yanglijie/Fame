@@ -6763,7 +6763,7 @@
         <!--情 景 模 式-->
         <scene sceneID="sZk-8B-t6I">
             <objects>
-                <viewController title="情 景 模 式" id="yh1-6v-sML" customClass="ViewControllerMainP" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mineP" title="情 景 模 式" hidesBottomBarWhenPushed="YES" id="yh1-6v-sML" customClass="ViewControllerMainP" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="7jv-Tp-MGW"/>
                         <viewControllerLayoutGuide type="bottom" id="aux-XZ-7mx"/>
@@ -6772,8 +6772,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginpanel.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="cke-Tv-x1z">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="loginpanel.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="cke-Tv-x1z">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="637"/>
                             </imageView>
                             <view tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1dD-D5-Z1R">
                                 <rect key="frame" x="30" y="20" width="570" height="580"/>
@@ -6811,8 +6811,8 @@
                             <constraint firstItem="aux-XZ-7mx" firstAttribute="top" secondItem="1dD-D5-Z1R" secondAttribute="bottom" id="9Wt-W6-Uaf"/>
                             <constraint firstItem="cke-Tv-x1z" firstAttribute="leading" secondItem="TWX-YR-2jL" secondAttribute="leading" id="FpJ-Jb-2TM"/>
                             <constraint firstAttribute="trailing" secondItem="1dD-D5-Z1R" secondAttribute="trailing" id="mkd-9N-lob"/>
-                            <constraint firstItem="aux-XZ-7mx" firstAttribute="top" secondItem="cke-Tv-x1z" secondAttribute="bottom" id="ngb-Ta-omw"/>
                             <constraint firstItem="1dD-D5-Z1R" firstAttribute="top" secondItem="7jv-Tp-MGW" secondAttribute="bottom" id="oFH-VD-qJX"/>
+                            <constraint firstAttribute="bottom" secondItem="cke-Tv-x1z" secondAttribute="bottom" id="wbq-sP-2uj"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -7557,10 +7557,10 @@
             </objects>
             <point key="canvasLocation" x="-795" y="3109"/>
         </scene>
-        <!--View Controller-->
+        <!--折线图-->
         <scene sceneID="Ure-tm-PeW">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="p8S-3o-Q6W" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="chars" title="折线图" hidesBottomBarWhenPushed="YES" id="p8S-3o-Q6W" customClass="charsViewController" customModule="米居" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LXK-SD-WnD"/>
                         <viewControllerLayoutGuide type="bottom" id="8qJ-a9-RP4"/>
@@ -7569,16 +7569,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="loginpanel.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="2lO-hH-MHK">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginpanel.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="2lO-hH-MHK">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="2lO-hH-MHK" secondAttribute="trailing" id="2vJ-eg-Z3p"/>
+                            <constraint firstItem="8qJ-a9-RP4" firstAttribute="top" secondItem="2lO-hH-MHK" secondAttribute="bottom" id="Q4q-rp-HfR"/>
+                            <constraint firstItem="2lO-hH-MHK" firstAttribute="leading" secondItem="uHD-ns-ODd" secondAttribute="leading" id="ZZQ-cm-3XT"/>
+                            <constraint firstItem="2lO-hH-MHK" firstAttribute="top" secondItem="uHD-ns-ODd" secondAttribute="top" id="fyr-8y-cbc"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ls-gj-Pwt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3311" y="-229"/>
+            <point key="canvasLocation" x="3336" y="-315"/>
         </scene>
         <!--光 纤-->
         <scene sceneID="FgL-Of-ncY">

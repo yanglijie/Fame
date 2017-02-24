@@ -555,6 +555,9 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "首 页"
+        
+        FAME.modeArr = []
+        FAME.devicDis = []
         dataModeDis()
         createView()
         let myThread = NSThread(target: self, selector: "Timerset", object: nil)
@@ -759,8 +762,8 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
             mainView.frame = CGRect(x: 10, y: 10, width: WIDTH - 20, height: HEIGHT * 0.3)
             mainView.backgroundColor = UIColor.clearColor()
             scrollView.addSubview(mainView)
-
-            mainView.M_data.text = FAME.getNowDate(1)
+            let time = FAME.getNowDate(1)
+            mainView.M_data.text = time
             
         }
         
@@ -872,7 +875,7 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
                 next.title = FAME.devicDis[sender.tag - 102]["type"] as? String
                 self.navigationController?.pushViewController(next, animated: true)
             }
-            else {
+            else if type == 7 || type == 8 || type == 9 {
                 
                 let dev = FAME.devicDis[sender.tag - 102]["dev_id"] as! Int
                 let index = FAME.devicDis[sender.tag - 102]["index"] as! Int
@@ -892,8 +895,9 @@ class MainViewController: UIViewController,UIAlertViewDelegate,EditViewControlle
                 let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: "{\"cmd\": 60, \"user_name\": \"\(FAME.user_name )\",\"user_pwd\": \"\(FAME.user_pwd)\", \"did\": \"\(FAME.user_did)\", \"param\":{\"type\":\"\(type_t)\",\"dev_id\":\(dev),\"act_id\":\(act_id),\"idx\":\(index + 1)}}",timeout : 60)
                 
                 if (received != nil){
-                    let png = FAME.deviceImage(type, state: act_id)
-                    sender.setBackgroundImage(UIImage(named: png), forState: .Normal)
+                    
+//                    let png = FAME.deviceImage(type, state: act_id)
+//                    sender.setBackgroundImage(UIImage(named: png), forState: .Normal)
                     
                 }
                 else{
@@ -1352,11 +1356,11 @@ class MineViewController: UIViewController,UIAlertViewDelegate {
         scrollView.showsHorizontalScrollIndicator = false
         
         self.view.addSubview(scrollView)
-        let arr = ["定时","视频监控","关于凡米","使用手册","信息记录"]
-        let arr2 = ["添加设备","修改密码","找回密码","绑定手机","修改系统时间","退出账号"]
-        createLableAndButton(scrollView, arr: arr, title: "设备管理", fram: CGRect(x: 0, y: 0, width: WIDTH - 60, height: HEIGHT/14 ), tag: 20)
-        createLableAndButton(scrollView, arr: arr2, title: "设备管理", fram: CGRect(x: 0, y: HEIGHT/14 * 6 + 56, width: WIDTH - 60, height: HEIGHT/14), tag: 30)
-        scrollView.contentSize=CGSizeMake(WIDTH - 60,HEIGHT/14 * 13 + 112)
+        let arr = ["修改密码","找回密码","绑定手机"]
+        let arr2 = ["添加设备","定时","安全监测","情景模式","视频监控","修改系统时间","使用手册","关于凡米","退出账号"]
+        createLableAndButton(scrollView, arr: arr, title: "账号密码", fram: CGRect(x: 0, y: 0, width: WIDTH - 60, height: HEIGHT/14 ), tag: 20)
+        createLableAndButton(scrollView, arr: arr2, title: "设备管理", fram: CGRect(x: 0, y: HEIGHT/14 * 4 + 40, width: WIDTH - 60, height: HEIGHT/14), tag: 30)
+        scrollView.contentSize=CGSizeMake(WIDTH - 60,HEIGHT/14 * 14 + 120)
     }
     
     func createNav(){
@@ -1377,23 +1381,16 @@ class MineViewController: UIViewController,UIAlertViewDelegate {
 
         switch(sender.tag){
             case 20:
-                let next = GBoard.instantiateViewControllerWithIdentifier("mine20") as! ViewControllerSUTimer
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine31") as! ViewSettingPwdController
                 self.navigationController?.pushViewController(next, animated: true)
+                
                 break;
             case 21:
-                let next = GBoard.instantiateViewControllerWithIdentifier("mine21") as! ViewControllerVideo
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine32") as! ViewControllerLogin7
                 self.navigationController?.pushViewController(next, animated: true)
                 break;
             case 22:
-                let next = GBoard.instantiateViewControllerWithIdentifier("mine22") as! ViewAboutUs2Controller
-                self.navigationController?.pushViewController(next, animated: true)
-                break;
-            case 23:
-                let next = GBoard.instantiateViewControllerWithIdentifier("mine23") as! ViewControllerMainUM
-                self.navigationController?.pushViewController(next, animated: true)
-                break;
-            case 24:
-                let next = GBoard.instantiateViewControllerWithIdentifier("msg") as! ViewControllerMsg
+                let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin4") as! ViewControllerLogin4
                 self.navigationController?.pushViewController(next, animated: true)
                 break;
             case 30:
@@ -1401,22 +1398,36 @@ class MineViewController: UIViewController,UIAlertViewDelegate {
                 self.navigationController?.pushViewController(next, animated: true)
                 break;
             case 31:
-                let next = GBoard.instantiateViewControllerWithIdentifier("mine31") as! ViewSettingPwdController
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine20") as! ViewControllerSUTimer
                 self.navigationController?.pushViewController(next, animated: true)
                 break;
             case 32:
-                let next = GBoard.instantiateViewControllerWithIdentifier("mine32") as! ViewControllerLogin7
+                let next = GBoard.instantiateViewControllerWithIdentifier("msg") as! ViewControllerMsg
                 self.navigationController?.pushViewController(next, animated: true)
                 break;
+            //情景模式
             case 33:
-                let next = GBoard.instantiateViewControllerWithIdentifier("viewLogin4") as! ViewControllerLogin4
+                let next = GBoard.instantiateViewControllerWithIdentifier("mineP") as! ViewControllerMainP
                 self.navigationController?.pushViewController(next, animated: true)
                 break;
             case 34:
-                let next = GBoard.instantiateViewControllerWithIdentifier("mine34") as! ViewSettingMTimerController
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine21") as! ViewControllerVideo
                 self.navigationController?.pushViewController(next, animated: true)
                 break;
             case 35:
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine34") as! ViewSettingMTimerController
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            //使用手册
+            case 36:
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine23") as! ViewControllerMainUM
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            case 37:
+                let next = GBoard.instantiateViewControllerWithIdentifier("mine22") as! ViewAboutUs2Controller
+                self.navigationController?.pushViewController(next, animated: true)
+                break;
+            case 38:
                 let alert :UIAlertView = UIAlertView()
                 alert.delegate = self
                 alert.title = Defined_ALERT_loginOut

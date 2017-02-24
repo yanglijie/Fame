@@ -1326,10 +1326,10 @@ class ViewControllerApplas: UIViewController,UIAlertViewDelegate {
     override func viewWillAppear(animated: Bool){
         super.viewWillAppear(animated)
         
-        print(FAME.saActid4)
+        print(FAME.dev_id)
         
-        let array = FAME.button_names[FAME.dev_id]
-        
+        let array = FAME.button_names![FAME.dev_id]
+        print(FAME.button_names)
         
         btn1.setTitle("\(array![9] as! String)", forState: UIControlState.Normal)
         btn2.setTitle("\(array![10] as! String)", forState: UIControlState.Normal)
@@ -1740,7 +1740,7 @@ class ViewControllerAirC: UIViewController,UIAlertViewDelegate {
         
         //print(FAME.saActid3)
         
-        let array = FAME.button_names[FAME.dev_id]
+        let array = FAME.button_names![FAME.dev_id]
         
         
         btn1.setTitle("\(array![9] as! String)", forState: UIControlState.Normal)
@@ -1780,7 +1780,7 @@ class ViewControllerMusicName: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         print(FAME.dev_id)
-        let array = FAME.button_names[FAME.dev_id]
+        let array = FAME.button_names![FAME.dev_id]
         
         
         textFiled1.text = array![9] as? String
@@ -1795,7 +1795,7 @@ class ViewControllerMusicName: UIViewController {
     @IBAction func sureClick(sender: AnyObject) {
         
         
-        let array = FAME.button_names[FAME.dev_id]!
+        let array = FAME.button_names![FAME.dev_id]!
         for i in 0..<(array.count - 4){
             let str = array[i] as! String
             subName.append(str)

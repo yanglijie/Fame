@@ -51,7 +51,12 @@ class ViewControllerWelcome: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
+        
+        NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:"timerFunction", userInfo:nil, repeats:false)
+    }
     func timerFunction()
     {
         
@@ -63,7 +68,9 @@ class ViewControllerWelcome: UIViewController {
         FAME.user_name = userName
         FAME.user_pwd = userPass
         
-        if FAME.user_name != "" && FAME.user_pwd != ""{
+        print("name==\(FAME.user_name),pass====>\(FAME.user_pwd)")
+        
+        if FAME.user_name != nil && FAME.user_pwd != nil{
             NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerLogin", userInfo: nil, repeats: false)
         }
         else{
@@ -188,12 +195,7 @@ class ViewControllerWelcome: UIViewController {
         
     }
 
-    override func viewWillAppear(animated: Bool){
-        super.viewWillAppear(animated)
-   
-        
-        NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:"timerFunction", userInfo:nil, repeats:false)
-    }
+    
 }
 
 class ViewControllerLogin0: UIViewController {

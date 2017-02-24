@@ -32,8 +32,9 @@ class ViewControllerMsg: UIViewController {
         let sdate = arr[0] + " " + "00:00:00"
         let edate = FAME.getNowDate(2)
         var one = NSMutableArray()
-        if (FAME.getMonthRecord(sdate, edate: edate) != nil){
-            one = FAME.getMonthRecord(sdate, edate: edate)! as! NSMutableArray
+        let result = FAME.getMonthRecord(sdate, edate: edate)
+        if (result != nil){
+            one = result! as! NSMutableArray
             
         }
         else{
@@ -41,15 +42,15 @@ class ViewControllerMsg: UIViewController {
             one.addObject(dic)
         }
         
-        
-        
+
         let data2 = FAME.getMonthDate(1)
         let arr2 = data2.componentsSeparatedByString(" ")
         let sdate2 = arr2[0] + " " + "00:00:00"
         let edate2 = arr2[0] + " " + "23:59:59"
         var two = NSMutableArray()
-        if (FAME.getMonthRecord(sdate2, edate: edate2) != nil){
-            two = FAME.getMonthRecord(sdate2, edate: edate2)! as! NSMutableArray
+        let result1 = FAME.getMonthRecord(sdate2, edate: edate2)
+        if (result1 != nil){
+            two = result1! as! NSMutableArray
         }
         else{
             let dic :Dictionary = ["id":"0","info":"无报警记录"]
@@ -60,8 +61,9 @@ class ViewControllerMsg: UIViewController {
         let arr3 = data3.componentsSeparatedByString(" ")
         let edate3 = arr3[0] + " " + "00:00:00"
         var three = NSMutableArray()
-        if (FAME.getMonthRecord(edate3, edate: sdate2) != nil){
-            three = FAME.getMonthRecord(edate3, edate: sdate2)! as! NSMutableArray
+        let result2 = FAME.getMonthRecord(edate3, edate: sdate2)
+        if (result2 != nil){
+            three = result2! as! NSMutableArray
         }
         else{
             let dic :Dictionary = ["id":"0","info":"无报警记录"]
@@ -72,8 +74,9 @@ class ViewControllerMsg: UIViewController {
         let arr4 = data4.componentsSeparatedByString(" ")
         let edate4 = arr4[0] + " " + "00:00:00"
         var four = NSMutableArray()
-        if (FAME.getMonthRecord(edate4, edate: edate3) != nil){
-            four = FAME.getMonthRecord(edate4, edate: edate3)! as! NSMutableArray
+        let result3 = FAME.getMonthRecord(edate4, edate: edate3)
+        if (result3 != nil){
+            four = result3! as! NSMutableArray
         }
         else{
             let dic :Dictionary = ["id":"0","info":"无报警记录"]

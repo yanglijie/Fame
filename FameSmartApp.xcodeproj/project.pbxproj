@@ -414,6 +414,9 @@
 		95E7EF9E1D650DC00019F7B8 /* yuba_spinner_press.png in Resources */ = {isa = PBXBuildFile; fileRef = 95E7EF9D1D650DC00019F7B8 /* yuba_spinner_press.png */; };
 		95E7EFA01D6510A30019F7B8 /* about_us_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 95E7EF9F1D6510A30019F7B8 /* about_us_icon.png */; };
 		95F271DE1E15D42A002D69C9 /* ss10.png in Resources */ = {isa = PBXBuildFile; fileRef = 95F271DD1E15D42A002D69C9 /* ss10.png */; };
+		95F8951C1E5BB6830045CBF4 /* charsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F8951B1E5BB6830045CBF4 /* charsViewController.swift */; };
+		95F895321E5BB86C0045CBF4 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95F8952B1E5BB8570045CBF4 /* Charts.framework */; };
+		95F895331E5BB86C0045CBF4 /* Charts.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 95F8952B1E5BB8570045CBF4 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FD24394D19C1480300200750 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD24394C19C1480300200750 /* extension.swift */; };
 		FD24397C19C187A100200750 /* viewTempertureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD24397B19C187A100200750 /* viewTempertureController.swift */; };
 		FD2C41501AFB12FD0087B08F /* viewSA2and4.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2C414F1AFB12FD0087B08F /* viewSA2and4.swift */; };
@@ -490,6 +493,41 @@
 			remoteGlobalIDString = 091277A01BD673A70003036D;
 			remoteInfo = "Starscream tvOSTests";
 		};
+		95F8952A1E5BB8570045CBF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95F895231E5BB8570045CBF4 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5BA8EC401A9D14DC00CE82E1;
+			remoteInfo = "Charts-iOS";
+		};
+		95F8952C1E5BB8570045CBF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95F895231E5BB8570045CBF4 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A52C5C371BAC5CA400594CDD;
+			remoteInfo = "Charts-TV";
+		};
+		95F8952E1E5BB8570045CBF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95F895231E5BB8570045CBF4 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65B3F5BF1C7370BE000983D0;
+			remoteInfo = "Charts-OSX";
+		};
+		95F895301E5BB8570045CBF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95F895231E5BB8570045CBF4 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06AEE7A21BDC3F8B009875AE;
+			remoteInfo = ChartsTests;
+		};
+		95F895341E5BB86C0045CBF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95F895231E5BB8570045CBF4 /* Charts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
+			remoteInfo = "Charts-iOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -500,6 +538,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				955D56D61E32958600247E0E /* Starscream.framework in Copy Frameworks */,
+				95F895331E5BB86C0045CBF4 /* Charts.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -945,6 +984,8 @@
 		95E7EF9D1D650DC00019F7B8 /* yuba_spinner_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yuba_spinner_press.png; sourceTree = "<group>"; };
 		95E7EF9F1D6510A30019F7B8 /* about_us_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about_us_icon.png; sourceTree = "<group>"; };
 		95F271DD1E15D42A002D69C9 /* ss10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ss10.png; sourceTree = "<group>"; };
+		95F8951B1E5BB6830045CBF4 /* charsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = charsViewController.swift; sourceTree = "<group>"; };
+		95F895231E5BB8570045CBF4 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Charts/Charts.xcodeproj; sourceTree = "<group>"; };
 		FD0A248C1A2EDC5A00ED1C43 /* FameSmartAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FameSmartAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD24394C19C1480300200750 /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
 		FD24397B19C187A100200750 /* viewTempertureController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewTempertureController.swift; sourceTree = "<group>"; };
@@ -973,6 +1014,7 @@
 				0710E90319907BFC008548F4 /* SystemConfiguration.framework in Frameworks */,
 				0710E90119907BF6008548F4 /* QuartzCore.framework in Frameworks */,
 				0710E8FF19907BF2008548F4 /* UIKit.framework in Frameworks */,
+				95F895321E5BB86C0045CBF4 /* Charts.framework in Frameworks */,
 				0710E8FD19907BEC008548F4 /* Foundation.framework in Frameworks */,
 				0710E8FB19907BE6008548F4 /* CoreGraphics.framework in Frameworks */,
 			);
@@ -1008,6 +1050,7 @@
 				077882E1198B254B003E2390 /* FameSmartApp */,
 				077882F4198B254B003E2390 /* FameSmartAppTests */,
 				955D56BF1E32949300247E0E /* Starscream.xcodeproj */,
+				95F895231E5BB8570045CBF4 /* Charts.xcodeproj */,
 				FD0A248C1A2EDC5A00ED1C43 /* FameSmartAppTests.xctest */,
 				FD3549351A2EEAC90053757F /* 米居.app */,
 			);
@@ -1047,6 +1090,7 @@
 				FD37E9A21A664E7E00276158 /* viewCamerController.swift */,
 				07CBA3C71A2C41CF00411102 /* viewSettingController.swift */,
 				0776018D19C299B2002A8F50 /* viewAboutUsController.swift */,
+				95F8951B1E5BB6830045CBF4 /* charsViewController.swift */,
 				07E0D2871999EFB300CE752F /* ViewSSController.swift */,
 				076932641BC378FE00A3EAC5 /* ViewMsgController.swift */,
 				95B2DCAD1E298CA7007E06DE /* CallCell.swift */,
@@ -1667,6 +1711,17 @@
 			path = rouce;
 			sourceTree = "<group>";
 		};
+		95F895241E5BB8570045CBF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				95F8952B1E5BB8570045CBF4 /* Charts.framework */,
+				95F8952D1E5BB8570045CBF4 /* Charts.framework */,
+				95F8952F1E5BB8570045CBF4 /* Charts.framework */,
+				95F895311E5BB8570045CBF4 /* ChartsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1682,6 +1737,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				95F895351E5BB86C0045CBF4 /* PBXTargetDependency */,
 			);
 			name = FameSmartApp;
 			productName = FameSmartApp;
@@ -1751,6 +1807,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 95F895241E5BB8570045CBF4 /* Products */;
+					ProjectRef = 95F895231E5BB8570045CBF4 /* Charts.xcodeproj */;
+				},
+				{
 					ProductGroup = 955D56C01E32949300247E0E /* Products */;
 					ProjectRef = 955D56BF1E32949300247E0E /* Starscream.xcodeproj */;
 				},
@@ -1804,6 +1864,34 @@
 			fileType = wrapper.cfbundle;
 			path = "Starscream tvOSTests.xctest";
 			remoteRef = 955D56D21E32949300247E0E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95F8952B1E5BB8570045CBF4 /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 95F8952A1E5BB8570045CBF4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95F8952D1E5BB8570045CBF4 /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 95F8952C1E5BB8570045CBF4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95F8952F1E5BB8570045CBF4 /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 95F8952E1E5BB8570045CBF4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95F895311E5BB8570045CBF4 /* ChartsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ChartsTests.xctest;
+			remoteRef = 95F895301E5BB8570045CBF4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2218,6 +2306,7 @@
 				956F11F41D2710F5006D1197 /* NSBundle+MJRefresh.m in Sources */,
 				956F11EA1D2710F5006D1197 /* MJRefreshAutoNormalFooter.m in Sources */,
 				07984C4E198BE7F400AA4BD5 /* OBC.m in Sources */,
+				95F8951C1E5BB6830045CBF4 /* charsViewController.swift in Sources */,
 				95DDA4061E1F220C009FB01C /* EditViewController.swift in Sources */,
 				FD37E99B1A662A8300276158 /* DT.swift in Sources */,
 				956F11E41D2710F5006D1197 /* MJRefreshAutoFooter.m in Sources */,
@@ -2262,6 +2351,11 @@
 			isa = PBXTargetDependency;
 			target = 077882DE198B254B003E2390 /* FameSmartApp */;
 			targetProxy = 077882F2198B254B003E2390 /* PBXContainerItemProxy */;
+		};
+		95F895351E5BB86C0045CBF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Charts-iOS";
+			targetProxy = 95F895341E5BB86C0045CBF4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2368,6 +2462,7 @@
 				CODE_SIGN_ENTITLEMENTS = "FameSmartApp/米居.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Li Zou (76JB7WY569)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Li Zou (76JB7WY569)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2394,6 +2489,7 @@
 				CODE_SIGN_ENTITLEMENTS = "FameSmartApp/米居.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Li Zou (76JB7WY569)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Li Zou (76JB7WY569)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

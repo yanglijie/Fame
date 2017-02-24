@@ -198,7 +198,7 @@ class fame:NSObject{
     var idForNamesMode:Dictionary<Int,String> = [:]
     
     var subNames : Dictionary<Int,Array<AnyObject>> = [:]
-    var button_names : Dictionary<Int,Array<AnyObject>> = [:]
+    var button_names : Dictionary<Int,Array<AnyObject>>? = [:]
     
     var Links:Array<Dictionary<String,AnyObject>> = []
     //  Array["light"][Array<Dic>]
@@ -1101,8 +1101,8 @@ class fame:NSObject{
                 let dev_type : Int  =  DTappl.valueForKey("dev_type") as! Int
                 let room:Int = DTappl.valueForKey("room") as! Int
                     
-                var sub:Array<AnyObject> = []
-                sub = DTappl.valueForKey("button_name") as! Array
+                var sub:Array<AnyObject>? = []
+                sub = DTappl.valueForKey("button_name") as? Array
                 
                 let roomName = self.rooms[room]
                     
@@ -1165,7 +1165,9 @@ class fame:NSObject{
                 }
                 
                 
-                self.button_names[dev_id] = sub
+                self.button_names![dev_id] = sub
+                
+                //self.button_names = nil
                 
                 FAME.deviceCount++
                 
@@ -1182,6 +1184,8 @@ class fame:NSObject{
                 Links3 = [["name":"","act_id":act_id,"type":1]]
                 
                 self.Links.append(["name":"\(roomName)\(name)","show":5,"dev_type":dev_type,"room":room,"sub":Links3])
+                    
+                //print(self.button_names.reta)
             }
                 
             }
@@ -1659,7 +1663,17 @@ class fame:NSObject{
         
         return arr
     }
-    
+    func getAirRecord(sdate : String,edate : String,ieee:String) -> NSArray?{
+        let arr = NSMutableArray()
+        
+        let cmdStr = "{\"cmd\":62, \"did\": \(FAME.user_did),\"user_name\": \"\(FAME.user_name)\",\"user_pwd\": \"\(FAME.user_pwd)\",\"sdate\":\"\(sdate)\",\"edate\":\"\(edate)\",\"ieee_addr\":\"\(ieee)\"}"
+        
+        let received = httpRequert().downloadFromPostUrlSync(Surl,cmd: cmdStr)
+        if received != nil{
+            
+        }
+        return arr
+    }
     func getMonthRecord(sdate : String,edate : String) -> NSArray?{
         let arr = NSMutableArray()
         

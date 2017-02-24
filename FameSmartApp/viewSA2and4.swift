@@ -354,7 +354,10 @@ extension ViewControllerMainSA2:UITableViewDataSource,UITableViewDelegate{
         let dev_type:Int! = Int(dev_Type)
         print(curtains[indexPath.row])
 
-        //FAME.dev_type = dev_type
+        let dev_Id:String! = curtains[indexPath.row]["dev_id"] as String!
+        let dev_id:Int! = Int(dev_Id)
+        
+        FAME.dev_id = dev_id
         
         FAME.tempApplsId = act_ids[indexPath.row]
         FAME.dev_ieee = ieee

@@ -1323,6 +1323,8 @@ class ViewControllerSS: UIViewController,UITableViewDataSource,UITableViewDelega
             next.title=showId["name"]
             let dev_Str:String! = showId["dev_id"] as String!
             FAME.dev_id = Int(dev_Str)
+            let ieee:String! = showId["ieee"] as String!
+            FAME.dev_ieee = ieee
             self.navigationController?.pushViewController(next, animated: true)
             let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
             self.navigationItem.backBarButtonItem = item;
@@ -2069,12 +2071,17 @@ class ViewControllerSS7Detail: UIViewController {
     
     var viewUp = UIView()
     
+    var isTip = true
+    
     @IBOutlet var subView: UIView!
     var airDetail: NSDictionary!;
     var refreshControl = UIRefreshControl()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        
         createNav()
         
         self.airDetail = NSDictionary();
@@ -2095,15 +2102,52 @@ class ViewControllerSS7Detail: UIViewController {
     }
     func createNav(){
         let button = UIButton(frame: CGRectMake(0,0,60,35))
-        button.setTitle("设置", forState: UIControlState.Normal)
+        button.setTitle("记录", forState: UIControlState.Normal)
         button.addTarget(self, action: Selector("setClick:"), forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
     }
     func setClick(sender:AnyObject!){
         
+        if isTip{
+            let view = UIView(frame: CGRectMake(WIDTH - 75,64,60,35 * 4))
+            view.tag = 333
+            view.backgroundColor = UIColor.clearColor()
+            view.layer.borderWidth = 1
+            view.layer.borderColor = UIColor.blackColor().CGColor
+            self.view.addSubview(view)
+            let titleArr = ["PM2.5","甲醛","温度","湿度"]
+            for i in 0..<titleArr.count{
+                let button = UIButton(frame: CGRectMake(0,CGFloat(35 * i),60,35))
+                button.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                button.setTitle(titleArr[i], forState: UIControlState.Normal)
+                button.addTarget(self, action: Selector("buttonClick:"), forControlEvents: UIControlEvents.TouchUpInside)
+                view.addSubview(button)
+            }
+            
+        }
+        else{
+            //let button : UIView = self.view.viewWithTag(333)! as! UIView
+            let view : UIView = self.view.viewWithTag(333)! 
+            view.removeFromSuperview()
+        }
+        
+        isTip = !isTip
+        
         
         
     }
+//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        let view : UIView = self.view.viewWithTag(333)!
+//        view.removeFromSuperview()
+//        isTip = !isTip
+//    }
+    func buttonClick(sender:AnyObject!){
+        let next = GBoard.instantiateViewControllerWithIdentifier("chars") as! charsViewController
+        self.navigationController?.pushViewController(next, animated: true)
+        let item = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = item;
+    }
+    
     func handleSwipeGesture(sender: UISwipeGestureRecognizer){
         refreshModes()
     }
